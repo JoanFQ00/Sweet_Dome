@@ -12,8 +12,12 @@ public class PlayerController : MonoBehaviour
     public float walkSpeed = 6f;
 
     [Header("Mouse Movement")]
-    public float sensitivity = 100f;
+    //public float sensitivity = 100f;
     public Transform pitchController;
+    public float yawSpeed = 120f;
+    public float pitchSpeed = 120f;
+    public float minPitch = -80f;
+    public float maxPitch = 80f;
     float yaw;
     float pitch;
 
@@ -56,10 +60,10 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 mouse = playerInput.actions["Look"].ReadValue<Vector2>();
 
-        yaw += mouse.x * sensitivity * Time.deltaTime;
-        pitch -= mouse.y * sensitivity * Time.deltaTime;
+        yaw += mouse.x * yawSpeed * Time.deltaTime;
+        pitch -= mouse.y * pitchSpeed * Time.deltaTime;
 
-        pitch = Mathf.Clamp(pitch, -80f, 80f);
+        pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
         transform.rotation = Quaternion.Euler(0f, yaw, 0f);
 
