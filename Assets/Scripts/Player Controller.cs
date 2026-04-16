@@ -21,20 +21,27 @@ public class PlayerController : MonoBehaviour
     float yaw;
     float pitch;
 
+    bool playerLocked;
     PlayerInput playerInput;
 
     void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        playerLocked = false;
     }
 
     void Start()
     {
+        GameManager.Instance.SetPlayer(this);
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    public void LockPlayer(bool locked) { playerLocked = locked; }
+
     void Update()
     {
+        if (playerLocked) return;
+
         Look();
         Move();
     }
