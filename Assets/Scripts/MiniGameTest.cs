@@ -8,6 +8,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
     float currenMoveTime;
     Vector3 originalCameraPos;
+    Quaternion originalCameraRot;
     bool gameOn;
     bool cameraOnPositon;
 
@@ -34,6 +35,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         gameOn = true;
         cameraOnPositon = false;
         originalCameraPos = playerCamera.transform.position;
+        originalCameraRot = playerCamera.transform.rotation;
 
     }
 
@@ -45,6 +47,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         float pct = currenMoveTime / timeToMove;
 
         playerCamera.transform.position = Vector3.Lerp(originalCameraPos, gameCameraPosition.position, pct);
+        playerCamera.transform.rotation = Quaternion.Lerp(originalCameraRot, gameCameraPosition.rotation, pct);
 
         if (pct >= 1.0f) 
         {
