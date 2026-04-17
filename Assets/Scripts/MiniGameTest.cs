@@ -12,6 +12,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     bool gameOn;
     bool cameraOnPositon;
 
+    public SphereMinigame sphereRotation;
+
     void Start()
     {
         gameOn = false;
@@ -24,10 +26,9 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         if (!cameraOnPositon)
             UpdateCameraPos(gameOn);
 
-        if (Input.GetKeyDown(KeyCode.Escape)) // AIXO ES PER FER EL TEST ,,,, CAL CAMBIAR AL INPUT ACTUAL
+        if (gameOn && Input.GetKeyDown(KeyCode.Escape)) // AIXO ES PER FER EL TEST ,,,, CAL CAMBIAR AL INPUT ACTUAL
         {
-            gameOn = false;
-            cameraOnPositon=false;
+            ExitMiniGame();
         }
     }
 
@@ -42,6 +43,11 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         cameraOnPositon = false;
         originalCameraPos = playerCamera.transform.position;
         originalCameraRot = playerCamera.transform.rotation;
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        sphereRotation.SetActive(true);
     }
 
     void UpdateCameraPos(bool gameOn) 
@@ -78,5 +84,20 @@ public class MiniGameTest : MonoBehaviour, IInteractable
                 GameManager.Instance.playerController.LockPlayer(false);
             }
         }
+    }
+
+    void ExitMiniGame()
+    {
+        gameOn = false;
+        cameraOnPositon = false;
+
+        playerCamera.transform.position = originalCameraPos;
+        playerCamera.transform.rotation = originalCameraRot;
+        GameManager.Instance.playerController.LockPlayer(false);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        sphereRotation.SetActive(true);
     }
 }
