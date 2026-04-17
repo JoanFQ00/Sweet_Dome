@@ -23,6 +23,12 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     {
         if (!cameraOnPositon)
             UpdateCameraPos(gameOn);
+
+        if (Input.GetKeyDown(KeyCode.Escape)) // AIXO ES PER FER EL TEST ,,,, CAL CAMBIAR AL INPUT ACTUAL
+        {
+            gameOn = false;
+            cameraOnPositon=false;
+        }
     }
 
     public void Interact() 
@@ -36,22 +42,41 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         cameraOnPositon = false;
         originalCameraPos = playerCamera.transform.position;
         originalCameraRot = playerCamera.transform.rotation;
-
     }
 
-    void UpdateCameraPos(bool state) 
+    void UpdateCameraPos(bool gameOn) 
     {
         if (playerCamera == null) return;
 
-        currenMoveTime += Time.deltaTime;
-        float pct = currenMoveTime / timeToMove;
-
-        playerCamera.transform.position = Vector3.Lerp(originalCameraPos, gameCameraPosition.position, pct);
-        playerCamera.transform.rotation = Quaternion.Lerp(originalCameraRot, gameCameraPosition.rotation, pct);
-
-        if (pct >= 1.0f) 
+        if (gameOn)
         {
-            cameraOnPositon = true;
+            currenMoveTime += Time.deltaTime;
+            float pct = currenMoveTime / timeToMove;
+
+            playerCamera.transform.position = Vector3.Lerp(originalCameraPos, gameCameraPosition.position, pct);
+            playerCamera.transform.rotation = Quaternion.Lerp(originalCameraRot, gameCameraPosition.rotation, pct);
+
+            if (pct >= 1.0f)
+            {
+                currenMoveTime = 0f;
+                cameraOnPositon = true;
+            }
+        }
+
+        else 
+        {
+            currenMoveTime += Time.deltaTime;
+            float pct = currenMoveTime / timeToMove;
+
+            playerCamera.transform.position = Vector3.Lerp(gameCameraPosition.position, originalCameraPos, pct);
+            playerCamera.transform.rotation = Quaternion.Lerp(gameCameraPosition.rotation, originalCameraRot, pct);
+
+            if (pct >= 1.0f)
+            {
+                currenMoveTime = 0f;
+                cameraOnPositon = true;
+                GameManager.Instance.playerController.LockPlayer(false);
+            }
         }
     }
 }

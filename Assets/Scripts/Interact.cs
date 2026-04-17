@@ -17,7 +17,7 @@ public class Interact : MonoBehaviour
     private bool debugMode = true;
     private IInteractable interactable;
 
-    // action canInteract
+    public static event Action<bool> CanInteract;
 
     private void Awake()
     {
@@ -50,9 +50,15 @@ public class Interact : MonoBehaviour
         RaycastHit hit;
 
         if (Physics.Raycast(interactRay, out hit, interactDistance, interactLayer))
+        { 
             interactable = hit.collider.GetComponent<IInteractable>();
+            CanInteract?.Invoke(true);
+        }
         else
+        {
             interactable = null;
+            CanInteract?.Invoke(false);
+        }
     }
 
     private void OnInteract(InputAction.CallbackContext ctx) 
