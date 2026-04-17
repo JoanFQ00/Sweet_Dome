@@ -7,6 +7,7 @@ public class SphereMinigame : MonoBehaviour
 
     private PlayerInput playerInput;
     private InputAction lookAction;
+    private MiniGameTest miniGame;
 
     private bool isActive = false;
 
@@ -29,7 +30,7 @@ public class SphereMinigame : MonoBehaviour
         if (!isActive)
             return;
 
-        if (Mouse.current.leftButton.isPressed)
+        if (Mouse.current.leftButton.isPressed && !miniGame.isClickingUI)
         {
             Debug.Log("Arrastrando");
             Vector2 mouse = lookAction.ReadValue<Vector2>();

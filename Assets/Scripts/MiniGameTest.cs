@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MiniGameTest : MonoBehaviour, IInteractable
 {
@@ -12,6 +13,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     bool gameOn;
     bool cameraOnPositon;
 
+    public bool isClickingUI = false;
+
     public SphereMinigame sphereRotation;
 
     void Start()
@@ -22,7 +25,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     }
 
     void Update()
-    {
+    {        
         if (!cameraOnPositon)
             UpdateCameraPos(gameOn);
 
@@ -30,6 +33,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         {
             ExitMiniGame();
         }
+        HandleClick();
     }
 
     public void Interact() 
@@ -90,6 +94,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     {
         gameOn = false;
         cameraOnPositon = false;
+        currenMoveTime = 0f;
 
         playerCamera.transform.position = originalCameraPos;
         playerCamera.transform.rotation = originalCameraRot;
@@ -98,6 +103,36 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        sphereRotation.SetActive(true);
+        sphereRotation.SetActive(false);
+    }
+
+    void HandleClick()
+    {
+        if (playerCamera == null) return;
+
+        isClickingUI = false;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                Debug.Log(hit.collider.name);
+
+                //Button
+                ButtonGame button = hit.collider.GetComponent<ButtonGame>();
+                if (button != null)
+                {
+                    button.Press();
+                }
+                //Lever
+                LeverGame lever = hit.collider.GetComponent<LeverGame>();
+                if (lever != null)
+                {
+                    lever.Toggle();
+                }
+            }
+        }
     }
 }
