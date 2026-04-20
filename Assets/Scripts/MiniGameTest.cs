@@ -108,7 +108,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
         playerCamera.transform.rotation = originalCameraRot;
         playerCamera.transform.position = originalCameraPos;
-        GameManager.Instance.playerController.LockPlayer(false);
+        GameManager.Instance.playerController.LockPlayer(true);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
