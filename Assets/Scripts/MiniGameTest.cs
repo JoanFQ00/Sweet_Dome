@@ -58,7 +58,10 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        sphereRotation.SetActive(true);
+        if (sphereRotation != null) 
+        {
+            sphereRotation.SetActive(true);
+        }
     }
 
     void UpdateCameraPos(bool gameOn) 
@@ -110,7 +113,10 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        sphereRotation.SetActive(false);
+        if (sphereRotation != null) 
+        {
+            sphereRotation.SetActive(false);
+        }
     }
 
     void HandleClick()

@@ -10,17 +10,17 @@ public class ButtonTemperature : MonoBehaviour
 
     public ButtonTypeTemperature typeButton;
 
-    public TemperatureSistem sistem;
+    public TemperatureSistem system;
 
     void OnMouseDown()
     {
         if (typeButton == ButtonTypeTemperature.Up)
         {
-            sistem.TemperatureUp();
+            system.TemperatureUp();
         }
         else
         {
-            sistem.TemperatureDown();
+            system.TemperatureDown();
         }
     }
 }
