@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class MiniGameTest : MonoBehaviour, IInteractable
@@ -13,6 +14,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     Quaternion originalCameraRot;
     bool gameOn;
     bool cameraOnPositon;
+    public static bool isInMinigame;
 
     public bool isClickingUI = false;
 
@@ -20,11 +22,14 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     public LeverGame leverGame;
     public Slider slider;
 
+    PlayerInput playerInput;
+
     void Start()
     {
         gameOn = false;
         cameraOnPositon = false;
         currenMoveTime = 0;
+        playerInput = GameManager.Instance.playerController.GetComponent<PlayerInput>();
     }
 
     void Update()
@@ -36,7 +41,9 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         {
             ExitMiniGame();
         }
-        HandleClick();
+
+        if (isInMinigame)
+            HandleClick();
         //if (leverGame != null && slider != null)
         //{
         //    slider.value = leverGame.value;
@@ -45,7 +52,13 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
     public void Interact() 
     {
+
+        if (isInMinigame) return;
+        Debug.Log("ENTER MINIGAME");
+
+        isInMinigame = true;
         GameManager.Instance.playerController.LockPlayer(true);
+
         playerCamera = GameManager.Instance.playerController.mainCamera;
 
         if (playerCamera == null) return;
@@ -95,7 +108,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             {
                 currenMoveTime = 0f;
                 cameraOnPositon = true;
-                GameManager.Instance.playerController.LockPlayer(false);
             }
         }
     }
@@ -117,6 +129,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         {
             sphereRotation.SetActive(false);
         }
+
+        isInMinigame = false;
     }
 
     void HandleClick()

@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     float yaw;
     float pitch;
 
-    bool playerLocked;
+    public bool playerLocked;
     PlayerInput playerInput;
 
     void Awake()

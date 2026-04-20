@@ -38,13 +38,14 @@ public class Interact : MonoBehaviour
 
     void Update()
     {
-        CheckForInteract();
+        TryInteract();
 
         if (Input.GetKeyDown(KeyCode.L))
             debugMode = !debugMode;
     }
 
-    void CheckForInteract() 
+
+    void TryInteract() 
     {
         Ray interactRay = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
@@ -63,14 +64,16 @@ public class Interact : MonoBehaviour
 
     private void OnInteract(InputAction.CallbackContext ctx) 
     {
-        TryInteract(interactable);
-    }
+        if (MiniGameTest.isInMinigame) return;
+        Debug.Log("TRY INTERACT - IsInMinigame: " + MiniGameTest.isInMinigame);
 
-    private void TryInteract(IInteractable interactable) 
-    {
-        if (interactable == null) return;
-
-        interactable.Interact();    
+        if (!GameManager.Instance.playerController.playerLocked) 
+        {
+            if (interactable != null)
+            {
+                interactable.Interact();
+            }
+        }
     }
 
     private void OnDrawGizmos()
