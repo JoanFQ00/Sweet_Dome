@@ -10,9 +10,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     public float walkSpeed = 6f;
+    public bool cameraMovement = true;
 
     [Header("Mouse Movement")]
-    //public float sensitivity = 100f;
     public Transform pitchController;
     public float yawSpeed = 120f;
     public float pitchSpeed = 120f;
@@ -42,8 +42,11 @@ public class PlayerController : MonoBehaviour
     {
         if (playerLocked) return;
 
-        Look();
         Move();
+        if (cameraMovement)
+        {
+            Look();
+        }
     }
 
     //Movement Character method

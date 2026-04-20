@@ -8,6 +8,8 @@ public class SphereMinigame : MonoBehaviour
     private PlayerInput playerInput;
     private InputAction lookAction;
     private MiniGameTest miniGame;
+    public GameObject pointPrefab;
+    public int numberOfPoints = 5;
 
     private bool isActive = false;
 
@@ -17,7 +19,16 @@ public class SphereMinigame : MonoBehaviour
     private void Start()
     {
         playerInput = GameManager.Instance.playerController.GetComponent<PlayerInput>();
-        lookAction = playerInput.actions["Look"]; 
+        lookAction = playerInput.actions["Look"];
+        miniGame = GetComponentInParent<MiniGameTest>();
+
+        for (int i = 0; i < numberOfPoints; i++)
+        {
+            Vector3 direction = Random.onUnitSphere;
+
+            GameObject pointSphere = Instantiate(pointPrefab, transform);
+            pointSphere.transform.localPosition = direction * 0.5f;
+        }
     }
 
     public void SetActive(bool activation)

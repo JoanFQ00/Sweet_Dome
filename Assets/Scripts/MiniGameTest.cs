@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class MiniGameTest : MonoBehaviour, IInteractable
 {
@@ -16,6 +17,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     public bool isClickingUI = false;
 
     public SphereMinigame sphereRotation;
+    public LeverGame leverGame;
+    public Slider slider;
 
     void Start()
     {
@@ -34,6 +37,10 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             ExitMiniGame();
         }
         HandleClick();
+        //if (leverGame != null && slider != null)
+        //{
+        //    slider.value = leverGame.value;
+        //}
     }
 
     public void Interact() 
@@ -96,8 +103,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         cameraOnPositon = false;
         currenMoveTime = 0f;
 
-        playerCamera.transform.position = originalCameraPos;
         playerCamera.transform.rotation = originalCameraRot;
+        playerCamera.transform.position = originalCameraPos;
         GameManager.Instance.playerController.LockPlayer(false);
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -126,11 +133,10 @@ public class MiniGameTest : MonoBehaviour, IInteractable
                 {
                     button.Press();
                 }
-                //Lever
-                LeverGame lever = hit.collider.GetComponent<LeverGame>();
-                if (lever != null)
+                SpherePoints points = hit.collider.GetComponent<SpherePoints>();
+                if (points != null)
                 {
-                    lever.Toggle();
+                    points.OnClick();
                 }
             }
         }
