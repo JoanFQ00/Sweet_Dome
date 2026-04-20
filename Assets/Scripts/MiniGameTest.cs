@@ -34,8 +34,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
     void Update()
     {        
-        if (!cameraOnPositon)
-            UpdateCameraPos(gameOn);
+        //if (!cameraOnPositon)
+            //UpdateCameraPos(gameOn);
 
         if (gameOn && Input.GetKeyDown(KeyCode.Escape)) // AIXO ES PER FER EL TEST ,,,, CAL CAMBIAR AL INPUT ACTUAL
         {
@@ -50,88 +50,139 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         //}
     }
 
-    public void Interact() 
+    public void Interact()
     {
-
         if (isInMinigame) return;
-        Debug.Log("ENTER MINIGAME");
 
         isInMinigame = true;
         GameManager.Instance.playerController.LockPlayer(true);
 
         playerCamera = GameManager.Instance.playerController.mainCamera;
-
         if (playerCamera == null) return;
 
-        gameOn = true;
-        cameraOnPositon = false;
         originalCameraPos = playerCamera.transform.position;
         originalCameraRot = playerCamera.transform.rotation;
+
+        playerCamera.transform.position = gameCameraPosition.position;
+        playerCamera.transform.rotation = gameCameraPosition.rotation;
+
+        gameOn = true;
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        if (sphereRotation != null) 
-        {
+        if (sphereRotation != null)
             sphereRotation.SetActive(true);
-        }
     }
 
-    void UpdateCameraPos(bool gameOn) 
-    {
-        if (playerCamera == null) return;
+    //public void Interact() 
+    //{
 
-        if (gameOn)
-        {
-            currenMoveTime += Time.deltaTime;
-            float pct = currenMoveTime / timeToMove;
+    //    if (isInMinigame) return;
+    //    Debug.Log("ENTER MINIGAME");
 
-            playerCamera.transform.position = Vector3.Lerp(originalCameraPos, gameCameraPosition.position, pct);
-            playerCamera.transform.rotation = Quaternion.Lerp(originalCameraRot, gameCameraPosition.rotation, pct);
+    //    isInMinigame = true;
+    //    GameManager.Instance.playerController.LockPlayer(true);
 
-            if (pct >= 1.0f)
-            {
-                currenMoveTime = 0f;
-                cameraOnPositon = true;
-            }
-        }
+    //    playerCamera = GameManager.Instance.playerController.mainCamera;
 
-        else 
-        {
-            currenMoveTime += Time.deltaTime;
-            float pct = currenMoveTime / timeToMove;
+    //    if (playerCamera == null) return;
 
-            playerCamera.transform.position = Vector3.Lerp(gameCameraPosition.position, originalCameraPos, pct);
-            playerCamera.transform.rotation = Quaternion.Lerp(gameCameraPosition.rotation, originalCameraRot, pct);
+    //    gameOn = true;
+    //    cameraOnPositon = false;
 
-            if (pct >= 1.0f)
-            {
-                currenMoveTime = 0f;
-                cameraOnPositon = true;
-            }
-        }
-    }
+    //    originalCameraPos = playerCamera.transform.position;
+    //    originalCameraRot = playerCamera.transform.rotation;
+
+    //    playerCamera.transform.position = gameCameraPosition.transform.position;
+    //    playerCamera.transform.rotation = gameCameraPosition.transform.rotation;
+
+    //    Cursor.lockState = CursorLockMode.None;
+    //    Cursor.visible = true;
+
+    //    if (sphereRotation != null) 
+    //    {
+    //        sphereRotation.SetActive(true);
+    //    }
+    //}
+
+    //void UpdateCameraPos(bool gameOn) 
+    //{
+    //    if (playerCamera == null) return;
+
+    //    if (gameOn)
+    //    {
+    //        playerCamera.transform.position = gameCameraPosition.transform.position;
+    //        playerCamera.transform.rotation = gameCameraPosition.transform.rotation;
+    //        //currenMoveTime += Time.deltaTime;
+    //        //float pct = currenMoveTime / timeToMove;
+
+    //        //playerCamera.transform.position = Vector3.Lerp(originalCameraPos, gameCameraPosition.position, pct);
+    //        //playerCamera.transform.rotation = Quaternion.Lerp(originalCameraRot, gameCameraPosition.rotation, pct);
+
+    //        //if (pct >= 1.0f)
+    //        //{
+    //        //    currenMoveTime = 0f;
+    //        //    cameraOnPositon = true;
+    //        //}
+    //    }
+
+    //    else 
+    //    {
+    //        playerCamera.transform.position = originalCameraPos;
+    //        playerCamera.transform.rotation = originalCameraRot;
+    //        //currenMoveTime += Time.deltaTime;
+    //        //float pct = currenMoveTime / timeToMove;
+
+    //        //playerCamera.transform.position = Vector3.Lerp(gameCameraPosition.position, originalCameraPos, pct);
+    //        //playerCamera.transform.rotation = Quaternion.Lerp(gameCameraPosition.rotation, originalCameraRot, pct);
+
+    //        //if (pct >= 1.0f)
+    //        //{
+    //        //    currenMoveTime = 0f;
+    //        //    cameraOnPositon = true;
+    //        //}
+    //    }
+    //}
 
     void ExitMiniGame()
     {
         gameOn = false;
-        cameraOnPositon = false;
-        currenMoveTime = 0f;
 
-        playerCamera.transform.rotation = originalCameraRot;
         playerCamera.transform.position = originalCameraPos;
-        GameManager.Instance.playerController.LockPlayer(true);
+        playerCamera.transform.rotation = originalCameraRot;
+
+        GameManager.Instance.playerController.LockPlayer(false); 
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        if (sphereRotation != null) 
-        {
+        if (sphereRotation != null)
             sphereRotation.SetActive(false);
-        }
 
         isInMinigame = false;
     }
+
+    //void ExitMiniGame()
+    //{
+    //    gameOn = false;
+    //    cameraOnPositon = false;
+    //    currenMoveTime = 0f;
+
+    //    playerCamera.transform.position = originalCameraPos;
+    //    playerCamera.transform.rotation = originalCameraRot;
+    //    GameManager.Instance.playerController.LockPlayer(true);
+
+    //    Cursor.lockState = CursorLockMode.Locked;
+    //    Cursor.visible = false;
+
+    //    if (sphereRotation != null) 
+    //    {
+    //        sphereRotation.SetActive(false);
+    //    }
+
+    //    isInMinigame = false;
+    //}
 
     void HandleClick()
     {
