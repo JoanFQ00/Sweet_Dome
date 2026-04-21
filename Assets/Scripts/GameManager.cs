@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -21,13 +20,14 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        // For debug
-        if (Input.GetKeyDown(KeyCode.M)) 
-        {
-            ChangeDay();
-        }
+        BedInt.OnInteract += ChangeDay;
+    }
+
+    private void OnDisable()
+    {
+        BedInt.OnInteract -= ChangeDay;
 
     }
 
