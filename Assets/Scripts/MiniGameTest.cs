@@ -133,8 +133,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                Debug.Log(hit.collider.name);
-
                 //Button
                 ButtonGame button = hit.collider.GetComponent<ButtonGame>();
                 if (button != null)

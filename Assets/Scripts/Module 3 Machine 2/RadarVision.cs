@@ -1,5 +1,5 @@
-using NUnit.Framework;
 using UnityEngine;
+using System;
 
 public class RadarVision : MonoBehaviour
 {
@@ -9,11 +9,16 @@ public class RadarVision : MonoBehaviour
     public LayerMask visionMask;
     public GameObject[] objectives;
 
+    public static Action<string> OnObjectiveGet;
+
+    private int randomCode;
+    private string departingCode;
     private GameObject currentObjective;
 
     void Start()
     {
-        currentObjective = objectives[Random.Range(0, objectives.Length)];
+        currentObjective = objectives[UnityEngine.Random.Range(0, objectives.Length)];
+        GenerateRandomCode();
     }
 
     void Update()
@@ -22,6 +27,19 @@ public class RadarVision : MonoBehaviour
             currentObjective.GetComponent<MeshRenderer>().enabled = true;
         else
             currentObjective.GetComponent<MeshRenderer>().enabled = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (currentObjective != null)
+        {
+            if (other.gameObject == currentObjective)
+            {
+                GenerateRandomCode();
+                OnObjectiveGet?.Invoke(departingCode);
+                other.gameObject.SetActive(false);
+            }
+        }
     }
 
     bool CheckVision() 
@@ -45,6 +63,12 @@ public class RadarVision : MonoBehaviour
                 return false;
         }
         return true;   
+    }
+
+    void GenerateRandomCode() 
+    {
+        randomCode = UnityEngine.Random.Range(1000, 9999);
+        departingCode = randomCode.ToString();
     }
 
     private void OnDrawGizmos()

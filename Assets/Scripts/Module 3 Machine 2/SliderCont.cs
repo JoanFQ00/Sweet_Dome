@@ -10,7 +10,8 @@ public class SliderCont : MonoBehaviour
 
     bool isDragging;
 
-    public static Action<float> OnSliderMoved;
+    public SliderType type;
+    public static Action<float, SliderType> OnSliderMoved;
 
     void Update()
     {
@@ -56,7 +57,7 @@ public class SliderCont : MonoBehaviour
 
             sliderPhy.transform.position = Vector3.Lerp(minPos.position, maxPos.position, t);
 
-            OnSliderMoved?.Invoke(t);
+            OnSliderMoved?.Invoke(t, type);
         }
     }
 }
