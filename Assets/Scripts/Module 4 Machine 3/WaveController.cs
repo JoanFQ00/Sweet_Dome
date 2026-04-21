@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,15 +12,23 @@ public class WaveController : MonoBehaviour
 
     void Start()
     {
-        amplitudeSlider.value = WaveRenderer.amplitude;
-        frequencySlider.value = WaveRenderer.frequency;
-        phaseSlider.value = WaveRenderer.phase;
+        amplitudeSlider.onValueChanged.AddListener(OnAmplitudedChanged);
+        frequencySlider.onValueChanged.AddListener(OnFrequencyChanged);
+        phaseSlider.onValueChanged.AddListener(OnPhaseChanged);
     }
 
-    void Update()
+    void OnAmplitudedChanged(float value) 
     {
-        amplitudeSlider.value = WaveRenderer.amplitude;
-        frequencySlider.value = WaveRenderer.frequency;
-        phaseSlider.value = WaveRenderer.phase;
+        WaveRenderer.amplitude = value;
+    }
+
+    void OnFrequencyChanged(float value) 
+    {
+        WaveRenderer.frequency = value;
+    }
+
+    void OnPhaseChanged(float value) 
+    {
+        WaveRenderer.phase = value;
     }
 }
