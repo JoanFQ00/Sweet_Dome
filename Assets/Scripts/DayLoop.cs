@@ -35,11 +35,12 @@ public class DayLoop : MonoBehaviour
 
     void LoadMinigames() 
     {
-        for (int i = 0; i <= currentDay; i++) 
+        for (int i = 0; i < minigames.Count; i++) 
         {
-            Debug.Log(minigames[i]); 
-          
-            minigames[i].SetActive(true);
+            if (i == currentDay)
+            { 
+                minigames[i].SetActive(true);
+            }
         }
     }
 
