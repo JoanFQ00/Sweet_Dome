@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public PlayerController playerController;
 
     public static Action OnChangeDay;
+    public static Action OnSpawnObj;
    
     void Awake()
     {
@@ -18,6 +19,19 @@ public class GameManager : MonoBehaviour
         }
         else 
             Destroy(gameObject);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.O)) 
+        {
+            SpawnRadarObjective();
+        }
+    }
+
+    private void SpawnRadarObjective() 
+    {
+        OnSpawnObj?.Invoke();
     }
 
     private void OnEnable()

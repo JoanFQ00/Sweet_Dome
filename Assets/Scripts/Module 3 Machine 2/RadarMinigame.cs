@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-    public enum SliderType { Rotation, Position }
+public enum SliderType { Rotation, Position }
 
 
 public class RadarMinigame : MonoBehaviour
@@ -11,6 +11,7 @@ public class RadarMinigame : MonoBehaviour
     public float maxDist = 0.25f;
     public TMPro.TextMeshProUGUI codeText;
     public SliderType type;
+    public GameObject objectivePrefab;
 
     private string baseTxt = "CODE: ";
     private bool onCenter;
@@ -26,12 +27,14 @@ public class RadarMinigame : MonoBehaviour
     {
         SliderCont.OnSliderMoved += SliderMoved;
         RadarVision.OnObjectiveGet += ChangeCodeTxt;
+        GameManager.OnSpawnObj += SpawnRandomObjective;
     }
 
     private void OnDisable()
     {
         SliderCont.OnSliderMoved -= SliderMoved;
         RadarVision.OnObjectiveGet -= ChangeCodeTxt;
+        GameManager.OnSpawnObj -= SpawnRandomObjective;
     }
 
     void ChangeCodeTxt(string code) 
@@ -60,6 +63,16 @@ public class RadarMinigame : MonoBehaviour
                 radarPoint.localRotation = startLocalRot * Quaternion.Euler(0f, angle, 0f);
                 return;
         }
+    }
 
+    void SpawnRandomObjective() 
+    {
+        Vector2 randomPoint = UnityEngine.Random.insideUnitCircle * maxDist;
+
+        Vector3 spawnPos = radarPointZero.transform.position
+            + radarPointZero.right * randomPoint.x
+            + radarPointZero.forward * randomPoint.y;
+
+        Instantiate(objectivePrefab, spawnPos, Quaternion.identity);
     }
 }
