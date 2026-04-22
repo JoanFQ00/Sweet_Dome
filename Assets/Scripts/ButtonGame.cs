@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class ButtonGame : MonoBehaviour
 {
+    //
     public enum ButtonType
     {
-        Accept,
+        Succionar,
         Deny
     }
 
@@ -12,13 +13,11 @@ public class ButtonGame : MonoBehaviour
 
     public void Press()
     {
-        if (type == ButtonType.Accept)
-        {
-            Debug.Log("ACEPTADO");
-        }
-        else
-        {
-            Debug.Log("DENEGADO");
-        }
+        
+    }
+
+    public void Hold()
+    {
+        
     }
 }

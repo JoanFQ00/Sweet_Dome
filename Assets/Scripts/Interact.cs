@@ -64,9 +64,6 @@ public class Interact : MonoBehaviour
 
     private void OnInteract(InputAction.CallbackContext ctx) 
     {
-        //if (MiniGameTest.isInMinigame) return;
-        //Debug.Log("TRY INTERACT - IsInMinigame: " + MiniGameTest.isInMinigame);
-
         if (!GameManager.Instance.playerController.playerLocked) 
         {
             if (interactable != null)

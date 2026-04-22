@@ -37,15 +37,10 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             ExitMiniGame();
         }
         HandleClick();
-        //if (leverGame != null && slider != null)
-        //{
-        //    slider.value = leverGame.value;
-        //}
     }
 
     public void Interact() 
     {
-        Debug.Log("Entrano al minijuego:");
         GameManager.Instance.playerController.LockPlayer(true);
         playerCamera = GameManager.Instance.playerController.mainCamera;
 
@@ -143,6 +138,11 @@ public class MiniGameTest : MonoBehaviour, IInteractable
                 if (points != null)
                 {
                     points.OnClick();
+                }
+                WorldZoneButton worldButton = hit.collider.GetComponent<WorldZoneButton>();
+                if (worldButton != null)
+                {
+                    worldButton.Press();
                 }
             }
         }
