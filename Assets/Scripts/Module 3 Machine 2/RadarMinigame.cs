@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public enum SliderType { Rotation, Position }
 
@@ -21,6 +22,7 @@ public class RadarMinigame : MonoBehaviour
     {
         codeText.text = baseTxt;
         startLocalRot = radarPoint.localRotation;
+        onCenter = true;
     }
 
     private void OnEnable()
@@ -49,10 +51,7 @@ public class RadarMinigame : MonoBehaviour
             case SliderType.Position:
                 Vector3 offset = radarPoint.forward * (maxDist * value);
                 radarPoint.position = radarPointZero.position + offset;
-                if (value == 0)
-                    onCenter = true;
-                else
-                    onCenter = false;
+                onCenter = Mathf.Abs(value) < 0.015;
 
                     return;
 
@@ -65,7 +64,7 @@ public class RadarMinigame : MonoBehaviour
         }
     }
 
-    void SpawnRandomObjective() 
+    void SpawnRandomObjective() //AIXO SHA DE REVISAR PERQUE NO VAAAA
     {
         Vector2 randomPoint = UnityEngine.Random.insideUnitCircle * maxDist;
 

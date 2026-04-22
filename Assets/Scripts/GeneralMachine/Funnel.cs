@@ -41,7 +41,7 @@ public class Funnel : MonoBehaviour
     {
         currentCapacity += amount;
 
-        currentCapacity = Mathf.Max(currentCapacity, maxCapacity);
+        currentCapacity = Mathf.Clamp(currentCapacity, 0f, maxCapacity);
         Debug.Log(currentCapacity);
     }
 
@@ -49,6 +49,7 @@ public class Funnel : MonoBehaviour
     {
         currentCapacity -= amount;
 
-        currentCapacity = Mathf.Min(currentCapacity, 0);
+        currentCapacity = Mathf.Clamp(currentCapacity, 0f, maxCapacity);
+        Debug.Log(currentCapacity);
     }
 }
