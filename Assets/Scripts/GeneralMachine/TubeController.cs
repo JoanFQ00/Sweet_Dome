@@ -31,11 +31,19 @@ public class TubeController : MonoBehaviour
 
     private TubeState state = TubeState.Idle;
 
+    [Header("Debug")]
+    public Color suckColor;
+    public Color outColor;
+    public MeshRenderer tubeMeshRenderer;
+
+
     void Start()
     {
         tube.transform.position = tubePositions[0].position;
         currentTubePos = 0;
         mode = TubeMode.Suck;
+        tubeMeshRenderer = tube.GetComponent<MeshRenderer>();
+        ChangeColor();
     }
 
     void Update()
@@ -80,6 +88,14 @@ public class TubeController : MonoBehaviour
         }
     }
 
+    public void ChangeColor() 
+    {
+        if (mode == TubeMode.Out)
+            tubeMeshRenderer.material.color = outColor;
+        else 
+            tubeMeshRenderer.material.color = suckColor;
+    }
+
     public void StopAction()
     {
         if (state != TubeState.Acting) return;
@@ -117,7 +133,16 @@ public class TubeController : MonoBehaviour
 
     public void ChangeMode()
     {
-        mode = (mode == TubeMode.Suck) ? TubeMode.Out : TubeMode.Suck;
+        if (mode == TubeMode.Out)
+        {
+            mode = TubeMode.Suck;
+            ChangeColor();
+        }
+        else 
+        {
+            mode = TubeMode.Out;
+            ChangeColor();
+        }
     }
 
     void StartHorizontalMove()
