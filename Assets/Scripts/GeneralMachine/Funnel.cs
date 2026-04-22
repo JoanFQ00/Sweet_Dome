@@ -37,16 +37,17 @@ public class Funnel : MonoBehaviour
         }
     }
 
-    public void Fill() 
+    public void Fill(float amount) 
     {
-        currentCapacity += tubeCont.outSpeed *Time.deltaTime;
+        currentCapacity += amount;
 
         currentCapacity = Mathf.Max(currentCapacity, maxCapacity);
+        Debug.Log(currentCapacity);
     }
 
-    public void Empty() 
+    public void Empty(float amount) 
     {
-        currentCapacity -= tubeCont.inSpeed * Time.deltaTime;
+        currentCapacity -= amount;
 
         currentCapacity = Mathf.Min(currentCapacity, 0);
     }

@@ -128,12 +128,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                //Button
-                ButtonGame button = hit.collider.GetComponent<ButtonGame>();
-                if (button != null)
-                {
-                    button.Press();
-                }
                 SpherePoints points = hit.collider.GetComponent<SpherePoints>();
                 if (points != null)
                 {
@@ -143,6 +137,11 @@ public class MiniGameTest : MonoBehaviour, IInteractable
                 if (worldButton != null)
                 {
                     worldButton.Press();
+                }
+                TubeButtons tubeButtons = hit.collider.GetComponent<TubeButtons>();
+                if (tubeButtons != null) 
+                {
+                    tubeButtons.Press();
                 }
             }
         }

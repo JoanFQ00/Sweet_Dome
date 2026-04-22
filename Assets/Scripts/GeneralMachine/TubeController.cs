@@ -1,170 +1,186 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System;
 
 public class TubeController : MonoBehaviour
 {
-    public enum TubeMode { Suck, Out}
+    public enum TubeMode { Suck, Out }
+    public enum TubeState { Idle, MovingHorizontal, MovingDown, Acting, MovingUp }
 
     [Header("Movement Related")]
     public List<Transform> tubePositions;
     public GameObject tube;
     public float tubeSpeed = 2.5f;
+    public float downSpeed = 1.25f;
 
     private Vector3 originalPos;
     private Vector3 finalPos;
-    private bool movingTube = false;
-    private int currentTubePos;
     private float movePct;
+    private int currentTubePos;
 
-    [Header("Capacity Related")]
-    public float maxCapacity = 100f;
-    public float startCapacity = 50.0f;
+    [Header("Capacity")]
     public float outSpeed = 1.0f;
     public float inSpeed = 1.0f;
 
-    private float currentCapacity;
-
-    [Header("Actions")]
+    [Header("Mode")]
     public TubeMode mode;
-    public float suckSpeed = 1.0f;
-    public float outCapacity = 1.0f;
-    public float downSpeed = 1.25f;
-    public float downFinalPos = -2.5f;
-
-    private bool isInActionMove;
-    private bool isInAction;
 
     [Header("Funnels")]
     public Funnel cityFunnel;
     public Funnel blenderFunnel;
     public Funnel domeFunnel;
 
-    private void Start()
+    private TubeState state = TubeState.Idle;
+
+    void Start()
     {
-        tube.transform.position = tubePositions[0].transform.position;
+        tube.transform.position = tubePositions[0].position;
         currentTubePos = 0;
-        currentCapacity = startCapacity;
-        isInActionMove = false;
         mode = TubeMode.Suck;
     }
 
-    private void Update()
+    void Update()
     {
-        if(movingTube)
-            MoveTube();
-
-        if (!movingTube && isInActionMove)
-            ModeMove();
-
-        if (isInAction)
-            ModeAction();
-
-        if (Input.GetMouseButtonDown(0))  // Per fer testing, CAL PASARHO A BOTONS
+        switch (state)
         {
-            ChangeTubePositionRight();
-        }
+            case TubeState.MovingHorizontal:
+                Move(tubeSpeed);
+                break;
 
-        if (Input.GetMouseButtonDown(1))  // Per fer testing, CAL PASARHO A BOTONS
-        {
-            if (movingTube) return;
+            case TubeState.MovingDown:
+                Move(downSpeed);
+                break;
 
-            ActivateTube();
+            case TubeState.MovingUp:
+                Move(downSpeed);
+                break;
+
+            case TubeState.Acting:
+                ModeAction();
+                break;
         }
     }
 
-    void ActivateTube() 
+    public void ActivateTube()
     {
-        isInActionMove = true;
-        originalPos = tube.transform.position;
-        finalPos = tube.transform.position + new Vector3(0, -2.5f, 0);
-    }
-
-    void MoveTube() 
-    {
-        movePct += Time.deltaTime * tubeSpeed;
-        tube.transform.position = Vector3.Lerp(originalPos, finalPos, movePct);
-
-        if (movePct >= 1) 
+        if (state == TubeState.Idle)
         {
-            tube.transform.position = finalPos;
-            movingTube = false;
-            movePct = 0;
-        }
-    }
+            originalPos = tube.transform.position;
+            finalPos = originalPos + Vector3.down * 2.5f;
 
-    void ModeMove() 
-    {
-        movePct += Time.deltaTime * downSpeed;
-        tube.transform.position = Vector3.Lerp(originalPos, finalPos, movePct);
-
-        if (movePct >= 1) 
-        {
-            tube.transform.position = finalPos;
-            isInActionMove = false;
-            isInAction = true;
             movePct = 0f;
+            state = TubeState.MovingDown;
         }
-    }
-
-    void ModeAction() 
-    {
-        if (mode == TubeMode.Out) 
+        else if (state == TubeState.Acting)
         {
-            if (currentTubePos == 0)
-                cityFunnel.Fill();
+            originalPos = tube.transform.position;
+            finalPos = originalPos + Vector3.up * 2.5f;
 
-            if (currentTubePos == 1)
-                blenderFunnel.Fill();
-
-            if (currentTubePos == 2)
-                domeFunnel.Fill();
-        }
-
-        if (mode == TubeMode.Suck) 
-        {
-            if (currentTubePos == 0)
-                cityFunnel.Empty();
-
-            if (currentTubePos == 1)
-                blenderFunnel.Empty();
-
-            if (currentTubePos == 2)
-                domeFunnel.Empty();
+            movePct = 0f;
+            state = TubeState.MovingUp;
         }
     }
 
-    void ChangeMode() 
+    public void StopAction()
     {
-        if (mode == TubeMode.Suck)
-            mode = TubeMode.Out;
-        else if (mode == TubeMode.Out)
-            mode = TubeMode.Suck;
+        if (state != TubeState.Acting) return;
+
+        originalPos = tube.transform.position;
+        finalPos = originalPos + Vector3.up * 2.5f;
+
+        movePct = 0f;
+        state = TubeState.MovingUp;
     }
 
-    public void ChangeTubePositionRight() 
+    public void ChangeTubePositionRight()
     {
+        if (state != TubeState.Idle) return;
+
         if (currentTubePos + 1 >= tubePositions.Count)
-            return; // Fer animacio de no puc anar cap alla
-        else
-            currentTubePos++;
+            return;
 
-        originalPos = tube.transform.position;
-        finalPos = tubePositions[currentTubePos].transform.position;
-        movePct = 0f;
-        movingTube = true;
+        currentTubePos++;
+
+        StartHorizontalMove();
     }
 
-    public void ChangeTubePositionLeft() 
+    public void ChangeTubePositionLeft()
     {
-        if (currentTubePos - 1 < 0)
-            return; // Fer animacio de no puc anar cap alla
-        else
-            currentTubePos--;
+        if (state != TubeState.Idle) return;
 
+        if (currentTubePos - 1 < 0)
+            return;
+
+        currentTubePos--;
+
+        StartHorizontalMove();
+    }
+
+    public void ChangeMode()
+    {
+        mode = (mode == TubeMode.Suck) ? TubeMode.Out : TubeMode.Suck;
+    }
+
+    void StartHorizontalMove()
+    {
         originalPos = tube.transform.position;
-        finalPos = tubePositions[currentTubePos].transform.position;
+        finalPos = tubePositions[currentTubePos].position;
         movePct = 0f;
-        movingTube = true;
+
+        state = TubeState.MovingHorizontal;
+    }
+
+    void Move(float speed)
+    {
+        movePct += Time.deltaTime * speed;
+        tube.transform.position = Vector3.Lerp(originalPos, finalPos, movePct);
+
+        if (movePct >= 1f)
+        {
+            tube.transform.position = finalPos;
+            movePct = 0f;
+            OnMoveComplete();
+        }
+    }
+
+    void OnMoveComplete()
+    {
+        switch (state)
+        {
+            case TubeState.MovingHorizontal:
+                state = TubeState.Idle;
+                break;
+
+            case TubeState.MovingDown:
+                state = TubeState.Acting;
+                break;
+
+            case TubeState.MovingUp:
+                state = TubeState.Idle;
+                break;
+        }
+    }
+
+    void ModeAction()
+    {
+        Funnel funnel = GetCurrentFunnel();
+        if (funnel == null) return;
+
+        float amount = Time.deltaTime * (mode == TubeMode.Out ? outSpeed : inSpeed);
+
+        if (mode == TubeMode.Out)
+            funnel.Fill(amount);
+        else
+            funnel.Empty(amount);
+    }
+
+    Funnel GetCurrentFunnel()
+    {
+        switch (currentTubePos)
+        {
+            case 0: return cityFunnel;
+            case 1: return blenderFunnel;
+            case 2: return domeFunnel;
+        }
+        return null;
     }
 }

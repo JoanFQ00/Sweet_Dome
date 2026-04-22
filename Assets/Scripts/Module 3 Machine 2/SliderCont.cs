@@ -13,6 +13,11 @@ public class SliderCont : MonoBehaviour
     public SliderType type;
     public static Action<float, SliderType> OnSliderMoved;
 
+    public void Start()
+    {
+        sliderPhy.transform.position = minPos.transform.position;
+    }
+
     void Update()
     {
         HandleDrag();
