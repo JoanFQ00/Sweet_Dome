@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
+using UnityEngine.UIElements;
 
 public class TubeController : MonoBehaviour
 {
@@ -195,14 +196,18 @@ public class TubeController : MonoBehaviour
         Funnel funnel = GetCurrentFunnel();
         if (funnel == null) return;
 
-        float amount = Time.deltaTime * (mode == TubeMode.Out ? outSpeed : inSpeed);
+        float amount;
+        if (mode == TubeMode.Out)
+            amount = Time.deltaTime * outSpeed;
+        else
+            amount = Time.deltaTime * inSpeed;
 
         if (mode == TubeMode.Out)
         {
             funnel.Fill(amount);
             currentCapacity -= amount;
         }
-        else 
+        else
         {
             funnel.Empty(amount);
             currentCapacity += amount;
