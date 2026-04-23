@@ -1,9 +1,15 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MachineControllerZone : MonoBehaviour
 {
     public List<GameObject> screen;
+    public List<GameObject> tubeScreens;
+
+    public Color defaultColor;
+    public Color selectedColor;
 
     int index = 0;
 
@@ -40,5 +46,24 @@ public class MachineControllerZone : MonoBehaviour
         }
 
         screen[i].SetActive(true);
+
+        ChangeColor(i);
+    }
+
+    void ChangeColor(int indx) 
+    {
+        for (int j = 0; j < tubeScreens.Count; j++) 
+        {
+            Image img = tubeScreens[j].GetComponentInChildren<Image>();
+
+            if (j == indx)
+            {
+                img.GetComponentInChildren<Image>().color = selectedColor;
+            }
+            else
+            { 
+                img.GetComponentInChildren<Image>().color = defaultColor;
+            }
+        }
     }
 }
