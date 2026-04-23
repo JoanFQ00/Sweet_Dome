@@ -15,7 +15,12 @@ public class WaveWinner : MonoBehaviour
     public float frequencyTolerance = 1.0f;
     public float phaseTolerance = 1.0f;
 
-    private bool hasWon;
+    [Header("Time Message")]
+    public float messageDuration = 3f;
+
+    private bool hasWon = false;
+    private float timer = 0f;
+    private bool showingMessage = false;
 
     void Start()
     {
@@ -25,12 +30,23 @@ public class WaveWinner : MonoBehaviour
 
     void Update()
     {
-        if (hasWon) return;
-
-        if (IsMatching())
+        if (!hasWon)
         {
-            hasWon = true;
-            ShowWin();
+            if (IsMatching())
+            {
+                hasWon = true;
+                ShowWin();
+            }
+        }
+
+        if (showingMessage)
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= messageDuration)
+            {
+                HideWinMessage();
+            }
         }
     }
 
@@ -50,5 +66,16 @@ public class WaveWinner : MonoBehaviour
     {
         if (winText != null)
             winText.SetActive(true);
+
+        timer = 0f;
+        showingMessage = true;
+    }
+
+    void HideWinMessage()
+    {
+        if (winText != null)
+            winText.SetActive(false);
+
+        showingMessage = false;
     }
 }
