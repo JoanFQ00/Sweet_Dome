@@ -52,4 +52,14 @@ public class Funnel : MonoBehaviour
         currentCapacity = Mathf.Clamp(currentCapacity, 0f, maxCapacity);
         Debug.Log(currentCapacity);
     }
+
+    public float GetPercentage()
+    {
+        return currentCapacity / maxCapacity;
+    }
+
+    public float GetCurrentCapacity()
+    {
+        return currentCapacity;
+    }
 }
