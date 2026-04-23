@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour
     public float walkSpeed = 6f;
     public bool cameraMovement = true;
 
+    [Header("Gravity")]
+    public float groundedGravity = -2f;
+    float verticalVelocity;
+
     [Header("Mouse Movement")]
     public Transform pitchController;
     public float yawSpeed = 120f;
@@ -62,7 +66,21 @@ public class PlayerController : MonoBehaviour
 
         move *= walkSpeed;
 
-        characterController.Move(move * Time.deltaTime);
+        if (characterController.isGrounded)
+        {
+            if (verticalVelocity < 0)
+            {
+                verticalVelocity = groundedGravity;
+            }
+        }
+        else
+        {
+            verticalVelocity += Physics.gravity.y * Time.deltaTime;
+        }
+
+        Vector3 movementCharacter = move + Vector3.up * verticalVelocity;
+
+        characterController.Move(movementCharacter * Time.deltaTime);
     }
 
     //Movement Camera method
