@@ -12,12 +12,10 @@ public class RobotBehaviour : MonoBehaviour
 
     private NavMeshAgent agent;
     private bool isInteracting = false;
-    private PlayerController playerController;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        playerController = player.GetComponent<PlayerController>();
         interactionText.SetActive(false);
         agent.updateRotation = false;
         NextPatrolPoint();
@@ -48,7 +46,6 @@ public class RobotBehaviour : MonoBehaviour
     }
     void StartInteraction()
     {
-        playerController.LockPlayer(true);
         isInteracting = true;
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
@@ -58,7 +55,6 @@ public class RobotBehaviour : MonoBehaviour
 
     void EndInteraction()
     {
-        playerController.LockPlayer(false);
         isInteracting = false;
         agent.isStopped = false;
         interactionText.SetActive(false);

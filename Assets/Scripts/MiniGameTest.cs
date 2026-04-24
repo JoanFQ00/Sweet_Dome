@@ -36,7 +36,11 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         {
             ExitMiniGame();
         }
-        HandleClick();
+
+        if (gameOn)
+        {
+            HandleClick();
+        }
     }
 
     public void Interact() 
@@ -137,11 +141,13 @@ public class MiniGameTest : MonoBehaviour, IInteractable
                 if (worldButton != null)
                 {
                     worldButton.Press();
+                    return;
                 }
                 TubeButtons tubeButtons = hit.collider.GetComponent<TubeButtons>();
                 if (tubeButtons != null) 
                 {
                     tubeButtons.Press();
+                    return;
                 }
             }
         }
