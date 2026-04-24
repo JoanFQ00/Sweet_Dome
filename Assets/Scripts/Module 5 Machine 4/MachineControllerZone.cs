@@ -10,31 +10,31 @@ public class MachineControllerZone : MonoBehaviour
     public Color defaultColor;
     public Color selectedColor;
 
-    int index = 0;
+    int indx = 0;
 
-    void Start()
+    void Awake()
     {
         ShowScreen(0);
     }
 
     public void NextScreen()
     {
-        index++;
+        indx++;
 
-        if (index >= screen.Count)
-            index = 0;
+        if (indx >= screen.Count)
+            indx = 0;
 
-        ShowScreen(index);
+        ShowScreen(indx);
     }
 
     public void PrevScreen()
     {
-        index--;
+        indx--;
 
-        if (index < 0)
-            index = screen.Count - 1;
+        if (indx < 0)
+            indx = screen.Count - 1;
 
-        ShowScreen(index);
+        ShowScreen(indx);
     }
 
     void ShowScreen(int i)
@@ -53,6 +53,7 @@ public class MachineControllerZone : MonoBehaviour
     {
         for (int j = 0; j < tubeScreens.Count; j++) 
         {
+            Debug.Log(j + " " + indx);
             Image img = tubeScreens[j].GetComponentInChildren<Image>();
 
             if (j == indx)
