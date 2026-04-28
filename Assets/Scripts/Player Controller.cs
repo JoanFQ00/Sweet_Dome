@@ -1,3 +1,4 @@
+using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
@@ -10,7 +11,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     public float walkSpeed = 6f;
-    public bool cameraMovement = false;
+    public bool cameraLocked = false;
+    bool miniGameMode = false;
 
     [Header("Gravity")]
     public float groundedGravity = -2f;
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         playerLocked = false;
+        cameraLocked = false;
     }
 
     void Start()
@@ -43,15 +46,24 @@ public class PlayerController : MonoBehaviour
     public void LockPlayer(bool locked) 
     {
         playerLocked = locked;
-        cameraMovement = locked;
+    }
+
+    public void LockCamera(bool locked) 
+    {
+        cameraLocked = locked;
+    }
+
+    public void ChangeGameMode(bool mode) 
+    {
+        miniGameMode = mode;
     }
 
     void Update()
     {
-        if (playerLocked) return;
-
-        Move();
-        Look();
+        if (!playerLocked) 
+            Move(); 
+        if (!cameraLocked)
+            Look();
     }
 
     void Move()
@@ -93,8 +105,14 @@ public class PlayerController : MonoBehaviour
 
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
-        transform.rotation = Quaternion.Euler(0f, yaw, 0f);
-
-        pitchController.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+        if (miniGameMode)
+        {
+            mainCamera.transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0f, yaw, 0f);
+            pitchController.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+        }
     }
 }

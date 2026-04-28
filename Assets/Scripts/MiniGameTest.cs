@@ -20,16 +20,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     public LeverGame leverGame;
     public Slider slider;
 
-    [Header("Camera Drag")]
-    public float dragRadius = 40f;
-    public float camSensitivity = 0.2f;
-
-    Vector2 dragStartPos;
-    bool isDragging;
-
-    float yaw;
-    float pitch;
-
     void Start()
     {
         gameOn = false;
@@ -57,6 +47,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     public void Interact() 
     {
         GameManager.Instance.playerController.LockPlayer(true);
+        GameManager.Instance.playerController.LockCamera(true);
         playerCamera = GameManager.Instance.playerController.mainCamera;
 
         if (playerCamera == null) return;
@@ -66,12 +57,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         originalCameraPos = playerCamera.transform.position;
         originalCameraRot = playerCamera.transform.rotation;
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
-        Vector3 rot = playerCamera.transform.eulerAngles;
-        yaw = rot.y;
-        pitch = rot.x;
+        ShowCursor(true);
 
         if (sphereRotation != null) 
         {
@@ -111,7 +97,9 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             {
                 currenMoveTime = 0f;
                 cameraOnPositon = true;
+                ShowCursor(false);
                 GameManager.Instance.playerController.LockPlayer(false);
+                GameManager.Instance.playerController.LockCamera(false);
             }
         }
     }
@@ -125,9 +113,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         playerCamera.transform.rotation = originalCameraRot;
         playerCamera.transform.position = originalCameraPos;
         GameManager.Instance.playerController.LockPlayer(true);
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        GameManager.Instance.playerController.LockCamera(true);
 
         if (sphereRotation != null) 
         {
@@ -135,44 +121,34 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         }
     }
 
- 
-    void HandleCamMove()
+    void ShowCursor(bool showCursor) 
     {
-        if (playerCamera == null) return;
-
-        if (Input.GetMouseButtonDown(1))
+        if (showCursor) 
         {
-            dragStartPos = Input.mousePosition;
-            isDragging = true;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
-
-        if (Input.GetMouseButtonUp(1))
+        else
         {
-            isDragging = false;
-        }
-
-        if (!isDragging) return;
-
-        Vector2 currentMousePos = Input.mousePosition;
-        Vector2 delta = currentMousePos - dragStartPos;
-
-        float distance = delta.magnitude;
-
-        if (distance > dragRadius)
-        {
-            float excess = distance - dragRadius;
-            Vector2 effectiveDelta = delta.normalized * excess;
-
-            yaw += effectiveDelta.x * camSensitivity;
-            pitch -= effectiveDelta.y * camSensitivity;
-
-            pitch = Mathf.Clamp(pitch, -80f, 80f);
-
-            playerCamera.transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
-  
 
+    void HandleCamMove()
+    {
+        if (Input.GetMouseButtonDown(1)) 
+        {
+            GameManager.Instance.playerController.LockCamera(false);
+            GameManager.Instance.playerController.ChangeGameMode(true);
+        }
+
+        if (Input.GetMouseButtonUp(1)) 
+        {
+            GameManager.Instance.playerController.LockCamera(true);
+            GameManager.Instance.playerController.ChangeGameMode(false);
+        }
+    }
 
     void HandleClick()
     {
