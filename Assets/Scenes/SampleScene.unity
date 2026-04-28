@@ -3725,7 +3725,7 @@ Transform:
   m_GameObject: {fileID: 1433308439}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.073, z: 0}
+  m_LocalPosition: {x: 0, y: 1.073, z: 18.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4446,7 +4446,7 @@ Transform:
   m_GameObject: {fileID: 1736802194}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.933, z: 0}
+  m_LocalPosition: {x: 0, y: 0.933, z: -4.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5721,7 +5721,7 @@ GameObject:
   - component: {fileID: 6956310043855514903}
   - component: {fileID: 765592531481206371}
   - component: {fileID: 7097876098129558884}
-  - component: {fileID: 6347941360365284652}
+  - component: {fileID: 7097876098129558885}
   m_Layer: 7
   m_Name: Button (4)
   m_TagString: Untagged
@@ -6063,7 +6063,7 @@ GameObject:
   - component: {fileID: 5183417668645115628}
   - component: {fileID: 3301261961398226501}
   - component: {fileID: 4926730389701640252}
-  - component: {fileID: 4398364107301670106}
+  - component: {fileID: 5183417668645115629}
   m_Layer: 7
   m_Name: LeftButt
   m_TagString: Untagged
@@ -7652,7 +7652,7 @@ GameObject:
   - component: {fileID: 8710392928436285941}
   - component: {fileID: 6604688372508305713}
   - component: {fileID: 4533313610863266950}
-  - component: {fileID: 6084939761846183333}
+  - component: {fileID: 8710392928436285942}
   m_Layer: 7
   m_Name: Button (3)
   m_TagString: Untagged
@@ -8342,25 +8342,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &3507918743063426610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8883058633098458625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afc596ddc643b4d40bd670a6db248035, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  gameCameraPosition: {fileID: 6977064942993458445}
-  playerCamera: {fileID: 0}
-  timeToMove: 1.5
-  isClickingUI: 0
-  sphereRotation: {fileID: 0}
-  leverGame: {fileID: 0}
-  slider: {fileID: 0}
 --- !u!4 &3513658604921322067
 Transform:
   m_ObjectHideFlags: 0
@@ -8587,25 +8568,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -112.999985}
   m_SizeDelta: {x: 1250, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3639177558675162405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5673979897460424670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afc596ddc643b4d40bd670a6db248035, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  gameCameraPosition: {fileID: 112459380273966158}
-  playerCamera: {fileID: 0}
-  timeToMove: 1.5
-  isClickingUI: 0
-  sphereRotation: {fileID: 0}
-  leverGame: {fileID: 0}
-  slider: {fileID: 0}
 --- !u!4 &3650353985681474790
 Transform:
   m_ObjectHideFlags: 0
@@ -8770,7 +8732,7 @@ GameObject:
   - component: {fileID: 98276642115284479}
   - component: {fileID: 7640239289923824750}
   - component: {fileID: 5719100581865445102}
-  - component: {fileID: 7175935675757139256}
+  - component: {fileID: 8979519575514992366}
   m_Layer: 7
   m_Name: RightButt
   m_TagString: Untagged
@@ -9058,7 +9020,6 @@ GameObject:
   - component: {fileID: 6371024188110316117}
   - component: {fileID: 1002852928370111401}
   - component: {fileID: 7768344461150524485}
-  - component: {fileID: 8432218360962942236}
   - component: {fileID: 6554732739233336023}
   m_Layer: 3
   m_Name: RadarMG
@@ -9282,19 +9243,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4398364107301670106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998114864170565667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5be07b868b4868149ae5ad08cdf75bb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TubeButtons
-  Type: 0
 --- !u!114 &4450857770735981727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9544,7 +9492,6 @@ GameObject:
   - component: {fileID: 1244146098872990524}
   - component: {fileID: 8122880781545822920}
   - component: {fileID: 3236636543915383537}
-  - component: {fileID: 4940617684845078041}
   - component: {fileID: 5414791082559846728}
   m_Layer: 3
   m_Name: CityEnMG
@@ -9576,25 +9523,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &4940617684845078041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4922146389664722489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afc596ddc643b4d40bd670a6db248035, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  gameCameraPosition: {fileID: 6871081349551203616}
-  playerCamera: {fileID: 0}
-  timeToMove: 1.5
-  isClickingUI: 0
-  sphereRotation: {fileID: 0}
-  leverGame: {fileID: 0}
-  slider: {fileID: 0}
 --- !u!222 &4975899993722819473
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9739,6 +9667,33 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 998114864170565667}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &5183417668645115629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998114864170565667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1e0874d8a03f145a33ded8dfa6afc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainButt
+  onPress:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5174844497150411364}
+        m_TargetAssemblyTypeName: TubeController, Assembly-CSharp
+        m_MethodName: ChangeTubePositionLeft
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5184620304754445348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10258,7 +10213,6 @@ GameObject:
   - component: {fileID: 8558378766088100719}
   - component: {fileID: 8409534957964238645}
   - component: {fileID: 7482322567018159183}
-  - component: {fileID: 3639177558675162405}
   m_Layer: 3
   m_Name: TempMG
   m_TagString: Untagged
@@ -10434,19 +10388,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &6084939761846183333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2652521479161871272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5be07b868b4868149ae5ad08cdf75bb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TubeButtons
-  Type: 3
 --- !u!1 &6145927956835127288
 GameObject:
   m_ObjectHideFlags: 0
@@ -10685,19 +10626,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5031584568230466140}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6347941360365284652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 530429850638095600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5be07b868b4868149ae5ad08cdf75bb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TubeButtons
-  Type: 2
 --- !u!33 &6371024188110316117
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -11158,6 +11086,33 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &7097876098129558885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 530429850638095600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1e0874d8a03f145a33ded8dfa6afc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainButt
+  onPress:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5174844497150411364}
+        m_TargetAssemblyTypeName: TubeController, Assembly-CSharp
+        m_MethodName: ActivateTube
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7125451668778234004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11288,19 +11243,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6162666481001630736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7175935675757139256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3732631811692601340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5be07b868b4868149ae5ad08cdf75bb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TubeButtons
-  Type: 1
 --- !u!1 &7177566073406216581
 GameObject:
   m_ObjectHideFlags: 0
@@ -12422,25 +12364,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8432218360962942236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4179872418342044109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afc596ddc643b4d40bd670a6db248035, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  gameCameraPosition: {fileID: 3513658604921322067}
-  playerCamera: {fileID: 0}
-  timeToMove: 1.5
-  isClickingUI: 0
-  sphereRotation: {fileID: 0}
-  leverGame: {fileID: 0}
-  slider: {fileID: 0}
 --- !u!114 &8479899028544143478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12633,6 +12556,33 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2652521479161871272}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &8710392928436285942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652521479161871272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1e0874d8a03f145a33ded8dfa6afc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainButt
+  onPress:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5174844497150411364}
+        m_TargetAssemblyTypeName: TubeController, Assembly-CSharp
+        m_MethodName: ChangeMode
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8760024247916593088
 GameObject:
   m_ObjectHideFlags: 0
@@ -12926,7 +12876,6 @@ GameObject:
   - component: {fileID: 7953244254331609076}
   - component: {fileID: 2803491945751888278}
   - component: {fileID: 723690029965578871}
-  - component: {fileID: 3507918743063426610}
   m_Layer: 3
   m_Name: WaveMG
   m_TagString: Untagged
@@ -12998,6 +12947,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3239237227461483957}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8979519575514992366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3732631811692601340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1e0874d8a03f145a33ded8dfa6afc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainButt
+  onPress:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5174844497150411364}
+        m_TargetAssemblyTypeName: TubeController, Assembly-CSharp
+        m_MethodName: ChangeTubePositionRight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &9010848877645217394
 Transform:
   m_ObjectHideFlags: 0

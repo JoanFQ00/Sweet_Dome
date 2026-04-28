@@ -143,11 +143,12 @@ public class MiniGameTest : MonoBehaviour, IInteractable
                     worldButton.Press();
                     return;
                 }
-                TubeButtons tubeButtons = hit.collider.GetComponent<TubeButtons>();
-                if (tubeButtons != null) 
+         
+                MainButt button = hit.collider.GetComponent<MainButt>();
+
+                if (button != null) 
                 {
-                    tubeButtons.Press();
-                    return;
+                    button.Press();
                 }
             }
         }
