@@ -5421,20 +5421,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6162666481001630736}
   m_LocalEulerAnglesHint: {x: 82.211, y: 0, z: 0}
---- !u!114 &116434431413681488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6184026443453499651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41a45a00516884d42b5359eb4d1a9c8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ButtonTemperature
-  typeButton: 0
-  system: {fileID: 620662202}
 --- !u!1 &140093644024439478
 GameObject:
   m_ObjectHideFlags: 0
@@ -6939,20 +6925,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4863607024685428099}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1922192373205297087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7509521471823790716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be8306a21f78a77439bfda038faec7b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WorldZoneButton
-  buttonTypeWorld: 1
-  controllerZone: {fileID: 5414791082559846728}
 --- !u!65 &1948035685357498212
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7455,20 +7427,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2335169116890964014
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4489196615995675823}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41a45a00516884d42b5359eb4d1a9c8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ButtonTemperature
-  typeButton: 1
-  system: {fileID: 620662202}
 --- !u!23 &2406244480140245812
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9272,7 +9230,7 @@ GameObject:
   - component: {fileID: 885666497072388916}
   - component: {fileID: 6147890256283986858}
   - component: {fileID: 1039944805097041034}
-  - component: {fileID: 2335169116890964014}
+  - component: {fileID: 8359787040606597830}
   m_Layer: 3
   m_Name: Down Button
   m_TagString: Untagged
@@ -10261,20 +10219,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &5767227624950558950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8220008091171321691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be8306a21f78a77439bfda038faec7b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WorldZoneButton
-  buttonTypeWorld: 0
-  controllerZone: {fileID: 5414791082559846728}
 --- !u!1 &5771329144307673265
 GameObject:
   m_ObjectHideFlags: 0
@@ -10483,8 +10427,8 @@ GameObject:
   - component: {fileID: 7146972255394938259}
   - component: {fileID: 1031868889072342483}
   - component: {fileID: 3228758609169542196}
-  - component: {fileID: 116434431413681488}
   - component: {fileID: 7779028406980675674}
+  - component: {fileID: 7779028406980675675}
   m_Layer: 3
   m_Name: UpButton
   m_TagString: Untagged
@@ -11435,7 +11379,7 @@ GameObject:
   - component: {fileID: 2081371282949117607}
   - component: {fileID: 2406244480140245812}
   - component: {fileID: 4392217567044283982}
-  - component: {fileID: 1922192373205297087}
+  - component: {fileID: 7509521471823790717}
   m_Layer: 31
   m_Name: RightButton
   m_TagString: Untagged
@@ -11443,6 +11387,33 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &7509521471823790717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7509521471823790716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1e0874d8a03f145a33ded8dfa6afc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainButt
+  onPress:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5414791082559846728}
+        m_TargetAssemblyTypeName: MachineControllerZone, Assembly-CSharp
+        m_MethodName: NextScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &7629181306993807274
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11599,6 +11570,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7779028406980675675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6184026443453499651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1e0874d8a03f145a33ded8dfa6afc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainButt
+  onPress:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 620662202}
+        m_TargetAssemblyTypeName: TemperatureSistem, Assembly-CSharp
+        m_MethodName: TemperatureUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7793486881325637628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12284,7 +12282,7 @@ GameObject:
   - component: {fileID: 6946322103869526428}
   - component: {fileID: 9151802204077504525}
   - component: {fileID: 4287332016935472321}
-  - component: {fileID: 5767227624950558950}
+  - component: {fileID: 9151802204077504526}
   m_Layer: 31
   m_Name: LeftButton
   m_TagString: Untagged
@@ -12307,6 +12305,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6162666481001630736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8359787040606597830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4489196615995675823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1e0874d8a03f145a33ded8dfa6afc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainButt
+  onPress:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 620662202}
+        m_TargetAssemblyTypeName: TemperatureSistem, Assembly-CSharp
+        m_MethodName: TemperatureDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &8405363852425625178
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13046,6 +13071,33 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &9151802204077504526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8220008091171321691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1e0874d8a03f145a33ded8dfa6afc0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainButt
+  onPress:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5414791082559846728}
+        m_TargetAssemblyTypeName: MachineControllerZone, Assembly-CSharp
+        m_MethodName: PrevScreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!135 &9156312330039923013
 SphereCollider:
   m_ObjectHideFlags: 0

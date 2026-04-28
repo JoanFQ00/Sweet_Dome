@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     public float walkSpeed = 6f;
-    public bool cameraMovement = true;
+    public bool cameraMovement = false;
 
     [Header("Gravity")]
     public float groundedGravity = -2f;
@@ -40,20 +40,20 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    public void LockPlayer(bool locked) { playerLocked = locked; }
+    public void LockPlayer(bool locked) 
+    {
+        playerLocked = locked;
+        cameraMovement = locked;
+    }
 
     void Update()
     {
         if (playerLocked) return;
 
         Move();
-        if (cameraMovement)
-        {
-            Look();
-        }
+        Look();
     }
 
-    //Movement Character method
     void Move()
     {
         Vector2 input = playerInput.actions["Move"].ReadValue<Vector2>();

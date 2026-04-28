@@ -20,6 +20,16 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     public LeverGame leverGame;
     public Slider slider;
 
+    [Header("Camera Drag")]
+    public float dragRadius = 40f;
+    public float camSensitivity = 0.2f;
+
+    Vector2 dragStartPos;
+    bool isDragging;
+
+    float yaw;
+    float pitch;
+
     void Start()
     {
         gameOn = false;
@@ -40,6 +50,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         if (gameOn)
         {
             HandleClick();
+            HandleCamMove();
         }
     }
 
@@ -57,6 +68,10 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        Vector3 rot = playerCamera.transform.eulerAngles;
+        yaw = rot.y;
+        pitch = rot.x;
 
         if (sphereRotation != null) 
         {
@@ -120,6 +135,45 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         }
     }
 
+ 
+    void HandleCamMove()
+    {
+        if (playerCamera == null) return;
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            dragStartPos = Input.mousePosition;
+            isDragging = true;
+        }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            isDragging = false;
+        }
+
+        if (!isDragging) return;
+
+        Vector2 currentMousePos = Input.mousePosition;
+        Vector2 delta = currentMousePos - dragStartPos;
+
+        float distance = delta.magnitude;
+
+        if (distance > dragRadius)
+        {
+            float excess = distance - dragRadius;
+            Vector2 effectiveDelta = delta.normalized * excess;
+
+            yaw += effectiveDelta.x * camSensitivity;
+            pitch -= effectiveDelta.y * camSensitivity;
+
+            pitch = Mathf.Clamp(pitch, -80f, 80f);
+
+            playerCamera.transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
+        }
+    }
+  
+
+
     void HandleClick()
     {
         if (playerCamera == null) return;
@@ -137,15 +191,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
                 {
                     points.OnClick();
                 }
-                WorldZoneButton worldButton = hit.collider.GetComponent<WorldZoneButton>();
-                if (worldButton != null)
-                {
-                    worldButton.Press();
-                    return;
-                }
          
                 MainButt button = hit.collider.GetComponent<MainButt>();
-
                 if (button != null) 
                 {
                     button.Press();
