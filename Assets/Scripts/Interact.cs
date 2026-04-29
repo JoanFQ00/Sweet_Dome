@@ -45,7 +45,6 @@ public class Interact : MonoBehaviour
             debugMode = !debugMode;
     }
 
-
     void TryInteract() 
     {
         Ray interactRay = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));

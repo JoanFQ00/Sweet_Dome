@@ -53,7 +53,6 @@ public class MachineControllerZone : MonoBehaviour
     {
         for (int j = 0; j < tubeScreens.Count; j++) 
         {
-            Debug.Log(j + " " + indx);
             Image img = tubeScreens[j].GetComponentInChildren<Image>();
 
             if (j == indx)

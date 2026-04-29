@@ -5,6 +5,7 @@ public class ActionReader : MonoBehaviour, IInteractable
 {
     public Dec_Act act;
     private bool actionCompleted = false;
+    private bool actionTransfered = false;
 
     public float timeToMove = 1.0f;
     private float currentMoveTime = 0.0f;
@@ -35,6 +36,13 @@ public class ActionReader : MonoBehaviour, IInteractable
 
     void Update()
     {
+        if (returning)
+        {
+            UpdateBookPos(startPos, startRot, originalPos, originalRot);
+        }
+
+        if (actionTransfered) return;
+
         CheckHour();
 
         if (interacting)
@@ -65,6 +73,7 @@ public class ActionReader : MonoBehaviour, IInteractable
                 actionCompleted = true;
                 DayTime.Instance.StopTimeCount(false);
                 act.ActionExecuted();
+                actionTransfered = true;
             }
         }
     }
@@ -74,6 +83,12 @@ public class ActionReader : MonoBehaviour, IInteractable
         int hour = DayTime.Instance.GetCurrentHour();
         int newLayer;
 
+        if (act.stopsTime && hour >= act.minIntHour 
+            && !actionCompleted) 
+        {
+            DayTime.Instance.StopTimeCount(true);
+        }
+
         if (hour < act.minIntHour || hour >= act.maxIntHour)
             newLayer = LayerMask.NameToLayer("Default");
         else
@@ -82,6 +97,7 @@ public class ActionReader : MonoBehaviour, IInteractable
         if (hour >= act.maxIntHour && actionCompleted == false) 
         {
             act.ActionFailed();
+            actionTransfered = true;
         }
 
         if (newLayer != currentLayer)

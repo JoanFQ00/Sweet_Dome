@@ -1,10 +1,12 @@
 using Mono.Cecil;
+using System.Threading;
 using UnityEngine;
 
 public class Action_WatchTV : MonoBehaviour, IInteractable
 {
     public Dec_Act watchTV;
     private bool actionCompleted = false;
+    private bool actionTransfered = false;
 
     public Transform cameraTarget;
     public float moveSpeed = 2f;
@@ -24,6 +26,8 @@ public class Action_WatchTV : MonoBehaviour, IInteractable
 
     void Update()
     {
+        if (actionTransfered) return;
+
         CheckHour();
         if (!watching) return;
 
@@ -72,12 +76,21 @@ public class Action_WatchTV : MonoBehaviour, IInteractable
         watching = false;
 
         watchTV.ActionExecuted();
+        DayTime.Instance.StopTimeCount(false);
+        actionCompleted = true;
+        actionTransfered = true;
     }
 
     void CheckHour()
     {
         int hour = DayTime.Instance.GetCurrentHour();
         int newLayer;
+
+        if (watchTV.stopsTime && hour >= watchTV.minIntHour
+         && !actionCompleted)
+        {
+            DayTime.Instance.StopTimeCount(true);
+        }
 
         if (hour < watchTV.minIntHour || hour >= watchTV.maxIntHour)
             newLayer = LayerMask.NameToLayer("Default");
@@ -87,6 +100,7 @@ public class Action_WatchTV : MonoBehaviour, IInteractable
         if (hour >= watchTV.maxIntHour && actionCompleted == false)
         {
             watchTV.ActionFailed();
+            actionTransfered = true;
         }
 
         if (newLayer != currentLayer)

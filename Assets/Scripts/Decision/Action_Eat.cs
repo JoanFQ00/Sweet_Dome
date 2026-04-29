@@ -4,6 +4,7 @@ public class Action_Eat : MonoBehaviour,IInteractable
 {
     public Dec_Act eat;
     private bool actionCompleted = false;
+    private bool actionTransfered = false;
 
     public GameObject foodPrefab;
     public float distanceFromPlayer = 1.5f;
@@ -17,6 +18,8 @@ public class Action_Eat : MonoBehaviour,IInteractable
 
     void Update()
     {
+        if (actionTransfered) return;
+
         CheckHour();
         if (isEating)
         {
@@ -62,12 +65,21 @@ public class Action_Eat : MonoBehaviour,IInteractable
         isEating = false;
 
         eat.ActionExecuted();
+        DayTime.Instance.StopTimeCount(false);
+        actionCompleted = true;
+        actionTransfered = true;
     }
 
     void CheckHour()
     {
         int hour = DayTime.Instance.GetCurrentHour();
         int newLayer;
+
+        if (eat.stopsTime && hour >= eat.minIntHour
+         && !actionCompleted)
+        {
+            DayTime.Instance.StopTimeCount(true);
+        }
 
         if (hour < eat.minIntHour || hour >= eat.maxIntHour)
             newLayer = LayerMask.NameToLayer("Default");
@@ -77,8 +89,8 @@ public class Action_Eat : MonoBehaviour,IInteractable
         if (hour >= eat.maxIntHour && actionCompleted == false)
         {
             eat.ActionFailed();
+            actionTransfered = true;
         }
-
 
         if (newLayer != currentLayer)
         {

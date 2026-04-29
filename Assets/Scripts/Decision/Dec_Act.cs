@@ -10,6 +10,7 @@ public class Dec_Act : ScriptableObject
     public ActionTypes actionType;
 
     [Header("Time Zones")]
+    public bool stopsTime;
     public int minIntHour;
     public int maxIntHour;
 
