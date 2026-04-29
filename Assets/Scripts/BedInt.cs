@@ -7,6 +7,10 @@ public class BedInt : MonoBehaviour, IInteractable
 
     public void Interact() 
     {
-        OnInteract?.Invoke();
+        if (DayTime.Instance.CanSleepInBed())
+        {
+            OnInteract?.Invoke();
+            DayTime.Instance.ResetDay();
+        }
     }
 }
