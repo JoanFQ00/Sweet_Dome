@@ -1,3 +1,4 @@
+using Unity.Multiplayer.PlayMode;
 using UnityEngine;
 
 public class ActionReader : MonoBehaviour, IInteractable
@@ -11,6 +12,7 @@ public class ActionReader : MonoBehaviour, IInteractable
     private bool interacting;
     private bool returning;
     private bool onInteractedPosition = false;
+    private int currentLayer = -1;
 
     private Vector3 startPos;
     private Quaternion startRot;
@@ -67,15 +69,17 @@ public class ActionReader : MonoBehaviour, IInteractable
     void CheckHour() 
     {
         int hour = DayTime.Instance.GetCurrentHour();
+        int newLayer;
 
-        if (hour < act.minIntHour
-            || hour > act.maxIntHour)
-        {
-            gameObject.layer = LayerMask.NameToLayer("Default");
-        }
+        if (hour < act.minIntHour || hour > act.maxIntHour)
+            newLayer = LayerMask.NameToLayer("Default");
         else
-        { 
-            gameObject.layer = LayerMask.NameToLayer("Interactable");
+            newLayer = LayerMask.NameToLayer("Interactable");
+
+        if (newLayer != currentLayer)
+        {
+            gameObject.layer = newLayer;
+            currentLayer = newLayer;
         }
     }
 
@@ -93,7 +97,7 @@ public class ActionReader : MonoBehaviour, IInteractable
             interacting = false;
             returning = false;
 
-            if (toPos == readTransform.position)
+            if (Vector3.Distance(toPos, readTransform.position) < 0.001f)
             {
                 onInteractedPosition = true;
             }

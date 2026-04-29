@@ -1144,6 +1144,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DecManager
   dayActions:
   - {fileID: 11400000, guid: fa409b03c9005f84d9bc5b98170a5492, type: 2}
+  - {fileID: 11400000, guid: 5091937fabddf6943aa5dee177dd614f, type: 2}
+  - {fileID: 11400000, guid: 8492e04dbb1919446add4ea1fc2c8ae6, type: 2}
   actionsPerformed: []
 --- !u!1 &649953145
 GameObject:
@@ -5430,7 +5432,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DayTime
   startHourDay: 9
   endHour: 21
-  secondsPerPhase: 1
+  secondsPerPhase: 1.5
+  minutesPassed: 5
   timerText: {fileID: 1891466737}
 --- !u!4 &1747791820
 Transform:
