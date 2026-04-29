@@ -15,8 +15,13 @@ public class Dec_Act : ScriptableObject
 
     public static Action<string, ActionTypes> OnExecuted;
 
-    public void Execute() 
+    public void ActionExecuted() 
     {
         OnExecuted?.Invoke(actionName, actionType);
+    }
+
+    public void ActionFailed() 
+    {
+        OnExecuted?.Invoke("F_" + actionName, actionType);
     }
 }

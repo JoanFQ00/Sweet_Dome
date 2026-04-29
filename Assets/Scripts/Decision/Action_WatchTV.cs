@@ -4,6 +4,7 @@ using UnityEngine;
 public class Action_WatchTV : MonoBehaviour, IInteractable
 {
     public Dec_Act watchTV;
+    private bool actionCompleted = false;
 
     public Transform cameraTarget;
     public float moveSpeed = 2f;
@@ -45,6 +46,7 @@ public class Action_WatchTV : MonoBehaviour, IInteractable
     {
         GameManager.Instance.playerController.LockPlayer(true);
         GameManager.Instance.playerController.LockCamera(true);
+        gameObject.layer = LayerMask.NameToLayer("Default");
 
         originalPos = cam.position;
         originalRot = cam.rotation;
@@ -62,13 +64,14 @@ public class Action_WatchTV : MonoBehaviour, IInteractable
     {
         GameManager.Instance.playerController.LockPlayer(false);
         GameManager.Instance.playerController.LockCamera(false);
+        gameObject.layer = LayerMask.NameToLayer("Interactable");
 
         cam.position = originalPos;
         cam.rotation = originalRot;
 
         watching = false;
 
-        watchTV.Execute();
+        watchTV.ActionExecuted();
     }
 
     void CheckHour()
@@ -76,10 +79,15 @@ public class Action_WatchTV : MonoBehaviour, IInteractable
         int hour = DayTime.Instance.GetCurrentHour();
         int newLayer;
 
-        if (hour < watchTV.minIntHour || hour > watchTV.maxIntHour)
+        if (hour < watchTV.minIntHour || hour >= watchTV.maxIntHour)
             newLayer = LayerMask.NameToLayer("Default");
         else
             newLayer = LayerMask.NameToLayer("Interactable");
+
+        if (hour >= watchTV.maxIntHour && actionCompleted == false)
+        {
+            watchTV.ActionFailed();
+        }
 
         if (newLayer != currentLayer)
         {

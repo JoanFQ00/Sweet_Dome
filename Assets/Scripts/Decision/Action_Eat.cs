@@ -1,9 +1,9 @@
-using Mono.Cecil;
 using UnityEngine;
 
 public class Action_Eat : MonoBehaviour,IInteractable
 {
     public Dec_Act eat;
+    private bool actionCompleted = false;
 
     public GameObject foodPrefab;
     public float distanceFromPlayer = 1.5f;
@@ -14,12 +14,6 @@ public class Action_Eat : MonoBehaviour,IInteractable
     private int currentLayer = -1;
 
     private bool isEating = false;
-
-
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
@@ -45,6 +39,7 @@ public class Action_Eat : MonoBehaviour,IInteractable
     void StartEating()
     {
         Transform player = GameManager.Instance.playerController.transform;
+        gameObject.layer = LayerMask.NameToLayer("Default");
 
         currentFood = Instantiate(foodPrefab);
         currentFood.transform.position = player.position + player.forward * distanceFromPlayer;
@@ -59,13 +54,14 @@ public class Action_Eat : MonoBehaviour,IInteractable
     void FinishEating()
     {
         Destroy(currentFood);
+        gameObject.layer = LayerMask.NameToLayer("Interactable");
 
         GameManager.Instance.playerController.LockPlayer(false);
         GameManager.Instance.playerController.LockCamera(false);
 
         isEating = false;
 
-        eat.Execute();
+        eat.ActionExecuted();
     }
 
     void CheckHour()
@@ -73,10 +69,16 @@ public class Action_Eat : MonoBehaviour,IInteractable
         int hour = DayTime.Instance.GetCurrentHour();
         int newLayer;
 
-        if (hour < eat.minIntHour || hour > eat.maxIntHour)
+        if (hour < eat.minIntHour || hour >= eat.maxIntHour)
             newLayer = LayerMask.NameToLayer("Default");
         else
             newLayer = LayerMask.NameToLayer("Interactable");
+
+        if (hour >= eat.maxIntHour && actionCompleted == false)
+        {
+            eat.ActionFailed();
+        }
+
 
         if (newLayer != currentLayer)
         {

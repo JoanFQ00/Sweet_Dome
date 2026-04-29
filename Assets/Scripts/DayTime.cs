@@ -9,8 +9,8 @@ public class DayTime : MonoBehaviour
     [Header("Time")]
     public int startHourDay = 9;
     public int endHour = 21;
+    public int currentHour;
 
-    private int currentHour;
     private int currentMinutes;
 
     private bool timeStopped = false;

@@ -4,6 +4,7 @@ using UnityEngine;
 public class ActionReader : MonoBehaviour, IInteractable
 {
     public Dec_Act act;
+    private bool actionCompleted = false;
 
     public float timeToMove = 1.0f;
     private float currentMoveTime = 0.0f;
@@ -48,6 +49,7 @@ public class ActionReader : MonoBehaviour, IInteractable
 
         if (onInteractedPosition)
         {
+            gameObject.layer = LayerMask.NameToLayer("Default");
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 GameManager.Instance.playerController.LockPlayer(false);
@@ -60,8 +62,9 @@ public class ActionReader : MonoBehaviour, IInteractable
                 returning = true;
                 interacting = false;
                 onInteractedPosition = false;
+                actionCompleted = true;
                 DayTime.Instance.StopTimeCount(false);
-                act.Execute();
+                act.ActionExecuted();
             }
         }
     }
@@ -71,10 +74,15 @@ public class ActionReader : MonoBehaviour, IInteractable
         int hour = DayTime.Instance.GetCurrentHour();
         int newLayer;
 
-        if (hour < act.minIntHour || hour > act.maxIntHour)
+        if (hour < act.minIntHour || hour >= act.maxIntHour)
             newLayer = LayerMask.NameToLayer("Default");
         else
             newLayer = LayerMask.NameToLayer("Interactable");
+
+        if (hour >= act.maxIntHour && actionCompleted == false) 
+        {
+            act.ActionFailed();
+        }
 
         if (newLayer != currentLayer)
         {
