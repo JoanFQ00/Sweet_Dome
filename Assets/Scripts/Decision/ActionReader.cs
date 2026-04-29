@@ -66,8 +66,10 @@ public class ActionReader : MonoBehaviour, IInteractable
 
     void CheckHour() 
     {
-        if (DayTime.Instance.GetCurrentHour() < act.maxIntHour
-            || DayTime.Instance.GetCurrentHour() > act.minIntHour)
+        int hour = DayTime.Instance.GetCurrentHour();
+
+        if (hour < act.minIntHour
+            || hour > act.maxIntHour)
         {
             gameObject.layer = LayerMask.NameToLayer("Default");
         }
