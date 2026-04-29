@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -12,8 +13,11 @@ public class DayTime : MonoBehaviour
     private int currentHour;
     private int currentMinutes;
 
+    private bool timeStopped = false;
+
     [Header("Speed")]
     public float secondsPerPhase = 10f;
+    public int minutesPassed = 10;
     private float counter;
 
     [Header("UI")]
@@ -25,6 +29,7 @@ public class DayTime : MonoBehaviour
     {
         Instance = this;
     }
+
     void Start()
     {
         currentHour = startHourDay;
@@ -34,12 +39,14 @@ public class DayTime : MonoBehaviour
 
     void Update()
     {
+        if (timeStopped) return;
+
         counter += Time.deltaTime;
 
         if (counter >= secondsPerPhase)
         {
             counter = 0f;
-            AddMinutes(10); 
+            AddMinutes(minutesPassed); 
         }
     }
 
@@ -79,5 +86,15 @@ public class DayTime : MonoBehaviour
         currentMinutes = 0;
         canSleepChange = false;
         UpdateUI();
+    }
+
+    public int GetCurrentHour() 
+    {
+        return currentHour;
+    }
+
+    public void StopTimeCount(bool stop) 
+    {
+        timeStopped = stop;
     }
 }

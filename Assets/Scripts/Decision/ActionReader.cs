@@ -32,6 +32,8 @@ public class ActionReader : MonoBehaviour, IInteractable
 
     void Update()
     {
+        CheckHour();
+
         if (interacting)
         {
             UpdateBookPos(startPos, startRot, readTransform.position, readTransform.rotation);
@@ -56,8 +58,22 @@ public class ActionReader : MonoBehaviour, IInteractable
                 returning = true;
                 interacting = false;
                 onInteractedPosition = false;
+                DayTime.Instance.StopTimeCount(false);
                 act.Execute();
             }
+        }
+    }
+
+    void CheckHour() 
+    {
+        if (DayTime.Instance.GetCurrentHour() < act.maxIntHour
+            || DayTime.Instance.GetCurrentHour() > act.minIntHour)
+        {
+            gameObject.layer = LayerMask.NameToLayer("Default");
+        }
+        else
+        { 
+            gameObject.layer = LayerMask.NameToLayer("Interactable");
         }
     }
 
@@ -85,6 +101,7 @@ public class ActionReader : MonoBehaviour, IInteractable
     public void Interact()
     {
         GameManager.Instance.playerController.LockPlayer(true);
+        DayTime.Instance.StopTimeCount(true);
         startPos = transform.position;
         startRot = transform.rotation;
 
