@@ -11,6 +11,7 @@ public class Action_Eat : MonoBehaviour,IInteractable
 
     private GameObject currentFood;
     private float timer;
+    private int currentLayer = -1;
 
     private bool isEating = false;
 
@@ -67,20 +68,20 @@ public class Action_Eat : MonoBehaviour,IInteractable
         eat.Execute();
     }
 
-    bool CheckHour()
+    void CheckHour()
     {
         int hour = DayTime.Instance.GetCurrentHour();
+        int newLayer;
 
-        if (hour < eat.minIntHour
-            || hour > eat.maxIntHour)
-        {
-            gameObject.layer = LayerMask.NameToLayer("Default");
-            return false;
-        }
+        if (hour < eat.minIntHour || hour > eat.maxIntHour)
+            newLayer = LayerMask.NameToLayer("Default");
         else
+            newLayer = LayerMask.NameToLayer("Interactable");
+
+        if (newLayer != currentLayer)
         {
-            gameObject.layer = LayerMask.NameToLayer("Interactable");
-            return true;
+            gameObject.layer = newLayer;
+            currentLayer = newLayer;
         }
     }
 }

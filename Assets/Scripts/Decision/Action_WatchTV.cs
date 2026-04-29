@@ -9,6 +9,7 @@ public class Action_WatchTV : MonoBehaviour, IInteractable
     public float moveSpeed = 2f;
 
     private Transform cam;
+    private int currentLayer = -1;
 
     private Vector3 originalPos;
     private Quaternion originalRot;
@@ -70,20 +71,20 @@ public class Action_WatchTV : MonoBehaviour, IInteractable
         watchTV.Execute();
     }
 
-    bool CheckHour()
+    void CheckHour()
     {
         int hour = DayTime.Instance.GetCurrentHour();
+        int newLayer;
 
-        if (hour < watchTV.minIntHour
-            || hour > watchTV.maxIntHour)
-        {
-            gameObject.layer = LayerMask.NameToLayer("Default");
-            return false;
-        }
+        if (hour < watchTV.minIntHour || hour > watchTV.maxIntHour)
+            newLayer = LayerMask.NameToLayer("Default");
         else
+            newLayer = LayerMask.NameToLayer("Interactable");
+
+        if (newLayer != currentLayer)
         {
-            gameObject.layer = LayerMask.NameToLayer("Interactable");
-            return true;
+            gameObject.layer = newLayer;
+            currentLayer = newLayer;
         }
     }
 }
