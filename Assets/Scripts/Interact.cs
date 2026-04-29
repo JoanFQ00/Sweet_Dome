@@ -11,6 +11,7 @@ public class Interact : MonoBehaviour
     public float interactDistance = 2.5f;
     public LayerMask interactLayer;
     public Camera playerCamera;
+    public Transform readTransform;
 
     private PlayerInput playerInput;
     private InputAction interactAction;
