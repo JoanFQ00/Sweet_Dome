@@ -1,20 +1,12 @@
-using Unity.Multiplayer.PlayMode;
 using UnityEngine;
 
-public class ActionReader : MonoBehaviour, IInteractable
+public class Action_Reader : BaseAction
 {
-    public Dec_Act act;
-    private bool actionCompleted = false;
-    private bool actionTransfered = false;
-
     public float timeToMove = 1.0f;
+
     private float currentMoveTime = 0.0f;
 
     private Transform readTransform;
-    private bool interacting;
-    private bool returning;
-    private bool onInteractedPosition = false;
-    private int currentLayer = -1;
 
     private Vector3 startPos;
     private Quaternion startRot;
@@ -22,122 +14,88 @@ public class ActionReader : MonoBehaviour, IInteractable
     private Vector3 originalPos;
     private Quaternion originalRot;
 
+    private enum State
+    {
+        Idle,
+        MovingToRead,
+        Reading,
+        Returning
+    }
+
+    private State state = State.Idle;
+
     void Start()
     {
-        readTransform = GameManager.Instance.playerController.
-            gameObject.GetComponent<Interact>().readTransform;
+        readTransform = GameManager.Instance.playerController
+            .GetComponent<Interact>().readTransform;
 
         originalPos = transform.position;
         originalRot = transform.rotation;
-
-        interacting = false;
-        returning = false;
     }
 
-    void Update()
+    public override void Interact()
     {
-        if (returning)
-        {
-            UpdateBookPos(startPos, startRot, originalPos, originalRot);
-        }
+        if (state != State.Idle) return;
 
-        if (actionTransfered) return;
+        GameManager.Instance.playerController.LockPlayer(true);
+        DayTime.Instance.StopTimeCount(true);
 
-        CheckHour();
+        startPos = transform.position;
+        startRot = transform.rotation;
 
-        if (interacting)
-        {
-            UpdateBookPos(startPos, startRot, readTransform.position, readTransform.rotation);
-        }
-
-        if (returning)
-        {
-            UpdateBookPos(startPos, startRot, originalPos, originalRot);
-        }
-
-        if (onInteractedPosition)
-        {
-            gameObject.layer = LayerMask.NameToLayer("Default");
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                GameManager.Instance.playerController.LockPlayer(false);
-
-                startPos = transform.position;
-                startRot = transform.rotation;
-
-                currentMoveTime = 0f;
-
-                returning = true;
-                interacting = false;
-                onInteractedPosition = false;
-                actionCompleted = true;
-                DayTime.Instance.StopTimeCount(false);
-                act.ActionExecuted();
-                actionTransfered = true;
-            }
-        }
+        currentMoveTime = 0f;
+        state = State.MovingToRead;
     }
 
-    void CheckHour() 
+    protected override void OnUpdateAction()
     {
-        int hour = DayTime.Instance.GetCurrentHour();
-        int newLayer;
-
-        if (act.stopsTime && hour >= act.minIntHour 
-            && !actionCompleted) 
+        switch (state)
         {
-            DayTime.Instance.StopTimeCount(true);
-        }
+            case State.MovingToRead:
+                Move(readTransform.position, readTransform.rotation, () =>
+                {
+                    state = State.Reading;
+                });
+                break;
 
-        if (hour < act.minIntHour || hour >= act.maxIntHour)
-            newLayer = LayerMask.NameToLayer("Default");
-        else
-            newLayer = LayerMask.NameToLayer("Interactable");
+            case State.Reading:
+                gameObject.layer = LayerMask.NameToLayer("Default");
 
-        if (hour >= act.maxIntHour && actionCompleted == false) 
-        {
-            act.ActionFailed();
-            actionTransfered = true;
-        }
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    startPos = transform.position;
+                    startRot = transform.rotation;
 
-        if (newLayer != currentLayer)
-        {
-            gameObject.layer = newLayer;
-            currentLayer = newLayer;
+                    currentMoveTime = 0f;
+                    state = State.Returning;
+                }
+                break;
+
+            case State.Returning:
+                Move(originalPos, originalRot, () =>
+                {
+                    GameManager.Instance.playerController.LockPlayer(false);
+                    DayTime.Instance.StopTimeCount(false);
+
+                    OnActionExecuted();
+                    state = State.Idle;
+                });
+                break;
         }
     }
 
-    void UpdateBookPos(Vector3 fromPos, Quaternion fromRot, Vector3 toPos, Quaternion toRot)
+    void Move(Vector3 targetPos, Quaternion targetRot, System.Action onFinish)
     {
         currentMoveTime += Time.deltaTime;
 
         float pct = Mathf.Clamp01(currentMoveTime / timeToMove);
 
-        transform.position = Vector3.Lerp(fromPos, toPos, pct);
-        transform.rotation = Quaternion.Lerp(fromRot, toRot, pct);
+        transform.position = Vector3.Lerp(startPos, targetPos, pct);
+        transform.rotation = Quaternion.Lerp(startRot, targetRot, pct);
 
         if (pct >= 1.0f)
         {
-            interacting = false;
-            returning = false;
-
-            if (Vector3.Distance(toPos, readTransform.position) < 0.001f)
-            {
-                onInteractedPosition = true;
-            }
+            onFinish?.Invoke();
         }
-    }
-
-    public void Interact()
-    {
-        GameManager.Instance.playerController.LockPlayer(true);
-        DayTime.Instance.StopTimeCount(true);
-        startPos = transform.position;
-        startRot = transform.rotation;
-
-        currentMoveTime = 0f;
-
-        interacting = true;
-        returning = false;
     }
 }

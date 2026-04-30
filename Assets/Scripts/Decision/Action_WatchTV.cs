@@ -1,19 +1,11 @@
-using Mono.Cecil;
-using System.Threading;
 using UnityEngine;
 
-public class Action_WatchTV : MonoBehaviour, IInteractable
+public class Action_WatchTV : BaseAction
 {
-    public Dec_Act watchTV;
-    private bool actionCompleted = false;
-    private bool actionTransfered = false;
-
     public Transform cameraTarget;
     public float moveSpeed = 2f;
 
     private Transform cam;
-    private int currentLayer = -1;
-
     private Vector3 originalPos;
     private Quaternion originalRot;
 
@@ -24,14 +16,12 @@ public class Action_WatchTV : MonoBehaviour, IInteractable
         cam = Camera.main.transform;
     }
 
-    void Update()
+    protected override void OnUpdateAction()
     {
-        if (actionTransfered) return;
-
-        CheckHour();
         if (!watching) return;
 
-        MoveCamera();
+        cam.position = Vector3.Lerp(cam.position, cameraTarget.position, Time.deltaTime * moveSpeed);
+        cam.rotation = Quaternion.Lerp(cam.rotation, cameraTarget.rotation, Time.deltaTime * moveSpeed);
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -39,18 +29,12 @@ public class Action_WatchTV : MonoBehaviour, IInteractable
         }
     }
 
-    public void Interact()
+    public override void Interact()
     {
         if (watching) return;
 
-        StartWatching();
-    }
-
-    void StartWatching()
-    {
         GameManager.Instance.playerController.LockPlayer(true);
         GameManager.Instance.playerController.LockCamera(true);
-        gameObject.layer = LayerMask.NameToLayer("Default");
 
         originalPos = cam.position;
         originalRot = cam.rotation;
@@ -58,55 +42,16 @@ public class Action_WatchTV : MonoBehaviour, IInteractable
         watching = true;
     }
 
-    void MoveCamera()
-    {
-        cam.position = Vector3.Lerp(cam.position, cameraTarget.position, Time.deltaTime * moveSpeed);
-        cam.rotation = Quaternion.Lerp(cam.rotation, cameraTarget.rotation, Time.deltaTime * moveSpeed);
-    }
-
     void StopWatching()
     {
         GameManager.Instance.playerController.LockPlayer(false);
         GameManager.Instance.playerController.LockCamera(false);
-        gameObject.layer = LayerMask.NameToLayer("Interactable");
 
         cam.position = originalPos;
         cam.rotation = originalRot;
 
         watching = false;
 
-        watchTV.ActionExecuted();
-        DayTime.Instance.StopTimeCount(false);
-        actionCompleted = true;
-        actionTransfered = true;
-    }
-
-    void CheckHour()
-    {
-        int hour = DayTime.Instance.GetCurrentHour();
-        int newLayer;
-
-        if (watchTV.stopsTime && hour >= watchTV.minIntHour
-         && !actionCompleted)
-        {
-            DayTime.Instance.StopTimeCount(true);
-        }
-
-        if (hour < watchTV.minIntHour || hour >= watchTV.maxIntHour)
-            newLayer = LayerMask.NameToLayer("Default");
-        else
-            newLayer = LayerMask.NameToLayer("Interactable");
-
-        if (hour >= watchTV.maxIntHour && actionCompleted == false)
-        {
-            watchTV.ActionFailed();
-            actionTransfered = true;
-        }
-
-        if (newLayer != currentLayer)
-        {
-            gameObject.layer = newLayer;
-            currentLayer = newLayer;
-        }
+        OnActionExecuted();
     }
 }
