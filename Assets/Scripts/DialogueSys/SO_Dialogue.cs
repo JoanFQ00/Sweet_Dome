@@ -5,7 +5,8 @@ public class SO_Dialogue : ScriptableObject
 {
     public string speaker;
     public string text;
+    public AudioClip audio;
+    public AnimationClip animation;
 
     public SO_Dialogue next;
-    
 }
