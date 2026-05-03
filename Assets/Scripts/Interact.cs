@@ -64,12 +64,9 @@ public class Interact : MonoBehaviour
 
     private void OnInteract(InputAction.CallbackContext ctx) 
     {
-        if (!GameManager.Instance.playerController.playerLocked) 
+        if (interactable != null)
         {
-            if (interactable != null)
-            {
-                interactable.Interact();
-            }
+            interactable.Interact();
         }
     }
 

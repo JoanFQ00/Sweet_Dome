@@ -8,6 +8,9 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     public Camera playerCamera;
     public float timeToMove = 1.5f;
 
+    public LayerMask interactLayer;
+    public float maxDist = 50f;
+
     float currenMoveTime;
     Vector3 originalCameraPos;
     Quaternion originalCameraRot;
@@ -160,7 +163,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         {
             Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
             {
                 SpherePoints points = hit.collider.GetComponent<SpherePoints>();
                 if (points != null)

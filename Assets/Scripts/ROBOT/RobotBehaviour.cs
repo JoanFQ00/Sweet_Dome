@@ -3,10 +3,10 @@ using UnityEngine.AI;
 using UnityEngine.UI;
 using TMPro;
 
-public class RobotBehaviour : MonoBehaviour
+public class RobotBehaviour : MonoBehaviour, IInteractable
 {
     public Transform player;
-    public float InteractionRadius = 3f;
+    public float interactionRadius = 3f;
     public float patrolRange = 10f;
 
     [Header("Dialogue")]
@@ -31,42 +31,34 @@ public class RobotBehaviour : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.position, player.position);
 
-        if (distance < InteractionRadius && Input.GetKeyDown(KeyCode.E))
+        if (isInteracting)
         {
-            if (!isInteracting)
+            LookAtPlayer();
+            if (distance > interactionRadius)
             {
-                StartInteraction();
+                EndInteraction();
             }
-            else
-            {
-                if (dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].next == null)
-                {
-                    EndInteraction();
-                }
-                else
-                {
-                    LoadNextDialogue();
-                }
-            }
+            return;
         }
-        if (isInteracting && distance > InteractionRadius)
+        Patrol();
+
+    }
+
+    public void Interact()
+    {
+        if (!isInteracting)
+            StartInteraction();
+        else
         {
             if (dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].next == null)
             {
                 EndInteraction();
             }
-            else 
+            else
             {
                 LoadNextDialogue();
             }
         }
-        
-        if (isInteracting)
-        {
-            LookAtPlayer();
-            return;
-        }
-        Patrol();
     }
 
     void StartInteraction()
