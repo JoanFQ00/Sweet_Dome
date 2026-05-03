@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using TMPro;
 
 public class RobotBehaviour : MonoBehaviour
 {
@@ -8,7 +9,11 @@ public class RobotBehaviour : MonoBehaviour
     public float InteractionRadius = 3f;
     public float patrolRange = 10f;
 
-    public GameObject interactionText;
+    [Header("Dialogue")]
+    public GameObject interactionBubble;
+    public TextMeshProUGUI interlocutor;
+    public TextMeshProUGUI dialogueTxt;
+    private RoboSys dialogueSys;
 
     private NavMeshAgent agent;
     private bool isInteracting = false;
@@ -16,8 +21,9 @@ public class RobotBehaviour : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        interactionText.SetActive(false);
+        interactionBubble.SetActive(false);
         agent.updateRotation = false;
+        DialogueIni();
         NextPatrolPoint();
     }
 
@@ -28,13 +34,31 @@ public class RobotBehaviour : MonoBehaviour
         if (distance < InteractionRadius && Input.GetKeyDown(KeyCode.E))
         {
             if (!isInteracting)
+            {
                 StartInteraction();
+            }
             else
-                EndInteraction();
+            {
+                if (dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].next == null)
+                {
+                    EndInteraction();
+                }
+                else
+                {
+                    LoadNextDialogue();
+                }
+            }
         }
         if (isInteracting && distance > InteractionRadius)
         {
-            EndInteraction();
+            if (dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].next == null)
+            {
+                EndInteraction();
+            }
+            else 
+            {
+                LoadNextDialogue();
+            }
         }
         
         if (isInteracting)
@@ -44,20 +68,23 @@ public class RobotBehaviour : MonoBehaviour
         }
         Patrol();
     }
+
     void StartInteraction()
     {
         isInteracting = true;
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
         agent.ResetPath();
-        interactionText.SetActive(true);
+        interactionBubble.SetActive(true);
+        GameManager.Instance.playerController.LockPlayer(true);
     }
 
     void EndInteraction()
     {
         isInteracting = false;
         agent.isStopped = false;
-        interactionText.SetActive(false);
+        interactionBubble.SetActive(false);
+        GameManager.Instance.playerController.LockPlayer(false);
         NextPatrolPoint();
     }
 
@@ -102,5 +129,21 @@ public class RobotBehaviour : MonoBehaviour
         {
             agent.SetDestination(hit.position);
         }
+    }
+
+    void DialogueIni() 
+    {
+        dialogueSys = GetComponent<RoboSys>();
+
+        interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
+        dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
+    }
+
+    void LoadNextDialogue() 
+    {
+        dialogueSys.LoadNextIdx();
+
+        interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
+        dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
     }
 }

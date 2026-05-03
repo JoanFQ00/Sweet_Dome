@@ -1,0 +1,35 @@
+using UnityEngine;
+using System.Collections.Generic;
+using System;
+
+public class RoboSys : DialogueSys
+{
+    private Interlucutors robo = Interlucutors.Robo;
+    public SO_Dialogue[] loadedDialogues;
+
+    public int id;
+    public int dialogueIdx;
+    public SO_Dialogue currentDialogue;
+
+    void Awake()
+    {
+        dialogueIdx = 0;
+        ChargeDialogues(robo, 1);
+    }
+
+    public override void ChargeDialogues(Interlucutors interlocutor, int _id)
+    {
+        id = _id;
+        dialogueIdx = 0;
+        loadedDialogues = Resources.LoadAll<SO_Dialogue>("Dialogues/" + interlocutor + "/" + id);
+        currentDialogue = loadedDialogues[dialogueIdx];
+    }
+
+    public override void LoadNextIdx()
+    {
+        if (dialogueIdx + 1 > loadedDialogues.Length - 1) { return; }
+
+        dialogueIdx++;
+        currentDialogue = loadedDialogues[dialogueIdx];
+    }
+}
