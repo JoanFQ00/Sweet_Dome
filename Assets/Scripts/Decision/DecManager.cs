@@ -30,6 +30,8 @@ public class DecManager : MonoBehaviour
         Dec_Act actToRemove = null;
         foreach (Dec_Act act in dayActions) 
         {
+            if (act == null) continue; //  evita null dentro de la lista
+
             if (act.actionType == actionType) 
             {
                 actToRemove = act;

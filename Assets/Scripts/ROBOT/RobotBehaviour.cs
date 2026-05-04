@@ -44,8 +44,10 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (!isInteracting)
+        if (!isInteracting) 
+        {
             StartInteraction();
+        }
         else
         {
             if (dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].next == null)
@@ -65,6 +67,8 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
         agent.ResetPath();
+        dialogueSys.ChargeDialogues(1);
+        UpdateUI();
         interactionBubble.SetActive(true);
         GameManager.Instance.playerController.LockPlayer(true);
     }
@@ -133,6 +137,12 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     {
         dialogueSys.LoadNextIdx();
 
+        interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
+        dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
+    }
+
+    void UpdateUI()
+    {
         interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
         dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
     }
