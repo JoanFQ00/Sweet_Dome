@@ -19,6 +19,8 @@ public class PresiSpeaker : MonoBehaviour
                 if (dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].next == null)
                 {
                     interactionBubble.SetActive(false);
+                    GameManager.Instance.playerController.LockPlayer(false);
+                    speaking = false;
                 }
                 else 
                 {
