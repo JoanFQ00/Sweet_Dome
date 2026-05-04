@@ -13,7 +13,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public GameObject interactionBubble;
     public TextMeshProUGUI interlocutor;
     public TextMeshProUGUI dialogueTxt;
-    private RoboSys dialogueSys;
+    public RoboSys dialogueSys;
 
     private NavMeshAgent agent;
     private bool isInteracting = false;
@@ -21,9 +21,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        interactionBubble.SetActive(false);
         agent.updateRotation = false;
-        DialogueIni();
         NextPatrolPoint();
     }
 

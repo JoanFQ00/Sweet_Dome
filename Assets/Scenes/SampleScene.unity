@@ -1212,6 +1212,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerController: {fileID: 1736802196}
+  presiSpeaker: {fileID: 958680610}
+  robotBehaviour: {fileID: 1433308442}
+  dayManager: {fileID: 620662204}
 --- !u!114 &620662200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2314,7 +2317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &966411324
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13552,6 +13555,7 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 2075297752}
   - {fileID: 620662198}
+  - {fileID: 958680612}
   - {fileID: 1582968451}
   - {fileID: 1736802197}
   - {fileID: 1346478160}
@@ -13573,4 +13577,3 @@ SceneRoots:
   - {fileID: 329895695}
   - {fileID: 1822280923}
   - {fileID: 2107347299}
-  - {fileID: 958680612}

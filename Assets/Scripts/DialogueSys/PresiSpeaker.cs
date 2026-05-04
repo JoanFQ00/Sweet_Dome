@@ -10,11 +10,6 @@ public class PresiSpeaker : MonoBehaviour
     private PresiSys dialogueSys;
     bool speaking = false;
 
-    void Start()
-    {
-        DialogueIni();
-    }
-
     private void Update()
     {
         if (speaking)
@@ -33,10 +28,22 @@ public class PresiSpeaker : MonoBehaviour
         }
     }
 
-    void DialogueIni() 
+    public void DialogueIni() 
     {
         dialogueSys = GetComponent<PresiSys>();
+        dialogueSys.SysIni();
 
+        if (dialogueSys.loadedDialogues == null || dialogueSys.loadedDialogues.Length == 0)
+        {
+            Debug.LogError("No dialogues loaded");
+            return;
+        }
+
+        UpdateUI(); return;
+    }
+
+    void UpdateUI()
+    {
         interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
         dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
     }
@@ -54,12 +61,20 @@ public class PresiSpeaker : MonoBehaviour
         dialogueSys.ChargeDialogues(id);
     } 
 
-    public void PresiSpeaks() 
+    public void PresiSpeaks()
     {
+        if (dialogueSys == null ||
+        dialogueSys.loadedDialogues == null ||
+        dialogueSys.loadedDialogues.Length == 0)
+        {
+            Debug.Log("Dialogue not initialized");
+            return;
+        }
+
         GameManager.Instance.playerController.LockPlayer(true);
         speaking = true;
         interactionBubble.SetActive(true);
-        interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
-        dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
+
+        UpdateUI();
     }
 }

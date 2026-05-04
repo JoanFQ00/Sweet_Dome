@@ -20,8 +20,6 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-
-
         }
         else 
             Destroy(gameObject);
@@ -31,6 +29,8 @@ public class GameManager : MonoBehaviour
     {
         dayManager = GetComponent<DayManager>();
 
+        robotBehaviour.dialogueSys.SysIni();
+        presiSpeaker.DialogueIni(); 
         dayManager.StartDay();
     }
 

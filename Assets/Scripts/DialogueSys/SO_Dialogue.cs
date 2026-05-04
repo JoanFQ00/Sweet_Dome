@@ -4,6 +4,7 @@ using UnityEngine;
 public class SO_Dialogue : ScriptableObject
 {
     public string speaker;
+    []
     public string text;
     public AudioClip audio;
     public AnimationClip animation;

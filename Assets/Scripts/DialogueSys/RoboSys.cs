@@ -11,7 +11,9 @@ public class RoboSys : DialogueSys
     public int dialogueIdx;
     public SO_Dialogue currentDialogue;
 
-    void Awake()
+
+
+    public void SysIni() 
     {
         dialogueIdx = 0;
         ChargeDialogues(1);
