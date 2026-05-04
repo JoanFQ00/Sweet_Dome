@@ -1,0 +1,35 @@
+using UnityEngine;
+using System.Collections.Generic;
+using System;
+
+public class PresiSys : DialogueSys
+{
+    private Interlucutors presi = Interlucutors.Presi;
+    public SO_Dialogue[] loadedDialogues;
+
+    public int id;
+    public int dialogueIdx;
+    public SO_Dialogue currentDialogue;
+
+    void Awake()
+    {
+        dialogueIdx = 0;
+        ChargeDialogues(1);
+    }
+
+    public override void ChargeDialogues(int _id)
+    {
+        id = _id;
+        dialogueIdx = 0;
+        loadedDialogues = Resources.LoadAll<SO_Dialogue>("Dialogues/" + presi + "/" + id);
+        currentDialogue = loadedDialogues[dialogueIdx];
+    }
+
+    public override void LoadNextIdx()
+    {
+        if (dialogueIdx + 1 > loadedDialogues.Length - 1) { return; }
+
+        dialogueIdx++;
+        currentDialogue = loadedDialogues[dialogueIdx];
+    }
+}

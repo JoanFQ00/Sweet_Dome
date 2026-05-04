@@ -1176,6 +1176,7 @@ GameObject:
   - component: {fileID: 620662201}
   - component: {fileID: 620662200}
   - component: {fileID: 620662203}
+  - component: {fileID: 620662204}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1279,6 +1280,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5091937fabddf6943aa5dee177dd614f, type: 2}
   - {fileID: 11400000, guid: 8492e04dbb1919446add4ea1fc2c8ae6, type: 2}
   actionsPerformed: []
+--- !u!114 &620662204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620662197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e578fce2967f4b42b06c4241de81317, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DayManager
 --- !u!1 &649953145
 GameObject:
   m_ObjectHideFlags: 0
@@ -2222,6 +2235,70 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 862098265}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &958680609
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 958680612}
+  - component: {fileID: 958680610}
+  - component: {fileID: 958680611}
+  m_Layer: 0
+  m_Name: PresidentSpeaker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &958680610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958680609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f074c1e8a051d4946a649f5d850aae89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PresiSpeaker
+  interactionBubble: {fileID: 966411323}
+  interlocutor: {fileID: 1601551231}
+  dialogueTxt: {fileID: 829465654}
+--- !u!114 &958680611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958680609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f1b573022c9b0244ab0db67338720d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PresiSys
+  loadedDialogues: []
+  id: 0
+  dialogueIdx: 0
+  currentDialogue: {fileID: 0}
+--- !u!4 &958680612
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958680609}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &966411323
 GameObject:
   m_ObjectHideFlags: 0
@@ -13496,3 +13573,4 @@ SceneRoots:
   - {fileID: 329895695}
   - {fileID: 1822280923}
   - {fileID: 2107347299}
+  - {fileID: 958680612}

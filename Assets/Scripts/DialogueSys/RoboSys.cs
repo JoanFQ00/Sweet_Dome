@@ -14,14 +14,14 @@ public class RoboSys : DialogueSys
     void Awake()
     {
         dialogueIdx = 0;
-        ChargeDialogues(robo, 1);
+        ChargeDialogues(1);
     }
 
-    public override void ChargeDialogues(Interlucutors interlocutor, int _id)
+    public override void ChargeDialogues( int _id)
     {
         id = _id;
         dialogueIdx = 0;
-        loadedDialogues = Resources.LoadAll<SO_Dialogue>("Dialogues/" + interlocutor + "/" + id);
+        loadedDialogues = Resources.LoadAll<SO_Dialogue>("Dialogues/" + robo + "/" + id);
         currentDialogue = loadedDialogues[dialogueIdx];
     }
 

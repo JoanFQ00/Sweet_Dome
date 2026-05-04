@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -6,6 +7,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public PlayerController playerController;
+    public PresiSpeaker presiSpeaker;
+    public RobotBehaviour robotBehaviour;
+    public DayManager dayManager;
 
     public static Action OnChangeDay;
     public static Action OnSpawnObj;
@@ -16,9 +20,18 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+
         }
         else 
             Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        dayManager = GetComponent<DayManager>();
+
+        dayManager.StartDay();
     }
 
     private void Update()
