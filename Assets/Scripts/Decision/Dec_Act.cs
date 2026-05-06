@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "Dec_Act", menuName = "Scriptable Objects/Dec_Act")]
 public class Dec_Act : ScriptableObject
@@ -11,18 +10,13 @@ public class Dec_Act : ScriptableObject
 
     [Header("Time Zones")]
     public bool stopsTime;
-    public int minIntHour;
-    public int maxIntHour;
+    public int passTimeToHour;
+    public int passTimeToMinute;
 
-    public static Action<string, ActionTypes> OnExecuted;
+    public static Action<Dec_Act, ActionTypes> OnExecuted;
 
-    public void ActionExecuted() 
+    public void ActionExecuted()
     {
-        OnExecuted?.Invoke(actionName, actionType);
-    }
-
-    public void ActionFailed() 
-    {
-        OnExecuted?.Invoke("F_" + actionName, actionType);
+        OnExecuted?.Invoke(this, actionType);
     }
 }

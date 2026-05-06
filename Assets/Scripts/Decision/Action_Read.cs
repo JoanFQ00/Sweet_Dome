@@ -38,7 +38,6 @@ public class Action_Reader : BaseAction
         if (state != State.Idle) return;
 
         GameManager.Instance.playerController.LockPlayer(true);
-        DayTime.Instance.StopTimeCount(true);
 
         startPos = transform.position;
         startRot = transform.rotation;
@@ -75,8 +74,6 @@ public class Action_Reader : BaseAction
                 Move(originalPos, originalRot, () =>
                 {
                     GameManager.Instance.playerController.LockPlayer(false);
-                    DayTime.Instance.StopTimeCount(false);
-
                     OnActionExecuted();
                     state = State.Idle;
                 });

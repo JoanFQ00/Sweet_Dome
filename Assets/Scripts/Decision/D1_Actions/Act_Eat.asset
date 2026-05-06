@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3f30f02d1610f84388211b8d10b5eec, type: 3}
-  m_Name: Action_WatchTV
-  m_EditorClassIdentifier: Assembly-CSharp::Dec_Act
-  actionName: WatchTV
-  actionType: 2
+  m_Script: {fileID: 11500000, guid: f6ced674db1acf64591fb0799ce07dc0, type: 3}
+  m_Name: Act_Eat
+  m_EditorClassIdentifier: Assembly-CSharp::NDec_Act
+  actionName: Eat
+  actionType: 1
   stopsTime: 1
-  minIntHour: 13
-  maxIntHour: 14
+  hourToInteract: 9
+  passTimeToHour: 10
+  passTimeToMinute: 30

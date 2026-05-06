@@ -2,10 +2,11 @@ using UnityEngine;
 
 public abstract class BaseAction : MonoBehaviour, IInteractable
 {
-    public Dec_Act act;
+    public NDec_Act act;
 
     protected bool actionCompleted = false;
     protected bool actionTransfered = false;
+    protected bool canInteract = false;
 
     protected int currentLayer = -1;
 
@@ -14,7 +15,26 @@ public abstract class BaseAction : MonoBehaviour, IInteractable
         if (actionTransfered) return;
 
         CheckHour();
+
         OnUpdateAction();
+    }
+
+    void CheckHour() 
+    {
+
+        int hour = DayTime.Instance.GetCurrentHour();
+        int newLayer;
+
+        if (hour != act.hourToInteract)
+            newLayer = LayerMask.NameToLayer("Default");
+        else
+            newLayer = LayerMask.NameToLayer("Interactable");
+
+        if (currentLayer != newLayer)
+        {
+            gameObject.layer = newLayer;
+            currentLayer = newLayer;
+        }
     }
 
     public abstract void Interact();
@@ -24,41 +44,11 @@ public abstract class BaseAction : MonoBehaviour, IInteractable
     protected virtual void OnActionExecuted()
     {
         act.ActionExecuted();
-        DayTime.Instance.StopTimeCount(false);
+        DayTime.Instance.SetCurrentTime(act.passTimeToHour, act.passTimeToMinute);
         actionCompleted = true;
         actionTransfered = true;
     }
 
-    protected virtual void OnActionFailed()
-    {
-        act.ActionFailed();
-        actionTransfered = true;
-    }
 
-    protected void CheckHour()
-    {
-        int hour = DayTime.Instance.GetCurrentHour();
-        int newLayer;
-
-        if (act.stopsTime && hour >= act.minIntHour && !actionCompleted)
-        {
-            DayTime.Instance.StopTimeCount(true);
-        }
-
-        if (hour < act.minIntHour || hour >= act.maxIntHour)
-            newLayer = LayerMask.NameToLayer("Default");
-        else
-            newLayer = LayerMask.NameToLayer("Interactable");
-
-        if (hour >= act.maxIntHour && !actionCompleted)
-        {
-            OnActionFailed();
-        }
-
-        if (newLayer != currentLayer)
-        {
-            gameObject.layer = newLayer;
-            currentLayer = newLayer;
-        }
-    }
+  
 }

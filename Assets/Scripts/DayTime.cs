@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -6,19 +7,16 @@ public class DayTime : MonoBehaviour
 {
     public static DayTime Instance;
 
+    [Header("Days")]
+    public List<GameObject> minigames;
+    public int maxDays = 2;
+    private int currentDay;
+
     [Header("Time")]
     public int startHourDay = 9;
     public int endHour = 21;
     public int currentHour;
-
     private int currentMinutes;
-
-    private bool timeStopped = false;
-
-    [Header("Speed")]
-    public float secondsPerPhase = 10f;
-    public int minutesPassed = 10;
-    private float counter;
 
     [Header("UI")]
     public TextMeshProUGUI timerText;
@@ -30,57 +28,64 @@ public class DayTime : MonoBehaviour
         Instance = this;
     }
 
+    private void OnEnable()
+    {
+        GameManager.OnChangeDay += LoadNextDay;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnChangeDay -= LoadNextDay;
+    }
+
     void Start()
     {
-        currentHour = startHourDay;
-        currentMinutes = 0;
-        UpdateUI();
+        currentDay = PlayerPrefs.GetInt("lastDay", 0);
+
+        ResetDayTime();
+
+        LoadMinigames();
     }
 
-    void Update()
+    // =======================
+    // DAY LOGIC
+    // =======================
+
+    void LoadNextDay()
     {
-        if (timeStopped) return;
+        currentDay++;
 
-        counter += Time.deltaTime;
+        if (currentDay > maxDays)
+            currentDay = 0;
 
-        if (counter >= secondsPerPhase)
+        Debug.Log("Today is: " + currentDay);
+
+        SaveLastDay(currentDay);
+
+        LoadMinigames();
+        ResetDayTime(); 
+    }
+
+    void LoadMinigames()
+    {
+        for (int i = 0; i < minigames.Count; i++)
         {
-            counter = 0f;
-            AddMinutes(minutesPassed); 
+            minigames[i].SetActive(i == currentDay);
         }
     }
 
-    void AddMinutes(int amountTime)
+    void SaveLastDay(int lastDay)
     {
-        currentMinutes += amountTime;
-
-        if (currentMinutes >= 60)
-        {
-            currentMinutes = 0;
-            currentHour++;
-        }
-
-        if (currentHour >= endHour)
-        {
-            currentHour = endHour;
-            currentMinutes = 0;
-            canSleepChange = true;
-        }
-
-        UpdateUI();
+        PlayerPrefs.SetInt("lastDay", lastDay);
     }
 
     void UpdateUI()
     {
-        timerText.text = currentHour.ToString("00") + ":" + currentMinutes.ToString("00");
+        if (timerText != null)
+            timerText.text = currentHour.ToString("00") + ":" + currentMinutes.ToString("00");
     }
 
-    public bool CanSleepInBed()
-    {
-        return canSleepChange;
-    }
-
-    public void ResetDay()
+    public void ResetDayTime()
     {
         currentHour = startHourDay;
         currentMinutes = 0;
@@ -88,13 +93,29 @@ public class DayTime : MonoBehaviour
         UpdateUI();
     }
 
-    public int GetCurrentHour() 
+    public bool CanSleepInBed()
+    {
+        return canSleepChange;
+    }
+
+    public int GetCurrentHour()
     {
         return currentHour;
     }
 
-    public void StopTimeCount(bool stop) 
+    public void SetCurrentTime(int _hour, int _minute) 
     {
-        timeStopped = stop;
+        currentHour = _hour;
+        currentMinutes = _minute;
+        UpdateUI();
+    }
+
+    public void SkipTime() 
+    {
+        if (currentHour <= 13) 
+        {
+            currentHour += 2;
+            UpdateUI();
+        }
     }
 }

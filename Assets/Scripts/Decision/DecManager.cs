@@ -5,37 +5,37 @@ public enum ActionTypes { ReadBook, Eat, WatchTV, TurnCompleted, TurnFailed }
 
 public class DecManager : MonoBehaviour
 {
-    public List<Dec_Act> dayActions;
-    private List<Dec_Act> originalDayActions;
+    public List<NDec_Act> dayActions;
+    private List<NDec_Act> originalDayActions;
 
-    public List<string> actionsPerformed = new List<string>();
+    public List<NDec_Act> actionsPerformed = new List<NDec_Act>();
 
     private void Start()
     {
-        originalDayActions = new List<Dec_Act>(dayActions);
+        originalDayActions = new List<NDec_Act>(dayActions);
     }
 
     private void OnEnable()
     {
-        Dec_Act.OnExecuted += CheckExecutedAction;
+        NDec_Act.OnExecuted += CheckExecutedAction;
     }
 
     private void OnDisable()
     {
-        Dec_Act.OnExecuted -= CheckExecutedAction;
+        NDec_Act.OnExecuted -= CheckExecutedAction;
     }
 
-    private void CheckExecutedAction(string actionName, ActionTypes actionType) 
+    private void CheckExecutedAction(NDec_Act action, ActionTypes actionType) 
     {
-        Dec_Act actToRemove = null;
-        foreach (Dec_Act act in dayActions) 
+        NDec_Act actToRemove = null;
+        foreach (NDec_Act act in dayActions) 
         {
-            if (act == null) continue; //  evita null dentro de la lista
+            if (act == null) continue;
 
-            if (act.actionType == actionType) 
+            if (act == action)
             {
                 actToRemove = act;
-                actionsPerformed.Add(actionName);
+                actionsPerformed.Add(act);
                 break;
             }
         }
@@ -57,6 +57,6 @@ public class DecManager : MonoBehaviour
 
     public void ResetDayActions() 
     {
-        dayActions = new List<Dec_Act>(originalDayActions);
+        dayActions = new List<NDec_Act>(originalDayActions);
     }
 }
