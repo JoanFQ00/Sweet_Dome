@@ -21,6 +21,9 @@ public class DayTime : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI timerText;
 
+
+    public static Action<int> OnTimeSkiped;
+
     private bool canSleepChange = false;
 
     void Awake()
@@ -115,6 +118,7 @@ public class DayTime : MonoBehaviour
         if (currentHour <= 13) 
         {
             currentHour += 2;
+            OnTimeSkiped?.Invoke(currentHour);
             UpdateUI();
         }
     }

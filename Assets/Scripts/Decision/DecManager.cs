@@ -9,6 +9,7 @@ public class DecManager : MonoBehaviour
     private List<NDec_Act> originalDayActions;
 
     public List<NDec_Act> actionsPerformed = new List<NDec_Act>();
+    public List<NDec_Act> actionsNotPerformed = new List<NDec_Act>();
 
     private void Start()
     {
@@ -18,11 +19,22 @@ public class DecManager : MonoBehaviour
     private void OnEnable()
     {
         NDec_Act.OnExecuted += CheckExecutedAction;
+        DayTime.OnTimeSkiped += TimeSkiped;
     }
 
     private void OnDisable()
     {
         NDec_Act.OnExecuted -= CheckExecutedAction;
+        DayTime.OnTimeSkiped -= TimeSkiped;
+    }
+
+    private void Update()
+    {
+        if (dayActions.Count <= 0)
+        {
+            Debug.Log("All day actions performed Go To Work");
+            ResetDayActions();
+        }
     }
 
     private void CheckExecutedAction(NDec_Act action, ActionTypes actionType) 
@@ -46,13 +58,28 @@ public class DecManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void TimeSkiped(int currentHour)
     {
-        if (dayActions.Count <= 0) 
+        List<NDec_Act> actsToRemove = new List<NDec_Act>();
+
+        foreach (NDec_Act act in dayActions)
         {
-            Debug.Log("All day actions performed Go To Work");
-            ResetDayActions();
+            if (currentHour > act.hourToInteract)
+            {
+                actsToRemove.Add(act);
+            }
         }
+
+        foreach (NDec_Act act in actsToRemove)
+        {
+            SkippedAction(act);
+        }
+    }
+
+    private void SkippedAction(NDec_Act s_Action)
+    {
+        dayActions.Remove(s_Action);
+        actionsNotPerformed.Add(s_Action);
     }
 
     public void ResetDayActions() 

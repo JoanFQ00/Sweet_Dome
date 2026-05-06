@@ -47,8 +47,5 @@ public abstract class BaseAction : MonoBehaviour, IInteractable
         DayTime.Instance.SetCurrentTime(act.passTimeToHour, act.passTimeToMinute);
         actionCompleted = true;
         actionTransfered = true;
-    }
-
-
-  
+    }  
 }
