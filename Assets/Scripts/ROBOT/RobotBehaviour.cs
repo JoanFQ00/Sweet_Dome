@@ -15,44 +15,40 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public TextMeshProUGUI dialogueTxt;
     public RoboSys dialogueSys;
 
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     private bool isInteracting = false;
+    public StateMachineChanger stateMachine;
+    public PatrolState patrolState;
+    public InteractionState interactionState;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
-        NextPatrolPoint();
+
+        stateMachine = new StateMachineChanger();
+
+        patrolState = new PatrolState(this);
+        interactionState = new InteractionState(this);
+
+        stateMachine.ChangeState(patrolState);
     }
 
     void Update()
     {
-        float distance = Vector3.Distance(transform.position, player.position);
-
-        if (isInteracting)
-        {
-            LookAtPlayer();
-            if (distance > interactionRadius)
-            {
-                EndInteraction();
-            }
-            return;
-        }
-        Patrol();
-
+        stateMachine.Update();
     }
-
     public void Interact()
     {
-        if (!isInteracting) 
+        if (stateMachine.CurrentState != interactionState)
         {
-            StartInteraction();
+            stateMachine.ChangeState(interactionState);
         }
         else
         {
             if (dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].next == null)
             {
-                EndInteraction();
+                stateMachine.ChangeState(patrolState);
             }
             else
             {
@@ -60,6 +56,25 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
             }
         }
     }
+
+    //public void Interact()
+    //{
+    //    if (!isInteracting) 
+    //    {
+    //        StartInteraction();
+    //    }
+    //    else
+    //    {
+    //        if (dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].next == null)
+    //        {
+    //            EndInteraction();
+    //        }
+    //        else
+    //        {
+    //            LoadNextDialogue();
+    //        }
+    //    }
+    //}
 
     void StartInteraction()
     {
