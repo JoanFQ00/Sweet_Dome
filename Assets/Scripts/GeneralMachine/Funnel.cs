@@ -2,14 +2,22 @@ using UnityEngine;
 
 public class Funnel : MonoBehaviour
 {
-    public enum FunnelType{ CityFunnel, BlenderFunnel, DomeFunnel}
+    public enum FunnelType
+    { 
+        StorageProcessed,
+        CityFunnel, 
+        BlenderFunnel, 
+        DomeFunnel,
+        Purified
+    }
     public FunnelType type;
     public TubeController tubeCont;
+    public LiquidType typeOfLiquid;
 
     [Header("Capacity")]
     public bool canContainLiquid = true;
     public float maxCapacity = 100f;
-    public float startCapcity = 25.0f;
+    public float startCapcity = 25f;
 
     private float currentCapacity;
 
@@ -37,20 +45,26 @@ public class Funnel : MonoBehaviour
         }
     }
 
+    public bool CanFill(float amount)
+    {
+        return currentCapacity + amount <= maxCapacity;
+    }
+
     public void Fill(float amount) 
     {
         currentCapacity += amount;
-
         currentCapacity = Mathf.Clamp(currentCapacity, 0f, maxCapacity);
-        Debug.Log(currentCapacity);
+    }
+
+    public bool CanEmpty(float amount)
+    {
+        return currentCapacity - amount <= maxCapacity;
     }
 
     public void Empty(float amount) 
     {
         currentCapacity -= amount;
-
         currentCapacity = Mathf.Clamp(currentCapacity, 0f, maxCapacity);
-        Debug.Log(currentCapacity);
     }
 
     public float GetPercentage()

@@ -5,6 +5,12 @@ using UnityEngine.UIElements;
 
 public class TubeController : MonoBehaviour
 {
+    public enum LeverMode
+    {
+        Neutral,
+        Suck,
+        Out
+    }
     public enum TubeMode { Suck, Out }
     public enum TubeState { Idle, MovingHorizontal, MovingDown, Acting, MovingUp }
 
@@ -28,6 +34,7 @@ public class TubeController : MonoBehaviour
 
     [Header("Mode")]
     public TubeMode mode;
+    public LeverMode currentMode = LeverMode.Neutral;
 
     [Header("Funnels")]
     public Funnel cityFunnel;
