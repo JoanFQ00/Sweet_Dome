@@ -16,7 +16,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public RoboSys dialogueSys;
 
     public NavMeshAgent agent;
-    private bool isInteracting = false;
     public StateMachineChanger stateMachine;
     public PatrolState patrolState;
     public InteractionState interactionState;
@@ -76,27 +75,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         }
     }
 
-    void StartInteraction()
-    {
-        isInteracting = true;
-        agent.isStopped = true;
-        agent.velocity = Vector3.zero;
-        agent.ResetPath();
-        dialogueSys.ChargeDialogues(1);
-        UpdateUI();
-        interactionBubble.SetActive(true);
-        GameManager.Instance.playerController.LockPlayer(true);
-    }
-
-    void EndInteraction()
-    {
-        isInteracting = false;
-        agent.isStopped = false;
-        interactionBubble.SetActive(false);
-        GameManager.Instance.playerController.LockPlayer(false);
-        NextPatrolPoint();
-    }
-
     void LookAtPlayer()
     {
         Vector3 direction = (player.position - transform.position).normalized;
@@ -116,48 +94,16 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         //transform.rotation = Quaternion.Slerp(transform.rotation, rotationRob, Time.deltaTime * 5f);
     }
 
-    void Patrol()
-    {
-        if (agent.hasPath)
-        {
-            LookAtTarget(agent.destination);
-        }
-
-        if (!agent.hasPath || agent.remainingDistance <1f)
-        {
-            NextPatrolPoint();
-        }
-    }
-
-    void NextPatrolPoint()
-    {
-        Vector3 randomPoint = Random.insideUnitSphere * patrolRange;
-        randomPoint += transform.position;
-
-        if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, patrolRange, NavMesh.AllAreas))
-        {
-            agent.SetDestination(hit.position);
-        }
-    }
-
-    void DialogueIni() 
-    {
-        dialogueSys = GetComponent<RoboSys>();
-
-        interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
-        dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
-    }
-
     void LoadNextDialogue() 
     {
         dialogueSys.LoadNextIdx();
 
-        interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
-        dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
+        //interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
+        //dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
         UpdateUI();
     }
 
-    void UpdateUI()
+    public void UpdateUI()
     {
         interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
         dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;

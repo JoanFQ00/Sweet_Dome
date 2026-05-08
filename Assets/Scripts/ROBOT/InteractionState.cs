@@ -8,16 +8,27 @@ public class InteractionState : IState
         this.robot = robot;
     }
 
+    //public void OnEnter()
+    //{
+    //    robot.agent.isStopped = true;
+    //    robot.agent.velocity = Vector3.zero;
+    //    robot.interactionBubble.SetActive(true);
+
+    //    GameManager.Instance.playerController.LockPlayer(true);
+
+    //    //robot.dialogueSys.ChargeDialogues(1);
+    //    InitDialogue();
+    //}
     public void OnEnter()
     {
         robot.agent.isStopped = true;
         robot.agent.velocity = Vector3.zero;
+
         robot.interactionBubble.SetActive(true);
 
         GameManager.Instance.playerController.LockPlayer(true);
 
-        robot.dialogueSys.ChargeDialogues(1);
-        InitDialogue();
+        robot.UpdateUI();
     }
 
     public void OnState()
@@ -49,5 +60,6 @@ public class InteractionState : IState
     {
         robot.interlocutor.text = robot.dialogueSys.loadedDialogues[robot.dialogueSys.dialogueIdx].speaker;
         robot.dialogueTxt.text = robot.dialogueSys.loadedDialogues[robot.dialogueSys.dialogueIdx].text;
+        GameManager.Instance.robotBehaviour.UpdateUI();
     }
 }
