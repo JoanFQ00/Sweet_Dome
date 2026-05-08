@@ -2,6 +2,11 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
+public enum PresiDialogue 
+{
+    GoodMorningDay1 = 1
+}
+
 public class PresiSys : DialogueSys
 {
     private Interlucutors presi = Interlucutors.Presi;

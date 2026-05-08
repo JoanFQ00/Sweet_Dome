@@ -2397,6 +2397,7 @@ MonoBehaviour:
   presiSpeaker: {fileID: 958680610}
   robotBehaviour: {fileID: 1433308442}
   dayManager: {fileID: 620662204}
+  currentDay: 0
 --- !u!114 &620662200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2478,6 +2479,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e578fce2967f4b42b06c4241de81317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DayManager
+  HasEated: {fileID: 11400000, guid: 9c5d3f00cb024684181642e7185d18e0, type: 2}
+  HasNotEated: {fileID: 11400000, guid: 1c5becf945cf5ee46b75e71753c11a6e, type: 2}
+  HasWatchedTv: {fileID: 0}
+  HasRead: {fileID: 0}
 --- !u!114 &620662205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5496,7 +5501,7 @@ MonoBehaviour:
   interactionBubble: {fileID: 966411323}
   interlocutor: {fileID: 1601551231}
   dialogueTxt: {fileID: 829465654}
-  dialogueSys: {fileID: 1433308443}
+  dialogueSys: {fileID: 0}
   agent: {fileID: 0}
   testGoToPlayer: 0
 --- !u!114 &1433308443
@@ -10830,6 +10835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Funnel
   type: 1
   tubeCont: {fileID: 0}
+  typeOfLiquid: 0
   canContainLiquid: 1
   maxCapacity: 100
   startCapcity: 25
@@ -13334,6 +13340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Funnel
   type: 2
   tubeCont: {fileID: 0}
+  typeOfLiquid: 0
   canContainLiquid: 1
   maxCapacity: 100
   startCapcity: 25
@@ -13730,6 +13737,7 @@ MonoBehaviour:
   outSpeed: 1
   inSpeed: 1
   mode: 0
+  currentMode: 0
   cityFunnel: {fileID: 6679558085632892011}
   blenderFunnel: {fileID: 1720599269986728598}
   domeFunnel: {fileID: 4450857770735981727}
@@ -14957,6 +14965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   type: 0
   tubeCont: {fileID: 0}
+  typeOfLiquid: 0
   canContainLiquid: 0
   maxCapacity: 100
   startCapcity: 25

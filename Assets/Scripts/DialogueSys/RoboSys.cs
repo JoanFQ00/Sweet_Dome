@@ -2,6 +2,14 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
+public enum DialoguesRobo
+{
+    FirstInteraction = 1,
+    HasNotEated = 2,
+    HasNotReaded = 3,
+    HasNotWatchedTv = 4
+}
+
 public class RoboSys : DialogueSys
 {
     private Interlucutors robo = Interlucutors.Robo;
