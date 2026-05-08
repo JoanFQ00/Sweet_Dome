@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+public enum Day { Day1, Day2 }
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     public PresiSpeaker presiSpeaker;
     public RobotBehaviour robotBehaviour;
     public DayManager dayManager;
+    public Day currentDay;
 
     public static Action OnChangeDay;
     public static Action OnSpawnObj;
@@ -19,6 +21,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null) 
         {
             Instance = this;
+            currentDay = Day.Day1;
             DontDestroyOnLoad(gameObject);
         }
         else 
@@ -65,6 +68,7 @@ public class GameManager : MonoBehaviour
 
     public void ChangeDay() 
     {
-        OnChangeDay?.Invoke();    
+        OnChangeDay?.Invoke();
+        currentDay += 1;
     }
 }

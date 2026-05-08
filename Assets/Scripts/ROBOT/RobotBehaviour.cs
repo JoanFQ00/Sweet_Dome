@@ -38,6 +38,21 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         stateMachine.ChangeState(patrolState);
     }
 
+    void OnEnable()
+    {
+        SkipTimeButt.OnFirstDayButt += ChangeGoToPlayer;
+    }
+
+    void OnDisable()
+    {
+        SkipTimeButt.OnFirstDayButt -= ChangeGoToPlayer;
+    }
+
+    void ChangeGoToPlayer(bool _GoToPlayer) 
+    {
+        testGoToPlayer = _GoToPlayer;
+    }
+
     void Update()
     {
         stateMachine.Update();
@@ -139,6 +154,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
         interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
         dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
+        UpdateUI();
     }
 
     void UpdateUI()
