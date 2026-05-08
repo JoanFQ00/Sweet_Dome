@@ -18,6 +18,12 @@ public class PatrolState : IState
 
     public void OnState()
     {
+        if (robot.testGoToPlayer)
+        {
+            robot.stateMachine.ChangeState(robot.goToPlayerState);
+            return;
+        }
+
         if (robot.agent.hasPath)
         {
             LookAtTarget(robot.agent.destination);

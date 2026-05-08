@@ -20,6 +20,9 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public StateMachineChanger stateMachine;
     public PatrolState patrolState;
     public InteractionState interactionState;
+    public GoToPlayerState goToPlayerState;
+
+    public bool testGoToPlayer = false;
 
     void Start()
     {
@@ -30,6 +33,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
         patrolState = new PatrolState(this);
         interactionState = new InteractionState(this);
+        goToPlayerState = new GoToPlayerState(this);
 
         stateMachine.ChangeState(patrolState);
     }
@@ -56,25 +60,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
             }
         }
     }
-
-    //public void Interact()
-    //{
-    //    if (!isInteracting) 
-    //    {
-    //        StartInteraction();
-    //    }
-    //    else
-    //    {
-    //        if (dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].next == null)
-    //        {
-    //            EndInteraction();
-    //        }
-    //        else
-    //        {
-    //            LoadNextDialogue();
-    //        }
-    //    }
-    //}
 
     void StartInteraction()
     {
@@ -106,7 +91,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         transform.rotation = Quaternion.LookRotation(direction);
         //transform.rotation = Quaternion.Slerp(transform.rotation, rotationRobot, Time.deltaTime * 5f);
     }
-    void LookAtTarget(Vector3 target)
+    public void LookAtTarget(Vector3 target)
     {
         Vector3 direction = target - transform.position;
         direction.y = 0;
