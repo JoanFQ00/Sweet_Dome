@@ -4,34 +4,42 @@ using UnityEngine.AI;
 
 public class GoToPlayerState : IState
 {
-    private RobotBehaviour robotWomen;
+    private RobotBehaviour robot;
     private float stopDistance = 2f;
+
+    private int defaultLayer;
+    private int interactingLayer;
 
     public GoToPlayerState(RobotBehaviour robot)
     {
-        robotWomen = robot;
+        this.robot = robot;
+
+        defaultLayer = LayerMask.NameToLayer("Default");
+        interactingLayer = LayerMask.NameToLayer("Interactable");
     }
 
     public void OnEnter()
     {
-        robotWomen.agent.isStopped = false;
+        robot.agent.isStopped = false;
+        robot.gameObject.layer = defaultLayer; 
     }
 
     public void OnState()
     {
-        float distance = Vector3.Distance(robotWomen.transform.position, robotWomen.player.position);
+        float distance = Vector3.Distance(robot.transform.position, robot.player.position);
         if (distance <= stopDistance)
         {
-            robotWomen.stateMachine.ChangeState(robotWomen.interactionState);
+            robot.stateMachine.ChangeState(robot.interactionState);
             return;
         }
-        Vector3 offsetDirection = (robotWomen.player.position - robotWomen.transform.position).normalized;
-        robotWomen.agent.SetDestination(robotWomen.player.position - offsetDirection * 1.5f);
-        robotWomen.LookAtTarget(robotWomen.player.position);
+        Vector3 offsetDirection = (robot.player.position - robot.transform.position).normalized;
+        robot.agent.SetDestination(robot.player.position - offsetDirection * 1.5f);
+        robot.LookAtTarget(robot.player.position);
     }
 
     public void OnExit()
     {
-        robotWomen.agent.ResetPath();
+        robot.agent.ResetPath();
+        robot.gameObject.layer = interactingLayer;
     }
 }

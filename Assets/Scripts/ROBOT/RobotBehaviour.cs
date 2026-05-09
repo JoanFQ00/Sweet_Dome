@@ -55,23 +55,13 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     void Update()
     {
         stateMachine.Update();
+        Debug.Log(stateMachine.CurrentState);
     }
     public void Interact()
     {
         if (stateMachine.CurrentState != interactionState)
         {
             stateMachine.ChangeState(interactionState);
-        }
-        else
-        {
-            if (dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].next == null)
-            {
-                stateMachine.ChangeState(patrolState);
-            }
-            else
-            {
-                LoadNextDialogue();
-            }
         }
     }
 
@@ -84,6 +74,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         transform.rotation = Quaternion.LookRotation(direction);
         //transform.rotation = Quaternion.Slerp(transform.rotation, rotationRobot, Time.deltaTime * 5f);
     }
+
     public void LookAtTarget(Vector3 target)
     {
         Vector3 direction = target - transform.position;
@@ -94,7 +85,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         //transform.rotation = Quaternion.Slerp(transform.rotation, rotationRob, Time.deltaTime * 5f);
     }
 
-    void LoadNextDialogue() 
+    public void LoadNextDialogue() 
     {
         dialogueSys.LoadNextIdx();
 

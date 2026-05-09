@@ -3,9 +3,17 @@ public class InteractionState : IState
 {
     private RobotBehaviour robot;
 
+    private int defaultLayer;
+    private int interactingLayer;
+
+    bool canAdvanceDialogue;
+
     public InteractionState(RobotBehaviour robot)
     {
         this.robot = robot;
+
+        defaultLayer = LayerMask.NameToLayer("Default");
+        interactingLayer = LayerMask.NameToLayer("Interactable");
     }
 
     //public void OnEnter()
@@ -23,17 +31,46 @@ public class InteractionState : IState
     {
         robot.agent.isStopped = true;
         robot.agent.velocity = Vector3.zero;
+        robot.gameObject.layer = defaultLayer;
 
         robot.interactionBubble.SetActive(true);
 
         GameManager.Instance.playerController.LockPlayer(true);
 
         robot.UpdateUI();
+
+        canAdvanceDialogue = false;
     }
 
     public void OnState()
     {
         LookAtPlayer();
+
+        if (!canAdvanceDialogue)
+        {
+            if (!Input.GetKey(KeyCode.E))
+            {
+                canAdvanceDialogue = true;
+            }
+
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            var currentDialogue =
+                robot.dialogueSys.loadedDialogues[robot.dialogueSys.dialogueIdx];
+
+            if (currentDialogue.next == null)
+            {
+                robot.stateMachine.ChangeState(robot.patrolState);
+                if (robot.testGoToPlayer) { robot.testGoToPlayer = false; }
+            }
+            else
+            {
+                robot.LoadNextDialogue();
+            }
+        }
 
         float distance = Vector3.Distance(robot.transform.position, robot.player.position);
 
@@ -46,6 +83,7 @@ public class InteractionState : IState
     public void OnExit()
     {
         robot.interactionBubble.SetActive(false);
+        robot.gameObject.layer = interactingLayer;
         GameManager.Instance.playerController.LockPlayer(false);
     }
 
