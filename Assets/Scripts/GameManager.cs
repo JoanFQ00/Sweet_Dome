@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 public enum Day { Day1, Day2 }
 
@@ -11,6 +10,7 @@ public class GameManager : MonoBehaviour
     public PresiSpeaker presiSpeaker;
     public RobotBehaviour robotBehaviour;
     public DayManager dayManager;
+    public DecManager decManager;
     public Day currentDay;
 
     public static Action OnChangeDay;
@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             currentDay = Day.Day1;
+            decManager = GetComponent<DecManager>();
+            dayManager = GetComponent<DayManager>();
+
             DontDestroyOnLoad(gameObject);
         }
         else 
@@ -30,8 +33,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        dayManager = GetComponent<DayManager>();
-
         robotBehaviour.dialogueSys.SysIni();
         presiSpeaker.DialogueIni(); 
         dayManager.StartDay();
@@ -58,7 +59,6 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         BedInt.OnInteract -= ChangeDay;
-
     }
 
     public void SetPlayer(PlayerController controller) 
@@ -69,6 +69,10 @@ public class GameManager : MonoBehaviour
     public void ChangeDay() 
     {
         OnChangeDay?.Invoke();
-        currentDay += 1;
+
+        if (currentDay < Day.Day2)
+        {
+            currentDay = (Day)((int)currentDay + 1);
+        }
     }
 }

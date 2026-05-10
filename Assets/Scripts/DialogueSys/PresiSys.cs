@@ -4,7 +4,8 @@ using System;
 
 public enum PresiDialogue 
 {
-    GoodMorningDay1 = 1
+    GoodMorningDay1 = 1, 
+    GoToWorkDay1 = 2
 }
 
 public class PresiSys : DialogueSys

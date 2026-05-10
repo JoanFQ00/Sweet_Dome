@@ -17,6 +17,7 @@ public class RoboSys : DialogueSys
 
     public int id;
     public int dialogueIdx;
+
     public SO_Dialogue currentDialogue;
 
     public void SysIni() 

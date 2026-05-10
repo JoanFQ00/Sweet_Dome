@@ -16,17 +16,6 @@ public class InteractionState : IState
         interactingLayer = LayerMask.NameToLayer("Interactable");
     }
 
-    //public void OnEnter()
-    //{
-    //    robot.agent.isStopped = true;
-    //    robot.agent.velocity = Vector3.zero;
-    //    robot.interactionBubble.SetActive(true);
-
-    //    GameManager.Instance.playerController.LockPlayer(true);
-
-    //    //robot.dialogueSys.ChargeDialogues(1);
-    //    InitDialogue();
-    //}
     public void OnEnter()
     {
         robot.agent.isStopped = true;
@@ -63,6 +52,7 @@ public class InteractionState : IState
 
             if (currentDialogue.next == null)
             {
+                robot.dialogueSys.ChargeDialogues(robot.dialogueSys.id);
                 robot.stateMachine.ChangeState(robot.patrolState);
                 if (robot.testGoToPlayer) { robot.testGoToPlayer = false; }
             }

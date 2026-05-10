@@ -74,6 +74,7 @@ public class Action_Reader : BaseAction
                 Move(originalPos, originalRot, () =>
                 {
                     GameManager.Instance.playerController.LockPlayer(false);
+                    gameObject.layer = LayerMask.NameToLayer("Interactable");
                     OnActionExecuted();
                     state = State.Idle;
                 });

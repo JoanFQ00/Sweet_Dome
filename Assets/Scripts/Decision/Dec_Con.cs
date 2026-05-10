@@ -14,7 +14,7 @@ public class Dec_Con : ScriptableObject
         else 
         {
             return decManager.actionsNotPerformed.Contains(actionToSearch)
-                || decManager.dayActions.Contains(actionToSearch); 
+                || decManager.dayActions.Contains(actionToSearch);
         }
     }
 }

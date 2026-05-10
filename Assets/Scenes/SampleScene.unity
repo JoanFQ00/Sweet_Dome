@@ -2397,6 +2397,7 @@ MonoBehaviour:
   presiSpeaker: {fileID: 958680610}
   robotBehaviour: {fileID: 1433308442}
   dayManager: {fileID: 620662204}
+  decManager: {fileID: 0}
   currentDay: 0
 --- !u!114 &620662200
 MonoBehaviour:
@@ -2480,9 +2481,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DayManager
   HasEated: {fileID: 11400000, guid: 9c5d3f00cb024684181642e7185d18e0, type: 2}
-  HasNotEated: {fileID: 11400000, guid: 1c5becf945cf5ee46b75e71753c11a6e, type: 2}
-  HasWatchedTv: {fileID: 0}
-  HasRead: {fileID: 0}
+  HasRead: {fileID: 11400000, guid: 8eb7b1e11c9df574a9776e4130b115ee, type: 2}
+  HasWatchedTv: {fileID: 11400000, guid: 34b97ac1647f3d842bead2667e29d455, type: 2}
 --- !u!114 &620662205
 MonoBehaviour:
   m_ObjectHideFlags: 0

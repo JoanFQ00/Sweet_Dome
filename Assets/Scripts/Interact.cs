@@ -51,9 +51,27 @@ public class Interact : MonoBehaviour
         RaycastHit hit;
 
         if (Physics.Raycast(interactRay, out hit, interactDistance, interactLayer))
-        { 
+        {
+            if (hit.collider.TryGetComponent(out BaseAction baseAct))
+            {
+                if (baseAct.act.hourToInteract != DayTime.Instance.GetCurrentHour())
+                {
+                    interactable = null;
+                    CanInteract?.Invoke(false);
+                    return;
+                }
+            }
+
             interactable = hit.collider.GetComponent<IInteractable>();
-            CanInteract?.Invoke(true);
+
+            if (interactable != null)
+            {
+                CanInteract?.Invoke(true);
+            }
+            else
+            {
+                CanInteract?.Invoke(false);
+            }
         }
         else
         {
