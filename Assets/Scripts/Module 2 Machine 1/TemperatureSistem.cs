@@ -4,7 +4,7 @@ using TMPro;
 public class TemperatureSistem : MonoBehaviour
 {
     public TextMeshProUGUI temperatureText;
-    public TextMeshProUGUI stateText;
+    public TextMeshProUGUI farengheitText;
 
     public float temperatureCelsius = 0f;
     float temperatureFarenheit;
@@ -35,19 +35,19 @@ public class TemperatureSistem : MonoBehaviour
         temperatureText.text = temperatureCelsius + "ºC / " + temperatureFarenheit + "ºF";
         if (!hasCharge)
         {
-            stateText.text = "State = Null";
+            farengheitText.text = "State = Null";
         }
         else if (temperatureCelsius < 0)
         {
-            stateText.text = "State = Solid";
+            farengheitText.text = "State = Solid";
         }
         else if (temperatureCelsius >= 0 && temperatureCelsius <= 100)
         {
-            stateText.text = "State = Liquid";
+            farengheitText.text = "State = Liquid";
         }
         else
         {
-            stateText.text = "State = Gas";
+            farengheitText.text = "State = Gas";
         }
     }
 }
