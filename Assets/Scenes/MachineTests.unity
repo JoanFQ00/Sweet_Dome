@@ -2594,9 +2594,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e578fce2967f4b42b06c4241de81317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DayManager
-  HasEated: {fileID: 0}
-  HasRead: {fileID: 0}
-  HasWatchedTv: {fileID: 0}
+  hasEated: {fileID: 0}
+  hasRead: {fileID: 0}
+  hasWatchedTv: {fileID: 0}
+  watchTvTriggered: 0
 --- !u!114 &620662205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6080,6 +6081,7 @@ MonoBehaviour:
   interlocutor: {fileID: 1601551231}
   dialogueTxt: {fileID: 829465654}
   dialogueSys: {fileID: 1433308443}
+  currentRandomDialogue: 0
   agent: {fileID: 0}
   testGoToPlayer: 0
 --- !u!114 &1433308443
@@ -18372,7 +18374,6 @@ MonoBehaviour:
   magentaFunnels: []
   magentaCapacity: 0
   maxCapacity: 100
-  moveSpeed: 5
   verticalOffset: 2.5
   transferSpeed: 10
 --- !u!1 &5180222199932643620
@@ -20897,7 +20898,6 @@ MonoBehaviour:
   - {fileID: 298715915}
   magentaCapacity: 30
   maxCapacity: 100
-  moveSpeed: 5
   verticalOffset: 2.5
   transferSpeed: 10
 --- !u!64 &6828316991814094049
@@ -24876,9 +24876,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lever
   tubeController: {fileID: 6828316991814094048}
-  suckAngle: -22
-  neutralAngle: -70
-  outAngle: -129
+  suckAngle: 90
+  neutralAngle: 45
+  outAngle: -180
   dragSpeed: 2
   threshold: 2
 --- !u!23 &9151802204077504525

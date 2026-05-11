@@ -61,6 +61,13 @@ public class Interact : MonoBehaviour
                     return;
                 }
             }
+            if (hit.collider.TryGetComponent(out RobotBehaviour robo)) 
+            {
+                if (GameManager.Instance.dayManager.watchTvTriggered) 
+                {
+                    robo.dialogueSys.ChargeDialogues(robo.currentRandomDialogue);
+                }
+            }
 
             interactable = hit.collider.GetComponent<IInteractable>();
 

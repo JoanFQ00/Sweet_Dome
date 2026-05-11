@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Lever : MonoBehaviour
 {
-    [Header("Tube Controller")]
     public TubeController tubeController;
 
     [Header("Lever Angles")]
@@ -12,8 +11,12 @@ public class Lever : MonoBehaviour
 
     [Header("Drag Settings")]
     public float dragSpeed = 2f;
-    public float threshold = 2f;
+
     private bool isDragging;
+
+    public float currentAngle;
+
+    private Vector3 initialRotation;
 
     private enum LeverState
     {
@@ -24,32 +27,48 @@ public class Lever : MonoBehaviour
 
     private LeverState currentState;
 
+    private void Start()
+    {
+        initialRotation = transform.localEulerAngles;
+
+        currentAngle = NormalizeAngle(initialRotation.x);
+    }
+
     private void Update()
     {
         if (isDragging)
         {
             DragLever();
         }
+
         CheckLeverState();
     }
 
     void DragLever()
     {
         float mouseY = Input.GetAxis("Mouse Y");
-        Vector3 rot = transform.localEulerAngles;
-        float currentX = NormalizeAngle(rot.x);
-        currentX += mouseY * dragSpeed;
-        currentX = Mathf.Clamp(currentX, outAngle, suckAngle);
-        transform.localEulerAngles =new Vector3(currentX,rot.y,rot.z);
+
+        currentAngle += mouseY * dragSpeed;
+
+        currentAngle = Mathf.Clamp(currentAngle, outAngle, suckAngle);
+
+        ApplyRotation();
+    }
+
+    void ApplyRotation()
+    {
+        transform.localRotation = Quaternion.Euler(
+            currentAngle,
+            initialRotation.y,
+            initialRotation.z
+        );
     }
 
     void CheckLeverState()
     {
-        float angle = NormalizeAngle(transform.localEulerAngles.x);
-
-        float suckDist = Mathf.Abs(angle - suckAngle);
-        float neutralDist = Mathf.Abs(angle - neutralAngle);
-        float outDist = Mathf.Abs(angle - outAngle);
+        float suckDist = Mathf.Abs(currentAngle - suckAngle);
+        float neutralDist = Mathf.Abs(currentAngle - neutralAngle);
+        float outDist = Mathf.Abs(currentAngle - outAngle);
 
         LeverState newState;
 

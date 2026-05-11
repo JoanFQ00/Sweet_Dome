@@ -15,6 +15,9 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public TextMeshProUGUI dialogueTxt;
     public RoboSys dialogueSys;
 
+    [HideInInspector]
+    public int currentRandomDialogue;
+
     public NavMeshAgent agent;
     public StateMachineChanger stateMachine;
     public PatrolState patrolState;
@@ -33,6 +36,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         patrolState = new PatrolState(this);
         interactionState = new InteractionState(this);
         goToPlayerState = new GoToPlayerState(this);
+        currentRandomDialogue = 101;
 
         stateMachine.ChangeState(patrolState);
     }

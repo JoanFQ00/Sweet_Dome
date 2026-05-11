@@ -6,7 +6,7 @@ public class DayManager : MonoBehaviour
     public Dec_Con hasRead;
     public Dec_Con hasWatchedTv;
 
-    bool watchTvTriggered = false;
+    public bool watchTvTriggered = false;
 
     private void Update()
     {
