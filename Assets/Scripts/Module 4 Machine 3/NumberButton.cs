@@ -2,15 +2,11 @@ using UnityEngine;
 
 public class NumberButton : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public int number;
+    public CodeSystem codeSystem;
 
-    // Update is called once per frame
-    void Update()
+    public void Press()
     {
-        
+        codeSystem.AddNumber(number);
     }
 }
