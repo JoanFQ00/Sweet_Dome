@@ -1,29 +1,30 @@
 using UnityEngine;
-using System.Collections.Generic;
-using System.Threading;
-using Unity.VisualScripting;
 
 public class DayManager : MonoBehaviour
 {
-    public Dec_Con HasEated;
-    public Dec_Con HasRead;
-    public Dec_Con HasWatchedTv;
+    public Dec_Con hasEated;
+    public Dec_Con hasRead;
+    public Dec_Con hasWatchedTv;
 
     bool watchTvTriggered = false;
 
     private void Update()
     {
-        //switch (GameManager.Instance.currentDay) 
-        ////{
-        ////    case Day.Day1:
-        ////        //if (HasWatchedTv.IsMet(GameManager.Instance.decManager) && !watchTvTriggered) 
-        ////        //{
-        ////        //    GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.GoToWorkDay1);
-        ////        //    watchTvTriggered = true;
-        ////        //    PresidentSpeaks();
-        ////        //}
-        //        //break;
-        //}
+        switch (GameManager.Instance.currentDay)
+        {
+            case Day.Day1:
+                if (hasWatchedTv != null) 
+                {
+                    if (hasWatchedTv.IsMet(GameManager.Instance.decManager) && !watchTvTriggered)
+                    {
+                        GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.GoToWorkDay1);
+                        watchTvTriggered = true;
+                        PresidentSpeaks();
+                    }
+                }
+             
+            break;
+        }
     }
 
     private void OnEnable()
@@ -42,15 +43,15 @@ public class DayManager : MonoBehaviour
     {
         if (GameManager.Instance.currentDay == Day.Day1) 
         {
-            if (!HasEated.IsMet(GameManager.Instance.decManager))
+            if (!hasEated.IsMet(GameManager.Instance.decManager))
             {
                 ChangeRobotDialogue((int)DialoguesRobo.HasNotEated);
             }
-            else if (!HasRead.IsMet(GameManager.Instance.decManager)) 
+            else if (!hasRead.IsMet(GameManager.Instance.decManager)) 
             {
                 ChangeRobotDialogue((int)DialoguesRobo.HasNotReaded);
             }
-            else if (!HasWatchedTv.IsMet(GameManager.Instance.decManager)) 
+            else if (!hasWatchedTv.IsMet(GameManager.Instance.decManager)) 
             {
                 ChangeRobotDialogue((int)DialoguesRobo.HasNotWatchedTv);
             }
@@ -68,9 +69,9 @@ public class DayManager : MonoBehaviour
     }
 
    void PresidentSpeaks() 
-    {
-        GameManager.Instance.presiSpeaker.PresiSpeaks();
-    }
+   {
+       GameManager.Instance.presiSpeaker.PresiSpeaks();
+   }
 
     public void RestartTriggers() 
     {

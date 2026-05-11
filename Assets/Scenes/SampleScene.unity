@@ -2480,9 +2480,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e578fce2967f4b42b06c4241de81317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DayManager
-  HasEated: {fileID: 11400000, guid: 9c5d3f00cb024684181642e7185d18e0, type: 2}
-  HasRead: {fileID: 11400000, guid: 8eb7b1e11c9df574a9776e4130b115ee, type: 2}
-  HasWatchedTv: {fileID: 11400000, guid: 34b97ac1647f3d842bead2667e29d455, type: 2}
+  hasEated: {fileID: 11400000, guid: 9c5d3f00cb024684181642e7185d18e0, type: 2}
+  hasRead: {fileID: 11400000, guid: 8eb7b1e11c9df574a9776e4130b115ee, type: 2}
+  hasWatchedTv: {fileID: 11400000, guid: 34b97ac1647f3d842bead2667e29d455, type: 2}
 --- !u!114 &620662205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10834,11 +10834,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Funnel
   type: 1
-  tubeCont: {fileID: 0}
-  typeOfLiquid: 0
-  canContainLiquid: 1
+  acceptedLiquid: 0
   maxCapacity: 100
-  startCapcity: 25
+  startCapacity: 25
 --- !u!114 &1734503931665171824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13339,11 +13337,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Funnel
   type: 2
-  tubeCont: {fileID: 0}
-  typeOfLiquid: 0
-  canContainLiquid: 1
+  acceptedLiquid: 0
   maxCapacity: 100
-  startCapcity: 25
+  startCapacity: 25
 --- !u!1 &4489196615995675823
 GameObject:
   m_ObjectHideFlags: 0
@@ -13726,24 +13722,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b3e9f6848fb994781012dcdfecbb65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  tubePositions:
-  - {fileID: 234850001957516679}
-  - {fileID: 4990352371539951951}
-  - {fileID: 8814684161068224094}
-  tube: {fileID: 3538600118190155439}
-  tubeSpeed: 2.5
-  downSpeed: 1.25
-  maxCapacity: 200
-  outSpeed: 1
-  inSpeed: 1
-  mode: 0
+  pinkTube:
+    tubeName: 
+    liquidType: 0
+    tubeObject: {fileID: 0}
+    meshRenderer: {fileID: 0}
+    positions: []
+    compartments: []
+    maxCapacity: 100
+    currentCapacity: 0
+    currentPosition: 0
+  magentaTube:
+    tubeName: 
+    liquidType: 0
+    tubeObject: {fileID: 0}
+    meshRenderer: {fileID: 0}
+    positions: []
+    compartments: []
+    maxCapacity: 100
+    currentCapacity: 0
+    currentPosition: 0
+  horizontalSpeed: 2
+  verticalSpeed: 2
+  verticalDistance: 2.5
+  transferSpeed: 10
+  dumpSpeed: 25
   currentMode: 0
-  cityFunnel: {fileID: 6679558085632892011}
-  blenderFunnel: {fileID: 1720599269986728598}
-  domeFunnel: {fileID: 4450857770735981727}
-  suckColor: {r: 1, g: 0.07075471, b: 0.07075471, a: 0}
-  outColor: {r: 0.027350426, g: 1, b: 0, a: 0}
-  tubeMeshRenderer: {fileID: 0}
+  currentState: 0
 --- !u!33 &5183417668645115628
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14964,11 +14969,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   type: 0
-  tubeCont: {fileID: 0}
-  typeOfLiquid: 0
-  canContainLiquid: 0
+  acceptedLiquid: 0
   maxCapacity: 100
-  startCapcity: 25
+  startCapacity: 25
 --- !u!4 &6681583333268070904
 Transform:
   m_ObjectHideFlags: 0
