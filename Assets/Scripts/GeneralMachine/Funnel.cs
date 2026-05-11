@@ -2,47 +2,30 @@ using UnityEngine;
 
 public class Funnel : MonoBehaviour
 {
-    public enum FunnelType
-    { 
+    public enum CompartmentType
+    {
         StorageProcessed,
-        CityFunnel, 
-        BlenderFunnel, 
-        DomeFunnel,
-        Purified
+        City,
+        Dome,
+        StorageRaw,
+        Purifier
     }
-    public FunnelType type;
-    public TubeController tubeCont;
-    public LiquidType typeOfLiquid;
+
+    [Header("Type")]
+    public CompartmentType type;
+
+    [Header("Liquid")]
+    public LiquidType acceptedLiquid;
 
     [Header("Capacity")]
-    public bool canContainLiquid = true;
     public float maxCapacity = 100f;
-    public float startCapcity = 25f;
+    public float startCapacity = 25f;
 
     private float currentCapacity;
 
-    void Start()
+    private void Start()
     {
-        currentCapacity = startCapcity;
-        tubeCont = FindAnyObjectByType<TubeController>();
-    }
-
-    private void Update()
-    {
-        switch (type) 
-        {
-            case FunnelType.CityFunnel:
-
-                break;
-
-            case FunnelType.BlenderFunnel:
-
-                break;
-
-            case FunnelType.DomeFunnel:
-
-                break;
-        }
+        currentCapacity = startCapacity;
     }
 
     public bool CanFill(float amount)
@@ -50,30 +33,30 @@ public class Funnel : MonoBehaviour
         return currentCapacity + amount <= maxCapacity;
     }
 
-    public void Fill(float amount) 
+    public bool CanEmpty(float amount)
+    {
+        return currentCapacity - amount >= 0f;
+    }
+
+    public void Fill(float amount)
     {
         currentCapacity += amount;
         currentCapacity = Mathf.Clamp(currentCapacity, 0f, maxCapacity);
     }
 
-    public bool CanEmpty(float amount)
-    {
-        return currentCapacity - amount <= maxCapacity;
-    }
-
-    public void Empty(float amount) 
+    public void Empty(float amount)
     {
         currentCapacity -= amount;
         currentCapacity = Mathf.Clamp(currentCapacity, 0f, maxCapacity);
     }
 
-    public float GetPercentage()
-    {
-        return currentCapacity / maxCapacity;
-    }
-
     public float GetCurrentCapacity()
     {
         return currentCapacity;
+    }
+
+    public float GetPercentage()
+    {
+        return currentCapacity / maxCapacity;
     }
 }
