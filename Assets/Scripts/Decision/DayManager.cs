@@ -13,17 +13,17 @@ public class DayManager : MonoBehaviour
 
     private void Update()
     {
-        switch (GameManager.Instance.currentDay) 
-        {
-            case Day.Day1:
-                if (HasWatchedTv.IsMet(GameManager.Instance.decManager) && !watchTvTriggered) 
-                {
-                    GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.GoToWorkDay1);
-                    watchTvTriggered = true;
-                    PresidentSpeaks();
-                }
-                break;
-        }
+        //switch (GameManager.Instance.currentDay) 
+        ////{
+        ////    case Day.Day1:
+        ////        //if (HasWatchedTv.IsMet(GameManager.Instance.decManager) && !watchTvTriggered) 
+        ////        //{
+        ////        //    GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.GoToWorkDay1);
+        ////        //    watchTvTriggered = true;
+        ////        //    PresidentSpeaks();
+        ////        //}
+        //        //break;
+        //}
     }
 
     private void OnEnable()

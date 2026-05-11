@@ -47,28 +47,42 @@ public class Lever : MonoBehaviour
     {
         float angle = NormalizeAngle(transform.localEulerAngles.x);
 
-        if (Mathf.Abs(angle - suckAngle) <= threshold)
+        float suckDist = Mathf.Abs(angle - suckAngle);
+        float neutralDist = Mathf.Abs(angle - neutralAngle);
+        float outDist = Mathf.Abs(angle - outAngle);
+
+        LeverState newState;
+
+        if (suckDist < neutralDist && suckDist < outDist)
         {
-            if (currentState != LeverState.Suck)
-            {
-                currentState = LeverState.Suck;
-                tubeController.SetSuck();
-            }
+            newState = LeverState.Suck;
         }
-        else if (Mathf.Abs(angle - neutralAngle) <= threshold)
+        else if (neutralDist < outDist)
         {
-            if (currentState != LeverState.Neutral)
-            {
-                currentState = LeverState.Neutral;
-                tubeController.SetNeutral();
-            }
+            newState = LeverState.Neutral;
         }
-        else if (Mathf.Abs(angle - outAngle) <= threshold)
+        else
         {
-            if (currentState != LeverState.Out)
+            newState = LeverState.Out;
+        }
+
+        if (newState != currentState)
+        {
+            currentState = newState;
+
+            switch (currentState)
             {
-                currentState = LeverState.Out;
-                tubeController.SetOut();
+                case LeverState.Suck:
+                    tubeController.SetSuck();
+                    break;
+
+                case LeverState.Neutral:
+                    tubeController.SetNeutral();
+                    break;
+
+                case LeverState.Out:
+                    tubeController.SetOut();
+                    break;
             }
         }
     }
