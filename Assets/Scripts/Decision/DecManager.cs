@@ -13,19 +13,28 @@ public class DecManager : MonoBehaviour
 
     private void Start()
     {
-        originalDayActions = new List<NDec_Act>(dayActions);
+        originalDayActions = new List<NDec_Act>();
+
+        foreach (NDec_Act act in dayActions)
+        {
+            originalDayActions.Add(Instantiate(act));
+        }
+
+        dayActions = new List<NDec_Act>(originalDayActions);
     }
 
     private void OnEnable()
     {
         NDec_Act.OnExecuted += CheckExecutedAction;
         DayTime.OnTimeSkiped += TimeSkiped;
+        GameManager.OnChangeDay += CleanPerformedActions;
     }
 
     private void OnDisable()
     {
         NDec_Act.OnExecuted -= CheckExecutedAction;
         DayTime.OnTimeSkiped -= TimeSkiped;
+        GameManager.OnChangeDay -= CleanPerformedActions;
     }
 
     private void Update()
@@ -36,15 +45,15 @@ public class DecManager : MonoBehaviour
             ResetDayActions();
         }
     }
-
-    private void CheckExecutedAction(NDec_Act action, ActionTypes actionType) 
+    private void CheckExecutedAction(NDec_Act action, ActionTypes actionType)
     {
         NDec_Act actToRemove = null;
-        foreach (NDec_Act act in dayActions) 
+
+        foreach (NDec_Act act in dayActions)
         {
             if (act == null) continue;
 
-            if (act == action)
+            if (act.ID == action.ID)
             {
                 actToRemove = act;
                 actionsPerformed.Add(act);
@@ -52,7 +61,7 @@ public class DecManager : MonoBehaviour
             }
         }
 
-        if (actToRemove != null) 
+        if (actToRemove != null)
         {
             dayActions.Remove(actToRemove);
         }
@@ -82,8 +91,24 @@ public class DecManager : MonoBehaviour
         actionsNotPerformed.Add(s_Action);
     }
 
-    public void ResetDayActions() 
+    public void ResetDayActions()
     {
-        dayActions = new List<NDec_Act>(originalDayActions);
+        dayActions.Clear();
+
+        foreach (NDec_Act act in originalDayActions)
+        {
+            dayActions.Add(Instantiate(act));
+        }
+    }
+    public void CleanPerformedActions()
+    {
+        HashSet<int> originalIds = new HashSet<int>();
+
+        foreach (var act in originalDayActions)
+        {
+            originalIds.Add(act.ID);
+        }
+
+        actionsPerformed.RemoveAll(action => originalIds.Contains(action.ID));
     }
 }

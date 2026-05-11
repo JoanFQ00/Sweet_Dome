@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-public enum Day { Day1, Day2 }
+public enum Day { Day1, Day2, Day3, Day4, Day5 }
 
 public class GameManager : MonoBehaviour
 {

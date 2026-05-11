@@ -10,6 +10,16 @@ public abstract class BaseAction : MonoBehaviour, IInteractable
 
     protected int currentLayer = -1;
 
+    private void OnEnable()
+    {
+        BedInt.OnInteract += ResetActionState;
+    }
+
+    private void OnDisable()
+    {
+        BedInt.OnInteract -= ResetActionState;
+    }
+
     protected virtual void Update()
     {
         if (actionTransfered) return;
@@ -40,6 +50,12 @@ public abstract class BaseAction : MonoBehaviour, IInteractable
     public abstract void Interact();
 
     protected virtual void OnUpdateAction() { }
+
+    public void ResetActionState()
+    {
+        actionCompleted = false;
+        actionTransfered = false;
+    }
 
     protected virtual void OnActionExecuted()
     {

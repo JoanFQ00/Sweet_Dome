@@ -2413,6 +2413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaveWinner
   playerRenderer: {fileID: 1399098261196762085}
   targetRenderer: {fileID: 3217020886003304941}
+  codeSystem: {fileID: 0}
   winText: {fileID: 1863096905}
   amplitudeTolerance: 1
   frequencyTolerance: 1
@@ -2447,9 +2448,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TemperatureSistem
   temperatureText: {fileID: 1734503931665171824}
-  stateText: {fileID: 1614859970066696280}
-  temperatureCelsius: 0
-  hasCharge: 1
+  farengheitText: {fileID: 0}
+  currentTemperature: 0
+  targetTemperature: 0
+  speed: 2
+  tolerance: 1
+  autoSystem: {fileID: 0}
 --- !u!114 &620662203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2483,6 +2487,14 @@ MonoBehaviour:
   hasEated: {fileID: 11400000, guid: 9c5d3f00cb024684181642e7185d18e0, type: 2}
   hasRead: {fileID: 11400000, guid: 8eb7b1e11c9df574a9776e4130b115ee, type: 2}
   hasWatchedTv: {fileID: 11400000, guid: 34b97ac1647f3d842bead2667e29d455, type: 2}
+  machineCompletedDay1: {fileID: 0}
+  dorothyBook1Readed: {fileID: 0}
+  dorothyAngried: {fileID: 0}
+  hasEatedDay2: 0
+  watchTvTriggered: 0
+  machineCompletedToday: 0
+  youReadDorothyBook: 0
+  dorothyAngry: 0
 --- !u!114 &620662205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3538,14 +3550,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 841537516}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.65, y: 0.285, z: -18.153}
+  m_LocalRotation: {x: -0, y: 0.9894973, z: -0, w: 0.14455152}
+  m_LocalPosition: {x: -5.3, y: 0.285, z: 5.1}
   m_LocalScale: {x: 0.706, y: 0.37553233, z: 1.4455}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 862098266}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 163.377, z: 0}
 --- !u!1001 &858963698
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5502,6 +5514,7 @@ MonoBehaviour:
   interlocutor: {fileID: 1601551231}
   dialogueTxt: {fileID: 829465654}
   dialogueSys: {fileID: 1433308443}
+  currentRandomDialogue: 0
   agent: {fileID: 0}
   testGoToPlayer: 0
 --- !u!114 &1433308443
@@ -13722,33 +13735,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b3e9f6848fb994781012dcdfecbb65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  pinkTube:
-    tubeName: 
-    liquidType: 0
-    tubeObject: {fileID: 0}
-    meshRenderer: {fileID: 0}
-    positions: []
-    compartments: []
-    maxCapacity: 100
-    currentCapacity: 0
-    currentPosition: 0
-  magentaTube:
-    tubeName: 
-    liquidType: 0
-    tubeObject: {fileID: 0}
-    meshRenderer: {fileID: 0}
-    positions: []
-    compartments: []
-    maxCapacity: 100
-    currentCapacity: 0
-    currentPosition: 0
-  horizontalSpeed: 2
-  verticalSpeed: 2
-  verticalDistance: 2.5
+  controllingPinkTube: 1
+  pinkTube: {fileID: 0}
+  pinkPositions: []
+  pinkFunnels: []
+  pinkCapacity: 0
+  magentaTube: {fileID: 0}
+  magentaPositions: []
+  magentaFunnels: []
+  magentaCapacity: 0
+  maxCapacity: 100
+  verticalOffset: 2.5
   transferSpeed: 10
-  dumpSpeed: 25
-  currentMode: 0
-  currentState: 0
 --- !u!33 &5183417668645115628
 MeshFilter:
   m_ObjectHideFlags: 0

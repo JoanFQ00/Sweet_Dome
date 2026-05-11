@@ -69,8 +69,8 @@ public class DayTime : MonoBehaviour
         if (currentDay > maxDays)
             currentDay = 0;
 
-        Debug.Log("Today is: " + currentDay);
-
+        GameManager.Instance.decManager.ResetDayActions();
+        
         SaveLastDay(currentDay);
 
         LoadMinigames();
@@ -106,7 +106,7 @@ public class DayTime : MonoBehaviour
 
     public bool CanSleepInBed()
     {
-        return canSleepChange;
+        return true;
     }
 
     public int GetCurrentHour()

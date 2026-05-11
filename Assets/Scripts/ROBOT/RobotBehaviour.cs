@@ -36,7 +36,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         patrolState = new PatrolState(this);
         interactionState = new InteractionState(this);
         goToPlayerState = new GoToPlayerState(this);
-        currentRandomDialogue = 101;
 
         stateMachine.ChangeState(patrolState);
     }
@@ -59,7 +58,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     void Update()
     {
         stateMachine.Update();
-        Debug.Log(stateMachine.CurrentState);
     }
     public void Interact()
     {
@@ -93,8 +91,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     {
         dialogueSys.LoadNextIdx();
 
-        //interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
-        //dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
         UpdateUI();
     }
 

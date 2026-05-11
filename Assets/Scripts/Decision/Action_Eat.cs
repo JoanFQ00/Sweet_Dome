@@ -17,7 +17,7 @@ public class Action_Eat : BaseAction
         timer += Time.deltaTime;
         if (timer >= duration)
         {
-            FinishEating();
+            ResetEatingState();
         }
     }
 
@@ -37,14 +37,19 @@ public class Action_Eat : BaseAction
         isEating = true;
     }
 
-    void FinishEating()
+    public void ResetEatingState()
     {
-        Destroy(currentFood);
+        isEating = false;
+        timer = 0f;
+
+        if (currentFood != null)
+        {
+            Destroy(currentFood);
+            currentFood = null;
+        }
 
         GameManager.Instance.playerController.LockPlayer(false);
         GameManager.Instance.playerController.LockCamera(false);
-
-        isEating = false;
 
         OnActionExecuted();
     }

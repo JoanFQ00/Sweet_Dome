@@ -7,7 +7,11 @@ public enum DialoguesRobo
     FirstInteraction = 1,
     HasNotEated = 2,
     HasNotReaded = 3,
-    HasNotWatchedTv = 4
+    HasNotWatchedTv = 4,
+    HasNotEatedDay2 = 5,
+    DorothyRecomendsBook1 = 6,
+    YouReadDorothyBook = 7,
+    DorothyAngryDay2 = 8
 }
 
 public class RoboSys : DialogueSys

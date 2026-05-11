@@ -6,6 +6,7 @@ public class NDec_Act : ScriptableObject
 {
     [Header("Basic Info")]
     public string actionName;
+    public int ID;
     public ActionTypes actionType;
 
     [Header("Time Zones")]
