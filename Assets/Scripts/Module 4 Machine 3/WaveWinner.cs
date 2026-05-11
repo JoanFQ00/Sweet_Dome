@@ -6,6 +6,7 @@ public class WaveWinner : MonoBehaviour
     [Header("Referencies")]
     public WaveRenderer playerRenderer;
     public WaveRenderer targetRenderer;
+    public CodeSystem codeSystem;
 
     [Header("UI Text")]
     public GameObject winText;
@@ -66,6 +67,11 @@ public class WaveWinner : MonoBehaviour
     {
         if (winText != null)
             winText.SetActive(true);
+
+        if (codeSystem != null)
+        {
+            codeSystem.GenerateCode();
+        }
 
         timer = 0f;
         showingMessage = true;

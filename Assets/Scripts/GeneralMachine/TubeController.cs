@@ -48,15 +48,6 @@ public class TubeController : MonoBehaviour
     public void SwapTube()
     {
         controllingPinkTube = !controllingPinkTube;
-
-        if (controllingPinkTube)
-        {
-            Debug.Log("Now controlling PINK tube");
-        }
-        else
-        {
-            Debug.Log("Now controlling MAGENTA tube");
-        }
     }
 
     public void MoveLeft()
@@ -107,8 +98,6 @@ public class TubeController : MonoBehaviour
         {
             LowerPinkTube();
         }
-
-        Debug.Log("Pink tube moved to index: " + pinkIndex);
     }
 
     void MoveMagentaTube()
@@ -119,8 +108,6 @@ public class TubeController : MonoBehaviour
         {
             LowerMagentaTube();
         }
-
-        Debug.Log("Magenta tube moved to index: " + magentaIndex);
     }
 
     public void SetNeutral()
@@ -129,8 +116,6 @@ public class TubeController : MonoBehaviour
 
         RaisePinkTube();
         RaiseMagentaTube();
-
-        Debug.Log("Lever: Neutral");
     }
 
     public void SetSuck()
@@ -145,8 +130,6 @@ public class TubeController : MonoBehaviour
         {
             LowerMagentaTube();
         }
-
-        Debug.Log("Lever: Suck");
     }
 
     public void SetOut()
@@ -221,15 +204,7 @@ public class TubeController : MonoBehaviour
                     return;
 
                 funnel.Empty(amount);
-
                 pinkCapacity += amount;
-
-                Debug.Log(
-                    "PINK SUCKING: "
-                    + amount
-                    + " | Tube Capacity: "
-                    + pinkCapacity
-                );
             }
 
             else if (currentMode == TubeMode.Out)
@@ -243,13 +218,6 @@ public class TubeController : MonoBehaviour
                 funnel.Fill(amount);
 
                 pinkCapacity -= amount;
-
-                Debug.Log(
-                    "PINK OUTPUT: "
-                    + amount
-                    + " | Tube Capacity: "
-                    + pinkCapacity
-                );
             }
 
             pinkCapacity = Mathf.Clamp(pinkCapacity, 0f, maxCapacity);
@@ -270,13 +238,6 @@ public class TubeController : MonoBehaviour
                 funnel.Empty(amount);
 
                 magentaCapacity += amount;
-
-                Debug.Log(
-                    "MAGENTA SUCKING: "
-                    + amount
-                    + " | Tube Capacity: "
-                    + magentaCapacity
-                );
             }
 
             else if (currentMode == TubeMode.Out)
@@ -290,13 +251,6 @@ public class TubeController : MonoBehaviour
                 funnel.Fill(amount);
 
                 magentaCapacity -= amount;
-
-                Debug.Log(
-                    "MAGENTA OUTPUT: "
-                    + amount
-                    + " | Tube Capacity: "
-                    + magentaCapacity
-                );
             }
 
             magentaCapacity = Mathf.Clamp(magentaCapacity, 0f, maxCapacity);
