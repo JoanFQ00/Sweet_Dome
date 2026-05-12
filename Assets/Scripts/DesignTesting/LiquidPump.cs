@@ -1,17 +1,15 @@
-using NUnit.Framework;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 
-public class LiquidPump : MonoBehaviour
+public class LiquidPump : CapabilityBase
 {
-    [Header("Capability")]
-    [SerializeField] private float maxCapacity = 100, minCapacity = 0, currentCapacity;
+    [Header("Initial Values")]
+    [SerializeField] private List<float> initialValues;
 
     [Header("Funnels")]
     [SerializeField] private FunnelBase[] funnelArray;
     [SerializeField] private int initialIndex = 0;
-    int funnelIndex = 0;
+    private int funnelIndex;
 
     [Header("Other")]
     [SerializeField] private float transferSpeed = 10f;
@@ -21,12 +19,26 @@ public class LiquidPump : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     private Vector3 targetPosition;
 
-    public float CurrentCapacity => currentCapacity;
-
-    void Start()
+    protected override void Start()
     {
+        initialValues = new List<float> { 0f, 0f, 0f, 0f, 0f }; // Example values for each day
+
         funnelIndex = initialIndex;
         targetPosition = transform.localPosition;
+
+        base.Start();
+    }
+
+    protected override float GetInitialCapacity(Day day)
+    {
+        return day switch
+        {
+            Day.Day1 => initialValues[0],
+            Day.Day2 => initialValues[1],
+            Day.Day3 => initialValues[2],
+            Day.Day4 => initialValues[3],
+            _ => initialValues[4]
+        };
     }
 
     void Update()
@@ -36,11 +48,6 @@ public class LiquidPump : MonoBehaviour
             targetPosition,
             moveSpeed * Time.deltaTime
         );
-
-        if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
-        {
-            Debug.Log("Ha llegado");
-        }
     }
 
     public void GoRight()
@@ -48,7 +55,6 @@ public class LiquidPump : MonoBehaviour
         if (funnelIndex + 1 < funnelArray.Length)
         {
             funnelIndex++;
-
             targetPosition = pumpPositions[funnelIndex].localPosition;
         }
     }
@@ -58,12 +64,11 @@ public class LiquidPump : MonoBehaviour
         if (funnelIndex - 1 >= 0)
         {
             funnelIndex--;
-
             targetPosition = pumpPositions[funnelIndex].localPosition;
         }
     }
 
-    public void PumpAbsorbing()
+    public void Absorbing()
     {
         float amount = transferSpeed * Time.deltaTime;
 
@@ -71,16 +76,17 @@ public class LiquidPump : MonoBehaviour
         amount = Mathf.Min(amount, freeSpace);
 
         float extracted = funnelArray[funnelIndex].RemoveLiquid(amount);
-        currentCapacity += extracted;
+
+        UpdateCapacity(extracted);
     }
 
-    public void PumpExpulsing()
+    public void Expelling()
     {
         float amount = transferSpeed * Time.deltaTime;
 
         amount = Mathf.Min(amount, currentCapacity);
         float inserted = funnelArray[funnelIndex].AddLiquid(amount);
 
-        currentCapacity -= inserted;
+        UpdateCapacity(-inserted);
     }
 }

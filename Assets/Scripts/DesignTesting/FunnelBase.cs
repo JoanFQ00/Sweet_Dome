@@ -1,48 +1,27 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class FunnelBase : MonoBehaviour
+public class FunnelBase : CapabilityBase
 {
-    [Header("Capability")]
-    [SerializeField] private float maxCapacity = 100, minCapacity = 0, currentCapacity;
-
     [Header("Initial Values")]
     [SerializeField] private List<float> initialValues;
 
-    public float CurrentCapacity => currentCapacity;
-
-    void Start()
+    protected override void Start()
     {
-        //BORRAR DESPUES
-        initialValues = new List<float> { 20f, 40f, 60f, 80f, 100f };
-
-        StartDay();
+        initialValues = new List<float> { 50f, 60f, 70f, 80f, 90f }; // Example values for each day
+        base.Start();
     }
 
-    public void StartDay()
+    protected override float GetInitialCapacity(Day day)
     {
-        switch (GameManager.Instance.currentDay)
+        return day switch
         {
-            case Day.Day1:
-                currentCapacity = initialValues[0];
-                break;
-
-            case Day.Day2:
-                currentCapacity = initialValues[1];
-                break;
-
-            case Day.Day3:
-                currentCapacity = initialValues[2];
-                break;
-
-            case Day.Day4:
-                currentCapacity = initialValues[3];
-                break;
-
-            default: //Day5
-                currentCapacity = initialValues[4];
-                break;
-        }
+            Day.Day1 => initialValues[0],
+            Day.Day2 => initialValues[1],
+            Day.Day3 => initialValues[2],
+            Day.Day4 => initialValues[3],
+            _ => initialValues[4]
+        };
     }
 
     public float AddLiquid(float amount)
@@ -50,8 +29,7 @@ public class FunnelBase : MonoBehaviour
         float spaceLeft = maxCapacity - currentCapacity;
         float added = Mathf.Min(amount, spaceLeft);
 
-        currentCapacity += added;
-        currentCapacity = Mathf.Clamp(currentCapacity, 0f, maxCapacity);
+        UpdateCapacity(added);
 
         return added;
     }
@@ -60,8 +38,7 @@ public class FunnelBase : MonoBehaviour
     {
         float removable = Mathf.Min(amount, currentCapacity);
 
-        currentCapacity -= removable;
-        currentCapacity = Mathf.Clamp(currentCapacity, 0f, maxCapacity);
+        UpdateCapacity(-removable);
 
         return removable;
     }

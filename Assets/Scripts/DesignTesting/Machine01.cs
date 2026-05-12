@@ -23,4 +23,9 @@ public class Machine01 : MonoBehaviour
         if (isPurifiedMode) purifiedPump.GoLeft();
         else rawPump.GoLeft();
     }
+
+    public LiquidPump GetActivePump()
+    {
+        return isPurifiedMode ? purifiedPump : rawPump;
+    }
 }

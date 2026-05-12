@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Lever : MonoBehaviour
 {
-    public TubeController tubeController;
+    public Machine01 machine;
 
     [Header("Lever Angles")]
     public float suckAngle = -22f;
@@ -20,9 +20,9 @@ public class Lever : MonoBehaviour
 
     private enum LeverState
     {
-        Suck,
+        Absorb,
         Neutral,
-        Out
+        Expelling
     }
 
     private LeverState currentState;
@@ -74,7 +74,7 @@ public class Lever : MonoBehaviour
 
         if (suckDist < neutralDist && suckDist < outDist)
         {
-            newState = LeverState.Suck;
+            newState = LeverState.Absorb;
         }
         else if (neutralDist < outDist)
         {
@@ -82,28 +82,26 @@ public class Lever : MonoBehaviour
         }
         else
         {
-            newState = LeverState.Out;
+            newState = LeverState.Expelling;
+        }
+
+        switch (newState)
+        {
+            case LeverState.Absorb:
+                machine.GetActivePump().Absorbing();
+                break;
+
+            case LeverState.Expelling:
+                machine.GetActivePump().Expelling();
+                break;
+
+            default: //LeverState.Neutral:
+                     //Nothing
+                break;
         }
 
         if (newState != currentState)
-        {
             currentState = newState;
-
-            switch (currentState)
-            {
-                case LeverState.Suck:
-                    tubeController.SetSuck();
-                    break;
-
-                case LeverState.Neutral:
-                    tubeController.SetNeutral();
-                    break;
-
-                case LeverState.Out:
-                    tubeController.SetOut();
-                    break;
-            }
-        }
     }
 
     float NormalizeAngle(float angle)
