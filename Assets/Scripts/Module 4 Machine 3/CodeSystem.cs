@@ -9,6 +9,7 @@ public class CodeSystem : MonoBehaviour
 
     [Header("Config")]
     public int codeLength = 4;
+    [SerializeField] private FunnelBase rawFunnel;
 
     private string generatedCode = "";
     private string currentInput = "";
@@ -66,6 +67,7 @@ public class CodeSystem : MonoBehaviour
         if (currentInput == generatedCode)
         {
             codeDisplay.color = correctColor;
+            rawFunnel.AddLiquid(20f);
             Debug.Log("CORRECTO");
         }
         else
