@@ -145,7 +145,7 @@ public class TubeController : MonoBehaviour
             LowerMagentaTube();
         }
 
-        Debug.Log("Lever: Out");
+        Debug.Log("Lever: Expelling");
     }
 
     void LowerPinkTube()
