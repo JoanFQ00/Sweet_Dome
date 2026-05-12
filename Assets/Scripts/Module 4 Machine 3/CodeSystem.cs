@@ -7,7 +7,7 @@ public class CodeSystem : MonoBehaviour
     public GameObject codeCanvas;
     public TextMeshProUGUI codeDisplay;
 
-    [Header("Settings")]
+    [Header("Config")]
     public int codeLength = 4;
 
     private string generatedCode = "";
@@ -33,7 +33,7 @@ public class CodeSystem : MonoBehaviour
             generatedCode += Random.Range(0, 10).ToString();
         }
 
-        Debug.Log("Código: " + generatedCode);
+        Debug.Log("CODIGO: " + generatedCode);
 
         if (codeCanvas != null)
             codeCanvas.SetActive(true);
@@ -73,7 +73,6 @@ public class CodeSystem : MonoBehaviour
             codeDisplay.color = wrongColor;
             Debug.Log("INCORRECTO");
 
-            // Reiniciar tras error (opcional)
             Invoke(nameof(ResetInput), 1.5f);
         }
     }

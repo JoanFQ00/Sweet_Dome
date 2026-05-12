@@ -55,7 +55,7 @@ public class WaveWinner : MonoBehaviour
     {
         if (Mathf.Abs(playerRenderer.amplitude - targetRenderer.amplitude) < amplitudeTolerance && 
             Mathf.Abs(playerRenderer.frequency - targetRenderer.frequency) < frequencyTolerance && 
-            Mathf.Abs(targetRenderer.phase - targetRenderer.phase) < phaseTolerance)
+            Mathf.Abs(playerRenderer.phase - targetRenderer.phase) < phaseTolerance)
         {
             return true;
         }
@@ -66,15 +66,12 @@ public class WaveWinner : MonoBehaviour
     void ShowWin()
     {
         if (winText != null)
-            winText.SetActive(true);
+            winText.SetActive(false);
 
         if (codeSystem != null)
         {
             codeSystem.GenerateCode();
         }
-
-        timer = 0f;
-        showingMessage = true;
     }
 
     void HideWinMessage()

@@ -32,7 +32,7 @@ public class AutoTemperature : MonoBehaviour
 
     void GenerateNewTemperature()
     {
-        targetTemperature = Mathf.Round(Random.Range(minTemp, maxTemp));
+        targetTemperature = Random.Range(minTemp, maxTemp);
     }
 
     void UpdateUI()

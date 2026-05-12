@@ -5,12 +5,15 @@ public class TemperatureSistem : MonoBehaviour
 {
     public TextMeshProUGUI temperatureText;
     public TextMeshProUGUI farengheitText;
+    public AutoTemperature autoSystem;
 
     public float currentTemperature = 0f;
     public float targetTemperature = 0f;
+
     public float speed = 2f;
+
     public float tolerance = 1f;
-    public AutoTemperature autoSystem; 
+
     float temperatureFarenheit;
 
     void Update()
@@ -35,19 +38,5 @@ public class TemperatureSistem : MonoBehaviour
 
         temperatureText.text = Mathf.RoundToInt(currentTemperature) + "ºC";
         farengheitText.text = Mathf.RoundToInt(temperatureFarenheit) + "ºF";
-
-        if (autoSystem != null)
-        {
-            float diff = Mathf.Abs(currentTemperature - autoSystem.targetTemperature);
-
-            if (diff <= tolerance)
-            {
-                temperatureText.color = Color.green;
-            }
-            else
-            {
-                temperatureText.color = Color.white;
-            }
-        }
     }
 }
