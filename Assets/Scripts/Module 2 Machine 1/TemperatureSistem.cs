@@ -11,14 +11,24 @@ public class TemperatureSistem : MonoBehaviour
     public float targetTemperature = 0f;
 
     public float speed = 2f;
-
     public float tolerance = 1f;
 
     float temperatureFarenheit;
 
+    bool completed = false;
+
     void Update()
     {
         currentTemperature = Mathf.MoveTowards(currentTemperature,targetTemperature,speed * Time.deltaTime);
+        if (!completed && Mathf.Abs(currentTemperature - autoSystem.targetTemperature) <= tolerance)
+        {
+            completed = true;
+
+            temperatureText.color = Color.green;
+            farengheitText.color = Color.green;
+
+            autoSystem.enabled = false;
+        }
         UpdateUI();
     }
 
