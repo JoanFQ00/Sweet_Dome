@@ -6,6 +6,7 @@ public class TemperatureSistem : MonoBehaviour
     public TextMeshProUGUI temperatureText;
     public TextMeshProUGUI farengheitText;
     public AutoTemperature autoSystem;
+    [SerializeField] private FunnelBase rawFunnel;
 
     public float currentTemperature = 0f;
     public float targetTemperature = 0f;
@@ -26,7 +27,7 @@ public class TemperatureSistem : MonoBehaviour
 
             temperatureText.color = Color.green;
             farengheitText.color = Color.green;
-
+            rawFunnel.AddLiquid(20);
             autoSystem.enabled = false;
         }
         UpdateUI();
