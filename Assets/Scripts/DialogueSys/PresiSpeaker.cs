@@ -8,31 +8,26 @@ public class PresiSpeaker : MonoBehaviour
     public TextMeshProUGUI interlocutor;
     public TextMeshProUGUI dialogueTxt;
     private PresiSys dialogueSys;
-    bool speaking = false;
 
-    private void Update()
-    {
-        if (speaking)
-        {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                if (dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].next == null)
-                {
-                    interactionBubble.SetActive(false);
-                    GameManager.Instance.playerController.LockPlayer(false);
-                    speaking = false;
-                }
-                else 
-                {
-                    LoadNextDialogue();
-                }
-            }
-        }
-    }
-
-    public void DialogueIni() 
+    private void Awake()
     {
         dialogueSys = GetComponent<PresiSys>();
+    }
+
+    private void OnEnable()
+    {
+        dialogueSys.OnDialogueTerminated += EndDialogue;
+        dialogueSys.OnDialogueChanged += UpdateUI;
+    }
+
+    private void OnDisable()
+    {
+        dialogueSys.OnDialogueTerminated -= EndDialogue;
+        dialogueSys.OnDialogueChanged -= UpdateUI;
+    }
+
+    public void DialogueIni()
+    {
         dialogueSys.SysIni();
 
         if (dialogueSys.loadedDialogues == null || dialogueSys.loadedDialogues.Length == 0)
@@ -41,40 +36,45 @@ public class PresiSpeaker : MonoBehaviour
             return;
         }
 
-        UpdateUI(); return;
+        dialogueSys.StartStopDialogue(true);
+
+        interactionBubble.SetActive(true);
+
+        UpdateUI();
     }
 
     void UpdateUI()
     {
-        interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
-        dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
+        var current = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx];
+
+        interlocutor.text = current.speaker;
+        dialogueTxt.text = current.text;
     }
 
-    void LoadNextDialogue()
+    void EndDialogue()
     {
-        dialogueSys.LoadNextIdx();
+        interactionBubble.SetActive(false);
 
-        interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
-        dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
+        dialogueSys.StartStopDialogue(false);
     }
 
     public void ChangeDialogueID(int id) 
     {
         dialogueSys.ChargeDialogues(id);
-    } 
+    }
 
     public void PresiSpeaks()
     {
         if (dialogueSys == null ||
-        dialogueSys.loadedDialogues == null ||
-        dialogueSys.loadedDialogues.Length == 0)
+            dialogueSys.loadedDialogues == null ||
+            dialogueSys.loadedDialogues.Length == 0)
         {
             Debug.Log("Dialogue not initialized");
             return;
         }
 
-        GameManager.Instance.playerController.LockPlayer(true);
-        speaking = true;
+        dialogueSys.StartStopDialogue(true);
+
         interactionBubble.SetActive(true);
 
         UpdateUI();
