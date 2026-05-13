@@ -13,6 +13,9 @@ public class RadarMinigame : MonoBehaviour
     public SliderType type;
     public GameObject objectivePrefab;
 
+    [SerializeField] private float innerMargin = 0.05f;
+    [SerializeField] private float outerMargin = 0.02f;
+
     private string baseTxt = "CODE: ";
     private bool onCenter;
     private Quaternion startLocalRot;
@@ -24,8 +27,8 @@ public class RadarMinigame : MonoBehaviour
 
     void Start()
     {
-        currentObjective.SetActive(false);
         currentObjective = objectives[Random.Range(0, objectives.Length)];
+        currentObjective.SetActive(false);
 
         codeText.text = baseTxt;
         startLocalRot = radarPoint.localRotation;
@@ -80,8 +83,27 @@ public class RadarMinigame : MonoBehaviour
 
     void SpawnRandomObjective()
     {
-        //radarPointZero
-        //maxDist
         currentObjective.SetActive(true);
+
+        float minRadius = innerMargin;
+        float maxRadius = maxDist - outerMargin;
+
+        float randomRadius = Random.Range(minRadius, maxRadius);
+        float randomAngle = Random.Range(0f, Mathf.PI * 2f);
+
+        // Coordenadas circulares
+        float x = Mathf.Cos(randomAngle);
+        float y = Mathf.Sin(randomAngle);
+
+        // Dirección en el plano LOCAL del radar
+        Vector3 direction =
+            radarPointZero.right * x +
+            radarPointZero.forward * y;
+
+        Vector3 finalPosition =
+            radarPointZero.position +
+            direction.normalized * randomRadius;
+
+        currentObjective.transform.position = finalPosition;
     }
 }

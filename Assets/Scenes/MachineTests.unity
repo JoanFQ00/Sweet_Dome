@@ -5807,6 +5807,7 @@ MonoBehaviour:
   id: 0
   dialogueIdx: 0
   currentDialogue: {fileID: 0}
+  dialoguePassTime: 0
 --- !u!4 &958680612
 Transform:
   m_ObjectHideFlags: 0
@@ -17387,8 +17388,7 @@ MonoBehaviour:
   visionMask:
     serializedVersion: 2
     m_Bits: 64
-  objectives:
-  - {fileID: 5292379505346107712}
+  radarMinigame: {fileID: 6554732739233336023}
 --- !u!33 &1922031256926049951
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -23902,6 +23902,10 @@ MonoBehaviour:
   codeText: {fileID: 8174736585338812015}
   type: 1
   objectivePrefab: {fileID: 8957882770918365182, guid: 278f2702bdeb4e84ea6ff9b03495afe6, type: 3}
+  innerMargin: 0.05
+  outerMargin: 0.02
+  objectives:
+  - {fileID: 5292379505346107712}
 --- !u!1 &6558255903688654484
 GameObject:
   m_ObjectHideFlags: 0
