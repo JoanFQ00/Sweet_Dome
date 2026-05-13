@@ -24,7 +24,7 @@ public class FunnelBase : CapabilityBase
         };
     }
 
-    public float AddLiquid(float amount)
+    public virtual float AddLiquid(float amount)
     {
         float spaceLeft = maxCapacity - currentCapacity;
         float added = Mathf.Min(amount, spaceLeft);
@@ -34,7 +34,7 @@ public class FunnelBase : CapabilityBase
         return added;
     }
 
-    public float RemoveLiquid(float amount)
+    public virtual float RemoveLiquid(float amount)
     {
         float removable = Mathf.Min(amount, currentCapacity);
 

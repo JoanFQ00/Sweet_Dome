@@ -9,6 +9,7 @@ public abstract class CapabilityBase : MonoBehaviour
     [SerializeField] protected float currentCapacity;
 
     public Action<float> OnCapacityUpdated;
+    public Action<string> OnNameUpdated;
 
     protected virtual void Start()
     {
