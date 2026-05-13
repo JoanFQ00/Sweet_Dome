@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public abstract class CapabilityBase : MonoBehaviour
@@ -15,6 +16,12 @@ public abstract class CapabilityBase : MonoBehaviour
 
     protected virtual void Start()
     {
+        StartCoroutine(DelayedStartDay());
+    }
+
+    private IEnumerator DelayedStartDay()
+    {
+        yield return null;
         StartDay();
     }
 
