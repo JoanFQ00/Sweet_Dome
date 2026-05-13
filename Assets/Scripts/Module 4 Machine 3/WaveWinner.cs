@@ -53,6 +53,8 @@ public class WaveWinner : MonoBehaviour
 
     bool IsMatching()
     {
+        if (!playerRenderer) return false;
+
         if (Mathf.Abs(playerRenderer.amplitude - targetRenderer.amplitude) < amplitudeTolerance && 
             Mathf.Abs(playerRenderer.frequency - targetRenderer.frequency) < frequencyTolerance && 
             Mathf.Abs(playerRenderer.phase - targetRenderer.phase) < phaseTolerance)

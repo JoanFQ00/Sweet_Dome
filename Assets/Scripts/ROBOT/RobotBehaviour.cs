@@ -42,6 +42,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
     void OnEnable()
     {
+        GameManager.Instance.robotBehaviour = this;
         SkipTimeButt.OnFirstDayButt += ChangeGoToPlayer;
     }
 

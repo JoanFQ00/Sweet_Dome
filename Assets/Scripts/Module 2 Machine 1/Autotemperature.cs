@@ -37,6 +37,9 @@ public class AutoTemperature : MonoBehaviour
 
     void UpdateUI()
     {
-        targetTempText.text = Mathf.RoundToInt(targetTemperature) + "ºC";
+        if (targetTempText != null) 
+        {
+            targetTempText.text = Mathf.RoundToInt(targetTemperature) + "ºC";
+        }
     }
 }

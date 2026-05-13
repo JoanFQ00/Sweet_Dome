@@ -1,0 +1,42 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System;
+
+public class LevelManager : MonoBehaviour
+{
+    public enum NameLevels { MachineTesting, MenuScene}
+
+    public static event Action OnLevelLoaded;
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+      
+    }
+
+
+    public void LoadMachineTesting()
+    {
+        SceneManager.LoadScene(NameLevels.MachineTesting.ToString());
+    }
+
+    public void LoadMenu()
+    {
+        SceneManager.LoadScene(NameLevels.MenuScene.ToString());
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+}

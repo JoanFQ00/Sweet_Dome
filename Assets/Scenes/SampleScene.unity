@@ -782,7 +782,7 @@ Transform:
   m_GameObject: {fileID: 239646624}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.693}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2519,6 +2519,7 @@ MonoBehaviour:
   temperatureText: {fileID: 1734503931665171824}
   farengheitText: {fileID: 0}
   autoSystem: {fileID: 0}
+  rawFunnel: {fileID: 0}
   currentTemperature: 0
   targetTemperature: 0
   speed: 2

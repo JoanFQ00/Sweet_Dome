@@ -20,7 +20,7 @@ public class TemperatureSistem : MonoBehaviour
 
     void Update()
     {
-        if (!autoSystem) return;
+        if (!autoSystem || !temperatureText) return;
 
         currentTemperature = Mathf.MoveTowards(currentTemperature,targetTemperature,speed * Time.deltaTime);
         if (!completed && Mathf.Abs(currentTemperature - autoSystem.targetTemperature) <= tolerance)
@@ -47,6 +47,8 @@ public class TemperatureSistem : MonoBehaviour
 
     void UpdateUI()
     {
+        if (temperatureText == null) return;
+
         temperatureFarenheit = (currentTemperature * 9f / 5f) + 32f;
 
         temperatureText.text = Mathf.RoundToInt(currentTemperature) + "ºC";

@@ -16,6 +16,9 @@ public class PresiSpeaker : MonoBehaviour
 
     private void OnEnable()
     {
+        GameManager.Instance.presiSpeaker = this;
+        DialogueIni();
+        PresiSpeaks();
         dialogueSys.OnDialogueTerminated += EndDialogue;
         dialogueSys.OnDialogueChanged += UpdateUI;
     }

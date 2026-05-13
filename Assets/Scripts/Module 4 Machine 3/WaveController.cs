@@ -12,9 +12,12 @@ public class WaveController : MonoBehaviour
 
     void Start()
     {
-        amplitudeSlider.onValueChanged.AddListener(OnAmplitudedChanged);
-        frequencySlider.onValueChanged.AddListener(OnFrequencyChanged);
-        phaseSlider.onValueChanged.AddListener(OnPhaseChanged);
+        if (amplitudeSlider != null) 
+        {
+            amplitudeSlider.onValueChanged.AddListener(OnAmplitudedChanged);
+            frequencySlider.onValueChanged.AddListener(OnFrequencyChanged);
+            phaseSlider.onValueChanged.AddListener(OnPhaseChanged);
+        }
     }
 
     void OnAmplitudedChanged(float value) 

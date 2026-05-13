@@ -8,6 +8,8 @@ public class Action_Reader : BaseAction
 
     private Transform readTransform;
 
+    private PlayerController player;
+
     private Vector3 startPos;
     private Quaternion startRot;
 
@@ -26,8 +28,23 @@ public class Action_Reader : BaseAction
 
     void Start()
     {
-        readTransform = GameManager.Instance.playerController
-            .GetComponent<Interact>().readTransform;
+       
+    }
+
+    private void OnEnable()
+    {
+        LevelManager.OnLevelLoaded += LevelLoaded;
+    }
+
+    private void OnDisable()
+    {
+        LevelManager.OnLevelLoaded -= LevelLoaded;
+    }
+
+    void LevelLoaded() 
+    {
+        player = GameManager.Instance.playerController;
+        readTransform = player.GetComponent<Interact>().readTransform;
 
         originalPos = transform.position;
         originalRot = transform.rotation;
@@ -37,7 +54,7 @@ public class Action_Reader : BaseAction
     {
         if (state != State.Idle) return;
 
-        GameManager.Instance.playerController.LockPlayer(true);
+        player.LockPlayer(true);
 
         startPos = transform.position;
         startRot = transform.rotation;
@@ -73,7 +90,7 @@ public class Action_Reader : BaseAction
             case State.Returning:
                 Move(originalPos, originalRot, () =>
                 {
-                    GameManager.Instance.playerController.LockPlayer(false);
+                    player.LockPlayer(false);
                     gameObject.layer = LayerMask.NameToLayer("Interactable");
                     OnActionExecuted();
                     state = State.Idle;

@@ -33,32 +33,32 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        robotBehaviour.dialogueSys.SysIni();
-        presiSpeaker.DialogueIni(); 
-        dayManager.StartDay();
+        if (robotBehaviour != null)
+        {
+       
+        }
     }
-
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.O)) 
-    //    {
-    //        SpawnRadarObjective();
-    //    }
-    //}
-
-    //private void SpawnRadarObjective() 
-    //{
-    //    OnSpawnObj?.Invoke();
-    //}
 
     private void OnEnable()
     {
+        LevelManager.OnLevelLoaded += LevelLoaded;
         BedInt.OnInteract += ChangeDay;
     }
 
     private void OnDisable()
     {
+        LevelManager.OnLevelLoaded -= LevelLoaded;
         BedInt.OnInteract -= ChangeDay;
+    }
+
+    private void LevelLoaded()
+    {
+        playerController = FindFirstObjectByType<PlayerController>();
+        presiSpeaker = FindFirstObjectByType<PresiSpeaker>();
+        robotBehaviour = FindFirstObjectByType<RobotBehaviour>();
+        robotBehaviour.dialogueSys.SysIni();
+        presiSpeaker.DialogueIni();
+        dayManager.StartDay();
     }
 
     public void SetPlayer(PlayerController controller) 

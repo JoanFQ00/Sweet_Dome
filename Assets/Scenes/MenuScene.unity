@@ -614,6 +614,196 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 615228590}
   m_CullTransparentMesh: 1
+--- !u!1 &1182653947
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1182653956}
+  - component: {fileID: 1182653955}
+  - component: {fileID: 1182653954}
+  - component: {fileID: 1182653953}
+  - component: {fileID: 1182653952}
+  - component: {fileID: 1182653951}
+  - component: {fileID: 1182653950}
+  - component: {fileID: 1182653949}
+  - component: {fileID: 1182653948}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1182653948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182653947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f30ac0f581210c42bdf56f7de877578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DayTime
+  minigames: []
+  maxDays: 2
+  startHourDay: 9
+  endHour: 21
+  currentHour: 0
+  timerText: {fileID: 0}
+--- !u!114 &1182653949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182653947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e578fce2967f4b42b06c4241de81317, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DayManager
+  hasEated: {fileID: 0}
+  hasRead: {fileID: 0}
+  hasWatchedTv: {fileID: 0}
+  machineCompletedDay1: {fileID: 0}
+  dorothyBook1Readed: {fileID: 0}
+  dorothyAngried: {fileID: 0}
+  hasEatedDay2: 0
+  watchTvTriggered: 0
+  machineCompletedToday: 0
+  youReadDorothyBook: 0
+  dorothyAngry: 0
+--- !u!114 &1182653950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182653947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb2bb371667ac74cb254ca917721225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DecManager
+  dayActions:
+  - {fileID: 11400000, guid: e00c4732200b46d4fa20e845443124f0, type: 2}
+  - {fileID: 11400000, guid: 08b30a864fb6e3d4294d3141f38c2752, type: 2}
+  - {fileID: 11400000, guid: 9615a02adc6b17a43b27f5b81e44d203, type: 2}
+  actionsPerformed: []
+  actionsNotPerformed: []
+--- !u!114 &1182653951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182653947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f5b44916edeecd43ab71aef4f61026a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveWinner
+  playerRenderer: {fileID: 0}
+  targetRenderer: {fileID: 0}
+  codeSystem: {fileID: 0}
+  winText: {fileID: 0}
+  amplitudeTolerance: 0.2
+  frequencyTolerance: 0.2
+  phaseTolerance: 0.2
+  messageDuration: 3
+--- !u!114 &1182653952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182653947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21d40330d0c63cd41be6cfd53ecc84d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveController
+  WaveRenderer: {fileID: 0}
+  amplitudeSlider: {fileID: 0}
+  frequencySlider: {fileID: 0}
+  phaseSlider: {fileID: 0}
+--- !u!114 &1182653953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182653947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f53d595c20614f4896e193be78e06d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoTemperature
+  targetTempText: {fileID: 0}
+  targetTemperature: 0
+  minTemp: -10
+  maxTemp: 50
+  changeInterval: 5
+--- !u!114 &1182653954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182653947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f69bb51650a51c4ab4c034ddddca5b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TemperatureSistem
+  temperatureText: {fileID: 0}
+  farengheitText: {fileID: 0}
+  autoSystem: {fileID: 1182653953}
+  rawFunnel: {fileID: 0}
+  currentTemperature: 0
+  targetTemperature: 0
+  speed: 2
+  tolerance: 1
+--- !u!114 &1182653955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182653947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 201213e5e0f07d94e8dd081437ac54a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  playerController: {fileID: 0}
+  presiSpeaker: {fileID: 0}
+  robotBehaviour: {fileID: 0}
+  dayManager: {fileID: 1182653949}
+  decManager: {fileID: 1182653950}
+  currentDay: 0
+--- !u!4 &1182653956
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182653947}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2120838898}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1294379344
 GameObject:
   m_ObjectHideFlags: 0
@@ -1591,6 +1781,148 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &2120838897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2120838898}
+  - component: {fileID: 2120838902}
+  - component: {fileID: 2120838901}
+  - component: {fileID: 2120838900}
+  - component: {fileID: 2120838899}
+  m_Layer: 3
+  m_Name: PassHourButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2120838898
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120838897}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.6464835, y: -0.3032681, z: 0.35725948, w: -0.602041}
+  m_LocalPosition: {x: 0.3085327, y: 1.3323432, z: -1.7791748}
+  m_LocalScale: {x: 0.21733779, y: 0.018529426, z: 0.22328825}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1182653956}
+  m_LocalEulerAnglesHint: {x: -225, y: 0, z: 0}
+--- !u!114 &2120838899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120838897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 666f7f355969e0f45ad8ae04e50f9287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkipTimeButt
+  onPress:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1182653948}
+        m_TargetAssemblyTypeName: DayTime, Assembly-CSharp
+        m_MethodName: SkipTime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!136 &2120838900
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120838897}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5000001
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!23 &2120838901
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120838897}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: ab9baa9f9bd485e4b902482868db45fd, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &2120838902
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120838897}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1600,3 +1932,4 @@ SceneRoots:
   - {fileID: 2062450623}
   - {fileID: 1895977150}
   - {fileID: 1744790732}
+  - {fileID: 1182653956}
