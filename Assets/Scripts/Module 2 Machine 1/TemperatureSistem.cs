@@ -20,6 +20,8 @@ public class TemperatureSistem : MonoBehaviour
 
     void Update()
     {
+        if (!autoSystem) return;
+
         currentTemperature = Mathf.MoveTowards(currentTemperature,targetTemperature,speed * Time.deltaTime);
         if (!completed && Mathf.Abs(currentTemperature - autoSystem.targetTemperature) <= tolerance)
         {

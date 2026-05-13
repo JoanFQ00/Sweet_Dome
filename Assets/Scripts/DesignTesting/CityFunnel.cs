@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.Port;
 
 public class CityFunnel : FunnelBase
 {
@@ -11,10 +12,24 @@ public class CityFunnel : FunnelBase
 
     protected override void Start()
     {
+        foreach (FunnelBase zone in cityZones)
+            zone.OnCapacityUpdated += UpdateCapabilityInUI;
+
         indexZone = 0;
     }
 
-    protected override float GetInitialCapacity(Day day) 
+    private void OnDisable()
+    {
+        foreach (FunnelBase zone in cityZones)
+            zone.OnCapacityUpdated -= UpdateCapabilityInUI;
+    }
+
+    void UpdateCapabilityInUI(float value)
+    {
+        OnCapacityUpdated?.Invoke(value);
+    }
+
+    protected override float PutInitialCapacity(Day day) 
     { 
         return 0f; 
     }
@@ -24,6 +39,10 @@ public class CityFunnel : FunnelBase
         if (cityZones.Count == 0) return;
 
         indexZone = (indexZone + 1) % cityZones.Count;
+
+        OnCapacityUpdated?.Invoke(
+            cityZones[indexZone].CurrentCapacity
+        );
 
         OnNameUpdated?.Invoke(
             cityZones[indexZone].GetComponent<CityLabel>().label
@@ -35,6 +54,10 @@ public class CityFunnel : FunnelBase
         if (cityZones.Count == 0) return;
 
         indexZone = (indexZone - 1 + cityZones.Count) % cityZones.Count;
+
+        OnCapacityUpdated?.Invoke(
+            cityZones[indexZone].CurrentCapacity
+        );
 
         OnNameUpdated?.Invoke(
             cityZones[indexZone].GetComponent<CityLabel>().label
@@ -51,6 +74,11 @@ public class CityFunnel : FunnelBase
         return cityZones[indexZone].RemoveLiquid(amount);
     }
 
+    public float GetInitialValue() 
+    {
+        return cityZones[indexZone].CurrentCapacity;
+    }
+    
     public string GetInitialName() 
     {
         return cityZones[indexZone].GetComponent<CityLabel>().label;

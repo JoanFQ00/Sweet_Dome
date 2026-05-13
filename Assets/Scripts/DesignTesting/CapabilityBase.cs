@@ -11,6 +11,8 @@ public abstract class CapabilityBase : MonoBehaviour
     public Action<float> OnCapacityUpdated;
     public Action<string> OnNameUpdated;
 
+    public float CurrentCapacity => currentCapacity;
+
     protected virtual void Start()
     {
         StartDay();
@@ -18,7 +20,7 @@ public abstract class CapabilityBase : MonoBehaviour
 
     public void StartDay()
     {
-        currentCapacity = GetInitialCapacity(GameManager.Instance.currentDay);
+        currentCapacity = PutInitialCapacity(GameManager.Instance.currentDay);
         CapacityUpdated();
     }
 
@@ -38,5 +40,5 @@ public abstract class CapabilityBase : MonoBehaviour
         OnCapacityUpdated?.Invoke(currentCapacity);
     }
 
-    protected abstract float GetInitialCapacity(Day day);
+    protected abstract float PutInitialCapacity(Day day);
 }

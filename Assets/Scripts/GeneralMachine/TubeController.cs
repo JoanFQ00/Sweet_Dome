@@ -36,6 +36,8 @@ public class TubeController : MonoBehaviour
 
     private void Start()
     {
+        if (!pinkTube || !magentaTube || !pinkPositions[0] || !magentaPositions[0]) return;
+
         pinkTube.position = pinkPositions[0].position;
         magentaTube.position = magentaPositions[0].position;
     }

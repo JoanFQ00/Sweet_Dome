@@ -28,6 +28,7 @@ public class CapabilityUI : MonoBehaviour
                 else
                 {
                     capabilityBase.OnNameUpdated += UpdateCityNameUI;
+                    UpdateCapabilityUI(capabilityBase.gameObject.GetComponent<CityFunnel>().GetInitialValue());
                     UpdateCityNameUI(capabilityBase.gameObject.GetComponent<CityFunnel>().GetInitialName());
                 }
             }
@@ -47,6 +48,7 @@ public class CapabilityUI : MonoBehaviour
                 else
                 {
                     capabilityBase.OnNameUpdated -= UpdateCityNameUI;
+                    UpdateCapabilityUI(capabilityBase.gameObject.GetComponent<CityFunnel>().GetInitialValue());
                     UpdateCityNameUI(capabilityBase.gameObject.GetComponent<CityFunnel>().GetInitialName());
                 }
             }

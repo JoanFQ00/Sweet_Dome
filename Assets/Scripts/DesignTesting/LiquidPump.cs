@@ -29,7 +29,7 @@ public class LiquidPump : CapabilityBase
         base.Start();
     }
 
-    protected override float GetInitialCapacity(Day day)
+    protected override float PutInitialCapacity(Day day)
     {
         return day switch
         {
