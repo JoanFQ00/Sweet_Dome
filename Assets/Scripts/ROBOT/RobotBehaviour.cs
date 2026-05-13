@@ -37,6 +37,8 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         interactionState = new InteractionState(this);
         goToPlayerState = new GoToPlayerState(this);
 
+        dialogueSys.SysIni();
+
         stateMachine.ChangeState(patrolState);
     }
 
@@ -44,11 +46,18 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     {
         GameManager.Instance.robotBehaviour = this;
         SkipTimeButt.OnFirstDayButt += ChangeGoToPlayer;
+        LevelManager.OnLevelLoaded += LevelLoaded;
     }
 
     void OnDisable()
     {
         SkipTimeButt.OnFirstDayButt -= ChangeGoToPlayer;
+        LevelManager.OnLevelLoaded -= LevelLoaded;
+    }
+
+    void LevelLoaded() 
+    {
+
     }
 
     void ChangeGoToPlayer(bool _GoToPlayer) 

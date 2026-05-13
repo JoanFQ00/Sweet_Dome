@@ -624,10 +624,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1182653956}
   - component: {fileID: 1182653955}
-  - component: {fileID: 1182653954}
-  - component: {fileID: 1182653953}
-  - component: {fileID: 1182653952}
-  - component: {fileID: 1182653951}
   - component: {fileID: 1182653950}
   - component: {fileID: 1182653949}
   - component: {fileID: 1182653948}
@@ -668,10 +664,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e578fce2967f4b42b06c4241de81317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DayManager
-  hasEated: {fileID: 0}
-  hasRead: {fileID: 0}
-  hasWatchedTv: {fileID: 0}
-  machineCompletedDay1: {fileID: 0}
+  hasEated: {fileID: 11400000, guid: 9c5d3f00cb024684181642e7185d18e0, type: 2}
+  hasRead: {fileID: 11400000, guid: 8eb7b1e11c9df574a9776e4130b115ee, type: 2}
+  hasWatchedTv: {fileID: 11400000, guid: 34b97ac1647f3d842bead2667e29d455, type: 2}
+  machineCompletedDay1: {fileID: 11400000, guid: e25448c2f2d06c44e87e658b7e301148, type: 2}
   dorothyBook1Readed: {fileID: 0}
   dorothyAngried: {fileID: 0}
   hasEatedDay2: 0
@@ -697,79 +693,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9615a02adc6b17a43b27f5b81e44d203, type: 2}
   actionsPerformed: []
   actionsNotPerformed: []
---- !u!114 &1182653951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182653947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f5b44916edeecd43ab71aef4f61026a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WaveWinner
-  playerRenderer: {fileID: 0}
-  targetRenderer: {fileID: 0}
-  codeSystem: {fileID: 0}
-  winText: {fileID: 0}
-  amplitudeTolerance: 0.2
-  frequencyTolerance: 0.2
-  phaseTolerance: 0.2
-  messageDuration: 3
---- !u!114 &1182653952
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182653947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21d40330d0c63cd41be6cfd53ecc84d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WaveController
-  WaveRenderer: {fileID: 0}
-  amplitudeSlider: {fileID: 0}
-  frequencySlider: {fileID: 0}
-  phaseSlider: {fileID: 0}
---- !u!114 &1182653953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182653947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f53d595c20614f4896e193be78e06d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AutoTemperature
-  targetTempText: {fileID: 0}
-  targetTemperature: 0
-  minTemp: -10
-  maxTemp: 50
-  changeInterval: 5
---- !u!114 &1182653954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1182653947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f69bb51650a51c4ab4c034ddddca5b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TemperatureSistem
-  temperatureText: {fileID: 0}
-  farengheitText: {fileID: 0}
-  autoSystem: {fileID: 1182653953}
-  rawFunnel: {fileID: 0}
-  currentTemperature: 0
-  targetTemperature: 0
-  speed: 2
-  tolerance: 1
 --- !u!114 &1182653955
 MonoBehaviour:
   m_ObjectHideFlags: 0

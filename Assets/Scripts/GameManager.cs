@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public RobotBehaviour robotBehaviour;
     public DayManager dayManager;
     public DecManager decManager;
+    public DayTime dayTime;
     public Day currentDay;
 
     public static Action OnChangeDay;
@@ -31,13 +32,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    private void Start()
-    {
-        if (robotBehaviour != null)
-        {
-       
-        }
-    }
 
     private void OnEnable()
     {
@@ -56,7 +50,6 @@ public class GameManager : MonoBehaviour
         playerController = FindFirstObjectByType<PlayerController>();
         presiSpeaker = FindFirstObjectByType<PresiSpeaker>();
         robotBehaviour = FindFirstObjectByType<RobotBehaviour>();
-        robotBehaviour.dialogueSys.SysIni();
         presiSpeaker.DialogueIni();
         dayManager.StartDay();
     }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DayTime : MonoBehaviour
 {
@@ -20,7 +21,6 @@ public class DayTime : MonoBehaviour
 
     [Header("UI")]
     public TextMeshProUGUI timerText;
-
 
     public static Action<int> OnTimeSkiped;
 
@@ -90,7 +90,7 @@ public class DayTime : MonoBehaviour
         PlayerPrefs.SetInt("lastDay", lastDay);
     }
 
-    void UpdateUI()
+    public void UpdateUI()
     {
         if (timerText != null)
             timerText.text = currentHour.ToString("00") + ":" + currentMinutes.ToString("00");

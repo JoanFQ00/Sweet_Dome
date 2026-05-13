@@ -3619,10 +3619,6 @@ GameObject:
   m_Component:
   - component: {fileID: 620662198}
   - component: {fileID: 620662199}
-  - component: {fileID: 620662202}
-  - component: {fileID: 620662206}
-  - component: {fileID: 620662201}
-  - component: {fileID: 620662200}
   - component: {fileID: 620662203}
   - component: {fileID: 620662204}
   - component: {fileID: 620662205}
@@ -3667,62 +3663,6 @@ MonoBehaviour:
   dayManager: {fileID: 620662204}
   decManager: {fileID: 0}
   currentDay: 0
---- !u!114 &620662200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 620662197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f5b44916edeecd43ab71aef4f61026a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WaveWinner
-  playerRenderer: {fileID: 1399098261196762085}
-  targetRenderer: {fileID: 3217020886003304941}
-  codeSystem: {fileID: 472549440}
-  winText: {fileID: 1551038484}
-  amplitudeTolerance: 0.2
-  frequencyTolerance: 0.2
-  phaseTolerance: 0.2
-  messageDuration: 3
---- !u!114 &620662201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 620662197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21d40330d0c63cd41be6cfd53ecc84d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WaveController
-  WaveRenderer: {fileID: 1399098261196762085}
-  amplitudeSlider: {fileID: 5184620304754445348}
-  frequencySlider: {fileID: 3714539827087640307}
-  phaseSlider: {fileID: 3233387493222153871}
---- !u!114 &620662202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 620662197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f69bb51650a51c4ab4c034ddddca5b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TemperatureSistem
-  temperatureText: {fileID: 1734503931665171824}
-  farengheitText: {fileID: 1614859970066696280}
-  autoSystem: {fileID: 620662206}
-  rawFunnel: {fileID: 1513679255}
-  currentTemperature: 0
-  targetTemperature: 0
-  speed: 2
-  tolerance: 1
 --- !u!114 &620662203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3782,23 +3722,6 @@ MonoBehaviour:
   endHour: 21
   currentHour: 0
   timerText: {fileID: 1891466737}
---- !u!114 &620662206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 620662197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f53d595c20614f4896e193be78e06d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AutoTemperature
-  targetTempText: {fileID: 2099699368}
-  targetTemperature: 0
-  minTemp: -10
-  maxTemp: 50
-  changeInterval: 5
 --- !u!1 &649953145
 GameObject:
   m_ObjectHideFlags: 0
@@ -5807,7 +5730,7 @@ MonoBehaviour:
   id: 0
   dialogueIdx: 0
   currentDialogue: {fileID: 0}
-  dialoguePassTime: 0
+  dialoguePassTime: 2.5
 --- !u!4 &958680612
 Transform:
   m_ObjectHideFlags: 0
@@ -8327,6 +8250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   interactTxt: {fileID: 1469122774}
+  timerText: {fileID: 1891466737}
 --- !u!114 &1346478157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15604,9 +15528,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8825910562457734902}
   - {fileID: 3248829766821361594}
-  - {fileID: 1323641550972176323}
   - {fileID: 5190111635088804168}
   - {fileID: 9204170671272259103}
   - {fileID: 6343869763270358591}
@@ -15627,6 +15549,8 @@ Transform:
   - {fileID: 399611106611694854}
   - {fileID: 2814961619076024038}
   - {fileID: 6059183253659544196}
+  - {fileID: 8825910562457734902}
+  - {fileID: 1323641550972176323}
   - {fileID: 8381275339007970958}
   - {fileID: 8833949062672204984}
   - {fileID: 5993120217870649292}
@@ -18287,6 +18211,8 @@ GameObject:
   - component: {fileID: 8381275339007970958}
   - component: {fileID: 4602745426666367240}
   - component: {fileID: 4835664277038066940}
+  - component: {fileID: 8381275339007970960}
+  - component: {fileID: 8381275339007970959}
   m_Layer: 3
   m_Name: Mk6
   m_TagString: Untagged
@@ -21223,6 +21149,8 @@ GameObject:
   - component: {fileID: 2784863935699942666}
   - component: {fileID: 5903351973993271657}
   - component: {fileID: 7282707537590383945}
+  - component: {fileID: 7282707537590383947}
+  - component: {fileID: 7282707537590383946}
   m_Layer: 0
   m_Name: Mk4
   m_TagString: Untagged
@@ -24942,6 +24870,42 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7282707537590383946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686678892762165677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f5b44916edeecd43ab71aef4f61026a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveWinner
+  playerRenderer: {fileID: 1399098261196762085}
+  targetRenderer: {fileID: 3217020886003304941}
+  codeSystem: {fileID: 472549440}
+  winText: {fileID: 1551038484}
+  amplitudeTolerance: 0.2
+  frequencyTolerance: 0.2
+  phaseTolerance: 0.2
+  messageDuration: 3
+--- !u!114 &7282707537590383947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686678892762165677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21d40330d0c63cd41be6cfd53ecc84d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveController
+  WaveRenderer: {fileID: 1399098261196762085}
+  amplitudeSlider: {fileID: 5184620304754445348}
+  frequencySlider: {fileID: 3714539827087640307}
+  phaseSlider: {fileID: 3233387493222153871}
 --- !u!1 &7284571682591095979
 GameObject:
   m_ObjectHideFlags: 0
@@ -26604,7 +26568,7 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 620662202}
+      - m_Target: {fileID: 8381275339007970960}
         m_TargetAssemblyTypeName: TemperatureSistem, Assembly-CSharp
         m_MethodName: TemperatureUp
         m_Mode: 1
@@ -26675,6 +26639,43 @@ Transform:
   m_Children: []
   m_Father: {fileID: 543450653477901325}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8381275339007970959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2518999147049136023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f53d595c20614f4896e193be78e06d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoTemperature
+  targetTempText: {fileID: 2099699368}
+  targetTemperature: 0
+  minTemp: -10
+  maxTemp: 50
+  changeInterval: 5
+--- !u!114 &8381275339007970960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2518999147049136023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f69bb51650a51c4ab4c034ddddca5b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TemperatureSistem
+  temperatureText: {fileID: 1734503931665171824}
+  farengheitText: {fileID: 1614859970066696280}
+  autoSystem: {fileID: 8381275339007970959}
+  rawFunnel: {fileID: 1513679255}
+  currentTemperature: 0
+  targetTemperature: 0
+  speed: 2
+  tolerance: 1
 --- !u!4 &8382968995090655971
 Transform:
   m_ObjectHideFlags: 0
@@ -27314,7 +27315,7 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 620662202}
+      - m_Target: {fileID: 8381275339007970960}
         m_TargetAssemblyTypeName: TemperatureSistem, Assembly-CSharp
         m_MethodName: TemperatureDown
         m_Mode: 1
