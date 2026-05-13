@@ -1,9 +1,8 @@
 using System;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
+using Random = UnityEngine.Random;
 
 public enum SliderType { Rotation, Position }
-
 
 public class RadarMinigame : MonoBehaviour
 {
@@ -18,8 +17,16 @@ public class RadarMinigame : MonoBehaviour
     private bool onCenter;
     private Quaternion startLocalRot;
 
+    public GameObject[] objectives;
+    private GameObject currentObjective;
+
+    public GameObject CurrentObjective => currentObjective;
+
     void Start()
     {
+        currentObjective.SetActive(false);
+        currentObjective = objectives[Random.Range(0, objectives.Length)];
+
         codeText.text = baseTxt;
         startLocalRot = radarPoint.localRotation;
         onCenter = true;
@@ -29,14 +36,12 @@ public class RadarMinigame : MonoBehaviour
     {
         SliderCont.OnSliderMoved += SliderMoved;
         RadarVision.OnObjectiveGet += ChangeCodeTxt;
-        GameManager.OnSpawnObj += SpawnRandomObjective;
     }
 
     private void OnDisable()
     {
         SliderCont.OnSliderMoved -= SliderMoved;
         RadarVision.OnObjectiveGet -= ChangeCodeTxt;
-        GameManager.OnSpawnObj -= SpawnRandomObjective;
     }
 
     void ChangeCodeTxt(string code) 
@@ -64,14 +69,19 @@ public class RadarMinigame : MonoBehaviour
         }
     }
 
-    void SpawnRandomObjective() //AIXO SHA DE REVISAR PERQUE NO VAAAA
+    void Update()
     {
-        Vector2 randomPoint = UnityEngine.Random.insideUnitCircle * maxDist;
+        //PONER TIMER
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SpawnRandomObjective();
+        }
+    }
 
-        Vector3 spawnPos = radarPointZero.transform.position
-            + radarPointZero.right * randomPoint.x
-            + radarPointZero.forward * randomPoint.y;
-
-        Instantiate(objectivePrefab, spawnPos, Quaternion.identity);
+    void SpawnRandomObjective()
+    {
+        //radarPointZero
+        //maxDist
+        currentObjective.SetActive(true);
     }
 }

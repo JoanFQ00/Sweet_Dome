@@ -7,33 +7,32 @@ public class RadarVision : MonoBehaviour
 
     public float visionAngle = 65.0f;
     public LayerMask visionMask;
-    public GameObject[] objectives;
+
+    public RadarMinigame radarMinigame;
 
     public static Action<string> OnObjectiveGet;
 
     private int randomCode;
     private string departingCode;
-    private GameObject currentObjective;
 
     void Start()
     {
-        currentObjective = objectives[UnityEngine.Random.Range(0, objectives.Length)];
         GenerateRandomCode();
     }
 
     void Update()
     {
-        if (CheckVision()) 
-            currentObjective.GetComponent<MeshRenderer>().enabled = true;
+        if (CheckVision())
+            radarMinigame.CurrentObjective.GetComponent<MeshRenderer>().enabled = true;
         else
-            currentObjective.GetComponent<MeshRenderer>().enabled = false;
+            radarMinigame.CurrentObjective.GetComponent<MeshRenderer>().enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (currentObjective != null)
+        if (radarMinigame.CurrentObjective != null)
         {
-            if (other.gameObject == currentObjective)
+            if (other.gameObject == radarMinigame.CurrentObjective)
             {
                 GenerateRandomCode();
                 OnObjectiveGet?.Invoke(departingCode);
@@ -44,7 +43,7 @@ public class RadarVision : MonoBehaviour
 
     bool CheckVision() 
     {
-        Vector3 dir = currentObjective.transform.position -  transform.position;
+        Vector3 dir = radarMinigame.CurrentObjective.transform.position -  transform.position;
         float dist = dir.magnitude;
 
         if (dist > maxDist) return false;
@@ -86,10 +85,10 @@ public class RadarVision : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawLine(transform.position, transform.position + transform.forward * 2f);
 
-        if (currentObjective != null)
+        if (radarMinigame.CurrentObjective != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position, currentObjective.transform.position);
+            Gizmos.DrawLine(transform.position, radarMinigame.CurrentObjective.transform.position);
         }
     }
 

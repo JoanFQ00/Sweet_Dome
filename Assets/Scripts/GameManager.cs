@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public Day currentDay;
 
     public static Action OnChangeDay;
-    public static Action OnSpawnObj;
+    //public static Action OnSpawnObj;
    
     void Awake()
     {
@@ -38,18 +38,18 @@ public class GameManager : MonoBehaviour
         dayManager.StartDay();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O)) 
-        {
-            SpawnRadarObjective();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.O)) 
+    //    {
+    //        SpawnRadarObjective();
+    //    }
+    //}
 
-    private void SpawnRadarObjective() 
-    {
-        OnSpawnObj?.Invoke();
-    }
+    //private void SpawnRadarObjective() 
+    //{
+    //    OnSpawnObj?.Invoke();
+    //}
 
     private void OnEnable()
     {
