@@ -38,13 +38,17 @@ public class Action_Reader : BaseAction
         }
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         LevelManager.OnLevelLoaded += LevelLoaded;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+
         LevelManager.OnLevelLoaded -= LevelLoaded;
     }
 
@@ -59,7 +63,6 @@ public class Action_Reader : BaseAction
 
     public override void Interact()
     {
-        Debug.Log("INTERACT");
         if (state != State.Idle) return;
 
         startPos = transform.position;
@@ -76,7 +79,6 @@ public class Action_Reader : BaseAction
         switch (state)
         {
             case State.MovingToRead:
-                Debug.Log("MovingToRead");
                 Move(readTransform.position, readTransform.rotation, () =>
                 {
                     state = State.Reading;
@@ -84,8 +86,6 @@ public class Action_Reader : BaseAction
                 break;
 
             case State.Reading:
-                Debug.Log("Reading");
-
                 gameObject.layer = LayerMask.NameToLayer("Default");
 
                 if (Input.GetKeyDown(KeyCode.Escape))
@@ -104,8 +104,8 @@ public class Action_Reader : BaseAction
                 {
                     player.LockPlayer(false);
                     gameObject.layer = LayerMask.NameToLayer("Interactable");
-                    OnActionExecuted();
                     state = State.Idle;
+                    OnActionExecuted();
                 });
                 break;
         }

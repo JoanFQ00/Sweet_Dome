@@ -10,12 +10,12 @@ public abstract class BaseAction : MonoBehaviour, IInteractable
 
     protected int currentLayer = -1;
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         GameManager.OnChangeDay += ResetActionState;
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         GameManager.OnChangeDay -= ResetActionState;
     }
@@ -31,7 +31,6 @@ public abstract class BaseAction : MonoBehaviour, IInteractable
 
     void CheckHour() 
     {
-
         int hour = DayTime.Instance.GetCurrentHour();
         int newLayer;
 
