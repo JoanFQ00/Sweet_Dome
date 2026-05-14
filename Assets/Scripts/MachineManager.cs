@@ -26,6 +26,11 @@ public class MachineManager : MonoBehaviour
         if (DayTime.Instance.currentHour >= 15)
             if (isDayGoalCompleted())
                 OnActionExecuted();
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            OnActionExecuted();
+        }
     }
 
     public bool isDayGoalCompleted()

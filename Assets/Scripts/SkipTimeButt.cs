@@ -9,9 +9,11 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (GameManager.Instance.currentDay != Day.Day1) 
+        if (GameManager.Instance.currentDay == Day.Day3)
             onPress?.Invoke();
-        else 
+        else if (GameManager.Instance.currentDay == Day.Day1 ||GameManager.Instance.currentDay == Day.Day2)
+        {
             OnFirstDayButt?.Invoke(true);
+        }
     }
 }

@@ -41,7 +41,7 @@ public class DayManager : MonoBehaviour
             break;
 
             case Day.Day2:
-                UpdateDay2();
+                UpdateDay1();
             break;
         }
     }
@@ -57,12 +57,12 @@ public class DayManager : MonoBehaviour
                 PresidentSpeaks();
             }
 
-            //if (machineCompletedDay1.IsMet(GameManager.Instance.decManager) && !machineCompletedToday)
-            //{
-            //    GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.MachineCompleted);
-            //    machineCompletedToday = true;
-            //    PresidentSpeaks();
-            //}
+            if (machineCompletedDay1.IsMet(GameManager.Instance.decManager) && !machineCompletedToday)
+            {
+                GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.MachineCompleted);
+                machineCompletedToday = true;
+                PresidentSpeaks();
+            }
         }
     }
 
@@ -98,7 +98,7 @@ public class DayManager : MonoBehaviour
         }
         if (GameManager.Instance.currentDay == Day.Day2) 
         {
-            Day2HourSkip();
+            Day1HourSkip();
         }
     }
 

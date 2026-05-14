@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
 
     public static Action OnChangeDay;
     public static Action NewDay;
-    //public static Action OnSpawnObj;
    
     void Awake()
     {
@@ -85,6 +84,9 @@ public class GameManager : MonoBehaviour
     public void ChangeDay() 
     {
         OnChangeDay?.Invoke();
+        //Quitar de aqui y poner en el daymanager
+        presiSpeaker.ChangeDialogueID((int)PresiDialogue.GoodMorningDay1);
+        presiSpeaker.PresiSpeaks();
 
         if (currentDay < Day.Day5)
         {

@@ -12,12 +12,12 @@ public abstract class BaseAction : MonoBehaviour, IInteractable
 
     private void OnEnable()
     {
-        BedInt.OnInteract += ResetActionState;
+        GameManager.OnChangeDay += ResetActionState;
     }
 
     private void OnDisable()
     {
-        BedInt.OnInteract -= ResetActionState;
+        GameManager.OnChangeDay -= ResetActionState;
     }
 
     protected virtual void Update()

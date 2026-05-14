@@ -64,13 +64,6 @@ public class DayTime : MonoBehaviour
     // DAY LOGIC
     // =======================
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L)) 
-        {
-            SetCurrentTime(21, 0);
-        }
-    }
 
     void LoadNextDay()
     {
@@ -135,7 +128,8 @@ public class DayTime : MonoBehaviour
     public void SkipTime() 
     {
         currentHour += 2;
-        Mathf.Clamp(currentHour, 9, 15);
+        if (currentHour > 15) currentHour = 15;
+
         OnTimeSkiped?.Invoke(currentHour);
         UpdateUI();
     }
