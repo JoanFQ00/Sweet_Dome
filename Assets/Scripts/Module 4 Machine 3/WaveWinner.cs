@@ -8,8 +8,6 @@ public class WaveWinner : MonoBehaviour
     public WaveRenderer targetRenderer;
     public CodeSystem codeSystem;
 
-    [Header("UI Text")]
-    public GameObject winText;
 
     [Header("Tolerancies")]
     public float amplitudeTolerance = 1.0f;
@@ -25,8 +23,6 @@ public class WaveWinner : MonoBehaviour
 
     void Start()
     {
-        if(winText != null)
-            winText.SetActive(false);
     }
 
     void Update()
@@ -67,9 +63,6 @@ public class WaveWinner : MonoBehaviour
 
     void ShowWin()
     {
-        if (winText != null)
-            winText.SetActive(false);
-
         if (codeSystem != null)
         {
             codeSystem.GenerateCode();
@@ -78,9 +71,6 @@ public class WaveWinner : MonoBehaviour
 
     void HideWinMessage()
     {
-        if (winText != null)
-            winText.SetActive(false);
-
         showingMessage = false;
     }
 }
