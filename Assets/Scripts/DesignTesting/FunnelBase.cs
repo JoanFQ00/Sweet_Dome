@@ -8,7 +8,7 @@ public class FunnelBase : CapabilityBase
 
     protected override void Start()
     {
-        initialValues = new List<float> { 50f, 60f, 70f, 80f, 90f }; // Example values for each day
+        //initialValues = new List<float> { 50f, 60f, 70f, 80f, 90f }; // Example values for each day
         base.Start();
     }
 

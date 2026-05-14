@@ -11,6 +11,10 @@ public class DoorBehaviour : MonoBehaviour
     public AnimationClip Closed;
 
     public bool m_IsOpened;
+    public bool m_CanOpen = true;
+
+    public BoxCollider m_triggerCollision;
+
     public enum Tstate
     {
         OPEN,
@@ -23,6 +27,8 @@ public class DoorBehaviour : MonoBehaviour
 
     void Start()
     {
+        m_CanOpen = true;
+
         if (m_Animation == null)
         {
             m_Animation = GetComponent<Animation>();
@@ -108,8 +114,17 @@ public class DoorBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (!m_IsOpened && DayTime.Instance.currentHour >= 21)
+        if (m_CanOpen && !m_IsOpened && DayTime.Instance.currentHour >= 15 && DayTime.Instance.currentHour < 21)
+        {
             OpenDoor();
+            m_CanOpen = false;
+            m_triggerCollision.enabled = true;
+        }
+        else if (!m_IsOpened && DayTime.Instance.currentHour >= 21)
+        {
+            OpenDoor();
+            m_CanOpen = true;
+        }
 
         if (m_IsOpened && DayTime.Instance.currentHour <= 9)
             CloseDoor();
