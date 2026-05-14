@@ -3,12 +3,18 @@ using TMPro;
 
 public class CodeSystem : MonoBehaviour
 {
-    [Header("UI")]
-    public GameObject codeCanvas;
-    public TextMeshProUGUI codeDisplay;
+    [Header("3D Canvas Input")]
+    public GameObject inputCanvas;
+    public TextMeshProUGUI inputDisplay;
+
+    [Header("Normal UI Canvas")]
+    public GameObject generatedCodeCanvas;
+    public TextMeshProUGUI generatedCodeText;
 
     [Header("Config")]
     public int codeLength = 4;
+    public float codeVisibleTime = 3f;
+
     [SerializeField] private FunnelBase rawFunnel;
 
     private string generatedCode = "";
@@ -18,10 +24,29 @@ public class CodeSystem : MonoBehaviour
     public Color wrongColor = Color.red;
     public Color defaultColor = Color.white;
 
+    private bool showingCode = false;
+    private float codeTimer = 0f;
+
     void Start()
     {
-        if (codeCanvas != null)
-            codeCanvas.SetActive(false);
+        if (generatedCodeCanvas != null)
+            generatedCodeCanvas.SetActive(false);
+
+        if (inputDisplay != null)
+            inputDisplay.text = "";
+    }
+
+    void Update()
+    {
+        if (showingCode)
+        {
+            codeTimer += Time.deltaTime;
+
+            if (codeTimer >= codeVisibleTime)
+            {
+                HideGeneratedCode();
+            }
+        }
     }
 
     public void GenerateCode()
@@ -36,10 +61,29 @@ public class CodeSystem : MonoBehaviour
 
         Debug.Log("CODIGO: " + generatedCode);
 
-        if (codeCanvas != null)
-            codeCanvas.SetActive(true);
+        ShowGeneratedCode();
+    }
 
-        UpdateDisplay();
+    void ShowGeneratedCode()
+    {
+        if (generatedCodeCanvas != null)
+            generatedCodeCanvas.SetActive(true);
+
+        generatedCodeText.color = defaultColor;
+        generatedCodeText.text = generatedCode;
+
+        showingCode = true;
+        codeTimer = 0f;
+    }
+
+    void HideGeneratedCode()
+    {
+        showingCode = false;
+
+        generatedCodeText.text = "";
+
+        if (generatedCodeCanvas != null)
+            generatedCodeCanvas.SetActive(false);
     }
 
     public void AddNumber(int number)
@@ -48,7 +92,8 @@ public class CodeSystem : MonoBehaviour
             return;
 
         currentInput += number.ToString();
-        UpdateDisplay();
+
+        inputDisplay.text = currentInput;
 
         if (currentInput.Length == codeLength)
         {
@@ -56,23 +101,21 @@ public class CodeSystem : MonoBehaviour
         }
     }
 
-    void UpdateDisplay()
-    {
-        codeDisplay.text = currentInput;
-        codeDisplay.color = defaultColor;
-    }
-
     void CheckCode()
     {
         if (currentInput == generatedCode)
         {
-            codeDisplay.color = correctColor;
-            rawFunnel.AddLiquid(20f);
+            inputDisplay.color = correctColor;
+
+            if (rawFunnel != null)
+                rawFunnel.AddLiquid(20f);
+
             Debug.Log("CORRECTO");
         }
         else
         {
-            codeDisplay.color = wrongColor;
+            inputDisplay.color = wrongColor;
+
             Debug.Log("INCORRECTO");
 
             Invoke(nameof(ResetInput), 1.5f);
@@ -82,6 +125,8 @@ public class CodeSystem : MonoBehaviour
     void ResetInput()
     {
         currentInput = "";
-        UpdateDisplay();
+
+        inputDisplay.text = "";
+        inputDisplay.color = defaultColor;
     }
 }
