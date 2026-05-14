@@ -15,6 +15,10 @@ public class RadarVision : MonoBehaviour
     private int randomCode;
     private string departingCode;
 
+    [Header("Manager")]
+    public MachineManager machineManager;
+    public bool completed = false;
+
     void Start()
     {
         GenerateRandomCode();
@@ -37,6 +41,13 @@ public class RadarVision : MonoBehaviour
                 GenerateRandomCode();
                 OnObjectiveGet?.Invoke(departingCode);
                 other.gameObject.SetActive(false);
+
+                completed = true;
+
+                if (machineManager != null)
+                {
+                    machineManager.CompleteRadar();
+                }
             }
         }
     }

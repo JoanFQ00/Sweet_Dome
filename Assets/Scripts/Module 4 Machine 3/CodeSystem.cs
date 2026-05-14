@@ -27,6 +27,10 @@ public class CodeSystem : MonoBehaviour
     private bool showingCode = false;
     private float codeTimer = 0f;
 
+    [Header("Manager")]
+    public MachineManager machineManager;
+    public bool completed = false;
+
     void Start()
     {
         if (generatedCodeCanvas != null)
@@ -105,6 +109,13 @@ public class CodeSystem : MonoBehaviour
     {
         if (currentInput == generatedCode)
         {
+            completed = true;
+
+            if (machineManager != null)
+            {
+                machineManager.CompleteCode();
+            }
+
             inputDisplay.color = correctColor;
 
             if (rawFunnel != null)
