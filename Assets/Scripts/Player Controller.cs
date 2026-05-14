@@ -1,7 +1,6 @@
 using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,6 +26,15 @@ public class PlayerController : MonoBehaviour
     float yaw;
     float pitch;
 
+    [Header("Camera Zoom")]
+    public float objectiveFov = 45f;
+    public float timeToZoom = 1.5f;
+    float currentZoomTime = 0f;
+    bool zoomingCamera = false;
+    bool cameraOnZoom = false;
+    float originalFov;
+
+    [HideInInspector]
     public bool playerLocked;
     PlayerInput playerInput;
 
@@ -41,6 +49,7 @@ public class PlayerController : MonoBehaviour
     {
         GameManager.Instance.SetPlayer(this);
         Cursor.lockState = CursorLockMode.Locked;
+        originalFov = mainCamera.fieldOfView;
     }
 
     public void LockPlayer(bool locked) 
@@ -64,6 +73,12 @@ public class PlayerController : MonoBehaviour
             Move(); 
         if (!cameraLocked)
             Look();
+
+        if (Input.GetMouseButtonDown(2) && !zoomingCamera)
+            ActivateZoom();
+
+        if (zoomingCamera)
+            ChangeCameraZoom();
     }
 
     void Move()
@@ -113,6 +128,35 @@ public class PlayerController : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0f, yaw, 0f);
             pitchController.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+        }
+    }
+
+    void ActivateZoom()
+    {
+        cameraOnZoom = !cameraOnZoom;
+        zoomingCamera = true;
+
+        currentZoomTime = 0f;
+    }
+
+    void ChangeCameraZoom()
+    {
+        currentZoomTime += Time.deltaTime;
+
+        float pct = currentZoomTime / timeToZoom;
+
+        if (cameraOnZoom)
+        {
+            mainCamera.fieldOfView = Mathf.Lerp(originalFov, objectiveFov, pct);
+        }
+        else
+        {
+            mainCamera.fieldOfView = Mathf.Lerp(objectiveFov, originalFov, pct);
+        }
+
+        if (pct >= 1f)
+        {
+            zoomingCamera = false;
         }
     }
 }

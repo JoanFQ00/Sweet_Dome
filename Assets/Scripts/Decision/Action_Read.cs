@@ -28,7 +28,14 @@ public class Action_Reader : BaseAction
 
     void Start()
     {
-       
+        if (GameManager.Instance != null)
+        { 
+            player = GameManager.Instance.playerController;
+            readTransform = player.GetComponent<Interact>().readTransform;
+        }
+
+        startPos = transform.position;
+        startRot = transform.rotation;
     }
 
     private void OnEnable()
@@ -55,9 +62,6 @@ public class Action_Reader : BaseAction
         if (state != State.Idle) return;
 
         player.LockPlayer(true);
-
-        startPos = transform.position;
-        startRot = transform.rotation;
 
         currentMoveTime = 0f;
         state = State.MovingToRead;
