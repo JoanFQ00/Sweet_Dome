@@ -17,6 +17,12 @@ public abstract class CapabilityBase : MonoBehaviour
     protected virtual void Start()
     {
         StartCoroutine(DelayedStartDay());
+        GameManager.NewDay += StartDay; //CAMBIAR
+    }
+
+    private void OnDisable()
+    {
+        GameManager.NewDay -= StartDay;
     }
 
     private IEnumerator DelayedStartDay()
