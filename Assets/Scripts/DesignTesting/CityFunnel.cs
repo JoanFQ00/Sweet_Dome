@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.Port;
@@ -82,5 +83,10 @@ public class CityFunnel : FunnelBase
     public string GetInitialName() 
     {
         return cityZones[indexZone].GetComponent<CityLabel>().label;
+    }
+
+    public List<FunnelBase> GetCityZones()
+    {
+        return cityZones;
     }
 }
