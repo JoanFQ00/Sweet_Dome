@@ -32,10 +32,10 @@ public class Action_Reader : BaseAction
         { 
             player = GameManager.Instance.playerController;
             readTransform = player.GetComponent<Interact>().readTransform;
-        }
 
-        startPos = transform.position;
-        startRot = transform.rotation;
+            originalPos = transform.position;
+            originalRot = transform.rotation;
+        }
     }
 
     private void OnEnable()
@@ -61,6 +61,9 @@ public class Action_Reader : BaseAction
     {
         if (state != State.Idle) return;
 
+        startPos = transform.position;
+        startRot = transform.rotation;
+
         player.LockPlayer(true);
 
         currentMoveTime = 0f;
@@ -83,8 +86,8 @@ public class Action_Reader : BaseAction
 
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
-              
-
+                    startPos = transform.position;
+                    startRot = transform.rotation;
                     currentMoveTime = 0f;
                     state = State.Returning;
                 }
