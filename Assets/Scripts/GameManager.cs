@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 public enum Day { Day1, Day2, Day3, Day4, Day5 }
 
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     public Day currentDay;
 
     public static Action OnChangeDay;
+    public static Action NewDay;
     //public static Action OnSpawnObj;
    
     void Awake()
@@ -34,6 +36,16 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    protected virtual void Start()
+    {
+        StartCoroutine(DelayedStartDay());
+    }
+
+    private IEnumerator DelayedStartDay()
+    {
+        yield return null;
+        NewDay?.Invoke();
+    }
 
     private void OnEnable()
     {
@@ -77,6 +89,7 @@ public class GameManager : MonoBehaviour
         if (currentDay < Day.Day5)
         {
             currentDay = (Day)((int)currentDay + 1);
+            NewDay?.Invoke();
         }
     }
 }

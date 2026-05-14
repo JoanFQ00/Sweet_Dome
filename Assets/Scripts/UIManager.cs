@@ -4,7 +4,7 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     public GameObject interactTxt;
-    public TextMeshProUGUI timerText;
+    public TextMeshProUGUI timerText, dayText;
     public static UIManager Instance;
 
 
@@ -15,16 +15,23 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
+        GameManager.NewDay += OnDayChanged;
         Interact.CanInteract += ChangeInteractVisibility;
     }
 
     private void OnDisable()
     {
+        GameManager.NewDay -= OnDayChanged;
         Interact.CanInteract -= ChangeInteractVisibility;
     }
 
     void ChangeInteractVisibility(bool visibility) 
     {
         interactTxt.SetActive(visibility);
+    }
+
+    void OnDayChanged()
+    {
+        dayText.text = $"{GameManager.Instance.currentDay.ToString().ToUpper()}";
     }
 }

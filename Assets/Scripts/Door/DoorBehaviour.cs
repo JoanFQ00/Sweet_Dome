@@ -11,7 +11,6 @@ public class DoorBehaviour : MonoBehaviour
     public AnimationClip Closed;
 
     public bool m_IsOpened;
-
     public enum Tstate
     {
         OPEN,
@@ -109,15 +108,10 @@ public class DoorBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
+        if (!m_IsOpened && DayTime.Instance.currentHour >= 21)
             OpenDoor();
-        }
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
+        if (m_IsOpened && DayTime.Instance.currentHour <= 9)
             CloseDoor();
-        }
     }
 }
-
