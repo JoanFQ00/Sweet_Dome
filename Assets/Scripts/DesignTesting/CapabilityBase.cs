@@ -12,6 +12,8 @@ public abstract class CapabilityBase : MonoBehaviour
     public Action<float> OnCapacityUpdated;
     public Action<string> OnNameUpdated;
 
+    public float MaxCapacity => maxCapacity;
+    public float MinCapacity => minCapacity;
     public float CurrentCapacity => currentCapacity;
 
     protected virtual void Start()

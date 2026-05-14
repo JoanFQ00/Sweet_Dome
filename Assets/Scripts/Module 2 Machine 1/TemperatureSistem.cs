@@ -18,10 +18,6 @@ public class TemperatureSistem : MonoBehaviour
 
     bool completed = false;
 
-    [Header("Manager")]
-    public MachineManager machineManager;
-    public bool completedMinigame = false;
-
     void Update()
     {
         if (!autoSystem || !temperatureText) return;
@@ -30,12 +26,6 @@ public class TemperatureSistem : MonoBehaviour
         if (!completed && Mathf.Abs(currentTemperature - autoSystem.targetTemperature) <= tolerance)
         {
             completed = true;
-
-            completedMinigame = true;
-            //if (machineManager != null)
-            //{
-            //    machineManager.CompleteTemperature();
-            //}
 
             temperatureText.color = Color.green;
             farengheitText.color = Color.green;

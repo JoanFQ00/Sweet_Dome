@@ -10,14 +10,13 @@ public class RadarVision : MonoBehaviour
 
     public RadarMinigame radarMinigame;
 
+    //BORRAR
+    public FunnelBase rawFunnel;
+
     public static Action<string> OnObjectiveGet;
 
     private int randomCode;
     private string departingCode;
-
-    [Header("Manager")]
-    public MachineManager machineManager;
-    public bool completed = false;
 
     void Start()
     {
@@ -40,14 +39,8 @@ public class RadarVision : MonoBehaviour
             {
                 GenerateRandomCode();
                 OnObjectiveGet?.Invoke(departingCode);
+                rawFunnel.AddLiquid(20f);
                 other.gameObject.SetActive(false);
-
-                completed = true;
-
-                //if (machineManager != null)
-                //{
-                //    machineManager.CompleteRadar();
-                //}
             }
         }
     }
