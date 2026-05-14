@@ -28,7 +28,7 @@ public class Action_Reader : BaseAction
 
     void Start()
     {
-        if (GameManager.Instance != null)
+        if (GameManager.Instance.playerController != null)
         { 
             player = GameManager.Instance.playerController;
             readTransform = player.GetComponent<Interact>().readTransform;
@@ -83,8 +83,7 @@ public class Action_Reader : BaseAction
 
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    startPos = transform.position;
-                    startRot = transform.rotation;
+              
 
                     currentMoveTime = 0f;
                     state = State.Returning;

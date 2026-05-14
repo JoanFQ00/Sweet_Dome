@@ -7,6 +7,7 @@ public class PresiSpeaker : MonoBehaviour
     public GameObject interactionBubble;
     public TextMeshProUGUI interlocutor;
     public TextMeshProUGUI dialogueTxt;
+
     private PresiSys dialogueSys;
 
     private void Awake()
@@ -16,9 +17,6 @@ public class PresiSpeaker : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.Instance.presiSpeaker = this;
-        DialogueIni();
-        PresiSpeaks();
         dialogueSys.OnDialogueTerminated += EndDialogue;
         dialogueSys.OnDialogueChanged += UpdateUI;
     }
@@ -31,39 +29,19 @@ public class PresiSpeaker : MonoBehaviour
 
     public void DialogueIni()
     {
+        if (dialogueSys == null)
+            return;
+
         dialogueSys.SysIni();
 
-        if (dialogueSys.loadedDialogues == null || dialogueSys.loadedDialogues.Length == 0)
+        if (dialogueSys.loadedDialogues == null ||
+            dialogueSys.loadedDialogues.Length == 0)
         {
             Debug.LogError("No dialogues loaded");
             return;
         }
 
-        dialogueSys.StartStopDialogue(true);
-
-        interactionBubble.SetActive(true);
-
-        UpdateUI();
-    }
-
-    void UpdateUI()
-    {
-        var current = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx];
-
-        interlocutor.text = current.speaker;
-        dialogueTxt.text = current.text;
-    }
-
-    void EndDialogue()
-    {
-        interactionBubble.SetActive(false);
-
-        dialogueSys.StartStopDialogue(false);
-    }
-
-    public void ChangeDialogueID(int id) 
-    {
-        dialogueSys.ChargeDialogues(id);
+        PresiSpeaks();
     }
 
     public void PresiSpeaks()
@@ -78,8 +56,38 @@ public class PresiSpeaker : MonoBehaviour
 
         dialogueSys.StartStopDialogue(true);
 
-        interactionBubble.SetActive(true);
+        if (interactionBubble != null)
+            interactionBubble.SetActive(true);
 
         UpdateUI();
+    }
+
+    void UpdateUI()
+    {
+        if (dialogueSys.loadedDialogues == null ||
+            dialogueSys.loadedDialogues.Length == 0)
+            return;
+
+        if (dialogueSys.dialogueIdx < 0 ||
+            dialogueSys.dialogueIdx >= dialogueSys.loadedDialogues.Length)
+            return;
+
+        var current = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx];
+
+        interlocutor.text = current.speaker;
+        dialogueTxt.text = current.text;
+    }
+
+    void EndDialogue()
+    {
+        if (interactionBubble != null)
+            interactionBubble.SetActive(false);
+
+        dialogueSys.StartStopDialogue(false);
+    }
+
+    public void ChangeDialogueID(int id)
+    {
+        dialogueSys.ChargeDialogues(id);
     }
 }

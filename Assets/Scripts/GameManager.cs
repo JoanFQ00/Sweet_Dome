@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public GameObject UI;
+
     public PlayerController playerController;
     public PresiSpeaker presiSpeaker;
     public RobotBehaviour robotBehaviour;
@@ -47,11 +49,21 @@ public class GameManager : MonoBehaviour
 
     private void LevelLoaded()
     {
+        Debug.Log("Here");
         playerController = FindFirstObjectByType<PlayerController>();
         presiSpeaker = FindFirstObjectByType<PresiSpeaker>();
         robotBehaviour = FindFirstObjectByType<RobotBehaviour>();
-        presiSpeaker.DialogueIni();
-        dayManager.StartDay();
+
+        UI = GameObject.FindGameObjectWithTag("UI");
+
+        if (presiSpeaker != null)
+            presiSpeaker.DialogueIni();
+
+        if (dayManager != null)
+        {
+            Debug.Log("AndHere");
+            dayManager.StartDay();
+        }
     }
 
     public void SetPlayer(PlayerController controller) 
@@ -63,7 +75,7 @@ public class GameManager : MonoBehaviour
     {
         OnChangeDay?.Invoke();
 
-        if (currentDay < Day.Day2)
+        if (currentDay < Day.Day5)
         {
             currentDay = (Day)((int)currentDay + 1);
         }
