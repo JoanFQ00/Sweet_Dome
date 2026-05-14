@@ -15,7 +15,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public TextMeshProUGUI dialogueTxt;
     public RoboSys dialogueSys;
 
-    [HideInInspector]
     public int currentRandomDialogue;
 
     public NavMeshAgent agent;

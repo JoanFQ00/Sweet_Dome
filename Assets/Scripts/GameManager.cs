@@ -49,21 +49,20 @@ public class GameManager : MonoBehaviour
 
     private void LevelLoaded()
     {
-        Debug.Log("Here");
         playerController = FindFirstObjectByType<PlayerController>();
         presiSpeaker = FindFirstObjectByType<PresiSpeaker>();
         robotBehaviour = FindFirstObjectByType<RobotBehaviour>();
 
         UI = GameObject.FindGameObjectWithTag("UI");
+        dayTime.timerText = UI.GetComponent<UIManager>().timerText;
+        dayTime.ResetDayTime();
 
         if (presiSpeaker != null)
             presiSpeaker.DialogueIni();
 
         if (dayManager != null)
-        {
-            Debug.Log("AndHere");
             dayManager.StartDay();
-        }
+
     }
 
     public void SetPlayer(PlayerController controller) 
