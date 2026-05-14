@@ -5,12 +5,15 @@ public class BedInt : MonoBehaviour, IInteractable
 {
     public static Action OnInteract;
 
+    void Update() 
+    {
+        gameObject.layer = LayerMask.NameToLayer
+            (DayTime.Instance.CanSleepInBed() ? "Interactable" : "Default");
+    }
+
     public void Interact() 
     {
-        if (DayTime.Instance.CanSleepInBed())
-        {
-            OnInteract?.Invoke();
-            DayTime.Instance.ResetDayTime();
-        }
+        OnInteract?.Invoke();
+        DayTime.Instance.ResetDayTime();
     }
 }

@@ -24,7 +24,7 @@ public class DayTime : MonoBehaviour
 
     public static Action<int> OnTimeSkiped;
 
-    private bool canSleepChange = false;
+    private bool canSleep = false;
 
     void Awake()
     {
@@ -42,11 +42,13 @@ public class DayTime : MonoBehaviour
     private void OnEnable()
     {
         GameManager.OnChangeDay += LoadNextDay;
+        LevelManager.OnLevelLoaded += ResetDayTime;
     }
 
     private void OnDisable()
     {
         GameManager.OnChangeDay -= LoadNextDay;
+        LevelManager.OnLevelLoaded -= ResetDayTime;
     }
 
     void Start()
@@ -61,6 +63,14 @@ public class DayTime : MonoBehaviour
     // =======================
     // DAY LOGIC
     // =======================
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.L)) 
+        {
+            SetCurrentTime(21, 0);
+        }
+    }
 
     void LoadNextDay()
     {
@@ -98,15 +108,13 @@ public class DayTime : MonoBehaviour
 
     public void ResetDayTime()
     {
-        currentHour = startHourDay;
-        currentMinutes = 0;
-        canSleepChange = false;
+        SetCurrentTime(startHourDay, 0);
         UpdateUI();
     }
 
     public bool CanSleepInBed()
     {
-        return true;
+        return canSleep;
     }
 
     public int GetCurrentHour()
@@ -114,20 +122,21 @@ public class DayTime : MonoBehaviour
         return currentHour;
     }
 
-    public void SetCurrentTime(int _hour, int _minute) 
+    public void SetCurrentTime(int _hour, int _minute)
     {
         currentHour = _hour;
         currentMinutes = _minute;
+
+        canSleep = currentHour >= 21;
+
         UpdateUI();
     }
 
     public void SkipTime() 
     {
-        if (currentHour <= 13) 
-        {
-            currentHour += 2;
-            OnTimeSkiped?.Invoke(currentHour);
-            UpdateUI();
-        }
+        currentHour += 2;
+        Mathf.Clamp(currentHour, 9, 15);
+        OnTimeSkiped?.Invoke(currentHour);
+        UpdateUI();
     }
 }
