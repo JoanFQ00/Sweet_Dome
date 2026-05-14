@@ -12,6 +12,9 @@ public class Lever : MonoBehaviour
     [Header("Drag Settings")]
     public float dragSpeed = 2f;
 
+    [Header("Return Settings")]
+    public float returnSpeed = 10f;
+
     private bool isDragging;
 
     public float currentAngle;
@@ -40,6 +43,10 @@ public class Lever : MonoBehaviour
         {
             DragLever();
         }
+        else
+        {
+            ReturnToNeutral();
+        }
 
         CheckLeverState();
     }
@@ -51,6 +58,23 @@ public class Lever : MonoBehaviour
         currentAngle += mouseY * dragSpeed;
 
         currentAngle = Mathf.Clamp(currentAngle, outAngle, suckAngle);
+
+        ApplyRotation();
+    }
+
+    void ReturnToNeutral()
+    {
+        currentAngle = Mathf.Lerp(
+            currentAngle,
+            neutralAngle,
+            Time.deltaTime * returnSpeed
+        );
+
+        // Evita vibraciones infinitas cerca del objetivo
+        if (Mathf.Abs(currentAngle - neutralAngle) < 0.01f)
+        {
+            currentAngle = neutralAngle;
+        }
 
         ApplyRotation();
     }
@@ -95,8 +119,8 @@ public class Lever : MonoBehaviour
                 machine.GetActivePump().Expelling();
                 break;
 
-            default: //LeverState.Neutral:
-                     //Nothing
+            default:
+                // Neutral
                 break;
         }
 

@@ -111,10 +111,10 @@ public class CodeSystem : MonoBehaviour
         {
             completed = true;
 
-            if (machineManager != null)
-            {
-                machineManager.CompleteCode();
-            }
+            //if (machineManager != null)
+            //{
+            //    machineManager.CompleteCode();
+            //}
 
             inputDisplay.color = correctColor;
 

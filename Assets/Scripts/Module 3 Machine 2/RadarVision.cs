@@ -44,10 +44,10 @@ public class RadarVision : MonoBehaviour
 
                 completed = true;
 
-                if (machineManager != null)
-                {
-                    machineManager.CompleteRadar();
-                }
+                //if (machineManager != null)
+                //{
+                //    machineManager.CompleteRadar();
+                //}
             }
         }
     }

@@ -32,10 +32,10 @@ public class TemperatureSistem : MonoBehaviour
             completed = true;
 
             completedMinigame = true;
-            if (machineManager != null)
-            {
-                machineManager.CompleteTemperature();
-            }
+            //if (machineManager != null)
+            //{
+            //    machineManager.CompleteTemperature();
+            //}
 
             temperatureText.color = Color.green;
             farengheitText.color = Color.green;
