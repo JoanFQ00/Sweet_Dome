@@ -22,7 +22,8 @@ public class InteractionState : IState
         robot.agent.velocity = Vector3.zero;
         robot.gameObject.layer = defaultLayer;
 
-        robot.interactionBubble.SetActive(true);
+        robot.dialogueBubble.SetActive(true);
+        robot.dialogueSkipIm.SetActive(true);
 
         GameManager.Instance.playerController.LockPlayer(true);
 
@@ -72,7 +73,9 @@ public class InteractionState : IState
 
     public void OnExit()
     {
-        robot.interactionBubble.SetActive(false);
+        robot.dialogueBubble.SetActive(false);
+        robot.dialogueSkipIm.SetActive(false);
+
         robot.gameObject.layer = interactingLayer;
         GameManager.Instance.playerController.LockPlayer(false);
     }

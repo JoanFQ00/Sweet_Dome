@@ -10,7 +10,8 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public float patrolRange = 10f;
 
     [Header("Dialogue")]
-    public GameObject interactionBubble;
+    public GameObject dialogueBubble;
+    public GameObject dialogueSkipIm;
     public TextMeshProUGUI interlocutor;
     public TextMeshProUGUI dialogueTxt;
     public RoboSys dialogueSys;
