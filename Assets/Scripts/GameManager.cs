@@ -7,8 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    [Header("References")]
     public GameObject UI;
-
     public PlayerController playerController;
     public PresiSpeaker presiSpeaker;
     public RobotBehaviour robotBehaviour;
@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     public DecManager decManager;
     public DayTime dayTime;
     public Day currentDay;
+
+    [Header("StartPosition")]
+    public Transform playerStart;
 
     public static Action OnChangeDay;
     public static Action NewDay;
@@ -37,6 +40,8 @@ public class GameManager : MonoBehaviour
 
     protected virtual void Start()
     {
+        playerStart = GameObject.FindWithTag("PlayerStart").transform;
+        playerController.transform.position = playerStart.position;
         StartCoroutine(DelayedStartDay());
     }
 
@@ -63,10 +68,12 @@ public class GameManager : MonoBehaviour
         playerController = FindFirstObjectByType<PlayerController>();
         presiSpeaker = FindFirstObjectByType<PresiSpeaker>();
         robotBehaviour = FindFirstObjectByType<RobotBehaviour>();
-
         UI = GameObject.FindGameObjectWithTag("UI");
         dayTime.timerText = UI.GetComponent<UIManager>().timerText;
         dayTime.ResetDayTime();
+
+        playerStart = GameObject.FindWithTag("PlayerStart").transform;
+        playerController.transform.position = playerStart.position;
 
         if (presiSpeaker != null)
             presiSpeaker.DialogueIni();

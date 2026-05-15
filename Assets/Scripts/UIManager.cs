@@ -27,7 +27,6 @@ public class UIManager : MonoBehaviour
 
     void ChangeInteractVisibility(bool visibility, bool interacting) 
     {
-        Debug.Log(visibility + " " +  interacting);
         if (interacting)
         {
             interactTxt.SetActive(false);
