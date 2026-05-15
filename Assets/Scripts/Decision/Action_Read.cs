@@ -98,12 +98,14 @@ public class Action_Reader : BaseAction
                 break;
 
             case State.Returning:
-                Debug.Log("Returning");
-
                 Move(originalPos, originalRot, () =>
                 {
                     player.LockPlayer(false);
                     gameObject.layer = LayerMask.NameToLayer("Interactable");
+
+                    GameManager.Instance.playerController.
+                    GetComponent<Interact>().ChangeInteracting(false);
+                    
                     state = State.Idle;
                     OnActionExecuted();
                 });

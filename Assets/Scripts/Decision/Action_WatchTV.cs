@@ -52,6 +52,9 @@ public class Action_WatchTV : BaseAction
 
         watching = false;
 
+        GameManager.Instance.playerController.
+        GetComponent<Interact>().ChangeInteracting(false);
+
         OnActionExecuted();
     }
 }

@@ -18,7 +18,9 @@ public class Interact : MonoBehaviour
     private bool debugMode = true;
     private IInteractable interactable;
 
-    public static event Action<bool> CanInteract;
+    bool interacting;
+
+    public static event Action<bool,bool> CanInteract;
 
     private void Awake()
     {
@@ -39,6 +41,12 @@ public class Interact : MonoBehaviour
 
     void Update()
     {
+        if (interacting)
+        {
+            CanInteract?.Invoke(true, interacting);
+            return;
+        }
+
         TryInteract();
 
         if (Input.GetKeyDown(KeyCode.L))
@@ -57,7 +65,7 @@ public class Interact : MonoBehaviour
                 if (baseAct.act.hourToInteract != DayTime.Instance.GetCurrentHour())
                 {
                     interactable = null;
-                    CanInteract?.Invoke(false);
+                    CanInteract?.Invoke(false, interacting);
                     return;
                 }
             }
@@ -73,17 +81,17 @@ public class Interact : MonoBehaviour
 
             if (interactable != null)
             {
-                CanInteract?.Invoke(true);
+                CanInteract?.Invoke(true, interacting);
             }
             else
             {
-                CanInteract?.Invoke(false);
+                CanInteract?.Invoke(false, interacting);
             }
         }
         else
         {
             interactable = null;
-            CanInteract?.Invoke(false);
+            CanInteract?.Invoke(false, interacting);
         }
     }
 
@@ -91,8 +99,14 @@ public class Interact : MonoBehaviour
     {
         if (interactable != null)
         {
+            interacting = true;
             interactable.Interact();
         }
+    }
+
+    public void ChangeInteracting(bool _interacting) 
+    {
+        interacting = _interacting;
     }
 
     private void OnDrawGizmos()

@@ -15,5 +15,8 @@ public class BedInt : MonoBehaviour, IInteractable
     {
         OnInteract?.Invoke();
         DayTime.Instance.ResetDayTime();
+
+        GameManager.Instance.playerController.
+        GetComponent<Interact>().ChangeInteracting(false);
     }
 }

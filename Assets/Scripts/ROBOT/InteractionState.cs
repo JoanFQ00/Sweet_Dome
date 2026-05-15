@@ -78,6 +78,9 @@ public class InteractionState : IState
 
         robot.gameObject.layer = interactingLayer;
         GameManager.Instance.playerController.LockPlayer(false);
+
+        GameManager.Instance.playerController.
+        GetComponent<Interact>().ChangeInteracting(false);
     }
 
     void LookAtPlayer()

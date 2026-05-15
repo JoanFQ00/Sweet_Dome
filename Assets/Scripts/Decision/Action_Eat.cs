@@ -17,6 +17,9 @@ public class Action_Eat : BaseAction
         timer += Time.deltaTime;
         if (timer >= duration)
         {
+            GameManager.Instance.playerController.
+            GetComponent<Interact>().ChangeInteracting(false);
+
             ResetEatingState();
         }
     }

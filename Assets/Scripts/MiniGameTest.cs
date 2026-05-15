@@ -31,7 +31,9 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     }
 
     void Update()
-    {        
+    {
+        CheckHour();
+
         if (!cameraOnPositon)
             UpdateCameraPos(gameOn);
 
@@ -118,6 +120,9 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         GameManager.Instance.playerController.LockPlayer(true);
         GameManager.Instance.playerController.LockCamera(true);
 
+        GameManager.Instance.playerController.
+        GetComponent<Interact>().ChangeInteracting(false);
+
         if (sphereRotation != null) 
         {
             sphereRotation.SetActive(false);
@@ -178,5 +183,13 @@ public class MiniGameTest : MonoBehaviour, IInteractable
                 }
             }
         }
+    }
+
+    void CheckHour() 
+    {
+        if (DayTime.Instance.GetCurrentHour() >= 21)
+            gameObject.layer = LayerMask.NameToLayer("Default");
+        else
+            gameObject.layer = LayerMask.NameToLayer("Interactable");
     }
 }
