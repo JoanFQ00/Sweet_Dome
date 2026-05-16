@@ -22,9 +22,13 @@ public class FadeDay : MonoBehaviour
 
     private void Start()
     {
-        Color c = fadeImage.color;
-        c.a = 0f;
-        fadeImage.color = c;
+        Color imgColor = fadeImage.color;
+        imgColor.a = 1f;
+        fadeImage.color = imgColor;
+
+        Color textColor = dayTMP.color;
+        textColor.a = 1f;
+        dayTMP.color = textColor;
 
         StartFade();
     }
@@ -38,7 +42,7 @@ public class FadeDay : MonoBehaviour
     private void OnDisable()
     {
         GameManager.NewDay -= StartFade;
-        LevelManager.OnLevelLoaded -= StartFadeIn;
+        LevelManager.OnLevelLoaded -= StartFade;
     }
 
     public void StartFade()

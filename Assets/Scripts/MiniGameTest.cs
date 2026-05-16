@@ -47,6 +47,16 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         }
     }
 
+    private void OnEnable()
+    {
+        GameManager.OnChangeDay += ActivateChairLayer;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnChangeDay -= ActivateChairLayer;
+    }
+
     public void Interact()
     {
         if (state != MiniGameState.None) return;
@@ -160,9 +170,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
         gameObject.layer = LayerMask.NameToLayer("Interactable");
 
-        GameManager.Instance.playerController
-            .GetComponent<Interact>()
-            .ChangeInteracting(false);
+        GameManager.Instance.playerController.GetComponent<Interact>().ChangeInteracting(false);
     }
 
     void FinishExit()
@@ -171,6 +179,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
         playerCamera.transform.position = originalCameraPos;
         playerCamera.transform.rotation = originalCameraRot;
+        GameManager.Instance.playerController.SetRotationFromCamera();
 
         GameManager.Instance.playerController.LockPlayer(false);
         GameManager.Instance.playerController.LockCamera(false);
@@ -182,6 +191,11 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     {
         Cursor.lockState = show ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = show;
+    }
+
+    void ActivateChairLayer()  
+    {
+        gameObject.layer = LayerMask.NameToLayer("Interactable");
     }
 
     void CheckHour()

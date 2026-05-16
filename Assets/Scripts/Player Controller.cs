@@ -131,6 +131,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void SetRotationFromCamera()
+    {
+        Vector3 euler = mainCamera.transform.rotation.eulerAngles;
+
+        yaw = euler.y;
+
+        pitch = euler.x;
+
+        if (pitch > 180f)
+            pitch -= 360f;
+
+        pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+
+        transform.rotation = Quaternion.Euler(0f, yaw, 0f);
+        pitchController.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+    }
+
     void ActivateZoom()
     {
         cameraOnZoom = !cameraOnZoom;
