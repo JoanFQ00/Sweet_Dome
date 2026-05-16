@@ -8,6 +8,7 @@ public class SO_Dialogue : ScriptableObject
     public string text;
     public AudioClip audio;
     public AnimationClip animation;
+    public float timeOnScreen;
 
     public SO_Dialogue next;
 }

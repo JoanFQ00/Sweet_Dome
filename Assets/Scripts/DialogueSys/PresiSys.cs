@@ -19,7 +19,6 @@ public class PresiSys : DialogueSys
     public int dialogueIdx;
     public SO_Dialogue currentDialogue;
 
-    public float dialoguePassTime;
     float currentDialogueTime;
     bool dialogueStarted;
 
@@ -43,7 +42,7 @@ public class PresiSys : DialogueSys
 
         currentDialogueTime += Time.deltaTime;
 
-        if (currentDialogueTime >= dialoguePassTime)
+        if (currentDialogueTime >= currentDialogue.timeOnScreen)
         {
             currentDialogueTime = 0;
 
