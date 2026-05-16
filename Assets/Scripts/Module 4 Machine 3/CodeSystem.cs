@@ -26,6 +26,7 @@ public class CodeSystem : MonoBehaviour
 
     private bool showingCode = false;
     private float codeTimer = 0f;
+    private bool inputLocked = false;
 
     void Start()
     {
@@ -53,6 +54,8 @@ public class CodeSystem : MonoBehaviour
     {
         generatedCode = "";
         currentInput = "";
+
+        inputLocked = false;
 
         for (int i = 0; i < codeLength; i++)
         {
@@ -88,6 +91,9 @@ public class CodeSystem : MonoBehaviour
 
     public void AddNumber(int number)
     {
+        if (inputLocked)
+            return;
+
         if (currentInput.Length >= codeLength)
             return;
 
@@ -114,7 +120,9 @@ public class CodeSystem : MonoBehaviour
         }
         else
         {
+            inputLocked = true;
             inputDisplay.color = wrongColor;
+            inputDisplay.text = "ERROR";
 
             Debug.Log("INCORRECTO");
 
