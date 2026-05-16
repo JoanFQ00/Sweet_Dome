@@ -8,7 +8,8 @@ public class FadeDay : MonoBehaviour
     public TextMeshProUGUI dayTMP;
 
     [Header("Fade Settings")]
-    public float fadeTime = 2.5f;
+    public float fadeInTime = 2.5f;
+    public float fadeOutTime = 2.0f;
 
     private enum FadeState
     {
@@ -36,7 +37,7 @@ public class FadeDay : MonoBehaviour
 
     private void OnDisable()
     {
-        GameManager.NewDay += StartFade;
+        GameManager.NewDay -= StartFade;
         LevelManager.OnLevelLoaded -= StartFadeIn;
     }
 
@@ -60,41 +61,42 @@ public class FadeDay : MonoBehaviour
 
     private void Update()
     {
-        Color c = fadeImage.color;
+        Color imgColor = fadeImage.color;
+        Color textColor = dayTMP.color;
 
         switch (fadeState)
         {
             case FadeState.FadingOut:
 
-                c.a += Time.unscaledDeltaTime / fadeTime;
+                imgColor.a += Time.unscaledDeltaTime / fadeOutTime;
+                textColor.a = imgColor.a;
 
-                fadeImage.color = c;
+                fadeImage.color = imgColor;
+                dayTMP.color = textColor;
 
-                if (c.a >= 1f)
+                if (imgColor.a >= 1f)
                 {
-                    // CAMBIAR DIA / CARGAR ESCENA
-                    // GameManager.Instance.ChangeDay();
-
                     fadeState = FadeState.FadingIn;
                 }
 
-                break;
+            break;
 
             case FadeState.FadingIn:
 
-                c.a -= Time.unscaledDeltaTime / fadeTime;
+                imgColor.a -= Time.unscaledDeltaTime / fadeInTime;
+                textColor.a = imgColor.a;
 
-                fadeImage.color = c;
+                fadeImage.color = imgColor;
+                dayTMP.color = textColor;
 
-                if (c.a <= 0f)
+                if (imgColor.a <= 0f)
                 {
                     fadeState = FadeState.None;
 
                     fadeImage.gameObject.SetActive(false);
                     dayTMP.gameObject.SetActive(false);
                 }
-
-                break;
+            break;
         }
     }
 }

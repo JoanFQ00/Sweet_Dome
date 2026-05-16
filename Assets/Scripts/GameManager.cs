@@ -40,8 +40,6 @@ public class GameManager : MonoBehaviour
 
     protected virtual void Start()
     {
-        playerStart = GameObject.FindWithTag("PlayerStart").transform;
-        playerController.transform.position = playerStart.position;
         StartCoroutine(DelayedStartDay());
     }
 

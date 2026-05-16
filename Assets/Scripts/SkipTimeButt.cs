@@ -15,5 +15,8 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
         {
             OnFirstDayButt?.Invoke(true);
         }
+
+        GameManager.Instance.playerController.
+        GetComponent<Interact>().ChangeInteracting(false);
     }
 }

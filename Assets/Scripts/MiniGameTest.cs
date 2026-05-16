@@ -53,6 +53,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     {
         GameManager.Instance.playerController.LockPlayer(true);
         GameManager.Instance.playerController.LockCamera(true);
+        gameObject.layer = LayerMask.NameToLayer("Default");
+
         playerCamera = GameManager.Instance.playerController.mainCamera;
 
         if (playerCamera == null) return;
@@ -119,6 +121,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         playerCamera.transform.position = originalCameraPos;
         GameManager.Instance.playerController.LockPlayer(true);
         GameManager.Instance.playerController.LockCamera(true);
+
+        gameObject.layer = LayerMask.NameToLayer("Interactable");
 
         GameManager.Instance.playerController.
         GetComponent<Interact>().ChangeInteracting(false);
@@ -189,7 +193,5 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     {
         if (DayTime.Instance.GetCurrentHour() >= 21)
             gameObject.layer = LayerMask.NameToLayer("Default");
-        else
-            gameObject.layer = LayerMask.NameToLayer("Interactable");
     }
 }
