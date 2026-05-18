@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class GoToPlayerState : IState
 {
     private RobotBehaviour robot;
-    private float stopDistance = 2f;
+    private float stopDistance = 0.5f;
 
     private int defaultLayer;
     private int interactingLayer;
@@ -33,7 +33,7 @@ public class GoToPlayerState : IState
             return;
         }
         Vector3 offsetDirection = (robot.player.position - robot.transform.position).normalized;
-        robot.agent.SetDestination(robot.player.position - offsetDirection * 1.5f);
+        robot.agent.SetDestination(robot.player.position - offsetDirection * 1f);
         robot.LookAtTarget(robot.player.position);
     }
 
