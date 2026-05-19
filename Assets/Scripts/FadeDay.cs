@@ -49,7 +49,25 @@ public class FadeDay : MonoBehaviour
     {
         fadeImage.gameObject.SetActive(true);
         dayTMP.gameObject.SetActive(true);
-        dayTMP.text = GameManager.Instance.currentDay.ToString();
+
+        switch (GameManager.Instance.currentDay) 
+        {
+            case Day.Day1:
+                dayTMP.text = "Day 1";
+                break;
+            case Day.Day2:
+                dayTMP.text = "Day 5";
+                break;
+            case Day.Day3:
+                dayTMP.text = "Day 11";
+                break;
+            case Day.Day4:
+                dayTMP.text = "Day 26";
+                break;
+            case Day.Day5:
+                dayTMP.text = "Day 67";
+                break;
+        }
 
         fadeState = FadeState.FadingOut;
     }
