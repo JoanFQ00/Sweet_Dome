@@ -5,6 +5,8 @@ public class PatrolState : IState
 {
     private RobotBehaviour robot;
 
+    private Waypoints currentWaypoint;
+
     public PatrolState(RobotBehaviour robot)
     {
         this.robot = robot;

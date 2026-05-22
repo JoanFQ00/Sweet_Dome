@@ -9,6 +9,9 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public float interactionRadius = 3f;
     public float patrolRange = 10f;
 
+    [Header("Waypoint Manager")]
+    public WaypointManager waypointManager;
+
     [Header("Dialogue")]
     public GameObject dialogueBubble;
     public GameObject dialogueSkipIm;
@@ -23,6 +26,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public PatrolState patrolState;
     public InteractionState interactionState;
     public GoToPlayerState goToPlayerState;
+    public RechargeState rechargeState;
 
     public bool testGoToPlayer = false;
 
@@ -36,6 +40,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         patrolState = new PatrolState(this);
         interactionState = new InteractionState(this);
         goToPlayerState = new GoToPlayerState(this);
+        rechargeState = new RechargeState(this);
 
         dialogueSys.SysIni();
 
