@@ -47,11 +47,19 @@ public class DialRotation : MonoBehaviour
 
     void RotateDial()
     {
+        float mouseX = Input.GetAxis("Mouse X");
+        currentAngle -= mouseX * dragSpeed;
+
+        Mathf.Clamp(currentAngle, minAngle, maxAngle);
+        transform.localRotation = Quaternion.Euler(initialRotation.x, initialRotation.y, currentAngle);
         UpdateWaveValue();
     }
 
     void UpdateWaveValue()
     {
+        float lerp = Mathf.InverseLerp(minAngle, maxAngle, currentAngle);
+
+        float value = Mathf.Lerp(minValue, maxValue, lerp);
         switch (dialtype)
         {
             case DialType.Amplitude:
