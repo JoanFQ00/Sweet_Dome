@@ -59,10 +59,10 @@ public class FadeDay : MonoBehaviour
                 dayTMP.text = "Day 5";
                 break;
             case Day.Day3:
-                dayTMP.text = "Day 11";
+                dayTMP.text = "Day 13";
                 break;
             case Day.Day4:
-                dayTMP.text = "Day 26";
+                dayTMP.text = "Day 25";
                 break;
             case Day.Day5:
                 dayTMP.text = "Day 67";

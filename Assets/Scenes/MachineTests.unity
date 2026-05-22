@@ -2300,6 +2300,7 @@ GameObject:
   - component: {fileID: 649953148}
   - component: {fileID: 649953147}
   - component: {fileID: 649953151}
+  - component: {fileID: 649953152}
   m_Layer: 3
   m_Name: Book1
   m_TagString: Untagged
@@ -2414,6 +2415,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Action_Reader
   act: {fileID: 11400000, guid: 9615a02adc6b17a43b27f5b81e44d203, type: 2}
   timeToMove: 1
+--- !u!114 &649953152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649953145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfea59c2de1b45478f84c2022c000df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
+  lightenAmount: 0.7
 --- !u!1 &656089247
 GameObject:
   m_ObjectHideFlags: 0
@@ -5942,9 +5956,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 9853737fdd6b4d9458d7a85ea1d6b682, type: 2}
     - target: {fileID: -1510643209284050737, guid: d03b1226a01581b4d922c0bd30cca7a5, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1510643209284050737, guid: d03b1226a01581b4d922c0bd30cca7a5, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: b5e81cffea4105d4291b8926feac6f31, type: 2}
+    - target: {fileID: -1510643209284050737, guid: d03b1226a01581b4d922c0bd30cca7a5, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7c102058be0064d47b29eac4d17107fa, type: 2}
     - target: {fileID: -1041279737980340588, guid: d03b1226a01581b4d922c0bd30cca7a5, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -6515,6 +6537,7 @@ GameObject:
   - component: {fileID: 1332925324}
   - component: {fileID: 1332925323}
   - component: {fileID: 1332925322}
+  - component: {fileID: 1332925327}
   m_Layer: 3
   m_Name: DrinkCoffee
   m_TagString: Untagged
@@ -6631,6 +6654,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1332925327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332925321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfea59c2de1b45478f84c2022c000df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
+  lightenAmount: 0.7
 --- !u!1 &1333800656 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5453070723975637521, guid: d03b1226a01581b4d922c0bd30cca7a5, type: 3}
@@ -7192,6 +7228,7 @@ GameObject:
   - component: {fileID: 1374418980}
   - component: {fileID: 1374418982}
   - component: {fileID: 1374418981}
+  - component: {fileID: 1374418983}
   m_Layer: 3
   m_Name: Interactable
   m_TagString: Untagged
@@ -7250,6 +7287,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.58292466, y: 0.45597482, z: 0.559866}
   m_Center: {x: -0.20853807, y: 0.17163683, z: -0.22006653}
+--- !u!114 &1374418983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374418979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfea59c2de1b45478f84c2022c000df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
+  lightenAmount: 0.6
 --- !u!1 &1383362382 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9125750224511326099, guid: d03b1226a01581b4d922c0bd30cca7a5, type: 3}
@@ -7432,6 +7482,7 @@ MonoBehaviour:
   player: {fileID: 1736802197}
   interactionRadius: 3
   patrolRange: 10
+  waypointManager: {fileID: 0}
   dialogueBubble: {fileID: 966411323}
   dialogueSkipIm: {fileID: 1105332186}
   interlocutor: {fileID: 1601551231}
@@ -9820,8 +9871,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 250, y: 250}
+  m_AnchoredPosition: {x: 85.797, y: 4.38}
+  m_SizeDelta: {x: 297.511, y: 360.102}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1846699733
 MonoBehaviour:

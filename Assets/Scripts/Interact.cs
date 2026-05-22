@@ -17,6 +17,7 @@ public class Interact : MonoBehaviour
     private InputAction interactAction;
     private bool debugMode = true;
     private IInteractable interactable;
+    private HL_Interact currentHL;
 
     bool interacting;
 
@@ -62,6 +63,16 @@ public class Interact : MonoBehaviour
         {
             if (hit.collider.TryGetComponent(out BaseAction baseAct))
             {
+                HL_Interact newHL = hit.collider?.GetComponent<HL_Interact>();
+
+                if (currentHL != newHL)
+                {
+                    ClearHighlight();
+
+                    currentHL = newHL;
+                    currentHL?.LightenColor();
+                }
+
                 if (baseAct.act.hourToInteract != DayTime.Instance.GetCurrentHour())
                 {
                     interactable = null;
@@ -85,11 +96,13 @@ public class Interact : MonoBehaviour
             }
             else
             {
-                CanInteract?.Invoke(false, interacting);
+                hit.collider.GetComponent<HL_Interact>()?.ResetColor();
             }
         }
         else
         {
+            ClearHighlight();
+
             interactable = null;
             CanInteract?.Invoke(false, interacting);
         }
@@ -109,12 +122,13 @@ public class Interact : MonoBehaviour
         interacting = _interacting;
     }
 
-    private void OnDrawGizmos()
+    void ClearHighlight()
     {
-        if (!debugMode) return;
+        if (currentHL != null)
+        {
+            currentHL.ResetColor();
+        }
 
-        Gizmos.color = Color.purple;
-        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        Gizmos.DrawRay(ray.origin, ray.direction * interactDistance);   
+        currentHL = null;
     }
 }
