@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public enum ActionTypes { ReadBook, Eat, WatchTV, TurnCompleted, TurnFailed }
 
@@ -11,6 +12,8 @@ public class DecManager : MonoBehaviour
     public List<NDec_Act> actionsPerformed = new List<NDec_Act>();
     public List<NDec_Act> actionsNotPerformed = new List<NDec_Act>();
 
+    public static Action<List<NDec_Act>> OnActionsChanged;
+
     private void Start()
     {
         originalDayActions = new List<NDec_Act>();
@@ -21,6 +24,8 @@ public class DecManager : MonoBehaviour
         }
 
         dayActions = new List<NDec_Act>(originalDayActions);
+
+        OnActionsChanged?.Invoke(dayActions);
     }
 
     private void OnEnable()
@@ -64,6 +69,7 @@ public class DecManager : MonoBehaviour
         if (actToRemove != null)
         {
             dayActions.Remove(actToRemove);
+            OnActionsChanged?.Invoke(dayActions);
         }
     }
 
@@ -110,5 +116,7 @@ public class DecManager : MonoBehaviour
         }
 
         actionsPerformed.RemoveAll(action => originalIds.Contains(action.ID));
+
+        OnActionsChanged?.Invoke(dayActions);
     }
 }

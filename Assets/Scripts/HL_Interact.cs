@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HL_Interact : MonoBehaviour
 {
-    private Renderer renderer;
+    public Renderer rend;
     private Color originalColor;
 
     [Range(0f, 1f)]
@@ -10,25 +10,18 @@ public class HL_Interact : MonoBehaviour
 
     private void Start()
     {
-        renderer = GetComponent<Renderer>();
-
-        if (renderer == null) 
-        {
-            renderer = GetComponentInChildren<Renderer>();    
-        }
-
-        originalColor = renderer.material.color;
+        originalColor = rend.material.color;
     }
 
     public void LightenColor() 
     {
         Color lighterCol = Color.Lerp(originalColor, Color.white, lightenAmount);
 
-        renderer.material.color = lighterCol;
+        rend.material.color = lighterCol;
     }
 
     public void ResetColor() 
     {
-        renderer.material.color = originalColor;
+        rend.material.color = originalColor;
     }
 }

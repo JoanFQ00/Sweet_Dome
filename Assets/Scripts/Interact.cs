@@ -54,7 +54,7 @@ public class Interact : MonoBehaviour
             debugMode = !debugMode;
     }
 
-    void TryInteract() 
+    void TryInteract()
     {
         Ray interactRay = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
@@ -63,26 +63,18 @@ public class Interact : MonoBehaviour
         {
             if (hit.collider.TryGetComponent(out BaseAction baseAct))
             {
-                HL_Interact newHL = hit.collider?.GetComponent<HL_Interact>();
-
-                if (currentHL != newHL)
-                {
-                    ClearHighlight();
-
-                    currentHL = newHL;
-                    currentHL?.LightenColor();
-                }
-
                 if (baseAct.act.hourToInteract != DayTime.Instance.GetCurrentHour())
                 {
                     interactable = null;
+                    ClearHighlight(); 
                     CanInteract?.Invoke(false, interacting);
                     return;
                 }
             }
-            if (hit.collider.TryGetComponent(out RobotBehaviour robo)) 
+
+            if (hit.collider.TryGetComponent(out RobotBehaviour robo))
             {
-                if (GameManager.Instance.dayManager.watchTvTriggered) 
+                if (GameManager.Instance.dayManager.watchTvTriggered)
                 {
                     robo.dialogueSys.ChargeDialogues(robo.currentRandomDialogue);
                 }
@@ -92,17 +84,24 @@ public class Interact : MonoBehaviour
 
             if (interactable != null)
             {
+                HL_Interact newHL = hit.collider?.GetComponent<HL_Interact>();
+                if (currentHL != newHL)
+                {
+                    ClearHighlight();
+                    currentHL = newHL;
+                    currentHL?.LightenColor();
+                }
                 CanInteract?.Invoke(true, interacting);
             }
             else
             {
-                hit.collider.GetComponent<HL_Interact>()?.ResetColor();
+                ClearHighlight(); 
+                CanInteract?.Invoke(false, interacting);
             }
         }
         else
         {
             ClearHighlight();
-
             interactable = null;
             CanInteract?.Invoke(false, interacting);
         }

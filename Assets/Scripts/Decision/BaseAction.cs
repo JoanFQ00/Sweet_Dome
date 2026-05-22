@@ -29,7 +29,7 @@ public abstract class BaseAction : MonoBehaviour, IInteractable
         OnUpdateAction();
     }
 
-    void CheckHour() 
+    public void CheckHour() 
     {
         int hour = DayTime.Instance.GetCurrentHour();
         int newLayer;
