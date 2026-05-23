@@ -23,6 +23,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
     public NavMeshAgent agent;
     public StateMachineChanger stateMachine;
+    public IdleState idleState;
     public PatrolState patrolState;
     public InteractionState interactionState;
     public GoToPlayerState goToPlayerState;
@@ -37,6 +38,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
         stateMachine = new StateMachineChanger();
 
+        idleState = new IdleState(this);
         patrolState = new PatrolState(this);
         interactionState = new InteractionState(this);
         goToPlayerState = new GoToPlayerState(this);
@@ -113,5 +115,13 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     {
         interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
         dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
+    }
+
+    void OnGUI()
+    {
+        GUI.Label(
+            new Rect(20, 20, 300, 30),
+            "STATE: " + stateMachine.CurrentStateName
+        );
     }
 }

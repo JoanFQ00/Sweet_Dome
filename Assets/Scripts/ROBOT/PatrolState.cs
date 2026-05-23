@@ -31,9 +31,9 @@ public class PatrolState : IState
             LookAtTarget(robot.agent.destination);
         }
 
-        if (!robot.agent.hasPath || robot.agent.remainingDistance < 1f)
+        if (!robot.agent.pathPending && robot.agent.remainingDistance <= 1f)
         {
-            NextPatrolPoint();
+            robot.stateMachine.ChangeState(robot.idleState);
         }
 
         float distance = Vector3.Distance(robot.transform.position, robot.player.position);

@@ -15,7 +15,15 @@ public class WaypointManager : MonoBehaviour
     private Waypoints lastWaypoints;
 
     //Method to get random waypoint without repeting the last one
+    public Waypoints GetRandomGenericWaypoint()
+    {
 
+        List<Waypoints> posibleWaypoints = new List<Waypoints>();
+
+
+
+        return lastWaypoints;
+    }
 
     //Method for narrative ones
 }

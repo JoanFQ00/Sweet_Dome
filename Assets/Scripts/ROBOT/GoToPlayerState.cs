@@ -10,6 +10,8 @@ public class GoToPlayerState : IState
     private int defaultLayer;
     private int interactingLayer;
 
+    private float updatePathTimer;
+
     public GoToPlayerState(RobotBehaviour robot)
     {
         this.robot = robot;
