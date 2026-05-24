@@ -8,6 +8,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public Transform player;
     public float interactionRadius = 3f;
     public float patrolRange = 10f;
+    public Animator animator;
 
     [Header("Waypoint Manager")]
     public WaypointManager waypointManager;
@@ -34,6 +35,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
 
