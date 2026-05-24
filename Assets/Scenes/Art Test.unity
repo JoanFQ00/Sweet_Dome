@@ -484,7 +484,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.1
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: a6bec6cf22413754ea0151fb5927d603, type: 2}
   m_BuildHeightMesh: 0
@@ -1048,6 +1048,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546558824}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &563217707
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 45780f98a3faffc458d6a395cfff438d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 36.158268
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45780f98a3faffc458d6a395cfff438d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.000002861023
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45780f98a3faffc458d6a395cfff438d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.4501987
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45780f98a3faffc458d6a395cfff438d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.0050690137
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45780f98a3faffc458d6a395cfff438d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.0050690146
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45780f98a3faffc458d6a395cfff438d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70708865
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45780f98a3faffc458d6a395cfff438d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.70708865
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45780f98a3faffc458d6a395cfff438d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45780f98a3faffc458d6a395cfff438d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 45780f98a3faffc458d6a395cfff438d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -179.179
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 45780f98a3faffc458d6a395cfff438d, type: 3}
+      propertyPath: m_Name
+      value: casaDefUves
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 45780f98a3faffc458d6a395cfff438d, type: 3}
 --- !u!1 &620662197
 GameObject:
   m_ObjectHideFlags: 0
@@ -1097,11 +1154,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 201213e5e0f07d94e8dd081437ac54a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  UI: {fileID: 0}
   playerController: {fileID: 1736802196}
   presiSpeaker: {fileID: 958680610}
   robotBehaviour: {fileID: 1433308442}
   dayManager: {fileID: 620662204}
+  decManager: {fileID: 0}
+  dayTime: {fileID: 0}
   currentDay: 0
+  playerStart: {fileID: 0}
 --- !u!114 &620662200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1116,7 +1177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaveWinner
   playerRenderer: {fileID: 1399098261196762085}
   targetRenderer: {fileID: 3217020886003304941}
-  winText: {fileID: 1863096905}
+  codeSystem: {fileID: 0}
   amplitudeTolerance: 1
   frequencyTolerance: 1
   phaseTolerance: 1
@@ -1150,9 +1211,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TemperatureSistem
   temperatureText: {fileID: 1734503931665171824}
-  stateText: {fileID: 1614859970066696280}
-  temperatureCelsius: 0
-  hasCharge: 1
+  farengheitText: {fileID: 0}
+  autoSystem: {fileID: 0}
+  rawFunnel: {fileID: 0}
+  currentTemperature: 0
+  targetTemperature: 0
+  speed: 2
+  tolerance: 1
 --- !u!114 &620662203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1183,9 +1248,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e578fce2967f4b42b06c4241de81317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DayManager
-  HasEated: {fileID: 0}
-  HasWatchedTv: {fileID: 0}
-  HasRead: {fileID: 0}
+  hasEated: {fileID: 0}
+  hasRead: {fileID: 0}
+  hasWatchedTv: {fileID: 0}
+  machineCompletedDay1: {fileID: 0}
+  dorothyBook1Readed: {fileID: 0}
+  dorothyAngried: {fileID: 0}
+  hasEatedDay2: 0
+  watchTvTriggered: 0
+  machineCompletedToday: 0
+  youReadDorothyBook: 0
+  dorothyAngry: 0
+  dayInt: []
 --- !u!1 &649953145
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,6 +1387,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Action_Reader
   act: {fileID: 11400000, guid: 9615a02adc6b17a43b27f5b81e44d203, type: 2}
   timeToMove: 1
+  isAction: 0
 --- !u!1 &772665368
 GameObject:
   m_ObjectHideFlags: 0
@@ -2640,6 +2715,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   interactTxt: {fileID: 1469122774}
+  timerText: {fileID: 0}
+  dayText: {fileID: 0}
+  objectivseTMP: []
 --- !u!114 &1346478157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2800,10 +2878,14 @@ MonoBehaviour:
   player: {fileID: 1736802197}
   interactionRadius: 3
   patrolRange: 10
-  interactionBubble: {fileID: 966411323}
+  animator: {fileID: 0}
+  waypointManager: {fileID: 0}
+  dialogueBubble: {fileID: 0}
+  dialogueSkipIm: {fileID: 0}
   interlocutor: {fileID: 1601551231}
   dialogueTxt: {fileID: 829465654}
   dialogueSys: {fileID: 1433308443}
+  currentRandomDialogue: 0
   agent: {fileID: 0}
   testGoToPlayer: 0
 --- !u!114 &1433308443
@@ -4087,6 +4169,8 @@ MonoBehaviour:
   pitchSpeed: 120
   minPitch: -80
   maxPitch: 80
+  objectiveFov: []
+  timeToZoom: 1.5
   playerLocked: 0
 --- !u!4 &1736802197
 Transform:
@@ -6581,11 +6665,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Funnel
   type: 1
-  tubeCont: {fileID: 0}
-  typeOfLiquid: 0
-  canContainLiquid: 1
+  acceptedLiquid: 0
   maxCapacity: 100
-  startCapcity: 25
+  startCapacity: 25
 --- !u!114 &1734503931665171824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6787,8 +6869,8 @@ MonoBehaviour:
   visionMask:
     serializedVersion: 2
     m_Bits: 64
-  objectives:
-  - {fileID: 5292379505346107712}
+  radarMinigame: {fileID: 0}
+  rawFunnel: {fileID: 0}
 --- !u!33 &1922031256926049951
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -9086,11 +9168,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Funnel
   type: 2
-  tubeCont: {fileID: 0}
-  typeOfLiquid: 0
-  canContainLiquid: 1
+  acceptedLiquid: 0
   maxCapacity: 100
-  startCapcity: 25
+  startCapacity: 25
 --- !u!1 &4489196615995675823
 GameObject:
   m_ObjectHideFlags: 0
@@ -9473,24 +9553,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b3e9f6848fb994781012dcdfecbb65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  tubePositions:
-  - {fileID: 234850001957516679}
-  - {fileID: 4990352371539951951}
-  - {fileID: 8814684161068224094}
-  tube: {fileID: 3538600118190155439}
-  tubeSpeed: 2.5
-  downSpeed: 1.25
+  controllingPinkTube: 1
+  pinkTube: {fileID: 0}
+  pinkPositions: []
+  pinkFunnels: []
+  pinkCapacity: 0
+  magentaTube: {fileID: 0}
+  magentaPositions: []
+  magentaFunnels: []
+  magentaCapacity: 0
   maxCapacity: 200
-  outSpeed: 1
-  inSpeed: 1
-  mode: 0
-  currentMode: 0
-  cityFunnel: {fileID: 6679558085632892011}
-  blenderFunnel: {fileID: 1720599269986728598}
-  domeFunnel: {fileID: 4450857770735981727}
-  suckColor: {r: 1, g: 0.07075471, b: 0.07075471, a: 0}
-  outColor: {r: 0.027350426, g: 1, b: 0, a: 0}
-  tubeMeshRenderer: {fileID: 0}
+  verticalOffset: 2.5
+  transferSpeed: 10
 --- !u!33 &5183417668645115628
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -10591,6 +10665,9 @@ MonoBehaviour:
   codeText: {fileID: 8174736585338812015}
   type: 1
   objectivePrefab: {fileID: 8957882770918365182, guid: 278f2702bdeb4e84ea6ff9b03495afe6, type: 3}
+  innerMargin: 0.05
+  outerMargin: 0.02
+  objectives: []
 --- !u!1 &6558255903688654484
 GameObject:
   m_ObjectHideFlags: 0
@@ -10711,11 +10788,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   type: 0
-  tubeCont: {fileID: 0}
-  typeOfLiquid: 0
-  canContainLiquid: 0
+  acceptedLiquid: 0
   maxCapacity: 100
-  startCapcity: 25
+  startCapacity: 25
 --- !u!4 &6681583333268070904
 Transform:
   m_ObjectHideFlags: 0
@@ -11684,9 +11759,6 @@ MonoBehaviour:
     m_Bits: 128
   maxDist: 50
   isClickingUI: 0
-  sphereRotation: {fileID: 0}
-  leverGame: {fileID: 0}
-  slider: {fileID: 0}
 --- !u!33 &7953244254331609076
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -13095,3 +13167,4 @@ SceneRoots:
   - {fileID: 1574719483}
   - {fileID: 1332925326}
   - {fileID: 1683754539}
+  - {fileID: 563217707}
