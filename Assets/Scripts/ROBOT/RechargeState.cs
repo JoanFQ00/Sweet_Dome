@@ -11,12 +11,20 @@ public class RechargeState : IState
 
     public void OnEnter()
     {
-        robot.agent.SetDestination(robot.waypointManager.rechargeWaypoints.position);
+        if (!robot.agent.isOnNavMesh)
+            return;
+
+        robot.agent.isStopped = false;
+
+        robot.agent.SetDestination(robot.waypointManager.rechargeWaypoint.position);
     }
 
     public void OnState()
     {
-
+        if (!robot.agent.pathPending && robot.agent.remainingDistance <= robot.agent.stoppingDistance)
+        {
+            robot.agent.isStopped = true;
+        }
     }
 
     public void OnExit()

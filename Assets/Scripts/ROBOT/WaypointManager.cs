@@ -10,7 +10,7 @@ public class WaypointManager : MonoBehaviour
     public List<Waypoints> narrativeWaypoints;
 
     [Header("Recharge")]
-    public Transform rechargeWaypoints;
+    public Transform rechargeWaypoint;
 
     private Waypoints lastWaypoints;
 

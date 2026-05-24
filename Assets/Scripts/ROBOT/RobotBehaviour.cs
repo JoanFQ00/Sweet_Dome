@@ -30,6 +30,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public RechargeState rechargeState;
 
     public bool testGoToPlayer = false;
+    private bool isRecharging;
 
     void Start()
     {
@@ -74,6 +75,8 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
     void Update()
     {
+        CheckRechargeState();
+
         stateMachine.Update();
     }
     public void Interact()
@@ -123,5 +126,24 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
             new Rect(20, 20, 300, 30),
             "STATE: " + stateMachine.CurrentStateName
         );
+    }
+
+    void CheckRechargeState()
+    {
+        int currentHour = GameManager.Instance.dayTime.GetCurrentHour();
+
+        if (!isRecharging && currentHour >= 21)
+        {
+            isRecharging = true;
+
+            stateMachine.ChangeState(rechargeState);
+        }
+
+        if (isRecharging && currentHour < 21)
+        {
+            isRecharging = false;
+
+            stateMachine.ChangeState(patrolState);
+        }
     }
 }
