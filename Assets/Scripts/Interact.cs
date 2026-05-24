@@ -63,12 +63,15 @@ public class Interact : MonoBehaviour
         {
             if (hit.collider.TryGetComponent(out BaseAction baseAct))
             {
-                if (baseAct.act.hourToInteract != DayTime.Instance.GetCurrentHour())
+                if (baseAct.act != null)
                 {
-                    interactable = null;
-                    ClearHighlight(); 
-                    CanInteract?.Invoke(false, interacting);
-                    return;
+                    if (baseAct.act.hourToInteract != DayTime.Instance.GetCurrentHour())
+                    {
+                        interactable = null;
+                        ClearHighlight();
+                        CanInteract?.Invoke(false, interacting);
+                        return;
+                    }
                 }
             }
 

@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     [Header("StartPosition")]
     public Transform playerStart;
 
-    public static Action OnChangeDay;
+    public static Action<Day> OnChangeDay;
     public static Action NewDay;
    
     void Awake()
@@ -87,16 +87,17 @@ public class GameManager : MonoBehaviour
         playerController = controller;
     }
 
-    public void ChangeDay() 
+    public void ChangeDay()
     {
-        OnChangeDay?.Invoke();
-        //Quitar de aqui y poner en el daymanager
-        presiSpeaker.ChangeDialogueID((int)PresiDialogue.GoodMorningDay1);
-        presiSpeaker.PresiSpeaks();
-
         if (currentDay < Day.Day5)
         {
             currentDay = (Day)((int)currentDay + 1);
+
+            OnChangeDay?.Invoke(currentDay);
+
+            presiSpeaker.ChangeDialogueID((int)PresiDialogue.GoodMorningDay1);
+            presiSpeaker.PresiSpeaks();
+
             NewDay?.Invoke();
         }
     }

@@ -20,16 +20,21 @@ public class DayManager : MonoBehaviour
     public bool youReadDorothyBook = false;
     public bool dorothyAngry = false;
 
+    [Header("Interactables")]
+    public GameObject[] dayInt;
+
     private void OnEnable()
     {
         SkipTimeButt.OnFirstDayButt += HourSkiped;
         GameManager.OnChangeDay += RestartTriggers;
+        GameManager.OnChangeDay += LoadInteractObjects;
     }
 
     private void OnDisable()
     {
         SkipTimeButt.OnFirstDayButt -= HourSkiped;
         GameManager.OnChangeDay -= RestartTriggers;
+        GameManager.OnChangeDay -= LoadInteractObjects;
     }
 
     private void Update()
@@ -148,11 +153,21 @@ public class DayManager : MonoBehaviour
         GameManager.Instance.presiSpeaker.PresiSpeaks();
     }
 
-    public void RestartTriggers() 
+    public void RestartTriggers(Day currentDay) 
     {
         watchTvTriggered = false;
         machineCompletedToday = false;
         youReadDorothyBook = false;
         dorothyAngry = false;
+    }
+
+    private void LoadInteractObjects(Day currentDay) 
+    {
+        foreach (GameObject var in dayInt) 
+        {
+            var.SetActive(false);
+        }
+
+        dayInt[(int) currentDay].SetActive(true);
     }
 }

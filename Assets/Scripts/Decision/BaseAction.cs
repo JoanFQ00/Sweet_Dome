@@ -24,7 +24,10 @@ public abstract class BaseAction : MonoBehaviour, IInteractable
     {
         if (actionTransfered) return;
 
-        CheckHour();
+        if (act != null) 
+        {
+            CheckHour();
+        }
 
         OnUpdateAction();
     }
@@ -50,7 +53,7 @@ public abstract class BaseAction : MonoBehaviour, IInteractable
 
     protected virtual void OnUpdateAction() { }
 
-    public void ResetActionState()
+    public void ResetActionState(Day c_Day)
     {
         actionCompleted = false;
         actionTransfered = false;

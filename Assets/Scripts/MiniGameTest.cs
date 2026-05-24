@@ -236,7 +236,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         Cursor.visible = show;
     }
 
-    void ActivateChairLayer()  
+    void ActivateChairLayer(Day c_Day)  
     {
         gameObject.layer = LayerMask.NameToLayer("Interactable");
     }

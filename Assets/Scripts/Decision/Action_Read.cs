@@ -3,6 +3,7 @@ using UnityEngine;
 public class Action_Reader : BaseAction
 {
     public float timeToMove = 1.0f;
+    public bool isAction = false;
 
     private float currentMoveTime = 0.0f;
 
@@ -88,7 +89,7 @@ public class Action_Reader : BaseAction
             case State.Reading:
                 gameObject.layer = LayerMask.NameToLayer("Default");
 
-                if (Input.GetKeyDown(KeyCode.Escape))
+                if (Input.GetKeyDown(KeyCode.E))
                 {
                     startPos = transform.position;
                     startRot = transform.rotation;
@@ -107,7 +108,8 @@ public class Action_Reader : BaseAction
                     GetComponent<Interact>().ChangeInteracting(false);
                     
                     state = State.Idle;
-                    OnActionExecuted();
+                    if (isAction) 
+                        OnActionExecuted();
                 });
                 break;
         }

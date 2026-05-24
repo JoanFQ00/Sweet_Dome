@@ -106,7 +106,7 @@ public class DecManager : MonoBehaviour
             dayActions.Add(Instantiate(act));
         }
     }
-    public void CleanPerformedActions()
+    public void CleanPerformedActions(Day c_Day)
     {
         HashSet<int> originalIds = new HashSet<int>();
 

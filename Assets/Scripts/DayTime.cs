@@ -65,7 +65,7 @@ public class DayTime : MonoBehaviour
     // =======================
 
 
-    void LoadNextDay()
+    void LoadNextDay(Day c_Day)
     {
         currentDay++;
 
