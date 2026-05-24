@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
 
         playerStart = GameObject.FindWithTag("PlayerStart").transform;
         playerController.transform.position = playerStart.position;
+        decManager.ActionsChanged();
 
         if (presiSpeaker != null)
             presiSpeaker.DialogueIni();

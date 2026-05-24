@@ -119,4 +119,10 @@ public class DecManager : MonoBehaviour
 
         OnActionsChanged?.Invoke(dayActions);
     }
+
+    public void ActionsChanged() 
+    {
+        OnActionsChanged?.Invoke(dayActions);
+
+    }
 }

@@ -10,11 +10,15 @@ public class MainMenu : MonoBehaviour
     private bool fadingOut = false;
     private bool loadScene = false;
 
+    public GameObject controlPanel;
+    public GameObject menuPanel;
+
     void Start()
     {
         Color c = fadeImage.color;
         c.a = 0f;
         fadeImage.color = c;
+        controlPanel.SetActive(false);
     }
 
     void Update()
@@ -42,6 +46,18 @@ public class MainMenu : MonoBehaviour
     public void OptionsMenu()
     {
         Debug.Log("Options");
+    }
+
+    public void ShowControls() 
+    {
+        controlPanel.SetActive(true);
+        menuPanel.SetActive(false);
+    }
+
+    public void HideControls() 
+    {
+        controlPanel.SetActive(false);
+        menuPanel.SetActive(true); 
     }
 
     public void ExitGame()
