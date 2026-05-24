@@ -27,12 +27,14 @@ public class PlayerController : MonoBehaviour
     float pitch;
 
     [Header("Camera Zoom")]
-    public float objectiveFov = 45f;
+    public float[] objectiveFov;
     public float timeToZoom = 1.5f;
     float currentZoomTime = 0f;
     bool zoomingCamera = false;
     bool cameraOnZoom = false;
     float originalFov;
+    int zoomIndex = 0;
+    float targetFov;
 
     [HideInInspector]
     public bool playerLocked;
@@ -50,8 +52,9 @@ public class PlayerController : MonoBehaviour
         GameManager.Instance.SetPlayer(this);
         Cursor.lockState = CursorLockMode.Locked;
         originalFov = mainCamera.fieldOfView;
-    }
 
+        targetFov = objectiveFov[zoomIndex];
+    }
     public void LockPlayer(bool locked) 
     {
         playerLocked = locked;
@@ -69,13 +72,22 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!playerLocked) 
-            Move(); 
+        if (!playerLocked)
+            Move();
+
         if (!cameraLocked)
             Look();
 
-        if (Input.GetMouseButtonDown(2) && !zoomingCamera)
-            ActivateZoom();
+        float scroll = Input.mouseScrollDelta.y;
+
+        if (scroll < 0)
+        {
+            ChangeZoom(-1);
+        }
+        else if (scroll > 0)
+        {
+            ChangeZoom(1); 
+        }
 
         if (zoomingCamera)
             ChangeCameraZoom();
@@ -148,12 +160,15 @@ public class PlayerController : MonoBehaviour
         pitchController.localRotation = Quaternion.Euler(pitch, 0f, 0f);
     }
 
-    void ActivateZoom()
+    void ChangeZoom(int direction)
     {
-        cameraOnZoom = !cameraOnZoom;
-        zoomingCamera = true;
+        zoomIndex += direction;
+        zoomIndex = Mathf.Clamp(zoomIndex, 0, objectiveFov.Length - 1);
+
+        targetFov = objectiveFov[zoomIndex];
 
         currentZoomTime = 0f;
+        zoomingCamera = true;
     }
 
     void ChangeCameraZoom()
@@ -162,17 +177,12 @@ public class PlayerController : MonoBehaviour
 
         float pct = currentZoomTime / timeToZoom;
 
-        if (cameraOnZoom)
-        {
-            mainCamera.fieldOfView = Mathf.Lerp(originalFov, objectiveFov, pct);
-        }
-        else
-        {
-            mainCamera.fieldOfView = Mathf.Lerp(objectiveFov, originalFov, pct);
-        }
+        float currentFov = mainCamera.fieldOfView;
+        mainCamera.fieldOfView = Mathf.Lerp(currentFov, targetFov, pct);
 
         if (pct >= 1f)
         {
+            mainCamera.fieldOfView = targetFov;
             zoomingCamera = false;
         }
     }

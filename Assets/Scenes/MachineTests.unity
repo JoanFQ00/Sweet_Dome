@@ -9952,8 +9952,12 @@ MonoBehaviour:
   pitchSpeed: 12
   minPitch: -80
   maxPitch: 80
-  objectiveFov: 35
-  timeToZoom: 1
+  objectiveFov:
+  - 60
+  - 50
+  - 40
+  - 30
+  timeToZoom: 1.25
   playerLocked: 0
 --- !u!4 &1736802197
 Transform:
