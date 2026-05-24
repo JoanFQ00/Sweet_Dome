@@ -24,12 +24,15 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     private float currentMoveTime;
     private Vector3 originalCameraPos;
     private Quaternion originalCameraRot;
+    private HL_Interact currentHighlight;
 
     public bool isClickingUI = false;
 
     void Update()
     {
         CheckHour();
+
+        CheckHover();
 
         switch (state)
         {
@@ -155,6 +158,46 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
             if (hit.collider.TryGetComponent(out MainButt button))
                 button.Press();
+        }
+    }
+
+
+    void CheckHover()
+    {
+        if (playerCamera == null) return;
+
+        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
+        {
+            HL_Interact newHighlight = hit.collider.GetComponent<HL_Interact>();
+
+            // Si cambiamos de objeto
+            if (currentHighlight != newHighlight)
+            {
+                // Reset anterior
+                if (currentHighlight != null)
+                {
+                    currentHighlight.ResetColor();
+                }
+
+                currentHighlight = newHighlight;
+
+                // Aplicar nuevo highlight
+                if (currentHighlight != null)
+                {
+                    currentHighlight.LightenColor();
+                }
+            }
+        }
+        else
+        {
+            // No estamos mirando nada
+            if (currentHighlight != null)
+            {
+                currentHighlight.ResetColor();
+                currentHighlight = null;
+            }
         }
     }
 

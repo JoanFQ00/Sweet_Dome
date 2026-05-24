@@ -6,7 +6,7 @@ public class HL_Interact : MonoBehaviour
     private Color originalColor;
 
     [Range(0f, 1f)]
-    public float lightenAmount = 0.3f;
+    public float lightenAmount = 0.7f;
 
     private void Start()
     {

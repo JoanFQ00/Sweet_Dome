@@ -2,6 +2,7 @@ using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 
 public class UIManager : MonoBehaviour
 {
@@ -46,11 +47,19 @@ public class UIManager : MonoBehaviour
         dayText.text = $"{GameManager.Instance.currentDay.ToString().ToUpper()}";
     }
 
-    void ChangeHudObjectives(List<NDec_Act> actionList) 
+    void ChangeHudObjectives(List<NDec_Act> actionList)
     {
-        for (int i = 0; i < objectivseTMP.Count ; i++) 
+        for (int i = 0; i < objectivseTMP.Count; i++)
         {
-            objectivseTMP[i].text = actionList[i].actionName;
+            if (i >= actionList.Count || actionList[i] == null)
+            {
+                objectivseTMP[i].gameObject.SetActive(false);
+            }
+            else
+            {
+                objectivseTMP[i].gameObject.SetActive(true);
+                objectivseTMP[i].text = actionList[i].actionName;
+            }
         }
     }
 }
