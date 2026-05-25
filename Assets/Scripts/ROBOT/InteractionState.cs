@@ -5,6 +5,8 @@ public class InteractionState : IState
 
     private int defaultLayer;
     private int interactingLayer;
+    private bool canExit;
+    private float enterTimer;
 
     bool canAdvanceDialogue;
 
@@ -22,57 +24,65 @@ public class InteractionState : IState
         robot.agent.velocity = Vector3.zero;
         robot.gameObject.layer = defaultLayer;
 
+        robot.animator.SetFloat("Speed", 0);
+        robot.animator.SetBool("IsTalking", true);
+
         robot.dialogueBubble.SetActive(true);
         robot.dialogueSkipIm.SetActive(true);
 
         GameManager.Instance.playerController.LockPlayer(true);
 
+        GameManager.Instance.playerController.GetComponent<Interact>().ChangeInteracting(true);
+
         robot.UpdateUI();
 
         canAdvanceDialogue = false;
+        canExit = false;
+        enterTimer = 0.5f;
     }
 
     public void OnState()
     {
         LookAtPlayer();
 
-        if (!canAdvanceDialogue)
+        if (enterTimer > 0)
         {
-            if (!Input.GetKey(KeyCode.E))
-            {
-                canAdvanceDialogue = true;
-            }
-
+            enterTimer -= Time.deltaTime;
             return;
+        }
+
+        canExit = true;
+
+        if (canExit)
+        {
+            float distance = Vector3.Distance(robot.transform.position, robot.player.position);
+
+            if (distance > robot.interactionRadius)
+            {
+                robot.stateMachine.ChangeState(robot.patrolState);
+                return;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            var currentDialogue =
-                robot.dialogueSys.loadedDialogues[robot.dialogueSys.dialogueIdx];
+            var currentDialogue = robot.dialogueSys.loadedDialogues[robot.dialogueSys.dialogueIdx];
 
             if (currentDialogue.next == null)
             {
                 robot.dialogueSys.ChargeDialogues(robot.dialogueSys.id);
                 robot.stateMachine.ChangeState(robot.patrolState);
-                if (robot.testGoToPlayer) { robot.testGoToPlayer = false; }
             }
             else
             {
                 robot.LoadNextDialogue();
             }
         }
-
-        float distance = Vector3.Distance(robot.transform.position, robot.player.position);
-
-        if (distance > robot.interactionRadius)
-        {
-            robot.stateMachine.ChangeState(robot.patrolState);
-        }
     }
 
     public void OnExit()
     {
+        robot.animator.SetBool("IsTalking", false);
         robot.dialogueBubble.SetActive(false);
         robot.dialogueSkipIm.SetActive(false);
 

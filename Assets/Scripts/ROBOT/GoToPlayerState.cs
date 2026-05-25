@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class GoToPlayerState : IState
 {
     private RobotBehaviour robot;
-    private float stopDistance = 0.5f;
+    private float stopDistance = 1f;
 
     private int defaultLayer;
     private int interactingLayer;
@@ -23,19 +23,26 @@ public class GoToPlayerState : IState
     public void OnEnter()
     {
         robot.agent.isStopped = false;
-        robot.gameObject.layer = defaultLayer; 
+        robot.agent.stoppingDistance = stopDistance;
+        robot.gameObject.layer = defaultLayer;
+        robot.agent.speed = 3.5f;
+
+        robot.animator.SetBool("IsTalking", false);
     }
 
     public void OnState()
     {
-        float distance = Vector3.Distance(robot.transform.position, robot.player.position);
-        if (distance <= stopDistance)
+        robot.animator.SetFloat("Speed", robot.agent.velocity.magnitude);
+        if (!robot.agent.pathPending && robot.agent.remainingDistance <= stopDistance)
         {
             robot.stateMachine.ChangeState(robot.interactionState);
             return;
         }
+
         Vector3 offsetDirection = (robot.player.position - robot.transform.position).normalized;
+
         robot.agent.SetDestination(robot.player.position - offsetDirection * 1f);
+
         robot.LookAtTarget(robot.player.position);
     }
 

@@ -14,6 +14,10 @@ public class IdleState : IState
     public void OnEnter()
     {
         timer = Random.Range(4f, 10f);
+        robot.agent.isStopped = true;
+        robot.animator.SetFloat("Speed", 0f);
+
+        robot.animator.SetTrigger("IdleTrigger");
     }
 
     public void OnState()

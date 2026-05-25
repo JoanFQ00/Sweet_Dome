@@ -32,10 +32,11 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
     public bool testGoToPlayer = false;
     private bool isRecharging;
+    public bool isInDialogue;
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
 
@@ -57,12 +58,14 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         GameManager.Instance.robotBehaviour = this;
         SkipTimeButt.OnFirstDayButt += ChangeGoToPlayer;
         LevelManager.OnLevelLoaded += LevelLoaded;
+        DayTime.OnTimeSkiped += HandleTimeSkip;
     }
 
     void OnDisable()
     {
         SkipTimeButt.OnFirstDayButt -= ChangeGoToPlayer;
         LevelManager.OnLevelLoaded -= LevelLoaded;
+        DayTime.OnTimeSkiped -= HandleTimeSkip;
     }
 
     void LevelLoaded() 
@@ -77,6 +80,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
     void Update()
     {
+        animator.SetFloat("Speed", agent.desiredVelocity.magnitude);
         CheckRechargeState();
 
         stateMachine.Update();
@@ -109,7 +113,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         //transform.rotation = Quaternion.Slerp(transform.rotation, rotationRob, Time.deltaTime * 5f);
     }
 
-    public void LoadNextDialogue() 
+    public void LoadNextDialogue()
     {
         dialogueSys.LoadNextIdx();
 
@@ -129,10 +133,15 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
             "STATE: " + stateMachine.CurrentStateName
         );
     }
+    void HandleTimeSkip(int hour)
+    {
+        testGoToPlayer = true;
+    }
 
     void CheckRechargeState()
     {
         int currentHour = GameManager.Instance.dayTime.GetCurrentHour();
+        Debug.Log(currentHour);
 
         if (!isRecharging && currentHour >= 21)
         {

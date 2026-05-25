@@ -15,11 +15,17 @@ public class PatrolState : IState
     public void OnEnter()
     {
         robot.agent.isStopped = false;
+        robot.animator.SetBool("IsTalking", false);
+        robot.animator.SetBool("IsCharging", false);
+        robot.animator.SetBool("IsMoving", true);
+        robot.agent.speed = 0.47f;
+        robot.animator.SetFloat("Speed", 0.47f);
         NextPatrolPoint();
     }
 
     public void OnState()
     {
+
         if (robot.testGoToPlayer)
         {
             robot.stateMachine.ChangeState(robot.goToPlayerState);
@@ -36,16 +42,17 @@ public class PatrolState : IState
             robot.stateMachine.ChangeState(robot.idleState);
         }
 
-        float distance = Vector3.Distance(robot.transform.position, robot.player.position);
+        //float distance = Vector3.Distance(robot.transform.position, robot.player.position);
 
-        if (distance <= robot.interactionRadius)
-        {
-        }
+        //if (distance <= robot.interactionRadius)
+        //{
+        //}
     }
 
     public void OnExit()
     {
         robot.agent.ResetPath();
+        robot.animator.SetBool("IsMoving", false);
     }
 
     void NextPatrolPoint()
