@@ -4142,7 +4142,7 @@ GameObject:
   - component: {fileID: 819869041}
   - component: {fileID: 819869040}
   - component: {fileID: 819869039}
-  - component: {fileID: 819869038}
+  - component: {fileID: 819869043}
   m_Layer: 3
   m_Name: Plano de la casa
   m_TagString: Untagged
@@ -4165,21 +4165,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 347563095}
   m_LocalEulerAnglesHint: {x: -2.625, y: 77.48, z: 0}
---- !u!114 &819869038
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 819869036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47bbf881b5f256644b4a688b572b28ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Action_Reader
-  act: {fileID: 0}
-  timeToMove: 1
-  isAction: 0
 --- !u!114 &819869039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4272,6 +4257,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 819869036}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &819869043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819869036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c489fecbb9e62f4094cdbf2f8f53e41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Action_Rotator
+  act: {fileID: 0}
+  timeToMove: 1
+  rotationSpeed: 150
+  isAction: 0
 --- !u!1 &829465652
 GameObject:
   m_ObjectHideFlags: 0
@@ -4580,7 +4581,7 @@ Transform:
   m_GameObject: {fileID: 837387466}
   serializedVersion: 2
   m_LocalRotation: {x: -0.012276484, y: 0.62570965, z: 0.009849773, w: 0.7798972}
-  m_LocalPosition: {x: -11.506, y: -0.922, z: 3.0430002}
+  m_LocalPosition: {x: -21.78, y: -0.281, z: 3.327}
   m_LocalScale: {x: 0.23406386, y: 0.017351178, z: 0.12821248}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8356,8 +8357,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Action_WatchTV
   act: {fileID: 11400000, guid: 08b30a864fb6e3d4294d3141f38c2752, type: 2}
+  timeToMove: 1
   cameraTarget: {fileID: 1635703817}
-  moveSpeed: 2
+  isAction: 0
 --- !u!65 &1374418982
 BoxCollider:
   m_ObjectHideFlags: 0

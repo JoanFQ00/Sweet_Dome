@@ -2,59 +2,111 @@ using UnityEngine;
 
 public class Action_WatchTV : BaseAction
 {
+    public float timeToMove = 1.0f;
     public Transform cameraTarget;
-    public float moveSpeed = 2f;
+    public bool isAction = false;
 
     private Transform cam;
+    private PlayerController player;
+
+    private Vector3 startPos;
+    private Quaternion startRot;
+
     private Vector3 originalPos;
     private Quaternion originalRot;
 
-    private bool watching = false;
+    private float currentMoveTime = 0f;
+
+    private enum State
+    {
+        Idle,
+        MovingToTV,
+        Watching,
+        Returning
+    }
+
+    private State state = State.Idle;
 
     void Start()
     {
         cam = Camera.main.transform;
-    }
 
-    protected override void OnUpdateAction()
-    {
-        if (!watching) return;
-
-        cam.position = Vector3.Lerp(cam.position, cameraTarget.position, Time.deltaTime * moveSpeed);
-        cam.rotation = Quaternion.Lerp(cam.rotation, cameraTarget.rotation, Time.deltaTime * moveSpeed);
-
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (GameManager.Instance.playerController != null)
         {
-            StopWatching();
+            player = GameManager.Instance.playerController;
         }
     }
 
     public override void Interact()
     {
-        if (watching) return;
+        if (state != State.Idle) return;
 
-        GameManager.Instance.playerController.LockPlayer(true);
-        GameManager.Instance.playerController.LockCamera(true);
+        startPos = cam.position;
+        startRot = cam.rotation;
 
         originalPos = cam.position;
         originalRot = cam.rotation;
 
-        watching = true;
+        player.LockPlayer(true);
+        player.LockCamera(true);
+
+        currentMoveTime = 0f;
+        state = State.MovingToTV;
     }
 
-    void StopWatching()
+    protected override void OnUpdateAction()
     {
-        GameManager.Instance.playerController.LockPlayer(false);
-        GameManager.Instance.playerController.LockCamera(false);
+        switch (state)
+        {
+            case State.MovingToTV:
+                Move(cameraTarget.position, cameraTarget.rotation, () =>
+                {
+                    state = State.Watching;
+                });
+                break;
 
-        cam.position = originalPos;
-        cam.rotation = originalRot;
+            case State.Watching:
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    startPos = cam.position;
+                    startRot = cam.rotation;
+                    currentMoveTime = 0f;
 
-        watching = false;
+                    state = State.Returning;
+                }
+                break;
 
-        GameManager.Instance.playerController.
-        GetComponent<Interact>().ChangeInteracting(false);
+            case State.Returning:
+                Move(originalPos, originalRot, () =>
+                {
+                    player.LockPlayer(false);
+                    player.LockCamera(false);
 
-        OnActionExecuted();
+                    GameManager.Instance.playerController
+                        .GetComponent<Interact>()
+                        .ChangeInteracting(false);
+
+                    state = State.Idle;
+
+                    if (isAction)
+                        OnActionExecuted();
+                });
+                break;
+        }
+    }
+
+    void Move(Vector3 targetPos, Quaternion targetRot, System.Action onFinish)
+    {
+        currentMoveTime += Time.deltaTime;
+
+        float pct = Mathf.Clamp01(currentMoveTime / timeToMove);
+
+        cam.position = Vector3.Lerp(startPos, targetPos, pct);
+        cam.rotation = Quaternion.Lerp(startRot, targetRot, pct);
+
+        if (pct >= 1f)
+        {
+            onFinish?.Invoke();
+        }
     }
 }

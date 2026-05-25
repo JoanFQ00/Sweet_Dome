@@ -52,6 +52,8 @@ public class Action_Rotator : BaseAction
         LevelManager.OnLevelLoaded -= LevelLoaded;
     }
 
+    
+
     void LevelLoaded()
     {
         Init();
