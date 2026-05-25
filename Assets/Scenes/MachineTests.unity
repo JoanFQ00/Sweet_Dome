@@ -4589,11 +4589,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 837387466}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47bbf881b5f256644b4a688b572b28ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c489fecbb9e62f4094cdbf2f8f53e41, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Action_Reader
+  m_EditorClassIdentifier: Assembly-CSharp::Action_Rotator
   act: {fileID: 0}
-  timeToMove: 1
+  rotationSpeed: 100
   isAction: 0
 --- !u!1 &845170579 stripped
 GameObject:
@@ -4941,7 +4941,7 @@ GameObject:
   - component: {fileID: 931282336}
   - component: {fileID: 931282335}
   - component: {fileID: 931282334}
-  - component: {fileID: 931282333}
+  - component: {fileID: 931282338}
   m_Layer: 3
   m_Name: Poster
   m_TagString: Untagged
@@ -4964,21 +4964,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 74273445}
   m_LocalEulerAnglesHint: {x: -179.487, y: 179.846, z: -84.41199}
---- !u!114 &931282333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 931282331}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47bbf881b5f256644b4a688b572b28ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Action_Reader
-  act: {fileID: 0}
-  timeToMove: 1
-  isAction: 0
 --- !u!114 &931282334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5071,6 +5056,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 931282331}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &931282338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931282331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c489fecbb9e62f4094cdbf2f8f53e41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Action_Rotator
+  act: {fileID: 0}
+  rotationSpeed: 100
+  isAction: 0
 --- !u!1 &946706474
 GameObject:
   m_ObjectHideFlags: 0
