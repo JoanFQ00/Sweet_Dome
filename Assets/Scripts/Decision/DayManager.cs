@@ -1,4 +1,7 @@
+using System.Linq;
 using UnityEngine;
+using System.Linq;
+
 
 public class DayManager : MonoBehaviour
 {
@@ -23,7 +26,7 @@ public class DayManager : MonoBehaviour
     [Header("Interactables")]
     public GameObject[] dayInt;
 
-    private void OnEnable()
+private void OnEnable()
     {
         SkipTimeButt.OnFirstDayButt += HourSkiped;
         GameManager.OnChangeDay += RestartTriggers;
@@ -161,13 +164,31 @@ public class DayManager : MonoBehaviour
         dorothyAngry = false;
     }
 
-    private void LoadInteractObjects(Day currentDay) 
+    public void LoadInteractObjects(Day currentDay)
     {
-        foreach (GameObject var in dayInt) 
+        foreach (GameObject obj in dayInt)
         {
-            var.SetActive(false);
+            if (obj != null)
+                obj.SetActive(false);
         }
 
-        dayInt[(int) currentDay].SetActive(true);
+        int index = (int)currentDay;
+
+        if (index >= 0 && index < dayInt.Length && dayInt[index] != null)
+        {
+            dayInt[index].SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning($"No interact objects configured for {currentDay}");
+        }
     }
+
+    public void FindInteractables()
+    {
+        dayInt = GameObject.FindGameObjectsWithTag("H_Interactables")
+            .OrderBy(obj => obj.name)
+            .ToArray();
+    }
+
 }

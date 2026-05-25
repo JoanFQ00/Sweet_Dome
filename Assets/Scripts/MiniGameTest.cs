@@ -38,15 +38,15 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         {
             case MiniGameState.Entering:
                 HandleCameraTransition(true);
-                break;
+            break;
 
             case MiniGameState.Active:
                 HandleActiveInput();
-                break;
+            break;
 
             case MiniGameState.Exiting:
                 HandleCameraTransition(false);
-                break;
+            break;
         }
     }
 
@@ -172,10 +172,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         {
             HL_Interact newHighlight = hit.collider.GetComponent<HL_Interact>();
 
-            // Si cambiamos de objeto
             if (currentHighlight != newHighlight)
             {
-                // Reset anterior
                 if (currentHighlight != null)
                 {
                     currentHighlight.ResetColor();
@@ -183,7 +181,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
                 currentHighlight = newHighlight;
 
-                // Aplicar nuevo highlight
                 if (currentHighlight != null)
                 {
                     currentHighlight.LightenColor();
@@ -192,7 +189,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         }
         else
         {
-            // No estamos mirando nada
             if (currentHighlight != null)
             {
                 currentHighlight.ResetColor();

@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
-public enum Day { Day1, Day2, Day3, Day4, Day5 }
+public enum Day { Day1 = 0, Day2, Day3, Day4, Day5 }
 
 public class GameManager : MonoBehaviour
 {
@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
         playerStart = GameObject.FindWithTag("PlayerStart").transform;
         playerController.transform.position = playerStart.position;
         decManager.ActionsChanged();
+        dayManager.FindInteractables();
+        dayManager.LoadInteractObjects(currentDay);
 
         if (presiSpeaker != null)
             presiSpeaker.DialogueIni();
