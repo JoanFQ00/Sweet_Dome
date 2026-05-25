@@ -26,7 +26,8 @@ public class GoToPlayerState : IState
         robot.agent.stoppingDistance = stopDistance;
         robot.gameObject.layer = defaultLayer;
         robot.agent.speed = 3.5f;
-
+        Vector3 offsetDirection = (robot.player.position - robot.transform.position).normalized;
+        robot.agent.SetDestination(robot.player.position - offsetDirection * 1f);
         robot.animator.SetBool("IsTalking", false);
     }
 
@@ -38,10 +39,6 @@ public class GoToPlayerState : IState
             robot.stateMachine.ChangeState(robot.interactionState);
             return;
         }
-
-        Vector3 offsetDirection = (robot.player.position - robot.transform.position).normalized;
-
-        robot.agent.SetDestination(robot.player.position - offsetDirection * 1f);
 
         robot.LookAtTarget(robot.player.position);
     }
