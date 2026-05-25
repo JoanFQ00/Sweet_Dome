@@ -1,14 +1,16 @@
 using UnityEngine;
+
 public class InteractionState : IState
 {
     private RobotBehaviour robot;
 
     private int defaultLayer;
     private int interactingLayer;
-    private bool canExit;
-    private float enterTimer;
 
-    bool canAdvanceDialogue;
+    private bool canExit;
+    private bool canAdvanceDialogue;
+
+    private float enterTimer;
 
     public InteractionState(RobotBehaviour robot)
     {
@@ -20,8 +22,11 @@ public class InteractionState : IState
 
     public void OnEnter()
     {
+        robot.ChangeGoToPlayer(false);
+
         robot.agent.isStopped = true;
         robot.agent.velocity = Vector3.zero;
+
         robot.gameObject.layer = defaultLayer;
 
         robot.animator.SetFloat("Speed", 0);
@@ -38,7 +43,8 @@ public class InteractionState : IState
 
         canAdvanceDialogue = false;
         canExit = false;
-        enterTimer = 0.5f;
+
+        enterTimer = 0.25f;
     }
 
     public void OnState()
@@ -48,30 +54,32 @@ public class InteractionState : IState
         if (enterTimer > 0)
         {
             enterTimer -= Time.deltaTime;
-            return;
         }
-
-        canExit = true;
+        else
+        {
+            canAdvanceDialogue = true;
+            canExit = true;
+        }
 
         if (canExit)
         {
-            float distance = Vector3.Distance(robot.transform.position, robot.player.position);
+            float distance = Vector3.Distance(robot.transform.position,robot.player.position);
 
             if (distance > robot.interactionRadius)
             {
-                robot.stateMachine.ChangeState(robot.patrolState);
+                ExitDialogue();
                 return;
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (canAdvanceDialogue && Input.GetKeyDown(KeyCode.E))
         {
             var currentDialogue = robot.dialogueSys.loadedDialogues[robot.dialogueSys.dialogueIdx];
-
             if (currentDialogue.next == null)
             {
                 robot.dialogueSys.ChargeDialogues(robot.dialogueSys.id);
-                robot.stateMachine.ChangeState(robot.patrolState);
+
+                ExitDialogue();
             }
             else
             {
@@ -83,27 +91,31 @@ public class InteractionState : IState
     public void OnExit()
     {
         robot.animator.SetBool("IsTalking", false);
+
         robot.dialogueBubble.SetActive(false);
         robot.dialogueSkipIm.SetActive(false);
 
         robot.gameObject.layer = interactingLayer;
+
         GameManager.Instance.playerController.LockPlayer(false);
 
-        GameManager.Instance.playerController.
-        GetComponent<Interact>().ChangeInteracting(false);
+        GameManager.Instance.playerController.GetComponent<Interact>().ChangeInteracting(false);
+    }
+
+    private void ExitDialogue()
+    {
+        robot.stateMachine.ChangeState(robot.patrolState);
     }
 
     void LookAtPlayer()
     {
         Vector3 direction = (robot.player.position - robot.transform.position).normalized;
-        direction.y = 0;
-        robot.transform.rotation = Quaternion.LookRotation(direction);
-    }
 
-    void InitDialogue()
-    {
-        robot.interlocutor.text = robot.dialogueSys.loadedDialogues[robot.dialogueSys.dialogueIdx].speaker;
-        robot.dialogueTxt.text = robot.dialogueSys.loadedDialogues[robot.dialogueSys.dialogueIdx].text;
-        GameManager.Instance.robotBehaviour.UpdateUI();
+        direction.y = 0;
+
+        if (direction != Vector3.zero)
+        {
+            robot.transform.rotation = Quaternion.LookRotation(direction);
+        }
     }
 }

@@ -73,7 +73,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
     }
 
-    void ChangeGoToPlayer(bool _GoToPlayer) 
+    public void ChangeGoToPlayer(bool _GoToPlayer) 
     {
         testGoToPlayer = _GoToPlayer;
     }

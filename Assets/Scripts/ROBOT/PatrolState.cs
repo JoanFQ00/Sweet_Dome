@@ -16,7 +16,7 @@ public class PatrolState : IState
     {
         robot.agent.isStopped = false;
         robot.animator.SetBool("IsTalking", false);
-        robot.animator.SetBool("IsCharging", false);
+        robot.animator.SetBool("IsRecharging", false);
         robot.animator.SetBool("IsMoving", true);
         robot.agent.speed = 0.47f;
         robot.animator.SetFloat("Speed", 0.47f);

@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class GoToPlayerState : IState
 {
     private RobotBehaviour robot;
-    private float stopDistance = 1f;
+    private float stopDistance = 0.5f;
 
     private int defaultLayer;
     private int interactingLayer;
