@@ -159,19 +159,11 @@ public class PlayerController : MonoBehaviour
 
             Vector3 targetPos = cameraStartLocalPos + new Vector3(bobX, bobY, 0f);
 
-            pitchController.localPosition = Vector3.Lerp(
-                pitchController.localPosition,
-                targetPos,
-                Time.deltaTime * m_BobSmooth
-            );
+            pitchController.localPosition = Vector3.Lerp(pitchController.localPosition,targetPos,Time.deltaTime * m_BobSmooth);
         }
         else
         {
-            pitchController.localPosition = Vector3.Lerp(
-                pitchController.localPosition,
-                cameraStartLocalPos,
-                Time.deltaTime * m_BobSmooth
-            );
+            pitchController.localPosition = Vector3.Lerp(pitchController.localPosition,cameraStartLocalPos,Time.deltaTime * m_BobSmooth);
         }
     }
 

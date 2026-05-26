@@ -3168,10 +3168,13 @@ MonoBehaviour:
   hasWatchedTv: {fileID: 11400000, guid: 34b97ac1647f3d842bead2667e29d455, type: 2}
   machineCompletedDay1: {fileID: 11400000, guid: e25448c2f2d06c44e87e658b7e301148, type: 2}
   day1FinalTimer: 0
+  day2DorothyTimer: 5
   dorothyBook1Readed: {fileID: 11400000, guid: 67d4e684d5904b94b996d7d133bf766c, type: 2}
   dorothyAngriedDay2: {fileID: 11400000, guid: 3b700fb308df0674380e469049b3450a, type: 2}
-  day2DorothyTimer: 5
+  day3DorothyTimer: 5
+  dorothyLaunchEated: {fileID: 0}
   angriedDay2: {fileID: 11400000, guid: 971c63dd5539a7a49a453372f1e0631b, type: 2}
+  angriedDay3: {fileID: 0}
   hasEated_SF: 0
   watchTvTriggered: 0
   machineCompletedToday: 0
@@ -3179,6 +3182,8 @@ MonoBehaviour:
   dorothyAngry: 0
   dorothyExplainsButton: 0
   afterTvDay2: 0
+  dorothyTalksDay3: 0
+  finishedEatin2: 0
   dayInt:
   - {fileID: 74273444}
   - {fileID: 347563094}
@@ -4167,7 +4172,7 @@ GameObject:
   - component: {fileID: 722897642}
   - component: {fileID: 722897641}
   - component: {fileID: 722897640}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7275,6 +7280,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: terraCasaFinal
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7240861120923012558, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8369082591220000329, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -7286,8 +7299,68 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4459726531934321220, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1092662026}
+    - targetCorrespondingSourceObject: {fileID: 7240861120923012558, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1092662025}
   m_SourcePrefab: {fileID: 100100000, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
+--- !u!1 &1092662023 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7240861120923012558, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
+  m_PrefabInstance: {fileID: 1092662022}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1092662024 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4459726531934321220, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
+  m_PrefabInstance: {fileID: 1092662022}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &1092662025
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092662023}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1635227259651148443, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
+--- !u!64 &1092662026
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092662024}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6516459708581338841, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
 --- !u!1 &1093539165 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1550612116741059217, guid: d03b1226a01581b4d922c0bd30cca7a5, type: 3}
@@ -10185,6 +10258,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  interactCooldown: 1
 --- !u!135 &1463514554
 SphereCollider:
   m_ObjectHideFlags: 0
