@@ -2582,7 +2582,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &519819217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3131,6 +3131,7 @@ MonoBehaviour:
   levelManager: {fileID: 620662206}
   currentDay: 0
   playerStart: {fileID: 0}
+  currentState: 0
 --- !u!114 &620662203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11811,8 +11812,8 @@ MonoBehaviour:
   minPitch: -80
   maxPitch: 80
   m_UseBobbing: 1
-  m_BobAmplitude: 0.015
-  m_BobFrequency: 12
+  m_BobAmplitude: 0.045
+  m_BobFrequency: 20
   m_BobSmooth: 8
   objectiveFov:
   - 60
