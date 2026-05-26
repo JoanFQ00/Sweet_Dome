@@ -1,5 +1,7 @@
+using NUnit.Framework;
 using System.Linq;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class DayManager : MonoBehaviour
 {
@@ -32,11 +34,21 @@ public class DayManager : MonoBehaviour
     [Header("Interactables")]
     public GameObject[] dayInt;
 
-private void OnEnable()
+    [Header("DorothyBooks")]
+    public List<GameObject> dorothyBooks;
+
+    private void Start()
+    {
+        dorothyBooks = GameObject.FindGameObjectsWithTag("DorothyBooks").ToList();
+    }
+
+
+    private void OnEnable()
     {
         SkipTimeButt.OnFirstDayButt += HourSkiped;
         GameManager.OnChangeDay += RestartTriggers;
         GameManager.OnChangeDay += LoadInteractObjects;
+        LevelManager.OnLevelLoaded += SceneLoaded;
     }
 
     private void OnDisable()
@@ -44,6 +56,7 @@ private void OnEnable()
         SkipTimeButt.OnFirstDayButt -= HourSkiped;
         GameManager.OnChangeDay -= RestartTriggers;
         GameManager.OnChangeDay -= LoadInteractObjects;
+        LevelManager.OnLevelLoaded -= SceneLoaded;
     }
 
     private void Update()
@@ -58,6 +71,11 @@ private void OnEnable()
                 UpdateDay2();
             break;
         }
+    }
+
+    void SceneLoaded() 
+    {
+        dorothyBooks = GameObject.FindGameObjectsWithTag("DorothyBooks").ToList();
     }
 
     void UpdateDay1() 
