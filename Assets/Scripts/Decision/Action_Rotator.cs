@@ -76,6 +76,8 @@ public class Action_Rotator : BaseAction
     {
         if (state != State.Idle) return;
 
+        GameManager.Instance.currentState = GameManager.GameState.Interacting;
+
         startPos = transform.position;
         startRot = transform.rotation;
 
@@ -103,8 +105,13 @@ public class Action_Rotator : BaseAction
                 break;
 
             case State.Inspecting:
+                if (GameManager.Instance.currentState != GameManager.GameState.Interacting)
+                    return;
 
-                RotateObject();
+                if (Input.GetMouseButton(0)) 
+                {
+                    RotateObject();
+                }
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -126,6 +133,8 @@ public class Action_Rotator : BaseAction
                     player.LockCamera(false);
 
                     gameObject.layer = LayerMask.NameToLayer("Interactable");
+
+                    GameManager.Instance.currentState = GameManager.GameState.Gameplay;
 
                     GameManager.Instance.playerController
                         .GetComponent<Interact>()

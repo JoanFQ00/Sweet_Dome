@@ -9,9 +9,13 @@ public enum DialoguesRobo
     HasNotReaded = 3,
     HasNotWatchedTv = 4,
     HasNotEatedDay2 = 5,
+
     DorothyRecomendsBook1 = 6,
     YouReadDorothyBook = 7,
-    DorothyAngryDay2 = 8
+    DorothyAngryDay2 = 8,
+
+    DorothyExplainsButton = 9,
+    DorothyCongratsotNotEat = 10,
 }
 
 public class RoboSys : DialogueSys

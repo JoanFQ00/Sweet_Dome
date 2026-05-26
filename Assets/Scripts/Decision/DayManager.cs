@@ -1,7 +1,5 @@
 using System.Linq;
 using UnityEngine;
-using System.Linq;
-
 
 public class DayManager : MonoBehaviour
 {
@@ -11,17 +9,25 @@ public class DayManager : MonoBehaviour
     public Dec_Con hasWatchedTv;
     public Dec_Con machineCompletedDay1;
 
+    public float day1FinalTimer;
+    private float currentDay1Time;
+
     [Header("Day2Con")]
     public Dec_Con dorothyBook1Readed;
     public Dec_Con dorothyAngried;
+    public Dec_Con noteatedDay2;
+
+    public float day2DorothyTimer = 5f;
+    private float day2DorothyCurrentTime;
 
 
     [Header("SafeChecks")]
-    public bool hasEatedDay2 = false;
+    public bool hasEated_SF = false;
     public bool watchTvTriggered = false;
     public bool machineCompletedToday = false;
     public bool youReadDorothyBook = false;
     public bool dorothyAngry = false;
+    public bool dorothyExplainsButton = false;
 
     [Header("Interactables")]
     public GameObject[] dayInt;
@@ -49,7 +55,7 @@ private void OnEnable()
             break;
 
             case Day.Day2:
-                UpdateDay1();
+                UpdateDay2();
             break;
         }
     }
@@ -76,11 +82,20 @@ private void OnEnable()
 
     void UpdateDay2() 
     {
-        if (hasEated.IsMet(GameManager.Instance.decManager) && !hasEatedDay2)
+        day2DorothyCurrentTime += Time.deltaTime;
+
+        if (day2DorothyCurrentTime >= day2DorothyTimer && !dorothyExplainsButton) 
         {
+            dorothyExplainsButton = true;
+            ChangeRobotDialogue((int)DialoguesRobo.DorothyExplainsButton);
+            GameManager.Instance.robotBehaviour.testGoToPlayer = true;
+        }
+
+        if (hasEated.IsMet(GameManager.Instance.decManager) && !hasEated_SF) 
+        {
+            hasEated_SF = true;
             ChangeRobotDialogue((int)DialoguesRobo.DorothyRecomendsBook1);
             GameManager.Instance.robotBehaviour.testGoToPlayer = true;
-            hasEatedDay2 = true;
         }
 
         //if (dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && !youReadDorothyBook)
@@ -106,7 +121,7 @@ private void OnEnable()
         }
         if (GameManager.Instance.currentDay == Day.Day2) 
         {
-            Day1HourSkip();
+            Day2HourSkip();
         }
     }
 
@@ -127,13 +142,13 @@ private void OnEnable()
     }
     void Day2HourSkip() 
     {
-        if (!hasEated.IsMet(GameManager.Instance.decManager) && !hasEatedDay2)
+        if (!hasEated.IsMet(GameManager.Instance.decManager) && !hasEated_SF)
         {
-            ChangeRobotDialogue((int)DialoguesRobo.HasNotEatedDay2);
+            ChangeRobotDialogue((int)DialoguesRobo.DorothyCongratsotNotEat);
             GameManager.Instance.robotBehaviour.testGoToPlayer = true;
-            hasEatedDay2 = true;
+            hasEated_SF = true;
         }
-        if (!hasRead.IsMet(GameManager.Instance.decManager) && !dorothyAngry)
+        else if (!hasRead.IsMet(GameManager.Instance.decManager) && !dorothyAngry)
         {
             ChangeRobotDialogue((int)DialoguesRobo.DorothyAngryDay2);
             GameManager.Instance.robotBehaviour.testGoToPlayer = true;
@@ -162,6 +177,7 @@ private void OnEnable()
         machineCompletedToday = false;
         youReadDorothyBook = false;
         dorothyAngry = false;
+        dorothyExplainsButton = false;
     }
 
     public void LoadInteractObjects(Day currentDay)
@@ -190,5 +206,4 @@ private void OnEnable()
             .OrderBy(obj => obj.name)
             .ToArray();
     }
-
 }
