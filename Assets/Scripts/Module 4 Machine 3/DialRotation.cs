@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class DialRotation : MonoBehaviour
 {
@@ -9,25 +8,23 @@ public class DialRotation : MonoBehaviour
         Frequency,
         Phase
     }
-    public DialType dialtype;
+
+    [Header("Dial Type")]
+    public DialType dialType;
 
     [Header("Wave Target")]
     public WaveRenderer waveRenderer;
 
-    [Header("Rotation")]
-    public float minAngle = -135;
-    public float maxAngle = 135;
+    [Header("Limits")]
+    public float minAngle = -135f;
+    public float maxAngle = 135f;
 
-    [Header("Steps")]
-    public float stepAngle = 10f;
-
-    [Header("Drag")]
-    public float dragSpeed = 5f;
+    [Header("Speed")]
+    public float dragSpeed = 3f;
 
     [Header("Values")]
     public float minValue = 0f;
     public float maxValue = 5f;
-
 
     private bool isDragging;
     private float currentAngle;
@@ -36,44 +33,54 @@ public class DialRotation : MonoBehaviour
     void Start()
     {
         initialRotation = transform.localEulerAngles;
-        currentAngle = NormalizeAngle(initialRotation.z);
+        currentAngle = NormalizeAngle(transform.localEulerAngles.z);
+
+        ApplyRotation();
+        UpdateWaveValue();
     }
 
     void Update()
     {
         if (isDragging)
-            RotateDial();
+        {
+            float mouseX = Input.GetAxis("Mouse X");
+            currentAngle -= mouseX * dragSpeed;
+            currentAngle = Mathf.Clamp(currentAngle,minAngle,maxAngle);
+
+            ApplyRotation();
+            UpdateWaveValue();
+        }
     }
 
-    void RotateDial()
+    void ApplyRotation()
     {
-        float mouseX = Input.GetAxis("Mouse X");
-        currentAngle -= mouseX * dragSpeed;
-
-        Mathf.Clamp(currentAngle, minAngle, maxAngle);
-        transform.localRotation = Quaternion.Euler(initialRotation.x, initialRotation.y, currentAngle);
-        UpdateWaveValue();
+        transform.localRotation = Quaternion.Euler(initialRotation.x,initialRotation.y,currentAngle);
     }
 
     void UpdateWaveValue()
     {
-        float lerp = Mathf.InverseLerp(minAngle, maxAngle, currentAngle);
+        float t = Mathf.InverseLerp(minAngle,maxAngle,currentAngle);
+        float value = Mathf.Lerp(minValue,maxValue,t);
 
-        float value = Mathf.Lerp(minValue, maxValue, lerp);
-        switch (dialtype)
+        switch (dialType)
         {
             case DialType.Amplitude:
+                waveRenderer.amplitude = value;
                 break;
+
             case DialType.Frequency:
+                waveRenderer.frequency = value;
                 break;
+
             case DialType.Phase:
+                waveRenderer.phase = value;
                 break;
         }
     }
 
     float NormalizeAngle(float angle)
     {
-        while (angle > 180f)
+        if (angle > 180f)
             angle -= 360f;
 
         return angle;
