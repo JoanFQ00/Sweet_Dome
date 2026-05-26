@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using System.Collections.Generic;
 using UnityEngine.UI;
+using static GameManager;
 
 public class UIManager : MonoBehaviour
 {
@@ -50,12 +51,14 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) 
+        if (GameManager.Instance.currentState != GameState.Gameplay)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             ChangePauseMenuState(!pauseMenu.activeSelf);
         }
     }
-
     void ChangeInteractVisibility(bool visibility, bool interacting) 
     {
         if (interacting)
@@ -91,22 +94,25 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ChangePauseMenuState(bool state) 
+    public void ChangePauseMenuState(bool state)
     {
-        if (state && !optionsMenu.activeSelf 
-            && !GameManager.Instance.playerController.playerLocked)
+        pauseMenu.SetActive(state);
+        optionsMenu.SetActive(false);
+
+        if (state)
         {
-            pauseMenu.SetActive(true);
+            GameManager.Instance.currentState = GameState.Paused;
+
             GameManager.Instance.playerController.LockPlayer(true);
             GameManager.Instance.playerController.LockCamera(true);
 
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        else 
+        else
         {
-            pauseMenu.SetActive(false);
-            optionsMenu.SetActive(false);
+            GameManager.Instance.currentState = GameState.Gameplay;
+
             GameManager.Instance.playerController.LockPlayer(false);
             GameManager.Instance.playerController.LockCamera(false);
 
@@ -120,6 +126,7 @@ public class UIManager : MonoBehaviour
         optionsMenu.SetActive(state);
         pauseMenu.SetActive(!state);
     }
+
     private void OnSceneLoaded()
     {
         interactTxt.SetActive(false);
