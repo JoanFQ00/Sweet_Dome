@@ -14,23 +14,22 @@ public class RechargeState : IState
         if (!robot.agent.isOnNavMesh)
             return;
 
-        robot.agent.isStopped = false;
+        robot.agent.isStopped = true;
+        robot.agent.ResetPath();
+        Vector3 rechargePos = robot.waypointManager.rechargeWaypoint.position;
+        robot.agent.Warp(rechargePos);
+        robot.transform.rotation = robot.waypointManager.rechargeWaypoint.rotation;
+        robot.animator.SetFloat("Speed", 0);
         robot.animator.SetBool("IsRecharging", true);
-        robot.agent.SetDestination(robot.waypointManager.rechargeWaypoint.position);
     }
 
     public void OnState()
     {
-        if (!robot.agent.pathPending && robot.agent.remainingDistance <= robot.agent.stoppingDistance)
-        {
-            robot.agent.isStopped = true;
-            robot.animator.SetFloat("Speed", 0);
-        }
     }
 
     public void OnExit()
     {
-        robot.agent.isStopped = false;
         robot.animator.SetBool("IsRecharging", false);
+        robot.agent.isStopped = false;
     }
 }
