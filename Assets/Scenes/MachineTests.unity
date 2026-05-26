@@ -2737,6 +2737,7 @@ MonoBehaviour:
   dayManager: {fileID: 620662204}
   decManager: {fileID: 0}
   dayTime: {fileID: 620662205}
+  levelManager: {fileID: 0}
   currentDay: 0
   playerStart: {fileID: 0}
 --- !u!114 &620662203
@@ -8141,7 +8142,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4107a65bee03b9b47b74d2e1b82046a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
+  pauseMenu: {fileID: 0}
+  optionsMenu: {fileID: 0}
+  menuButton: {fileID: 0}
   interactTxt: {fileID: 1469122774}
+  stopInteractTxt: {fileID: 0}
   timerText: {fileID: 1891466737}
   dayText: {fileID: 39175390}
   objectivseTMP:
@@ -8528,7 +8533,7 @@ MonoBehaviour:
   act: {fileID: 11400000, guid: 08b30a864fb6e3d4294d3141f38c2752, type: 2}
   timeToMove: 1
   cameraTarget: {fileID: 1635703817}
-  isAction: 0
+  isAction: 1
 --- !u!65 &1374418982
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10730,6 +10735,10 @@ MonoBehaviour:
   pitchSpeed: 12
   minPitch: -80
   maxPitch: 80
+  m_UseBobbing: 1
+  m_BobAmplitude: 0.015
+  m_BobFrequency: 12
+  m_BobSmooth: 8
   objectiveFov:
   - 60
   - 50
