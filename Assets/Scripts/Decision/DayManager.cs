@@ -40,6 +40,10 @@ public class DayManager : MonoBehaviour
     private void Start()
     {
         dorothyBooks = GameObject.FindGameObjectsWithTag("DorothyBooks").ToList();
+        foreach (GameObject b in dorothyBooks) 
+        {
+            b.SetActive(false);
+        }
     }
 
 
@@ -75,7 +79,12 @@ public class DayManager : MonoBehaviour
 
     void SceneLoaded() 
     {
-        dorothyBooks = GameObject.FindGameObjectsWithTag("DorothyBooks").ToList();
+        //dorothyBooks = GameObject.FindGameObjectsWithTag("DorothyBooks").ToList();
+
+        //foreach (GameObject b in dorothyBooks)
+        //{
+        //    b.SetActive(false);
+        //}
     }
 
     void UpdateDay1() 
@@ -114,14 +123,16 @@ public class DayManager : MonoBehaviour
             hasEated_SF = true;
             ChangeRobotDialogue((int)DialoguesRobo.DorothyRecomendsBook1);
             GameManager.Instance.robotBehaviour.testGoToPlayer = true;
+
+            dorothyBooks[dorothyBooks.Count() - 1].SetActive(true);
         }
 
-        //if (dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && !youReadDorothyBook)
-        //{
-        //    ChangeRobotDialogue((int)DialoguesRobo.YouReadDorothyBook);
-        //    GameManager.Instance.robotBehaviour.testGoToPlayer = true;
-        //    youReadDorothyBook = true;
-        //}
+        if (dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && !youReadDorothyBook)
+        {
+            ChangeRobotDialogue((int)DialoguesRobo.YouReadDorothyBook);
+            GameManager.Instance.robotBehaviour.testGoToPlayer = true;
+            youReadDorothyBook = true;
+        }
 
         //if (hasRead.IsMet(GameManager.Instance.decManager) && !dorothyAngry)
         //{
@@ -168,6 +179,8 @@ public class DayManager : MonoBehaviour
             ChangeRobotDialogue((int)DialoguesRobo.DorothyCongratsotNotEat);
             GameManager.Instance.robotBehaviour.testGoToPlayer = true;
             hasEated_SF = true;
+
+            dorothyBooks[dorothyBooks.Count() - 1].SetActive(true);
         }
         else if (!hasRead.IsMet(GameManager.Instance.decManager) && !dorothyAngry)
         {
