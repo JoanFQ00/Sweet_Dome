@@ -130,14 +130,17 @@ private void OnEnable()
         if (!hasEated.IsMet(GameManager.Instance.decManager))
         {
             ChangeRobotDialogue((int)DialoguesRobo.HasNotEated);
+            GameManager.Instance.robotBehaviour.testGoToPlayer = true;
         }
         else if (!hasRead.IsMet(GameManager.Instance.decManager))
         {
             ChangeRobotDialogue((int)DialoguesRobo.HasNotReaded);
+            GameManager.Instance.robotBehaviour.testGoToPlayer = true;
         }
         else if (!hasWatchedTv.IsMet(GameManager.Instance.decManager))
         {
             ChangeRobotDialogue((int)DialoguesRobo.HasNotWatchedTv);
+            GameManager.Instance.robotBehaviour.testGoToPlayer = true;
         }
     }
     void Day2HourSkip() 
