@@ -78,6 +78,18 @@ public class DayManager : MonoBehaviour
         }
     }
 
+    void HourSkiped(bool daySkiped)
+    {
+        if (GameManager.Instance.currentDay == Day.Day1)
+        {
+            Day1HourSkip();
+        }
+        if (GameManager.Instance.currentDay == Day.Day2)
+        {
+            Day2HourSkip();
+        }
+    }
+
     void SceneLoaded() 
     {
         //dorothyBooks = GameObject.FindGameObjectsWithTag("DorothyBooks").ToList();
@@ -139,19 +151,17 @@ public class DayManager : MonoBehaviour
             ChangeRobotDialogue((int)DialoguesRobo.DorothyAngryDay2);
             GameManager.Instance.robotBehaviour.testGoToPlayer = true;
             dorothyAngry = true;
+            angriedDay2.ActionExecuted();
         }
-    }
 
-    void HourSkiped(bool daySkiped) 
-    {
-        if (GameManager.Instance.currentDay == Day.Day1) 
+        if ((dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && !watchTvTriggered) || 
+            (dorothyAngried.IsMet(GameManager.Instance.decManager) && !watchTvTriggered))
         {
-            Day1HourSkip();
+            ChangeRobotDialogue((int)DialoguesRobo.DontWatchThatProgram);
+            GameManager.Instance.robotBehaviour.testGoToPlayer = true;
+            watchTvTriggered = true;
         }
-        if (GameManager.Instance.currentDay == Day.Day2) 
-        {
-            Day2HourSkip();
-        }
+     
     }
 
     void Day1HourSkip() 
@@ -187,6 +197,7 @@ public class DayManager : MonoBehaviour
             ChangeRobotDialogue((int)DialoguesRobo.DorothyAngryDay2);
             GameManager.Instance.robotBehaviour.testGoToPlayer = true;
             dorothyAngry = true;
+            angriedDay2.ActionExecuted();
         }
     }
 
