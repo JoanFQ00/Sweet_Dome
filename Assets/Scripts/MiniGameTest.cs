@@ -119,7 +119,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
     void HandleActiveInput()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             ExitMiniGame();
         }

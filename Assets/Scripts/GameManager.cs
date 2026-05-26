@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public DayManager dayManager;
     public DecManager decManager;
     public DayTime dayTime;
+    public LevelManager levelManager;
     public Day currentDay;
 
     [Header("StartPosition")]

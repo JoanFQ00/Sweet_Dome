@@ -1,4 +1,3 @@
-using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,49 +25,46 @@ public class PlayerController : MonoBehaviour
     float yaw;
     float pitch;
 
+    [Header("Head Bobbing")]
+    public bool m_UseBobbing = true;
+    [Range(0, 0.1f)] public float m_BobAmplitude = 0.015f;
+    [Range(0, 30)] public float m_BobFrequency = 12.0f;
+    public float m_BobSmooth = 8f;
+
+    Vector3 cameraStartLocalPos;
+    float bobTimer;
+
     [Header("Camera Zoom")]
     public float[] objectiveFov;
     public float timeToZoom = 1.5f;
     float currentZoomTime = 0f;
     bool zoomingCamera = false;
-    bool cameraOnZoom = false;
-    float originalFov;
     int zoomIndex = 0;
     float targetFov;
 
     [HideInInspector]
     public bool playerLocked;
+
     PlayerInput playerInput;
 
     void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
-        playerLocked = false;
-        cameraLocked = false;
     }
 
     void Start()
     {
         GameManager.Instance.SetPlayer(this);
+
         Cursor.lockState = CursorLockMode.Locked;
-        originalFov = mainCamera.fieldOfView;
 
         targetFov = objectiveFov[zoomIndex];
-    }
-    public void LockPlayer(bool locked) 
-    {
-        playerLocked = locked;
+        cameraStartLocalPos = pitchController.localPosition;
     }
 
-    public void LockCamera(bool locked) 
-    {
-        cameraLocked = locked;
-    }
-
-    public void ChangeGameMode(bool mode) 
-    {
-        miniGameMode = mode;
-    }
+    public void LockPlayer(bool locked) => playerLocked = locked;
+    public void LockCamera(bool locked) => cameraLocked = locked;
+    public void ChangeGameMode(bool mode) => miniGameMode = mode;
 
     void Update()
     {
@@ -78,16 +74,13 @@ public class PlayerController : MonoBehaviour
         if (!cameraLocked)
             Look();
 
+        if (m_UseBobbing)
+            HandleHeadBob();
+
         float scroll = Input.mouseScrollDelta.y;
 
-        if (scroll < 0)
-        {
-            ChangeZoom(-1);
-        }
-        else if (scroll > 0)
-        {
-            ChangeZoom(1); 
-        }
+        if (scroll < 0) ChangeZoom(-1);
+        else if (scroll > 0) ChangeZoom(1);
 
         if (zoomingCamera)
             ChangeCameraZoom();
@@ -97,32 +90,23 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 input = playerInput.actions["Move"].ReadValue<Vector2>();
 
-        Vector3 forward = transform.forward;
-        Vector3 right = transform.right;
-
-        Vector3 move = forward * input.y + right * input.x;
-        move.Normalize();
-
+        Vector3 move = (transform.forward * input.y + transform.right * input.x).normalized;
         move *= walkSpeed;
 
         if (characterController.isGrounded)
         {
             if (verticalVelocity < 0)
-            {
                 verticalVelocity = groundedGravity;
-            }
         }
         else
         {
             verticalVelocity += Physics.gravity.y * Time.deltaTime;
         }
 
-        Vector3 movementCharacter = move + Vector3.up * verticalVelocity;
-
-        characterController.Move(movementCharacter * Time.deltaTime);
+        Vector3 finalMove = move + Vector3.up * verticalVelocity;
+        characterController.Move(finalMove * Time.deltaTime);
     }
 
-    //Movement Camera method
     void Look()
     {
         Vector2 mouse = playerInput.actions["Look"].ReadValue<Vector2>();
@@ -148,7 +132,6 @@ public class PlayerController : MonoBehaviour
         Vector3 euler = mainCamera.transform.rotation.eulerAngles;
 
         yaw = euler.y;
-
         pitch = euler.x;
 
         if (pitch > 180f)
@@ -160,13 +143,43 @@ public class PlayerController : MonoBehaviour
         pitchController.localRotation = Quaternion.Euler(pitch, 0f, 0f);
     }
 
+    void HandleHeadBob()
+    {
+        Vector3 horizontalVel = characterController.velocity;
+        horizontalVel.y = 0f;
+
+        float speed = horizontalVel.magnitude;
+
+        if (speed > 0.1f && characterController.isGrounded)
+        {
+            bobTimer += Time.deltaTime * m_BobFrequency;
+
+            float bobX = Mathf.Sin(bobTimer * 0.5f) * m_BobAmplitude;
+            float bobY = Mathf.Sin(bobTimer) * m_BobAmplitude;
+
+            Vector3 targetPos = cameraStartLocalPos + new Vector3(bobX, bobY, 0f);
+
+            pitchController.localPosition = Vector3.Lerp(
+                pitchController.localPosition,
+                targetPos,
+                Time.deltaTime * m_BobSmooth
+            );
+        }
+        else
+        {
+            pitchController.localPosition = Vector3.Lerp(
+                pitchController.localPosition,
+                cameraStartLocalPos,
+                Time.deltaTime * m_BobSmooth
+            );
+        }
+    }
+
     void ChangeZoom(int direction)
     {
-        zoomIndex += direction;
-        zoomIndex = Mathf.Clamp(zoomIndex, 0, objectiveFov.Length - 1);
+        zoomIndex = Mathf.Clamp(zoomIndex + direction, 0, objectiveFov.Length - 1);
 
         targetFov = objectiveFov[zoomIndex];
-
         currentZoomTime = 0f;
         zoomingCamera = true;
     }
@@ -177,8 +190,7 @@ public class PlayerController : MonoBehaviour
 
         float pct = currentZoomTime / timeToZoom;
 
-        float currentFov = mainCamera.fieldOfView;
-        mainCamera.fieldOfView = Mathf.Lerp(currentFov, targetFov, pct);
+        mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, targetFov, pct);
 
         if (pct >= 1f)
         {
