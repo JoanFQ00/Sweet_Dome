@@ -30,23 +30,26 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
     void Update()
     {
-        CheckHour();
+        if (GameManager.Instance.currentState != GameManager.GameState.Minigame &&
+            state == MiniGameState.None)
+            return;
 
+        CheckHour();
         CheckHover();
 
         switch (state)
         {
             case MiniGameState.Entering:
                 HandleCameraTransition(true);
-            break;
+                break;
 
             case MiniGameState.Active:
                 HandleActiveInput();
-            break;
+                break;
 
             case MiniGameState.Exiting:
                 HandleCameraTransition(false);
-            break;
+                break;
         }
     }
 
@@ -63,6 +66,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     public void Interact()
     {
         if (state != MiniGameState.None) return;
+
+        GameManager.Instance.currentState = GameManager.GameState.Minigame;
 
         GameManager.Instance.playerController.LockPlayer(true);
         GameManager.Instance.playerController.LockCamera(true);
@@ -215,6 +220,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     void FinishExit()
     {
         state = MiniGameState.None;
+
+        GameManager.Instance.currentState = GameManager.GameState.Gameplay;
 
         playerCamera.transform.position = originalCameraPos;
         playerCamera.transform.rotation = originalCameraRot;

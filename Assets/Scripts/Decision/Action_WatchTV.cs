@@ -41,6 +41,8 @@ public class Action_WatchTV : BaseAction
     {
         if (state != State.Idle) return;
 
+        GameManager.Instance.currentState = GameManager.GameState.Interacting;
+
         startPos = cam.position;
         startRot = cam.rotation;
 
@@ -81,6 +83,8 @@ public class Action_WatchTV : BaseAction
                 {
                     player.LockPlayer(false);
                     player.LockCamera(false);
+
+                    GameManager.Instance.currentState = GameManager.GameState.Gameplay;
 
                     GameManager.Instance.playerController
                         .GetComponent<Interact>()
