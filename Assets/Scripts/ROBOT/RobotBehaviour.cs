@@ -56,14 +56,12 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     void OnEnable()
     {
         GameManager.Instance.robotBehaviour = this;
-        SkipTimeButt.OnFirstDayButt += ChangeGoToPlayer;
         LevelManager.OnLevelLoaded += LevelLoaded;
         DayTime.OnTimeSkiped += HandleTimeSkip;
     }
 
     void OnDisable()
     {
-        SkipTimeButt.OnFirstDayButt -= ChangeGoToPlayer;
         LevelManager.OnLevelLoaded -= LevelLoaded;
         DayTime.OnTimeSkiped -= HandleTimeSkip;
     }
@@ -126,13 +124,14 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
     }
 
-    void OnGUI()
-    {
-        GUI.Label(
-            new Rect(20, 20, 300, 30),
-            "STATE: " + stateMachine.CurrentStateName
-        );
-    }
+    //void OnGUI()
+    //{
+    //    GUI.Label(
+    //        new Rect(20, 20, 300, 30),
+    //        "STATE: " + stateMachine.CurrentStateName
+    //    );
+    //}
+
     void HandleTimeSkip(int hour)
     {
         testGoToPlayer = true;
@@ -141,7 +140,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     void CheckRechargeState()
     {
         int currentHour = GameManager.Instance.dayTime.GetCurrentHour();
-        Debug.Log(currentHour);
 
         if (!isRecharging && currentHour >= 21)
         {

@@ -9,8 +9,8 @@ public class MachineActivator : MonoBehaviour
     public bool day4 = true;
     public bool day5 = true;
 
-    [Header("Scripts to activate")]
-    public MonoBehaviour[] scriptsToEnable;
+    [Header("Gameobjects to activate")]
+    public GameObject[] machineEnabled;
 
     private void Start()
     {
@@ -25,10 +25,10 @@ public class MachineActivator : MonoBehaviour
     void CheckDay()
     {
         bool activeDay = SwitchDayActivator();
-        foreach (MonoBehaviour script in scriptsToEnable)
+        foreach (GameObject script in machineEnabled)
         {
-            if(script != null)
-                { script.enabled = true; }
+            //if(script != null)
+            //    { script.enabled = true; }
         }
     }
 
