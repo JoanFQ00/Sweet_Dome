@@ -7,6 +7,7 @@ using UnityEditor.Experimental.GraphView;
 public class UIManager : MonoBehaviour
 {
     public GameObject interactTxt;
+    public GameObject stopInteractTxt;
     public TextMeshProUGUI timerText, dayText;
     public static UIManager Instance;
     public List<TextMeshProUGUI> objectivseTMP;
@@ -35,10 +36,12 @@ public class UIManager : MonoBehaviour
         if (interacting)
         {
             interactTxt.SetActive(false);
+            stopInteractTxt.SetActive(true);
         }
         else 
         {
             interactTxt.SetActive(visibility);
+            stopInteractTxt.SetActive(false);
         }
     }
 
