@@ -17,11 +17,12 @@ public class DayManager : MonoBehaviour
     [Header("Day2Con")]
     public Dec_Con dorothyBook1Readed;
     public Dec_Con dorothyAngried;
-    public Dec_Con noteatedDay2;
 
     public float day2DorothyTimer = 5f;
     private float day2DorothyCurrentTime;
 
+    [Header("ActionsToRemember")]
+    public NDec_Act angriedDay2;
 
     [Header("SafeChecks")]
     public bool hasEated_SF = false;
@@ -133,13 +134,12 @@ public class DayManager : MonoBehaviour
             GameManager.Instance.robotBehaviour.testGoToPlayer = true;
             youReadDorothyBook = true;
         }
-
-        //if (hasRead.IsMet(GameManager.Instance.decManager) && !dorothyAngry)
-        //{
-        //    ChangeRobotDialogue((int)DialoguesRobo.DorothyAngryDay2);
-        //    GameManager.Instance.robotBehaviour.testGoToPlayer = true;
-        //    dorothyAngry = true; 
-        //}
+        else if (hasRead.IsMet(GameManager.Instance.decManager) && !dorothyAngry)
+        {
+            ChangeRobotDialogue((int)DialoguesRobo.DorothyAngryDay2);
+            GameManager.Instance.robotBehaviour.testGoToPlayer = true;
+            dorothyAngry = true;
+        }
     }
 
     void HourSkiped(bool daySkiped) 

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System;
+using UnityEngine.InputSystem.Android;
 
 public class SkipTimeButt : MonoBehaviour, IInteractable
 {
@@ -17,7 +18,15 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
         }
         else if (GameManager.Instance.currentDay == Day.Day2) 
         {
-            GameManager.Instance.dayTime.SetCurrentTime(10, 00);
+            if (GameManager.Instance.dayTime.currentHour < 10) 
+            {
+                GameManager.Instance.dayTime.SetCurrentTime(10, 00);
+            }
+            else if (GameManager.Instance.dayTime.currentHour < 11) 
+            {
+                GameManager.Instance.dayTime.SetCurrentTime(12, 00);
+            }
+
             OnFirstDayButt?.Invoke(true);
         }
 

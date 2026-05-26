@@ -66,6 +66,11 @@ public class DecManager : MonoBehaviour
             }
         }
 
+        if (actToRemove != action) 
+        {
+            actionsPerformed.Add(action);
+        }
+
         if (actToRemove != null)
         {
             dayActions.Remove(actToRemove);
