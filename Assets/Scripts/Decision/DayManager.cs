@@ -16,7 +16,7 @@ public class DayManager : MonoBehaviour
 
     [Header("Day2Con")]
     public Dec_Con dorothyBook1Readed;
-    public Dec_Con dorothyAngried;
+    public Dec_Con dorothyAngriedDay2;
 
     public float day2DorothyTimer = 5f;
     private float day2DorothyCurrentTime;
@@ -31,6 +31,7 @@ public class DayManager : MonoBehaviour
     public bool youReadDorothyBook = false;
     public bool dorothyAngry = false;
     public bool dorothyExplainsButton = false;
+    public bool afterTvDay2 = false;
 
     [Header("Interactables")]
     public GameObject[] dayInt;
@@ -154,8 +155,8 @@ public class DayManager : MonoBehaviour
             angriedDay2.ActionExecuted();
         }
 
-        if ((dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && !watchTvTriggered) || 
-            (dorothyAngried.IsMet(GameManager.Instance.decManager) && !watchTvTriggered))
+        if ((afterTvDay2) && ((dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && !watchTvTriggered) || 
+            (dorothyAngriedDay2.IsMet(GameManager.Instance.decManager) && !watchTvTriggered)))
         {
             ChangeRobotDialogue((int)DialoguesRobo.DontWatchThatProgram);
             GameManager.Instance.robotBehaviour.testGoToPlayer = true;
@@ -198,6 +199,20 @@ public class DayManager : MonoBehaviour
             GameManager.Instance.robotBehaviour.testGoToPlayer = true;
             dorothyAngry = true;
             angriedDay2.ActionExecuted();
+        }
+        else if (!hasWatchedTv.IsMet(GameManager.Instance.decManager) 
+            && dorothyBook1Readed.IsMet(GameManager.Instance.decManager))
+        {
+            ChangeRobotDialogue((int)DialoguesRobo.DontWatchThatProgram);
+            GameManager.Instance.robotBehaviour.testGoToPlayer = true;
+            watchTvTriggered = true;
+        }
+        else if (!hasWatchedTv.IsMet(GameManager.Instance.decManager) 
+            && dorothyAngriedDay2.IsMet(GameManager.Instance.decManager))
+        {
+            ChangeRobotDialogue((int)DialoguesRobo.MattewSturdy);
+            GameManager.Instance.robotBehaviour.testGoToPlayer = true;
+            watchTvTriggered = true;
         }
     }
 

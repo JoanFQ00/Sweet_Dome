@@ -16,7 +16,8 @@ public enum DialoguesRobo
 
     DorothyExplainsButton = 9,
     DorothyCongratsotNotEat = 10,
-    DontWatchThatProgram = 11
+    DontWatchThatProgram = 11,
+    MattewSturdy = 12
 }
 
 public class RoboSys : DialogueSys

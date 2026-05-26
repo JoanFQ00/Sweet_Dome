@@ -61,6 +61,11 @@ public class DecManager : MonoBehaviour
             if (act.ID == action.ID)
             {
                 actToRemove = act;
+                if (actionType == ActionTypes.WatchTV && 
+                    GameManager.Instance.currentDay == Day.Day2) 
+                {
+                    GameManager.Instance.dayManager.afterTvDay2 = true;
+                }
                 actionsPerformed.Add(act);
                 break;
             }
