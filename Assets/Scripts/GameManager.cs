@@ -23,7 +23,17 @@ public class GameManager : MonoBehaviour
 
     public static Action<Day> OnChangeDay;
     public static Action NewDay;
-   
+
+    public enum GameState
+    {
+        Gameplay,
+        Interacting,
+        Minigame,
+        Paused
+    }
+
+    public GameState currentState;
+
     void Awake()
     {
         if (Instance == null) 
