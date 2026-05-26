@@ -93,7 +93,8 @@ public class UIManager : MonoBehaviour
 
     public void ChangePauseMenuState(bool state) 
     {
-        if (state && !optionsMenu.activeSelf && !GameManager.Instance.playerController.playerLocked)
+        if (state && !optionsMenu.activeSelf 
+            && !GameManager.Instance.playerController.playerLocked)
         {
             pauseMenu.SetActive(true);
             GameManager.Instance.playerController.LockPlayer(true);
