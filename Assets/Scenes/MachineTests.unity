@@ -3168,13 +3168,10 @@ MonoBehaviour:
   hasWatchedTv: {fileID: 11400000, guid: 34b97ac1647f3d842bead2667e29d455, type: 2}
   machineCompletedDay1: {fileID: 11400000, guid: e25448c2f2d06c44e87e658b7e301148, type: 2}
   day1FinalTimer: 0
-  day2DorothyTimer: 5
   dorothyBook1Readed: {fileID: 11400000, guid: 67d4e684d5904b94b996d7d133bf766c, type: 2}
   dorothyAngriedDay2: {fileID: 11400000, guid: 3b700fb308df0674380e469049b3450a, type: 2}
-  day3DorothyTimer: 5
-  dorothyLaunchEated: {fileID: 0}
+  day2DorothyTimer: 5
   angriedDay2: {fileID: 11400000, guid: 971c63dd5539a7a49a453372f1e0631b, type: 2}
-  angriedDay3: {fileID: 0}
   hasEated_SF: 0
   watchTvTriggered: 0
   machineCompletedToday: 0
@@ -3182,7 +3179,6 @@ MonoBehaviour:
   dorothyAngry: 0
   dorothyExplainsButton: 0
   afterTvDay2: 0
-  dorothyTalksDay3: 0
   dayInt:
   - {fileID: 74273444}
   - {fileID: 347563094}
@@ -10116,7 +10112,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  interactCooldown: 1
 --- !u!135 &1463514554
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -13045,10 +13040,6 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 45780f98a3faffc458d6a395cfff438d, type: 3}
       propertyPath: m_Name
       value: casaFinal
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 45780f98a3faffc458d6a395cfff438d, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
