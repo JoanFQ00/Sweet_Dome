@@ -28,6 +28,7 @@ public class Action_Eat : BaseAction
     {
         if (isEating) return;
 
+        GameManager.Instance.currentState = GameManager.GameState.Interacting;
         Transform player = GameManager.Instance.playerController.transform;
 
         currentFood = Instantiate(foodPrefab);
@@ -51,6 +52,7 @@ public class Action_Eat : BaseAction
             currentFood = null;
         }
 
+        GameManager.Instance.currentState = GameManager.GameState.Gameplay;
         GameManager.Instance.playerController.LockPlayer(false);
         GameManager.Instance.playerController.LockCamera(false);
 

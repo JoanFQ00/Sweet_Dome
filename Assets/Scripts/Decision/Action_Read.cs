@@ -66,6 +66,8 @@ public class Action_Reader : BaseAction
     {
         if (state != State.Idle) return;
 
+        GameManager.Instance.currentState = GameManager.GameState.Interacting;
+
         startPos = transform.position;
         startRot = transform.rotation;
 
@@ -107,7 +109,9 @@ public class Action_Reader : BaseAction
                     GameManager.Instance.playerController.
                     GetComponent<Interact>().ChangeInteracting(false);
                     
+                    GameManager.Instance.currentState = GameManager.GameState.Gameplay;
                     state = State.Idle;
+
                     if (isAction) 
                         OnActionExecuted();
                 });
