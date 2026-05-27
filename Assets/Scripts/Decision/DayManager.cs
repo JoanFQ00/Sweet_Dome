@@ -196,6 +196,7 @@ public class DayManager : MonoBehaviour
         {
             hasEated_SF = true;
             ChangeRobotDialogue((int)DialoguesRobo.Angry3AndNoBook, true);
+            angriedDay3.ActionExecuted();
         }
         else if (hasEated.IsMet(GameManager.Instance.decManager) && !hasEated_SF)
         {
@@ -263,12 +264,14 @@ public class DayManager : MonoBehaviour
         {
             hasEated_SF = true;
             ChangeRobotDialogue((int)DialoguesRobo.DorothyAngryDay3, true);
+            dorothyBooks[1].SetActive(true);
         }
         else if (!hasEated.IsMet(GameManager.Instance.decManager)
             && !dorothyBook1Readed.IsMet(GameManager.Instance.decManager))
         {
             hasEated_SF = true;
             ChangeRobotDialogue((int)DialoguesRobo.Angry3AndNoBook, true);
+            angriedDay3.ActionExecuted();
         }
     }
 
@@ -302,15 +305,16 @@ public class DayManager : MonoBehaviour
 
     public void LoadInteractObjects(Day currentDay)
     {
-        if (GameManager.Instance.currentDay == Day.Day3) 
-        {
-            dorothyLaunch.SetActive(true);
-        }
 
         foreach (GameObject obj in dayInt)
         {
             if (obj != null)
                 obj.SetActive(false);
+        }
+
+        foreach (GameObject book in dorothyBooks) 
+        {
+            book.SetActive(false);
         }
 
         int index = (int)currentDay;
@@ -322,6 +326,11 @@ public class DayManager : MonoBehaviour
         else
         {
             Debug.LogWarning($"No interact objects configured for {currentDay}");
+        }
+
+        if (GameManager.Instance.currentDay == Day.Day3) 
+        {
+            dorothyLaunch.SetActive(true);
         }
     }
 
