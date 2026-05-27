@@ -13,27 +13,30 @@ public class CityFunnel : FunnelBase
 
     protected override void Start()
     {
-        foreach (FunnelBase zone in cityZones)
-            zone.OnCapacityUpdated += UpdateCapabilityInUI;
+        //foreach (FunnelBase zone in cityZones)
+        //    zone.OnCapacityUpdated += UpdateCapabilityInUI;
 
         indexZone = 0;
+        base.Start();
     }
 
-    private void OnDisable()
-    {
-        foreach (FunnelBase zone in cityZones)
-            zone.OnCapacityUpdated -= UpdateCapabilityInUI;
-    }
+    //protected override void OnDisable()
+    //{
+    //    foreach (FunnelBase zone in cityZones)
+    //        zone.OnCapacityUpdated -= UpdateCapabilityInUI;
 
-    void UpdateCapabilityInUI(float value)
-    {
-        OnCapacityUpdated?.Invoke(value);
-    }
+    //    base.OnDisable();
+    //}
 
-    protected override float PutInitialCapacity(Day day) 
-    { 
-        return 0f; 
-    }
+    //void UpdateCapabilityInUI(float value)
+    //{
+    //    OnCapacityUpdated?.Invoke(value);
+    //}
+
+    //protected override float PutInitialCapacity(Day day) 
+    //{ 
+    //    return 0f; 
+    //}
 
     public void GoRight()
     {
@@ -65,14 +68,20 @@ public class CityFunnel : FunnelBase
         );
     }
 
-    public override float AddLiquid(float amount)
-    {
-        return cityZones[indexZone].AddLiquid(amount);
-    }
+    //public override float AddLiquid(float amount)
+    //{
+    //    return cityZones[indexZone].AddLiquid(amount);
+    //}
 
-    public override float RemoveLiquid(float amount)
+    //public override float RemoveLiquid(float amount)
+    //{
+    //    return cityZones[indexZone].RemoveLiquid(amount);
+    //}
+
+    public void ConfirmLiquid()
     {
-        return cityZones[indexZone].RemoveLiquid(amount);
+        float added = cityZones[indexZone].AddLiquid(CurrentCapacity);
+        UpdateCapacity(-added);
     }
 
     public float GetInitialValue() 
