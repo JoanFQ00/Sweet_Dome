@@ -22,6 +22,7 @@ public class InteractionState : IState
 
     public void OnEnter()
     {
+        GameManager.Instance.currentState = GameManager.GameState.Interacting;
         robot.ChangeGoToPlayer(false);
 
         robot.agent.isStopped = true;
@@ -90,6 +91,7 @@ public class InteractionState : IState
 
     public void OnExit()
     {
+        GameManager.Instance.currentState = GameManager.GameState.Gameplay;
         robot.animator.SetBool("IsTalking", false);
 
         robot.dialogueBubble.SetActive(false);
