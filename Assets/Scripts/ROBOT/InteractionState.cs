@@ -111,13 +111,13 @@ public class InteractionState : IState
 
     void LookAtPlayer()
     {
-        Vector3 direction = (robot.player.position - robot.transform.position).normalized;
-
+        Vector3 direction = robot.player.position - robot.visualMesh.position;
         direction.y = 0;
 
-        if (direction != Vector3.zero)
-        {
-            robot.transform.rotation = Quaternion.LookRotation(direction);
-        }
+        if (direction.sqrMagnitude < 0.01f)
+            return;
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        robot.visualMesh.rotation = Quaternion.Slerp(robot.visualMesh.rotation,targetRotation,Time.deltaTime * 8f);
     }
 }

@@ -6,8 +6,7 @@ public class StateMachineChanger
 
     public IState CurrentState => currentRobotState;
 
-    public string CurrentStateName =>
-    currentRobotState?.GetType().Name;
+    public string CurrentStateName => currentRobotState?.GetType().Name;
 
     public void ChangeState(IState newState)
     {
@@ -21,8 +20,6 @@ public class StateMachineChanger
     public void Update()
     {
         if(currentRobotState!= null)
-        {
             currentRobotState.OnState();
-        }
     }
 }

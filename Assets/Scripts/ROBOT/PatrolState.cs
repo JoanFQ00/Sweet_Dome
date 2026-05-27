@@ -19,6 +19,7 @@ public class PatrolState : IState
         robot.animator.SetBool("IsRecharging", false);
         robot.animator.SetBool("IsMoving", true);
         robot.agent.speed = 0.47f;
+        robot.agent.acceleration = 8f;
         robot.animator.SetFloat("Speed", 0.47f);
         NextPatrolPoint();
     }

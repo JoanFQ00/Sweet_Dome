@@ -13,6 +13,9 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     [Header("Waypoint Manager")]
     public WaypointManager waypointManager;
 
+    [Header("Visual")]
+    public Transform visualMesh;
+
     [Header("Dialogue")]
     public GameObject dialogueBubble;
     public GameObject dialogueSkipIm;
@@ -38,7 +41,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     {
         animator = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
+        agent.updateRotation = true;
 
         stateMachine = new StateMachineChanger();
 
@@ -103,18 +106,19 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
     public void LookAtTarget(Vector3 target)
     {
-        Vector3 direction = target - transform.position;
+        Vector3 direction = target - visualMesh.position;
         direction.y = 0;
 
-        //Quaternion rotationRob = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.LookRotation(direction);
-        //transform.rotation = Quaternion.Slerp(transform.rotation, rotationRob, Time.deltaTime * 5f);
+        if (direction.sqrMagnitude < 0.01f)
+            return;
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        visualMesh.rotation = Quaternion.Slerp(visualMesh.rotation,targetRotation,Time.deltaTime * 8f);
     }
 
     public void LoadNextDialogue()
     {
         dialogueSys.LoadNextIdx();
-
         UpdateUI();
     }
 
@@ -123,14 +127,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         interlocutor.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].speaker;
         dialogueTxt.text = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx].text;
     }
-
-    //void OnGUI()
-    //{
-    //    GUI.Label(
-    //        new Rect(20, 20, 300, 30),
-    //        "STATE: " + stateMachine.CurrentStateName
-    //    );
-    //}
 
     void HandleTimeSkip(int hour)
     {
