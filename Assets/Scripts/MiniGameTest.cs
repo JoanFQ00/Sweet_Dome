@@ -128,6 +128,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
+            GameManager.Instance.playerController.ChangeGameMode(false);
             ExitMiniGame();
         }
 
@@ -227,6 +228,9 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
         playerCamera.transform.position = originalCameraPos;
         playerCamera.transform.rotation = originalCameraRot;
+
+        GameManager.Instance.playerController.ChangeGameMode(false);
+
         GameManager.Instance.playerController.SetRotationFromCamera();
 
         GameManager.Instance.playerController.LockPlayer(false);
