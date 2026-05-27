@@ -1,101 +1,170 @@
-//using NUnit.Framework;
-//using System;
 using System.Collections.Generic;
-//using System.Runtime.InteropServices.WindowsRuntime;
-using TMPro;
 using UnityEngine;
-//using static UnityEditor.Experimental.GraphView.Port;
 
 public class CityFunnel : FunnelBase
 {
-    [SerializeField] private List<FunnelBase> cityZones;
-    int indexZone = 0;
+    [System.Serializable]
+    public class CityZoneData
+    {
+        public FunnelBase funnel;
+        public int unlockDay;
+    }
+
+    [Header("City Zones")]
+    [SerializeField] private List<CityZoneData> cityZones = new List<CityZoneData>();
+
+    private int indexZone = 0;
+
+    private void OnEnable()
+    {
+        GameManager.NewDay += OnDayChanged;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.NewDay -= OnDayChanged;
+    }
 
     protected override void Start()
     {
-        //foreach (FunnelBase zone in cityZones)
-        //    zone.OnCapacityUpdated += UpdateCapabilityInUI;
-
         indexZone = 0;
         base.Start();
+
+        UpdateSelectedZoneUI();
     }
 
-    //protected override void OnDisable()
-    //{
-    //    foreach (FunnelBase zone in cityZones)
-    //        zone.OnCapacityUpdated -= UpdateCapabilityInUI;
+    // -------------------------
+    // CORE: zonas desbloqueadas
+    // -------------------------
+    private List<CityZoneData> GetUnlockedZones()
+    {
+        int currentDay = (int)GameManager.Instance.currentDay;
 
-    //    base.OnDisable();
-    //}
+        List<CityZoneData> result = new List<CityZoneData>();
 
-    //void UpdateCapabilityInUI(float value)
-    //{
-    //    OnCapacityUpdated?.Invoke(value);
-    //}
+        for (int i = 0; i < cityZones.Count; i++)
+        {
+            if (cityZones[i].funnel == null)
+                continue;
 
-    //protected override float PutInitialCapacity(Day day) 
-    //{ 
-    //    return 0f; 
-    //}
+            if (cityZones[i].unlockDay <= currentDay)
+                result.Add(cityZones[i]);
+        }
 
+        return result;
+    }
+
+    // -------------------------
+    // EVENTO día cambiado
+    // -------------------------
+    private void OnDayChanged()
+    {
+        ClampIndex();
+        UpdateSelectedZoneUI();
+    }
+
+    private void ClampIndex()
+    {
+        var zones = GetUnlockedZones();
+
+        if (zones.Count == 0)
+        {
+            indexZone = 0;
+            return;
+        }
+
+        if (indexZone >= zones.Count)
+            indexZone = zones.Count - 1;
+
+        if (indexZone < 0)
+            indexZone = 0;
+    }
+
+    // -------------------------
+    // UI UPDATE
+    // -------------------------
+    private void UpdateSelectedZoneUI()
+    {
+        var zones = GetUnlockedZones();
+
+        if (zones.Count == 0)
+            return;
+
+        var zone = zones[indexZone];
+
+        if (zone == null || zone.funnel == null)
+            return;
+
+        OnCapacityUpdated?.Invoke(zone.funnel.CurrentCapacity);
+
+        CityLabel label = zone.funnel.GetComponent<CityLabel>();
+        if (label != null)
+            OnNameUpdated?.Invoke(label.label);
+    }
+
+    // -------------------------
+    // INPUT
+    // -------------------------
     public void GoRight()
     {
-        if (cityZones.Count == 0) return;
+        var zones = GetUnlockedZones();
+        if (zones.Count == 0) return;
 
-        indexZone = (indexZone + 1) % cityZones.Count;
-
-        OnCapacityUpdated?.Invoke(
-            cityZones[indexZone].CurrentCapacity
-        );
-
-        OnNameUpdated?.Invoke(
-            cityZones[indexZone].GetComponent<CityLabel>().label
-        );
+        indexZone = (indexZone + 1) % zones.Count;
+        //UpdateSelectedZoneUI();
     }
 
     public void GoLeft()
     {
-        if (cityZones.Count == 0) return;
+        var zones = GetUnlockedZones();
+        if (zones.Count == 0) return;
 
-        indexZone = (indexZone - 1 + cityZones.Count) % cityZones.Count;
-
-        OnCapacityUpdated?.Invoke(
-            cityZones[indexZone].CurrentCapacity
-        );
-
-        OnNameUpdated?.Invoke(
-            cityZones[indexZone].GetComponent<CityLabel>().label
-        );
+        indexZone = (indexZone - 1 + zones.Count) % zones.Count;
+        //UpdateSelectedZoneUI();
     }
 
-    //public override float AddLiquid(float amount)
-    //{
-    //    return cityZones[indexZone].AddLiquid(amount);
-    //}
-
-    //public override float RemoveLiquid(float amount)
-    //{
-    //    return cityZones[indexZone].RemoveLiquid(amount);
-    //}
-
+    // -------------------------
+    // ACTION
+    // -------------------------
     public void ConfirmLiquid()
     {
-        float added = cityZones[indexZone].AddLiquid(CurrentCapacity);
+        var zones = GetUnlockedZones();
+        if (zones.Count == 0) return;
+
+        var zone = zones[indexZone];
+        if (zone == null || zone.funnel == null) return;
+
+        float added = zone.funnel.AddLiquid(CurrentCapacity);
         UpdateCapacity(-added);
     }
 
-    public float GetInitialValue() 
+    // -------------------------
+    // INITIAL UI HELPERS
+    // -------------------------
+    public float GetInitialValue()
     {
-        return cityZones[indexZone].CurrentCapacity;
+        var zones = GetUnlockedZones();
+        if (zones.Count == 0) return 0f;
+
+        return zones[indexZone].funnel.CurrentCapacity;
     }
-    
-    public string GetInitialName() 
+
+    public string GetInitialName()
     {
-        return cityZones[indexZone].GetComponent<CityLabel>().label;
+        var zones = GetUnlockedZones();
+        if (zones.Count == 0) return "";
+
+        CityLabel label = zones[indexZone].funnel.GetComponent<CityLabel>();
+        return label != null ? label.label : "";
     }
 
     public List<FunnelBase> GetCityZones()
     {
-        return cityZones;
+        List<FunnelBase> result = new();
+
+        foreach (var z in cityZones)
+            result.Add(z.funnel);
+
+        return result;
     }
 }
