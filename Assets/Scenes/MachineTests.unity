@@ -3168,10 +3168,13 @@ MonoBehaviour:
   hasWatchedTv: {fileID: 11400000, guid: 34b97ac1647f3d842bead2667e29d455, type: 2}
   machineCompletedDay1: {fileID: 11400000, guid: e25448c2f2d06c44e87e658b7e301148, type: 2}
   day1FinalTimer: 0
+  day2DorothyTimer: 5
   dorothyBook1Readed: {fileID: 11400000, guid: 67d4e684d5904b94b996d7d133bf766c, type: 2}
   dorothyAngriedDay2: {fileID: 11400000, guid: 3b700fb308df0674380e469049b3450a, type: 2}
-  day2DorothyTimer: 5
+  day3DorothyTimer: 5
+  dorothyLaunchEated: {fileID: 0}
   angriedDay2: {fileID: 11400000, guid: 971c63dd5539a7a49a453372f1e0631b, type: 2}
+  angriedDay3: {fileID: 0}
   hasEated_SF: 0
   watchTvTriggered: 0
   machineCompletedToday: 0
@@ -3179,6 +3182,8 @@ MonoBehaviour:
   dorothyAngry: 0
   dorothyExplainsButton: 0
   afterTvDay2: 0
+  dorothyTalksDay3: 0
+  finishedEatin2: 0
   dayInt:
   - {fileID: 74273444}
   - {fileID: 347563094}
@@ -10185,6 +10190,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  interactCooldown: 1
 --- !u!135 &1463514554
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -14396,15 +14402,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 49d45a15d02bb524ea6935e714d230ca, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 1.1883059
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49d45a15d02bb524ea6935e714d230ca, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 1.1883059
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49d45a15d02bb524ea6935e714d230ca, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 1.1883059
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49d45a15d02bb524ea6935e714d230ca, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14412,11 +14418,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49d45a15d02bb524ea6935e714d230ca, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.23879999
+      value: 0.736
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49d45a15d02bb524ea6935e714d230ca, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.8749
+      value: 7.861
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 49d45a15d02bb524ea6935e714d230ca, type: 3}
       propertyPath: m_LocalRotation.w
