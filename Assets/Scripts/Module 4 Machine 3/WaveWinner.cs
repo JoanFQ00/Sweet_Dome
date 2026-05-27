@@ -20,6 +20,7 @@ public class WaveWinner : MonoBehaviour
     private bool hasWon = false;
     private float timer = 0f;
     private bool showingMessage = false;
+    public bool waveSolved = false;
 
     void Start()
     {
@@ -49,16 +50,18 @@ public class WaveWinner : MonoBehaviour
 
     bool IsMatching()
     {
-        if (!playerRenderer) return false;
+        float ampDiff = Mathf.Abs(playerRenderer.amplitude - targetRenderer.amplitude);
+        float freqDiff = Mathf.Abs(playerRenderer.frequency - targetRenderer.frequency);
+        float phaseDiff = PhaseDifference(playerRenderer.phase,targetRenderer.phase);
 
-        if (Mathf.Abs(playerRenderer.amplitude - targetRenderer.amplitude) < amplitudeTolerance && 
-            Mathf.Abs(playerRenderer.frequency - targetRenderer.frequency) < frequencyTolerance && 
-            Mathf.Abs(playerRenderer.phase - targetRenderer.phase) < phaseTolerance)
-        {
-            return true;
-        }
+        return ampDiff < amplitudeTolerance && freqDiff < frequencyTolerance && phaseDiff < phaseTolerance;
+    }
 
-        return false;
+    float PhaseDifference(float a, float b)
+    {
+        float diff = Mathf.Abs(a - b);
+
+        return Mathf.Min(diff, Mathf.PI * 2f - diff);
     }
 
     void ShowWin()

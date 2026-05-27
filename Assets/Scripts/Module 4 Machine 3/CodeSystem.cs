@@ -106,6 +106,17 @@ public class CodeSystem : MonoBehaviour
             CheckCode();
         }
     }
+    public void DeleteLastNumber()
+    {
+        if (inputLocked)
+            return;
+
+        if (currentInput.Length <= 0)
+            return;
+
+        currentInput = currentInput.Substring(0, currentInput.Length - 1);
+        inputDisplay.text = currentInput;
+    }
 
     void CheckCode()
     {
@@ -128,6 +139,10 @@ public class CodeSystem : MonoBehaviour
 
             Invoke(nameof(ResetInput), 1.5f);
         }
+    }
+    public void EnableCodeSystem()
+    {
+        GenerateCode();
     }
 
     void ResetInput()

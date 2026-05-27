@@ -7,30 +7,36 @@ public class BarMachineGame : MonoBehaviour
     public Transform leftLimit;
     public Transform rightLimit;
 
-    [Header("Zona verde")]
-    public Transform greenZone;
+    [Header("Zonas")]
+    public GameObject phase1Zone;
+    public GameObject phase2Zone;
+    public GameObject phase3Zone;
 
     [Header("Movimiento")]
     public float speed = 0.25f;
 
     private bool moving = true;
     private bool toRight = true;
-
-    private int phase = 1;
     private bool completed = false;
 
-    private Vector3 originalGreenZoneScale;
+    private int phase = 0;
+    private Vector3 moveDirection;
 
     void Start()
     {
-        if (bar == null || leftLimit == null || rightLimit == null || greenZone == null)
+        if (bar == null || leftLimit == null || rightLimit == null)
         {
-            Debug.LogError("Faltan referencias en BarMachineGame");
+            Debug.LogError("Faltan referencias");
             enabled = false;
             return;
         }
 
-        originalGreenZoneScale = greenZone.localScale;
+        moveDirection = (rightLimit.position - leftLimit.position).normalized;
+        phase = 0;
+
+        if (phase1Zone != null) phase1Zone.SetActive(true);
+        if (phase2Zone != null) phase2Zone.SetActive(false);
+        if (phase3Zone != null) phase3Zone.SetActive(false);
     }
 
     void Update()
@@ -39,32 +45,21 @@ public class BarMachineGame : MonoBehaviour
             return;
 
         float direction = toRight ? 1f : -1f;
+        bar.position += moveDirection * direction * speed * Time.deltaTime;
+        float distanceToRight = Vector3.Distance(bar.position, rightLimit.position);
+        float distanceToLeft = Vector3.Distance(bar.position, leftLimit.position);
 
-        // Movimiento en Z local
-        bar.localPosition += Vector3.forward * direction * speed * Time.deltaTime;
-
-        if (bar.localPosition.z >= rightLimit.localPosition.z)
-        {
-            Vector3 pos = bar.localPosition;
-            pos.z = rightLimit.localPosition.z;
-            bar.localPosition = pos;
-
+        if (distanceToRight < 0.02f)
             toRight = false;
-        }
 
-        if (bar.localPosition.z <= leftLimit.localPosition.z)
-        {
-            Vector3 pos = bar.localPosition;
-            pos.z = leftLimit.localPosition.z;
-            bar.localPosition = pos;
-
+        if (distanceToLeft < 0.02f)
             toRight = true;
-        }
     }
 
     public void PressButtonMovingBar()
     {
-        Debug.Log("BOTON PULSADO");
+        if (completed)
+            return;
 
         moving = false;
 
@@ -73,24 +68,19 @@ public class BarMachineGame : MonoBehaviour
 
     void CheckGoodArea()
     {
-        Renderer zoneRenderer = greenZone.GetComponent<Renderer>();
+        GameObject currentZone = GetCurrentZone();
+
+        if (currentZone == null)
+            return;
+
+        Renderer zoneRenderer = currentZone.GetComponent<Renderer>();
 
         if (zoneRenderer == null)
-        {
-            Debug.LogError("GreenZone necesita un Renderer");
             return;
-        }
 
-        float barZ = bar.position.z;
+        bool success = zoneRenderer.bounds.Contains(bar.position);
 
-        float min = zoneRenderer.bounds.min.z;
-        float max = zoneRenderer.bounds.max.z;
-
-        bool success = barZ >= min && barZ <= max;
-
-        Debug.Log(
-            $"Barra:{barZ}  Zona:[{min} - {max}]  Acierto:{success}"
-        );
+        Debug.Log("Acierto: " + success);
 
         if (success)
             Correct();
@@ -98,42 +88,67 @@ public class BarMachineGame : MonoBehaviour
             Fail();
     }
 
-    void Correct()
+    GameObject GetCurrentZone()
     {
-        if (phase == 1)
+        switch (phase)
         {
-            Debug.Log("FASE 1 SUPERADA");
+            case 0:
+                return phase1Zone;
 
-            phase = 2;
+            case 1:
+                return phase2Zone;
 
-            ReduceZone();
+            case 2:
+                return phase3Zone;
 
-            moving = true;
-        }
-        else
-        {
-            CompleteMiniGame();
+            default:
+                return null;
         }
     }
 
-    void ReduceZone()
+    void Correct()
     {
-        greenZone.localScale = new Vector3(
-            originalGreenZoneScale.x * 0.5f,
-            originalGreenZoneScale.y,
-            originalGreenZoneScale.z
-        );
+        if (phase == 0)
+        {
+            Debug.Log("FASE 1 SUPERADA");
 
-        Debug.Log("Zona reducida");
+            phase1Zone.SetActive(false);
+            phase2Zone.SetActive(true);
+
+            phase = 1;
+            moving = true;
+
+            return;
+        }
+
+        if (phase == 1)
+        {
+            Debug.Log("FASE 2 SUPERADA");
+
+            phase2Zone.SetActive(false);
+            phase3Zone.SetActive(true);
+
+            phase = 2;
+            moving = true;
+
+            return;
+        }
+
+        if (phase == 2)
+        {
+            CompleteMiniGame();
+        }
     }
 
     void Fail()
     {
         Debug.Log("FALLO");
 
-        phase = 1;
+        phase = 0;
 
-        greenZone.localScale = originalGreenZoneScale;
+        if (phase1Zone != null) phase1Zone.SetActive(true);
+        if (phase2Zone != null) phase2Zone.SetActive(false);
+        if (phase3Zone != null) phase3Zone.SetActive(false);
 
         moving = true;
     }
@@ -143,6 +158,9 @@ public class BarMachineGame : MonoBehaviour
         completed = true;
         moving = false;
 
-        Debug.Log("MAQUINA REPARADA");
+        if (phase3Zone != null)
+            phase3Zone.SetActive(false);
+
+        Debug.Log("JUEGO COMPLETADO");
     }
 }
