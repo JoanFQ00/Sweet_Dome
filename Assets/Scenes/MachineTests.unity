@@ -20260,7 +20260,9 @@ GameObject:
   - component: {fileID: 7740843681470897636}
   - component: {fileID: 6993950599094386885}
   - component: {fileID: 3782097508066657612}
-  m_Layer: 0
+  - component: {fileID: 7740843681470897637}
+  - component: {fileID: 7740843681470897638}
+  m_Layer: 7
   m_Name: Volante_MK3.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24182,14 +24184,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7622829354706383548}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.000000026692543, y: 0.70710677, z: 0.00000002669254, w: 0.7071068}
-  m_LocalPosition: {x: 0.8752825, y: 1.6750273, z: 0.36162245}
+  m_LocalRotation: {x: -0.17664388, y: 0.7876515, z: 0.26339775, w: 0.52822703}
+  m_LocalPosition: {x: 1.324, y: 0.641, z: 2.069}
   m_LocalScale: {x: 105.31035, y: 105.31035, z: 105.31035}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1936783528114533156}
   m_Father: {fileID: 543450651802282061}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -36.981, y: 112.306, z: 0}
 --- !u!114 &2844891654792782079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37508,6 +37510,41 @@ Transform:
   - {fileID: 1291915896761900216}
   m_Father: {fileID: 7076483478000391072}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7740843681470897637
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420534559736290370}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0007389741, y: 0.0030715154, z: 0.0030706746}
+  m_Center: {x: -0.00003741355, y: -0.0000000064652323, z: -0.0000008747431}
+--- !u!114 &7740843681470897638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420534559736290370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfea59c2de1b45478f84c2022c000df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
+  rend: {fileID: 3782097508066657612}
+  lightenAmount: 0.7
 --- !u!114 &7746631304880471675
 MonoBehaviour:
   m_ObjectHideFlags: 0
