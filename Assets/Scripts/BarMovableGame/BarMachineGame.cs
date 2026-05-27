@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class BarMachineGame : MonoBehaviour
@@ -12,54 +11,86 @@ public class BarMachineGame : MonoBehaviour
     public Transform greenZone;
 
     [Header("Movimiento")]
-    public float speed = 2f;
+    public float speed = 0.25f;
 
     private bool moving = true;
     private bool toRight = true;
 
     private int phase = 1;
-    private Vector3 originalGreenZoneScale;
     private bool completed = false;
+
+    private Vector3 originalGreenZoneScale;
 
     void Start()
     {
         if (bar == null || leftLimit == null || rightLimit == null || greenZone == null)
         {
             Debug.LogError("Faltan referencias en BarMachineGame");
+            enabled = false;
+            return;
         }
-        
+
         originalGreenZoneScale = greenZone.localScale;
     }
 
     void Update()
     {
-        if (!moving)
+        if (!moving || completed)
             return;
 
-        float direction = toRight ? 1 : -1;
-        bar.position += Vector3.right * direction * speed * Time.deltaTime;
+        float direction = toRight ? 1f : -1f;
 
-        if (bar.position.x >= rightLimit.position.x)
+        // Movimiento en Z local
+        bar.localPosition += Vector3.forward * direction * speed * Time.deltaTime;
+
+        if (bar.localPosition.z >= rightLimit.localPosition.z)
+        {
+            Vector3 pos = bar.localPosition;
+            pos.z = rightLimit.localPosition.z;
+            bar.localPosition = pos;
+
             toRight = false;
+        }
 
-        if (bar.position.x <= leftLimit.position.x)
+        if (bar.localPosition.z <= leftLimit.localPosition.z)
+        {
+            Vector3 pos = bar.localPosition;
+            pos.z = leftLimit.localPosition.z;
+            bar.localPosition = pos;
+
             toRight = true;
+        }
     }
 
     public void PressButtonMovingBar()
     {
+        Debug.Log("BOTON PULSADO");
+
         moving = false;
+
         CheckGoodArea();
     }
 
     void CheckGoodArea()
     {
-        float barX = bar.position.x;
-        Renderer rendererZone = greenZone.GetComponent<Renderer>();
-        float min = rendererZone.bounds.min.x;
-        float max = rendererZone.bounds.max.x;
+        Renderer zoneRenderer = greenZone.GetComponent<Renderer>();
 
-        bool success = barX >= min && barX <= max;
+        if (zoneRenderer == null)
+        {
+            Debug.LogError("GreenZone necesita un Renderer");
+            return;
+        }
+
+        float barZ = bar.position.z;
+
+        float min = zoneRenderer.bounds.min.z;
+        float max = zoneRenderer.bounds.max.z;
+
+        bool success = barZ >= min && barZ <= max;
+
+        Debug.Log(
+            $"Barra:{barZ}  Zona:[{min} - {max}]  Acierto:{success}"
+        );
 
         if (success)
             Correct();
@@ -71,40 +102,47 @@ public class BarMachineGame : MonoBehaviour
     {
         if (phase == 1)
         {
-            phase = 2;
-            ReduceZone();
-            ResetMovement();
+            Debug.Log("FASE 1 SUPERADA");
 
-            Debug.Log("Fase 2");
+            phase = 2;
+
+            ReduceZone();
+
+            moving = true;
         }
         else
+        {
             CompleteMiniGame();
+        }
     }
 
     void ReduceZone()
     {
-        Vector3 escala = greenZone.localScale;
-        escala.x *= 0.35f;
-        greenZone.localScale = escala;
-    }
+        greenZone.localScale = new Vector3(
+            originalGreenZoneScale.x * 0.5f,
+            originalGreenZoneScale.y,
+            originalGreenZoneScale.z
+        );
 
-    void ResetMovement()
-    {
-        moving = true;
+        Debug.Log("Zona reducida");
     }
 
     void Fail()
     {
-        Debug.Log("Fallo");
+        Debug.Log("FALLO");
+
         phase = 1;
+
         greenZone.localScale = originalGreenZoneScale;
-        ResetMovement();
+
+        moving = true;
     }
 
     void CompleteMiniGame()
     {
-        Debug.Log("Máquina reparada");
-        moving = false;
         completed = true;
+        moving = false;
+
+        Debug.Log("MAQUINA REPARADA");
     }
 }
