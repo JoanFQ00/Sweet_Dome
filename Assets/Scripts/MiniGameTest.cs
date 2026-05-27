@@ -84,6 +84,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         ShowCursor(true);
 
         gameObject.layer = LayerMask.NameToLayer("Default");
+
+        BeginDayInstructions();
     }
 
     void HandleCameraTransition(bool entering)
@@ -248,5 +250,32 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     {
         if (DayTime.Instance.GetCurrentHour() >= 21)
             gameObject.layer = LayerMask.NameToLayer("Default");
+    }
+
+    void BeginDayInstructions() 
+    {
+        if (GameManager.Instance.currentDay == Day.Day1) 
+        {
+            GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.ExplainMachineDay1);
+            GameManager.Instance.presiSpeaker.PresiSpeaks();
+        }
+
+        if (GameManager.Instance.currentDay == Day.Day2) 
+        {
+            GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.ExplainMachineDay2);
+            GameManager.Instance.presiSpeaker.PresiSpeaks();
+        }
+
+        if (GameManager.Instance.currentDay == Day.Day3) 
+        {
+            GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.ExplainMachineDay3);
+            GameManager.Instance.presiSpeaker.PresiSpeaks();
+        }
+
+        if (GameManager.Instance.currentDay == Day.Day4)
+        {
+            GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.ExplainMachineDay4);
+            GameManager.Instance.presiSpeaker.PresiSpeaks();
+        }
     }
 }

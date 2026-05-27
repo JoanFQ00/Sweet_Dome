@@ -1,13 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
-//using UnityEditor.ShaderGraph.Internal;
 
 public enum PresiDialogue 
 {
     GoodMorningDay1 = 1, 
     GoToWorkDay1 = 2,
-    MachineCompleted = 3
+    MachineCompleted = 3,
+
+    ExplainMachineDay1 = 4,
+    ExplainMachineDay2 = 5, 
+    ExplainMachineDay3 = 6,
+    ExplainMachineDay4 = 7,
 }
 
 public class PresiSys : DialogueSys
@@ -22,8 +26,8 @@ public class PresiSys : DialogueSys
     float currentDialogueTime;
     bool dialogueStarted;
 
-    public event Action OnDialogueChanged;
-    public event Action OnDialogueTerminated;
+    public static event Action OnDialogueChanged;
+    public static event Action OnDialogueTerminated;
 
     public void SysIni()
     {

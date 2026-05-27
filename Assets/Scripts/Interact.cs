@@ -49,9 +49,6 @@ public class Interact : MonoBehaviour
         }
 
         TryInteract();
-
-        if (Input.GetKeyDown(KeyCode.L))
-            debugMode = !debugMode;
     }
 
     void TryInteract()

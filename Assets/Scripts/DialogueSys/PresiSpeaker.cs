@@ -8,7 +8,8 @@ public class PresiSpeaker : MonoBehaviour
     public TextMeshProUGUI interlocutor;
     public TextMeshProUGUI dialogueTxt;
 
-    private PresiSys dialogueSys;
+    [HideInInspector]
+    public PresiSys dialogueSys;
 
     private void Awake()
     {
@@ -17,14 +18,14 @@ public class PresiSpeaker : MonoBehaviour
 
     private void OnEnable()
     {
-        dialogueSys.OnDialogueTerminated += EndDialogue;
-        dialogueSys.OnDialogueChanged += UpdateUI;
+        PresiSys.OnDialogueTerminated += EndDialogue;
+        PresiSys.OnDialogueChanged += UpdateUI;
     }
 
     private void OnDisable()
     {
-        dialogueSys.OnDialogueTerminated -= EndDialogue;
-        dialogueSys.OnDialogueChanged -= UpdateUI;
+        PresiSys.OnDialogueTerminated -= EndDialogue;
+        PresiSys.OnDialogueChanged -= UpdateUI;
     }
 
     public void DialogueIni()

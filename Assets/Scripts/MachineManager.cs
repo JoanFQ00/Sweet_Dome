@@ -1,6 +1,8 @@
+using FMODUnity;
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MachineManager : MonoBehaviour
 {
@@ -16,10 +18,16 @@ public class MachineManager : MonoBehaviour
     [Header("Day 2 Goals")]
     [SerializeField] private List<float> cityValuesD2;
 
-    [Header("minigames States")]
+    [Header("Minigames States")]
     public bool radarCompleted = false;
     public bool codeCompleted = false;
     public bool temperatureCompleted = false;
+
+    [Header("EventDispatcher")]
+    public static Action<float,float, int> RadarDispatch; // TimeToEvent, EventTime, QuantityOfObj
+
+    //[Header("EventTimers")]
+    //public float timeToRadar = 7.5f;
 
     void Update()
     {
@@ -27,10 +35,17 @@ public class MachineManager : MonoBehaviour
             if (isDayGoalCompleted())
                 OnActionExecuted();
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            OnActionExecuted();
-        }
+        
+    }
+
+    private void OnEnable()
+    {
+        PresiSys.OnDialogueTerminated += CheckTerminatedDialogue;
+    }
+
+    private void OnDisable()
+    {
+        PresiSys.OnDialogueTerminated -= CheckTerminatedDialogue;
     }
 
     public bool isDayGoalCompleted()
@@ -53,5 +68,13 @@ public class MachineManager : MonoBehaviour
     {
         act.ActionExecuted();
         DayTime.Instance.SetCurrentTime(act.passTimeToHour, act.passTimeToMinute);
+    }
+
+    void CheckTerminatedDialogue() 
+    {
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay1) 
+        {
+            RadarDispatch?.Invoke(1, 25, 2);
+        }
     }
 }

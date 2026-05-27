@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System.Collections.Generic;
 
 public enum SliderType { Rotation, Position }
 
@@ -32,15 +33,12 @@ public class RadarMinigame : MonoBehaviour
     public static Action<bool> OnEventFinished;
 
     [Header("Objectives Spawn")]
-    public GameObject[] objectives;
-    private GameObject currentObjective;
+    public List<GameObject> objectives;
     private bool objectivesSpawned = false;
 
     private string baseTxt = "00";
     private bool onCenter;
     private Quaternion startLocalRot;
-
-    public GameObject CurrentObjective => currentObjective;
 
     void Start()
     {
@@ -53,7 +51,8 @@ public class RadarMinigame : MonoBehaviour
     {
         SliderCont.OnSliderMoved += SliderMoved;
         WheelRotator.OnRotatedMoved += SliderMoved; 
-        RadarVision.OnObjectiveGet += ChangeCodeTxt;
+        RadarVision.OnObjectiveGet += ObjectiveTaken;
+        MachineManager.RadarDispatch += EventLoader;
 
         //Falta evento start event
     }
@@ -62,16 +61,12 @@ public class RadarMinigame : MonoBehaviour
     {
         SliderCont.OnSliderMoved -= SliderMoved;
         WheelRotator.OnRotatedMoved -= SliderMoved; 
-        RadarVision.OnObjectiveGet -= ChangeCodeTxt;
+        RadarVision.OnObjectiveGet -= ObjectiveTaken;
+        MachineManager.RadarDispatch -= EventLoader;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N)) 
-        {
-            EventLoader(5, 15, 1);
-        }
-
         if (delay_On)
         {
             DelayTime();
@@ -118,22 +113,40 @@ public class RadarMinigame : MonoBehaviour
 
     private void EventTimer()
     {
-        currentEventTime -= Time.deltaTime; 
+        currentEventTime -= Time.deltaTime;
 
         if (currentEventTime <= 0f)
         {
             currentEventTime = 0f;
 
+            foreach (var objective in objectives)
+            {
+                if (objective != null)
+                    Destroy(objective);
+            }
+
+            ResetEvent();
+
             OnEventFinished?.Invoke(false);
-            inEvent = false;
         }
 
-        UpdateTimerText(currentEventTime); 
+        UpdateTimerText(currentEventTime);
     }
 
-    void ChangeCodeTxt(string code)
+    void ObjectiveTaken(GameObject _objective)
     {
-        timeTMP.text = baseTxt + code;
+        objectives.Remove(_objective);
+
+        Destroy(_objective);
+
+        if (objectives.Count <= 0)
+        {
+            Debug.Log("All objectives Taken");
+
+            ResetEvent();
+
+            OnEventFinished?.Invoke(true);
+        }
     }
 
     void UpdateTimerText(float currentTime)
@@ -184,7 +197,22 @@ public class RadarMinigame : MonoBehaviour
             direction.normalized * randomRadius;
 
         GameObject obj = Instantiate(objectivePrefab, finalPosition, Quaternion.identity);
+        objectives.Add(obj);
 
         obj.transform.position = finalPosition;
+    }
+
+    void ResetEvent()
+    {
+        inEvent = false;
+        delay_On = false;
+
+        currentEventTime = 0f;
+        timeToEvent = 0f;
+        eventStart_Delay = 0f;
+
+        objectivesSpawned = false;
+
+        objectives.Clear();
     }
 }

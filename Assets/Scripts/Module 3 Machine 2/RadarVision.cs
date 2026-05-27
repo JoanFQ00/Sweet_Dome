@@ -10,77 +10,63 @@ public class RadarVision : MonoBehaviour
 
     public RadarMinigame radarMinigame;
 
-    //BORRAR
+    // BORRAR
     public FunnelBase rawFunnel;
 
-    public static Action<string> OnObjectiveGet;
-
-    private int randomCode;
-    private string departingCode;
-
-    void Start()
-    {
-        GenerateRandomCode();
-    }
+    public static Action<GameObject> OnObjectiveGet;
 
     void Update()
     {
-        if (radarMinigame.CurrentObjective == null) { return; }
-         
-        if (CheckVision())
-            radarMinigame.CurrentObjective.GetComponent<MeshRenderer>().enabled = true;
-        else
-            radarMinigame.CurrentObjective.GetComponent<MeshRenderer>().enabled = false;
+        if (radarMinigame.objectives.Count <= 0)
+            return;
+
+        foreach (GameObject objective in radarMinigame.objectives)
+        {
+            if (objective == null)
+                continue;
+
+            MeshRenderer mesh = objective.GetComponent<MeshRenderer>();
+
+            if (mesh == null)
+                continue;
+
+            bool visible = CheckVision(objective);
+
+            mesh.enabled = visible;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (radarMinigame.CurrentObjective != null)
-        {
-            if (other.gameObject == radarMinigame.CurrentObjective)
-            {
-                GenerateRandomCode();
-                OnObjectiveGet?.Invoke(departingCode);
-                rawFunnel.AddLiquid(20f);
-                other.gameObject.SetActive(false);
-            }
-        }
+        if (!radarMinigame.objectives.Contains(other.gameObject))
+            return;
+
+        OnObjectiveGet?.Invoke(other.gameObject);
+
+        rawFunnel.AddLiquid(20f);
     }
 
-    bool CheckVision() 
+    bool CheckVision(GameObject objective)
     {
-        if (radarMinigame.CurrentObjective != null) 
+        Vector3 dir = objective.transform.position - transform.position;
+        float dist = dir.magnitude;
+
+        if (dist > maxDist) return false;
+        if (dist < 0.01f) return false;
+
+        dir /= dist;
+
+        float angle = Vector3.Angle(transform.forward, dir);
+        if (angle > visionAngle * 0.5f) return false;
+
+        Ray ray = new Ray(transform.position, dir);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, dist - 0.1f, visionMask))
         {
-            Vector3 dir = radarMinigame.CurrentObjective.transform.position -  transform.position;
-            float dist = dir.magnitude;
-
-            if (dist > maxDist) return false;
-
-            dir /= dist;
-
-            float angle = Vector3.Angle(transform.forward, dir);
-
-            if (angle > visionAngle / 2)
-                return false;
-
-            if (angle >= Mathf.Cos(visionAngle * 0.5f * Mathf.Deg2Rad))
-            {
-                Ray ray = new Ray(transform.position, dir);
-                if (!Physics.Raycast(ray, dist, visionMask))
-                    return false;
-            }
-            return true;   
-        }
-        else 
             return false;
+        }
+        return true;
     }
-
-    void GenerateRandomCode() 
-    {
-        randomCode = UnityEngine.Random.Range(1000, 9999);
-        departingCode = randomCode.ToString();
-    }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
@@ -96,10 +82,17 @@ public class RadarVision : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawLine(transform.position, transform.position + transform.forward * 2f);
 
-        if (radarMinigame.CurrentObjective != null)
+        if (radarMinigame == null)
+            return;
+
+        Gizmos.color = Color.red;
+
+        foreach (GameObject objective in radarMinigame.objectives)
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position, radarMinigame.CurrentObjective.transform.position);
+            if (objective != null)
+            {
+                Gizmos.DrawLine(transform.position, objective.transform.position);
+            }
         }
     }
 
