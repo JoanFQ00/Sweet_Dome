@@ -3512,27 +3512,19 @@ MonoBehaviour:
   hasWatchedTv: {fileID: 11400000, guid: 34b97ac1647f3d842bead2667e29d455, type: 2}
   machineCompletedDay1: {fileID: 11400000, guid: e25448c2f2d06c44e87e658b7e301148, type: 2}
   day1FinalTimer: 0
-  day2DorothyTimer: 5
   dorothyBook1Readed: {fileID: 11400000, guid: 67d4e684d5904b94b996d7d133bf766c, type: 2}
-  dorothyAngriedDay2: {fileID: 11400000, guid: 3b700fb308df0674380e469049b3450a, type: 2}
-  day3DorothyTimer: 5
-  dorothyLaunchEated: {fileID: 11400000, guid: b67f028f772650544a8c4b0e044a48e8, type: 2}
-  angriedDay2: {fileID: 11400000, guid: 971c63dd5539a7a49a453372f1e0631b, type: 2}
-  angriedDay3: {fileID: 11400000, guid: 7ce890dd6ba7b264ea11cb2a18f7a8dd, type: 2}
+  dorothyAngried: {fileID: 0}
+  noteatedDay2: {fileID: 0}
+  day2DorothyTimer: 5
   hasEated_SF: 0
   watchTvTriggered: 0
   machineCompletedToday: 0
   youReadDorothyBook: 0
   dorothyAngry: 0
   dorothyExplainsButton: 0
-  afterTvDay2: 0
-  dorothyTalksDay3: 0
-  finishedEatin2: 0
   dayInt:
   - {fileID: 74273444}
   - {fileID: 347563094}
-  dorothyLaunch: {fileID: 0}
-  dorothyBooks: []
 --- !u!114 &620662205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6179,6 +6171,83 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 906411009}
   m_CullTransparentMesh: 1
+--- !u!1001 &906802237
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.38276
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.67987144
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.2373986
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7492871
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.4777098
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.38723716
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.24578364
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1ff2392eac13c244d9d050d11a19fa0d, type: 2}
+    - target: {fileID: -284292258116309460, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1ff2392eac13c244d9d050d11a19fa0d, type: 2}
+    - target: {fileID: 919132149155446097, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: m_Name
+      value: MachineOne
+      objectReference: {fileID: 0}
+    - target: {fileID: 3860304793834078597, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1ff2392eac13c244d9d050d11a19fa0d, type: 2}
+    - target: {fileID: 4048836984289418703, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1ff2392eac13c244d9d050d11a19fa0d, type: 2}
+    - target: {fileID: 6591437147795199124, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1ff2392eac13c244d9d050d11a19fa0d, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
 --- !u!1 &914703847
 GameObject:
   m_ObjectHideFlags: 0
@@ -6829,13 +6898,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  pressSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!1001 &980841096
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10448,7 +10510,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  interactCooldown: 1
 --- !u!135 &1463514554
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -15465,7 +15526,8 @@ PrefabInstance:
       value: MachineIterTwo
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7133195148050410062, guid: 6e9d306edfdabf8418f21aac4f6edceb, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e9d306edfdabf8418f21aac4f6edceb, type: 3}
@@ -16115,13 +16177,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: -1299775749
-      Data2: 1285000716
-      Data3: 55559088
-      Data4: 46357868
-    Path: event:/SFX_UI/SFX_UI_MenuButton
 --- !u!1 &288952690552618469
 GameObject:
   m_ObjectHideFlags: 0
@@ -17773,13 +17828,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!1 &714480958031324833
 GameObject:
   m_ObjectHideFlags: 0
@@ -18217,13 +18265,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!23 &864932120436650611
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20008,13 +20049,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  pressSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!4 &1680105486609554162
 Transform:
   m_ObjectHideFlags: 0
@@ -21663,13 +21697,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: -1299775749
-      Data2: 1285000716
-      Data3: 55559088
-      Data4: 46357868
-    Path: event:/SFX_UI/SFX_UI_MenuButton
 --- !u!1 &2229413639872887536
 GameObject:
   m_ObjectHideFlags: 0
@@ -21751,13 +21778,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!114 &2276647103759375716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21773,13 +21793,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: -1299775749
-      Data2: 1285000716
-      Data3: 55559088
-      Data4: 46357868
-    Path: event:/SFX_UI/SFX_UI_MenuButton
 --- !u!23 &2289387296583266768
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22111,13 +22124,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: -1299775749
-      Data2: 1285000716
-      Data3: 55559088
-      Data4: 46357868
-    Path: event:/SFX_UI/SFX_UI_MenuButton
 --- !u!1 &2389791263732407997
 GameObject:
   m_ObjectHideFlags: 0
@@ -23532,6 +23538,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveController
   WaveRenderer: {fileID: 3631924549039623458}
+  amplitudeSlider: {fileID: 0}
+  frequencySlider: {fileID: 0}
+  phaseSlider: {fileID: 0}
 --- !u!1 &2959997603690104386
 GameObject:
   m_ObjectHideFlags: 0
@@ -24079,13 +24088,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: -1299775749
-      Data2: 1285000716
-      Data3: 55559088
-      Data4: 46357868
-    Path: event:/SFX_UI/SFX_UI_MenuButton
 --- !u!224 &3243474209941345245
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27099,13 +27101,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  pressSound:
-    Guid:
-      Data1: -1421725678
-      Data2: 1223389026
-      Data3: 1730435738
-      Data4: 1136904439
-    Path: event:/SFX_Buttons/SFX_Buttons_Final
 --- !u!23 &4488558966107188850
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -27794,13 +27789,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!114 &4759131152909035805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27816,13 +27804,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: -1299775749
-      Data2: 1285000716
-      Data3: 55559088
-      Data4: 46357868
-    Path: event:/SFX_UI/SFX_UI_MenuButton
 --- !u!114 &4777703102568483674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28991,13 +28972,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!114 &5192658041266432542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29240,13 +29214,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!1 &5245189554001095284
 GameObject:
   m_ObjectHideFlags: 0
@@ -29682,13 +29649,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  pressSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!224 &5409105686739341529
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30464,13 +30424,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  pressSound:
-    Guid:
-      Data1: -1421725678
-      Data2: 1223389026
-      Data3: 1730435738
-      Data4: 1136904439
-    Path: event:/SFX_Buttons/SFX_Buttons_Final
 --- !u!222 &5740229622687455545
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -30782,13 +30735,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: -1299775749
-      Data2: 1285000716
-      Data3: 55559088
-      Data4: 46357868
-    Path: event:/SFX_UI/SFX_UI_MenuButton
 --- !u!65 &5841248180261555237
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32687,13 +32633,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  pressSound:
-    Guid:
-      Data1: -1299775749
-      Data2: 1285000716
-      Data3: 55559088
-      Data4: 46357868
-    Path: event:/SFX_UI/SFX_UI_MenuButton
 --- !u!114 &6837733043695818553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33243,10 +33182,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d13e7259ca3066b46babe45430654055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialRotation
-  dialType: 1
+  dialtype: 0
   waveRenderer: {fileID: 3631924549039623458}
   minAngle: -135
   maxAngle: 135
+  stepAngle: 10
   dragSpeed: 3
   minValue: 0
   maxValue: 10
@@ -33466,13 +33406,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!4 &7116203969434530263
 Transform:
   m_ObjectHideFlags: 0
@@ -33793,13 +33726,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: -1299775749
-      Data2: 1285000716
-      Data3: 55559088
-      Data4: 46357868
-    Path: event:/SFX_UI/SFX_UI_MenuButton
 --- !u!114 &7323491483373702156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34428,10 +34354,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d13e7259ca3066b46babe45430654055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialRotation
-  dialType: 2
+  dialtype: 0
   waveRenderer: {fileID: 3631924549039623458}
   minAngle: -135
   maxAngle: 135
+  stepAngle: 10
   dragSpeed: 3
   minValue: -10
   maxValue: 10
@@ -34469,6 +34396,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaveController
   WaveRenderer: {fileID: 3580643970846438281}
+  amplitudeSlider: {fileID: 0}
+  frequencySlider: {fileID: 0}
+  phaseSlider: {fileID: 0}
 --- !u!4 &7605147567682866035
 Transform:
   m_ObjectHideFlags: 0
@@ -34692,13 +34622,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!4 &7721291183123748969
 Transform:
   m_ObjectHideFlags: 0
@@ -36612,13 +36535,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: -1299775749
-      Data2: 1285000716
-      Data3: 55559088
-      Data4: 46357868
-    Path: event:/SFX_UI/SFX_UI_MenuButton
 --- !u!114 &8396524777244023401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36917,13 +36833,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: -1299775749
-      Data2: 1285000716
-      Data3: 55559088
-      Data4: 46357868
-    Path: event:/SFX_UI/SFX_UI_MenuButton
 --- !u!114 &8490748870327855143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37031,13 +36940,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!23 &8540435434228665559
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37977,10 +37879,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d13e7259ca3066b46babe45430654055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DialRotation
-  dialType: 0
+  dialtype: 0
   waveRenderer: {fileID: 3631924549039623458}
   minAngle: -135
   maxAngle: 135
+  stepAngle: 10
   dragSpeed: 3
   minValue: 0
   maxValue: 5
@@ -38261,13 +38164,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!1 &8817705305182435914
 GameObject:
   m_ObjectHideFlags: 0
@@ -38545,13 +38441,6 @@ MonoBehaviour:
   onPress:
     m_PersistentCalls:
       m_Calls: []
-  pressSound:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
 --- !u!33 &8932516110558624573
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -39112,13 +39001,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  pressSound:
-    Guid:
-      Data1: -1299775749
-      Data2: 1285000716
-      Data3: 55559088
-      Data4: 46357868
-    Path: event:/SFX_UI/SFX_UI_MenuButton
 --- !u!114 &9082387414248320452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39416,13 +39298,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  pressSound:
-    Guid:
-      Data1: -1299775749
-      Data2: 1285000716
-      Data3: 55559088
-      Data4: 46357868
-    Path: event:/SFX_UI/SFX_UI_MenuButton
 --- !u!114 &9152532533187706644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39711,3 +39586,4 @@ SceneRoots:
   - {fileID: 1866616782}
   - {fileID: 1092662022}
   - {fileID: 4631656}
+  - {fileID: 906802237}
