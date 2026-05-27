@@ -21,7 +21,7 @@ public enum DialoguesRobo
     DorothyLaunch = 13,
     DorothyHappyLaunch = 14,
     DorothyAngryDay3 = 15,
-    RecomendsBook2 = 16
+    Angry3AndNoBook = 16,
 }
 
 public class RoboSys : DialogueSys

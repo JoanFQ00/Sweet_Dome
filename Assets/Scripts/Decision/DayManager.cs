@@ -45,6 +45,7 @@ public class DayManager : MonoBehaviour
 
     [Header("Interactables")]
     public GameObject[] dayInt;
+    public GameObject dorothyLaunch;
 
     [Header("DorothyBooks")]
     public List<GameObject> dorothyBooks;
@@ -56,6 +57,8 @@ public class DayManager : MonoBehaviour
         {
             b.SetActive(false);
         }
+        dorothyLaunch = GameObject.FindGameObjectWithTag("DorothyLaunch");
+        dorothyLaunch.SetActive(false);
     }
 
 
@@ -155,7 +158,7 @@ public class DayManager : MonoBehaviour
             hasEated_SF = true;
             ChangeRobotDialogue((int)DialoguesRobo.DorothyRecomendsBook1, true);
 
-            dorothyBooks[dorothyBooks.Count() - 1].SetActive(true);
+            dorothyBooks[0].SetActive(true);
         }
 
         if (dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && !youReadDorothyBook)
@@ -188,22 +191,23 @@ public class DayManager : MonoBehaviour
             ChangeRobotDialogue((int)DialoguesRobo.DorothyLaunch, true);
         }
 
-        if (dorothyLaunchEated.IsMet(GameManager.Instance.decManager) && !hasEated_SF)
+        if (!hasEated_SF && hasEated.IsMet(GameManager.Instance.decManager)
+            && !dorothyBook1Readed.IsMet(GameManager.Instance.decManager))
+        {
+            hasEated_SF = true;
+            ChangeRobotDialogue((int)DialoguesRobo.Angry3AndNoBook, true);
+        }
+        else if (hasEated.IsMet(GameManager.Instance.decManager) && !hasEated_SF)
+        {
+            hasEated_SF = true;
+            ChangeRobotDialogue((int)DialoguesRobo.DorothyAngryDay3, true);
+            dorothyBooks[1].SetActive(true);
+        }
+        else if (dorothyLaunchEated.IsMet(GameManager.Instance.decManager) && !hasEated_SF)
         {
             hasEated_SF = true;
             ChangeRobotDialogue((int)DialoguesRobo.DorothyHappyLaunch, true);
-        }
-        else if (hasEated.IsMet(GameManager.Instance.decManager) && !hasEated_SF) 
-        {
-            hasEated_SF = true;
-            ChangeRobotDialogue((int)DialoguesRobo.DorothyAngryDay3 , true);
-        }
-
-        if ((hasEated_SF && dorothyLaunchEated.IsMet(GameManager.Instance.decManager)) 
-            && !finishedEatin2) 
-        {
-            finishedEatin2 = true;
-            ChangeRobotDialogue((int)DialoguesRobo.RecomendsBook2, true);
+            dorothyBooks[1].SetActive(true);
         }
     }
 
@@ -229,7 +233,7 @@ public class DayManager : MonoBehaviour
             ChangeRobotDialogue((int)DialoguesRobo.DorothyCongratsotNotEat, true);
             hasEated_SF = true;
 
-            dorothyBooks[dorothyBooks.Count() - 1].SetActive(true);
+            dorothyBooks[0].SetActive(true);
         }
         else if (!hasRead.IsMet(GameManager.Instance.decManager) && !dorothyAngry)
         {
@@ -257,12 +261,14 @@ public class DayManager : MonoBehaviour
         if (!hasEated.IsMet(GameManager.Instance.decManager)
             && dorothyBook1Readed.IsMet(GameManager.Instance.decManager))
         {
-
+            hasEated_SF = true;
+            ChangeRobotDialogue((int)DialoguesRobo.DorothyAngryDay3, true);
         }
         else if (!hasEated.IsMet(GameManager.Instance.decManager)
             && !dorothyBook1Readed.IsMet(GameManager.Instance.decManager))
         {
-
+            hasEated_SF = true;
+            ChangeRobotDialogue((int)DialoguesRobo.Angry3AndNoBook, true);
         }
     }
 
@@ -289,12 +295,18 @@ public class DayManager : MonoBehaviour
         youReadDorothyBook = false;
         dorothyAngry = false;
         dorothyExplainsButton = false;
+        hasEated_SF = false;
         afterTvDay2 = false;   
         finishedEatin2 = false;
     }
 
     public void LoadInteractObjects(Day currentDay)
     {
+        if (GameManager.Instance.currentDay == Day.Day3) 
+        {
+            dorothyLaunch.SetActive(true);
+        }
+
         foreach (GameObject obj in dayInt)
         {
             if (obj != null)
