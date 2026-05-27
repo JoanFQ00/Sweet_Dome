@@ -20,6 +20,7 @@ public class CapabilityUI : MonoBehaviour
         if (capabilityBase != null)
         {
             capabilityBase.OnCapacityUpdated += UpdateCapabilityUI;
+            //UpdateCapabilityUI(capabilityBase.CurrentCapacity);
 
             if (capabilityType != CapabilityType.NORMAL)
             {
