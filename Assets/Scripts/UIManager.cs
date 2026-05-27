@@ -88,7 +88,7 @@ public class UIManager : MonoBehaviour
         timerText.text = $"{hour:00} {minutes:00}";
 
         if (timeWalls != null)
-            timeWalls.text = $"{hour:00} {minutes:00}";
+            timeWalls.text = $"{hour:00}  {minutes:00}";
     }
 
     void ChangeHudObjectives(List<NDec_Act> actionList)
