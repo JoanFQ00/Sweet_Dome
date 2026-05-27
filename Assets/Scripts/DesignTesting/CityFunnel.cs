@@ -167,4 +167,9 @@ public class CityFunnel : FunnelBase
 
         return result;
     }
+
+    public List<CityZoneData> GetCityZonesData()
+    {
+        return cityZones;
+    }
 }

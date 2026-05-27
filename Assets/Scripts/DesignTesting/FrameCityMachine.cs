@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class FrameCityMachine : MonoBehaviour
 {
+    [Header("References")]
+    [SerializeField] private CityFunnel cityFunnel;
+
     [Header("Waypoints")]
     [SerializeField] private List<Transform> cityWayPoints;
 
@@ -31,11 +34,21 @@ public class FrameCityMachine : MonoBehaviour
     }
 
     // -------------------------
-    // CORE: zonas desbloqueadas
+    // CORE
     // -------------------------
     private int GetUnlockedCount()
     {
-        return (int)GameManager.Instance.currentDay + 1;
+        int currentDay = (int)GameManager.Instance.currentDay;
+
+        int count = 0;
+
+        foreach (var zone in cityFunnel.GetCityZonesData())
+        {
+            if ((int)zone.unlockDay <= currentDay)
+                count++;
+        }
+
+        return count;
     }
 
     // -------------------------
@@ -47,6 +60,7 @@ public class FrameCityMachine : MonoBehaviour
         if (max <= 0) return;
 
         indexZone = (indexZone + 1) % max;
+
         ApplyTarget(max);
     }
 
@@ -56,6 +70,7 @@ public class FrameCityMachine : MonoBehaviour
         if (max <= 0) return;
 
         indexZone = (indexZone - 1 + max) % max;
+
         ApplyTarget(max);
     }
 
@@ -65,6 +80,7 @@ public class FrameCityMachine : MonoBehaviour
     private void ApplyTarget(int max)
     {
         indexZone = Mathf.Clamp(indexZone, 0, max - 1);
+
         targetPosition = cityWayPoints[indexZone].localPosition;
     }
 }
