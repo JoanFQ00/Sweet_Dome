@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Time")]
     public TextMeshProUGUI timerText, dayText;
+    public TextMeshProUGUI timeWalls;
 
     [Header("Objectives")]
     public List<TextMeshProUGUI> objectivseTMP;
@@ -39,6 +40,8 @@ public class UIManager : MonoBehaviour
         Interact.CanInteract += ChangeInteractVisibility;
         DecManager.OnActionsChanged += ChangeHudObjectives;
         LevelManager.OnLevelLoaded += OnSceneLoaded;
+
+        DayTime.OnTimeChanged += UpdateTimeUI;
     }
 
     private void OnDisable()
@@ -47,6 +50,8 @@ public class UIManager : MonoBehaviour
         Interact.CanInteract -= ChangeInteractVisibility;
         DecManager.OnActionsChanged -= ChangeHudObjectives;
         LevelManager.OnLevelLoaded -= OnSceneLoaded;
+
+        DayTime.OnTimeChanged -= UpdateTimeUI;
     }
 
     private void Update()
@@ -76,6 +81,14 @@ public class UIManager : MonoBehaviour
     void OnDayChanged()
     {
         dayText.text = $"{GameManager.Instance.currentDay.ToString().ToUpper()}";
+    }
+
+    private void UpdateTimeUI(int hour, int minutes)
+    {
+        timerText.text = $"{hour:00} {minutes:00}";
+
+        if (timeWalls != null)
+            timeWalls.text = $"{hour:00} {minutes:00}";
     }
 
     void ChangeHudObjectives(List<NDec_Act> actionList)

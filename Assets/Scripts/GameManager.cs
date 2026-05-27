@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
-public enum Day { Day1 = 0, Day2, Day3, Day4, Day5 }
+public enum Day { Day1 = 0, Day2, Day3, Day4, Day5, Day6 }
 
 public class GameManager : MonoBehaviour
 {
@@ -78,7 +78,6 @@ public class GameManager : MonoBehaviour
         presiSpeaker = FindFirstObjectByType<PresiSpeaker>();
         robotBehaviour = FindFirstObjectByType<RobotBehaviour>();
         UI = GameObject.FindGameObjectWithTag("UI");
-        dayTime.timerText = UI.GetComponent<UIManager>().timerText;
         dayTime.ResetDayTime();
 
         playerStart = GameObject.FindWithTag("PlayerStart").transform;

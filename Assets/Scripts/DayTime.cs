@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class DayTime : MonoBehaviour
 {
@@ -19,8 +18,7 @@ public class DayTime : MonoBehaviour
     public int currentHour;
     private int currentMinutes;
 
-    [Header("UI")]
-    public TextMeshProUGUI timerText;
+    public static Action<int, int> OnTimeChanged;
 
     public static Action<int> OnTimeSkiped;
 
@@ -33,7 +31,7 @@ public class DayTime : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else 
+        else
         {
             Destroy(gameObject);
         }
@@ -60,11 +58,6 @@ public class DayTime : MonoBehaviour
         LoadMinigames();
     }
 
-    // =======================
-    // DAY LOGIC
-    // =======================
-
-
     void LoadNextDay(Day c_Day)
     {
         currentDay++;
@@ -73,11 +66,11 @@ public class DayTime : MonoBehaviour
             currentDay = 0;
 
         GameManager.Instance.decManager.ResetDayActions();
-        
+
         SaveLastDay(currentDay);
 
         LoadMinigames();
-        ResetDayTime(); 
+        ResetDayTime();
     }
 
     void LoadMinigames()
@@ -93,18 +86,6 @@ public class DayTime : MonoBehaviour
         PlayerPrefs.SetInt("lastDay", lastDay);
     }
 
-    public void UpdateUI()
-    {
-        if (timerText != null)
-            timerText.text = currentHour.ToString("00") + ":" + currentMinutes.ToString("00");
-    }
-
-    public void ResetDayTime()
-    {
-        SetCurrentTime(startHourDay, 0);
-        UpdateUI();
-    }
-
     public bool CanSleepInBed()
     {
         return canSleep;
@@ -115,22 +96,53 @@ public class DayTime : MonoBehaviour
         return currentHour;
     }
 
+    public int GetCurrentMinutes()
+    {
+        return currentMinutes;
+    }
+
+    public void ResetDayTime()
+    {
+        SetCurrentTime(startHourDay, 0);
+    }
+
+    public void AddMinutes(int minutes)
+    {
+        currentMinutes += minutes;
+
+        if (currentMinutes >= 60)
+        {
+            currentHour++;
+            currentMinutes = 0;
+        }
+
+        NotifyTimeChanged();
+    }
+
     public void SetCurrentTime(int _hour, int _minute)
     {
         currentHour = _hour;
         currentMinutes = _minute;
 
-        canSleep = currentHour >= 21;
+        canSleep = currentHour >= endHour;
 
-        UpdateUI();
+        NotifyTimeChanged();
     }
 
-    public void SkipTime() 
+    public void SkipTime()
     {
         currentHour += 2;
-        if (currentHour > 15) currentHour = 15;
+
+        if (currentHour > 15)
+            currentHour = 15;
 
         OnTimeSkiped?.Invoke(currentHour);
-        UpdateUI();
+
+        NotifyTimeChanged();
+    }
+
+    private void NotifyTimeChanged()
+    {
+        OnTimeChanged?.Invoke(currentHour, currentMinutes);
     }
 }

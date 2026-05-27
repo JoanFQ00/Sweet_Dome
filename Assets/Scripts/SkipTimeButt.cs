@@ -28,8 +28,10 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
             return;
 
         StartCoroutine(InteractionCooldown());
+        int hour = GameManager.Instance.dayTime.currentHour;
 
-        if (GameManager.Instance.currentDay == Day.Day3)
+
+        if (GameManager.Instance.currentDay == Day.Day6)
             onPress?.Invoke();
         else if (GameManager.Instance.currentDay == Day.Day1)
         {
@@ -37,7 +39,6 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
         }
         else if (GameManager.Instance.currentDay == Day.Day2)
         {
-            int hour = GameManager.Instance.dayTime.currentHour;
 
             if (hour < 10)
             {
@@ -54,10 +55,34 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
 
             OnFirstDayButt?.Invoke(true);
         }
+        else if (GameManager.Instance.currentDay == Day.Day3) 
+        {
+            if (hour < 10)
+            {
+                GameManager.Instance.dayTime.SetCurrentTime(10, 0);
+            }
+            else if (hour < 11)
+            {
+                if (GameManager.Instance.dayManager.
+                    dorothyAngriedDay2.IsMet(GameManager.Instance.decManager) && GameManager.Instance.dayManager.
+                    dorothyAngriedDay3.IsMet(GameManager.Instance.decManager))
+                {
+                    GameManager.Instance.dayTime.AddMinutes(30);
+                }
+                else 
+                {
+                    GameManager.Instance.dayTime.SetCurrentTime(11, 30);
+                }
+            }
+            else
+            {
+                
+            }
+        }
 
-        GameManager.Instance.playerController
-            .GetComponent<Interact>()
-            .ChangeInteracting(false);
+            GameManager.Instance.playerController
+                .GetComponent<Interact>()
+                .ChangeInteracting(false);
     }
 
     private IEnumerator InteractionCooldown()
