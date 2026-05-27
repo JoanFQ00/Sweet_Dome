@@ -145,6 +145,12 @@ public class PlayerController : MonoBehaviour
 
     void HandleHeadBob()
     {
+        if (GameManager.Instance != null && GameManager.Instance.currentState != GameManager.GameState.Gameplay)
+        {
+            pitchController.localPosition = Vector3.Lerp(pitchController.localPosition,cameraStartLocalPos,Time.deltaTime * m_BobSmooth);
+            return;
+        }
+
         Vector3 horizontalVel = characterController.velocity;
         horizontalVel.y = 0f;
 
