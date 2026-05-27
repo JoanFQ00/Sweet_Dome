@@ -39,11 +39,11 @@ public class MachineManager : MonoBehaviour
 
         for (int i = 0; i < cityFunnel.GetCityZones().Count; i++)
         {
-            //if (cityFunnel.GetCityZones()[i].CurrentCapacity < cityValuesD1[i])
-            //{
-            //    isCompleted = false;
-            //    break;
-            //}
+            if (cityFunnel.GetCityZones()[i].CurrentCapacity < cityValuesD1[i])
+            {
+                isCompleted = false;
+                break;
+            }
         }
 
         return isCompleted;

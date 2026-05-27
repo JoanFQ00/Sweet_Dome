@@ -21,8 +21,8 @@ public class RadarMinigame : MonoBehaviour
     private bool inEvent;
     private float timeToEvent;
 
-    public float eventTime; // // tiempo total del evento (ahora usado como countdown)
-    private float currentEventTime; // // AHORA es COUNTDOWN en vez de countup
+    public float eventTime; 
+    private float currentEventTime; 
 
     private int spawnQuantity;
 
@@ -34,6 +34,7 @@ public class RadarMinigame : MonoBehaviour
     [Header("Objectives Spawn")]
     public GameObject[] objectives;
     private GameObject currentObjective;
+    private bool objectivesSpawned = false;
 
     private string baseTxt = "00";
     private bool onCenter;
@@ -43,9 +44,6 @@ public class RadarMinigame : MonoBehaviour
 
     void Start()
     {
-        currentObjective = objectives[Random.Range(0, objectives.Length)];
-        currentObjective.SetActive(false);
-
         timeTMP.text = baseTxt;
         startLocalRot = radarPoint.localRotation;
         onCenter = true;
@@ -94,7 +92,9 @@ public class RadarMinigame : MonoBehaviour
         eventStart_Delay = Time.time + timeToEvent;
         delay_On = true;
 
-        currentEventTime = eventTime; // FIX: inicializamos el COUNTDOWN aquí
+        currentEventTime = eventTime;
+
+        objectivesSpawned = false;
     }
 
     private void DelayTime()
@@ -103,12 +103,22 @@ public class RadarMinigame : MonoBehaviour
         {
             inEvent = true;
             delay_On = false;
+
+            if (!objectivesSpawned)
+            {
+                objectivesSpawned = true;
+
+                for (int i = 0; i < spawnQuantity; i++)
+                {
+                    SpawnRandomObjective(); 
+                }
+            }
         }
     }
 
     private void EventTimer()
     {
-        currentEventTime -= Time.deltaTime; // // FIX: ahora es COUNTDOWN
+        currentEventTime -= Time.deltaTime; 
 
         if (currentEventTime <= 0f)
         {
@@ -118,7 +128,7 @@ public class RadarMinigame : MonoBehaviour
             inEvent = false;
         }
 
-        UpdateTimerText(currentEventTime); // // FIX: actualiza UI cada frame
+        UpdateTimerText(currentEventTime); 
     }
 
     void ChangeCodeTxt(string code)
@@ -156,8 +166,6 @@ public class RadarMinigame : MonoBehaviour
 
     void SpawnRandomObjective()
     {
-        currentObjective.SetActive(true);
-
         float minRadius = innerMargin;
         float maxRadius = maxDist - outerMargin;
 
@@ -175,6 +183,8 @@ public class RadarMinigame : MonoBehaviour
             radarPointZero.position +
             direction.normalized * randomRadius;
 
-        currentObjective.transform.position = finalPosition;
+        GameObject obj = Instantiate(objectivePrefab, finalPosition, Quaternion.identity);
+
+        obj.transform.position = finalPosition;
     }
 }

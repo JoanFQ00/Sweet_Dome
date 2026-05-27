@@ -25,6 +25,8 @@ public class RadarVision : MonoBehaviour
 
     void Update()
     {
+        if (radarMinigame.CurrentObjective == null) { return; }
+         
         if (CheckVision())
             radarMinigame.CurrentObjective.GetComponent<MeshRenderer>().enabled = true;
         else
@@ -47,25 +49,30 @@ public class RadarVision : MonoBehaviour
 
     bool CheckVision() 
     {
-        Vector3 dir = radarMinigame.CurrentObjective.transform.position -  transform.position;
-        float dist = dir.magnitude;
-
-        if (dist > maxDist) return false;
-
-        dir /= dist;
-
-        float angle = Vector3.Angle(transform.forward, dir);
-
-        if (angle > visionAngle / 2)
-            return false;
-
-        if (angle >= Mathf.Cos(visionAngle * 0.5f * Mathf.Deg2Rad))
+        if (radarMinigame.CurrentObjective != null) 
         {
-            Ray ray = new Ray(transform.position, dir);
-            if (!Physics.Raycast(ray, dist, visionMask))
+            Vector3 dir = radarMinigame.CurrentObjective.transform.position -  transform.position;
+            float dist = dir.magnitude;
+
+            if (dist > maxDist) return false;
+
+            dir /= dist;
+
+            float angle = Vector3.Angle(transform.forward, dir);
+
+            if (angle > visionAngle / 2)
                 return false;
+
+            if (angle >= Mathf.Cos(visionAngle * 0.5f * Mathf.Deg2Rad))
+            {
+                Ray ray = new Ray(transform.position, dir);
+                if (!Physics.Raycast(ray, dist, visionMask))
+                    return false;
+            }
+            return true;   
         }
-        return true;   
+        else 
+            return false;
     }
 
     void GenerateRandomCode() 
