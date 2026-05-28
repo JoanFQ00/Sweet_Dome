@@ -55,6 +55,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         GameManager.Instance.SetPlayer(this);
+        yawSpeed = PlayerPrefs.GetFloat("YawSpeed", 10f);
+        pitchSpeed = PlayerPrefs.GetFloat("PitchSpeed", 10f);
 
         Cursor.lockState = CursorLockMode.Locked;
 

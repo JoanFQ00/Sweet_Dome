@@ -1,5 +1,6 @@
-using UnityEngine;
 using System;
+using System.Security.Cryptography;
+using UnityEngine;
 
 public class MiniGameTest : MonoBehaviour, IInteractable
 {
@@ -25,8 +26,9 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     private MiniGameState state = MiniGameState.None;
 
     private float currentMoveTime;
-    private Vector3 originalCameraPos;
-    private Quaternion originalCameraRot;
+    private Vector3 originalPlayerPos;
+    private Quaternion originalPlayerRot;
+    private Transform playerTransform;
     private HL_Interact currentHighlight;
 
     public bool isClickingUI = false;
@@ -80,8 +82,10 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         playerCamera = GameManager.Instance.playerController.mainCamera;
         if (playerCamera == null) return;
 
-        originalCameraPos = playerCamera.transform.position;
-        originalCameraRot = playerCamera.transform.rotation;
+        playerTransform = GameManager.Instance.playerController.transform;
+
+        originalPlayerPos = playerTransform.position;
+        originalPlayerRot = playerTransform.rotation;
 
         currentMoveTime = 0f;
         state = MiniGameState.Entering;
@@ -95,18 +99,16 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
     void HandleCameraTransition(bool entering)
     {
-        if (playerCamera == null) return;
+        if (playerTransform == null) return;
+        if (gameCameraPosition == null) return;
 
         currentMoveTime += Time.deltaTime;
         float pct = currentMoveTime / timeToMove;
 
         if (entering)
         {
-            playerCamera.transform.position =
-                Vector3.Lerp(originalCameraPos, gameCameraPosition.position, pct);
-
-            playerCamera.transform.rotation =
-                Quaternion.Lerp(originalCameraRot, gameCameraPosition.rotation, pct);
+            playerTransform.position = Vector3.Lerp(originalPlayerPos,gameCameraPosition.position,pct);
+            playerTransform.rotation = Quaternion.Lerp(originalPlayerRot,gameCameraPosition.rotation,pct);
 
             if (pct >= 1f)
             {
@@ -116,11 +118,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         }
         else
         {
-            playerCamera.transform.position =
-                Vector3.Lerp(gameCameraPosition.position, originalCameraPos, pct);
-
-            playerCamera.transform.rotation =
-                Quaternion.Lerp(gameCameraPosition.rotation, originalCameraRot, pct);
+            playerTransform.position = Vector3.Lerp(gameCameraPosition.position,originalPlayerPos,pct);
+            playerTransform.rotation = Quaternion.Lerp(gameCameraPosition.rotation,originalPlayerRot,pct);
 
             if (pct >= 1f)
             {
@@ -233,8 +232,11 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
         GameManager.Instance.currentState = GameManager.GameState.Gameplay;
 
-        playerCamera.transform.position = originalCameraPos;
-        playerCamera.transform.rotation = originalCameraRot;
+        if (playerTransform != null)
+        {
+            playerTransform.position = originalPlayerPos;
+            playerTransform.rotation = originalPlayerRot;
+        }
 
         GameManager.Instance.playerController.ChangeGameMode(false);
 
