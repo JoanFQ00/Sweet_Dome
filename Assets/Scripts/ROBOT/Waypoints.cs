@@ -15,4 +15,10 @@ public class Waypoints : MonoBehaviour
 
     [Header("Narrative")]
     public string narrativeID;
+
+    [Header("Animation")]
+    public string animationTrigger;
+
+    [HideInInspector]
+    public bool hasBeenUsed;
 }

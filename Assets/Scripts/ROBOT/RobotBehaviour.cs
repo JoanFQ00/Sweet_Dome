@@ -151,4 +151,17 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
             stateMachine.ChangeState(patrolState);
         }
     }
+
+    public void ExecuteWaypointAnimation(Waypoints waypoint)
+    {
+        if (waypoint == null)
+            return;
+
+        if (!string.IsNullOrEmpty(waypoint.animationTrigger))
+        {
+            animator.SetTrigger(waypoint.animationTrigger);
+
+            waypointManager.MarkWaypointUsed(waypoint);
+        }
+    }
 }
