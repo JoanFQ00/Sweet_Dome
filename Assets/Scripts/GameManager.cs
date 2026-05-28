@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 public enum Day { Day1 = 0, Day2, Day3, Day4, Day5, Day6 }
 
 public class GameManager : MonoBehaviour
@@ -21,8 +24,10 @@ public class GameManager : MonoBehaviour
     [Header("StartPosition")]
     public Transform playerStart;
 
-    public static Action<Day> OnChangeDay;
-    public static Action NewDay;
+    public static event Action<Day> OnChangeDay;
+    public static event Action NewDay;
+
+    public static event Action<int> ActivateFinalAnimation;
 
     public enum GameState
     {
@@ -36,7 +41,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null) 
+        if (Instance == null)
         {
             Instance = this;
             currentDay = Day.Day1;
@@ -45,13 +50,21 @@ public class GameManager : MonoBehaviour
 
             DontDestroyOnLoad(gameObject);
         }
-        else 
+        else
             Destroy(gameObject);
     }
 
     protected virtual void Start()
     {
         StartCoroutine(DelayedStartDay());
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ExecuteFinishAnimation(0);
+        }
     }
 
     private IEnumerator DelayedStartDay()
@@ -74,27 +87,49 @@ public class GameManager : MonoBehaviour
 
     private void LevelLoaded()
     {
+        if (SceneManager.GetActiveScene().name == "Final")
+            return;
+
         playerController = FindFirstObjectByType<PlayerController>();
         presiSpeaker = FindFirstObjectByType<PresiSpeaker>();
         robotBehaviour = FindFirstObjectByType<RobotBehaviour>();
         UI = GameObject.FindGameObjectWithTag("UI");
-        dayTime.ResetDayTime();
 
-        playerStart = GameObject.FindWithTag("PlayerStart").transform;
-        playerController.transform.position = playerStart.position;
-        decManager.ActionsChanged();
-        dayManager.FindInteractables();
-        dayManager.LoadInteractObjects(currentDay);
+        if (dayTime != null)
+            dayTime.ResetDayTime();
+
+        GameObject startPointObj = GameObject.FindWithTag("PlayerStart");
+        if (startPointObj != null)
+        {
+            playerStart = startPointObj.transform;
+
+            if (playerController != null)
+            {
+                if (playerController.characterController != null)
+                    playerController.characterController.enabled = false;
+
+                playerController.transform.position = playerStart.position;
+
+                if (playerController.characterController != null)
+                    playerController.characterController.enabled = true;
+            }
+        }
+
+        if (decManager != null)
+            decManager.ActionsChanged();
+
+        if (dayManager != null)
+        {
+            dayManager.FindInteractables();
+            dayManager.LoadInteractObjects(currentDay);
+            dayManager.StartDay();
+        }
 
         if (presiSpeaker != null)
             presiSpeaker.DialogueIni();
-
-        if (dayManager != null)
-            dayManager.StartDay();
-
     }
 
-    public void SetPlayer(PlayerController controller) 
+    public void SetPlayer(PlayerController controller)
     {
         playerController = controller;
     }
@@ -107,10 +142,27 @@ public class GameManager : MonoBehaviour
 
             OnChangeDay?.Invoke(currentDay);
 
-            presiSpeaker.ChangeDialogueID((int)PresiDialogue.GoodMorningDay1);
-            presiSpeaker.PresiSpeaks();
+            if (presiSpeaker != null)
+            {
+                presiSpeaker.ChangeDialogueID(0); 
+                presiSpeaker.PresiSpeaks();
+            }
 
             NewDay?.Invoke();
         }
+    }
+
+    public void ExecuteFinishAnimation(int id)
+    {
+        levelManager.LoadFinal();
+        StartCoroutine(WaitTime(id)); 
+        ActivateFinalAnimation?.Invoke(id);
+    }
+
+    IEnumerator WaitTime(int id)
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        ActivateFinalAnimation?.Invoke(id);
     }
 }
