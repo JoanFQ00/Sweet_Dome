@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class DayManager : MonoBehaviour
 {
@@ -61,6 +62,9 @@ public class DayManager : MonoBehaviour
 
     private void Start()
     {
+        if (SceneManager.GetActiveScene().name != "MachineTesting")
+            return;
+
         dorothyBooks = GameObject.FindGameObjectsWithTag("DorothyBooks").ToList();
         foreach (GameObject b in dorothyBooks) 
         {
@@ -89,6 +93,9 @@ public class DayManager : MonoBehaviour
 
     private void Update()
     {
+        if (SceneManager.GetActiveScene().name != "MachineTesting")
+            return;
+
         switch (GameManager.Instance.currentDay)
         {
             case Day.Day1:
@@ -374,6 +381,8 @@ public class DayManager : MonoBehaviour
 
         foreach (GameObject book in dorothyBooks) 
         {
+            if (book == null) return;
+
             book.SetActive(false);
         }
 
