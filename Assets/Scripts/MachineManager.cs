@@ -53,6 +53,7 @@ public class MachineManager : MonoBehaviour
     {
         GameManager.NewDay += UpdateText;
         PresiSys.OnDialogueTerminated += CheckTerminatedDialogue;
+        UpdateText();
     }
 
     private void OnDisable()
@@ -107,18 +108,17 @@ public class MachineManager : MonoBehaviour
 
     public bool isDayGoalCompleted()
     {
-        bool isCompleted = true;
+        var values = GetCurrentDayValues();
 
         for (int i = 0; i < cityFunnel.GetCityZones().Count; i++)
         {
-            if (cityFunnel.GetCityZones()[i].CurrentCapacity < cityValuesD1[i])
+            if (cityFunnel.GetCityZones()[i].CurrentCapacity < values[i])
             {
-                isCompleted = false;
-                break;
+                return false;
             }
         }
 
-        return isCompleted;
+        return true;
     }
 
     protected virtual void OnActionExecuted()
@@ -131,7 +131,20 @@ public class MachineManager : MonoBehaviour
     {
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay1) 
         {
-            RadarDispatch?.Invoke(1, 25, 2);
+            RadarDispatch?.Invoke(5, 60, 3);
+        }
+    }
+
+    private List<float> GetCurrentDayValues()
+    {
+        switch (GameManager.Instance.currentDay)
+        {
+            case Day.Day1: return cityValuesD1;
+            case Day.Day2: return cityValuesD2;
+            case Day.Day3: return cityValuesD3;
+            case Day.Day4: return cityValuesD4;
+            case Day.Day5: return cityValuesD5;
+            default: return cityValuesD1;
         }
     }
 }
