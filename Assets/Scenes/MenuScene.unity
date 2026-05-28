@@ -1822,7 +1822,6 @@ MonoBehaviour:
   startHourDay: 9
   endHour: 21
   currentHour: 0
-  timerText: {fileID: 0}
 --- !u!114 &1182653949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1839,14 +1838,32 @@ MonoBehaviour:
   hasRead: {fileID: 11400000, guid: 8eb7b1e11c9df574a9776e4130b115ee, type: 2}
   hasWatchedTv: {fileID: 11400000, guid: 34b97ac1647f3d842bead2667e29d455, type: 2}
   machineCompletedDay1: {fileID: 11400000, guid: e25448c2f2d06c44e87e658b7e301148, type: 2}
+  day1FinalTimer: 0
+  day2DorothyTimer: 5
   dorothyBook1Readed: {fileID: 0}
-  dorothyAngried: {fileID: 0}
-  hasEatedDay2: 0
+  dorothyAngriedDay2: {fileID: 0}
+  day3DorothyTimer: 5
+  dorothyLaunchEated: {fileID: 0}
+  dorothyAngriedDay3: {fileID: 0}
+  dorothyBook2Readed: {fileID: 0}
+  angriedDay2: {fileID: 0}
+  angriedDay3: {fileID: 0}
+  dorothySaysWathcTv: {fileID: 0}
+  hasEated_SF: 0
   watchTvTriggered: 0
   machineCompletedToday: 0
   youReadDorothyBook: 0
   dorothyAngry: 0
+  dorothyExplainsButton: 0
+  afterTvDay2: 0
+  dorothyTalksDay3: 0
+  finishedEatin2: 0
+  checkedEatDay3: 0
+  checkedReadDay3: 0
+  checkedTvDay3: 0
   dayInt: []
+  dorothyLaunch: {fileID: 0}
+  dorothyBooks: []
 --- !u!114 &1182653950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1887,6 +1904,7 @@ MonoBehaviour:
   levelManager: {fileID: 1182653957}
   currentDay: 0
   playerStart: {fileID: 0}
+  currentState: 0
 --- !u!4 &1182653956
 Transform:
   m_ObjectHideFlags: 0
@@ -3195,10 +3213,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1667402814}
   - {fileID: 1906426774}
   - {fileID: 1516734126}
   - {fileID: 167119264}
+  - {fileID: 1667402814}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3268,6 +3286,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  interactCooldown: 1
 --- !u!136 &2120838900
 CapsuleCollider:
   m_ObjectHideFlags: 0
