@@ -22,6 +22,16 @@ public class PatrolState : IState
         robot.agent.acceleration = 8f;
         robot.animator.SetFloat("Speed", 0.47f);
         NextPatrolPoint();
+        if (robot.agent.hasPath)
+        {
+            Vector3 direction = robot.agent.steeringTarget - robot.visualMesh.position;
+            direction.y = 0;
+
+            if (direction.sqrMagnitude > 0.01f)
+            {
+                robot.visualMesh.rotation = Quaternion.LookRotation(direction);
+            }
+        }
     }
 
     public void OnState()
@@ -35,7 +45,7 @@ public class PatrolState : IState
 
         if (robot.agent.hasPath)
         {
-            LookAtTarget(robot.agent.destination);
+            robot.LookAtTarget(robot.agent.steeringTarget);
         }
 
         if (!robot.agent.pathPending && robot.agent.remainingDistance <= 1f)
@@ -67,10 +77,10 @@ public class PatrolState : IState
         }
     }
 
-    void LookAtTarget(Vector3 target)
-    {
-        Vector3 direction = target - robot.transform.position;
-        direction.y = 0;
-        robot.transform.rotation = Quaternion.LookRotation(direction);
-    }
+    //void LookAtTarget(Vector3 target)
+    //{
+    //    Vector3 direction = target - robot.transform.position;
+    //    direction.y = 0;
+    //    robot.transform.rotation = Quaternion.LookRotation(direction);
+    //}
 }
