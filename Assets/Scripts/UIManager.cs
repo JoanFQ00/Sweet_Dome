@@ -24,6 +24,9 @@ public class UIManager : MonoBehaviour
     [Header("Objectives")]
     public List<TextMeshProUGUI> objectivseTMP;
 
+    [Header("Center and Cursors")]
+    public GameObject center;
+
     void Start()
     {
         interactTxt.SetActive(false);
@@ -40,6 +43,7 @@ public class UIManager : MonoBehaviour
         Interact.CanInteract += ChangeInteractVisibility;
         DecManager.OnActionsChanged += ChangeHudObjectives;
         LevelManager.OnLevelLoaded += OnSceneLoaded;
+        MiniGameTest.OnMachineEntered += MachineEntered;
 
         DayTime.OnTimeChanged += UpdateTimeUI;
     }
@@ -50,6 +54,7 @@ public class UIManager : MonoBehaviour
         Interact.CanInteract -= ChangeInteractVisibility;
         DecManager.OnActionsChanged -= ChangeHudObjectives;
         LevelManager.OnLevelLoaded -= OnSceneLoaded;
+        MiniGameTest.OnMachineEntered -= MachineEntered;
 
         DayTime.OnTimeChanged -= UpdateTimeUI;
     }
@@ -76,6 +81,14 @@ public class UIManager : MonoBehaviour
             interactTxt.SetActive(visibility);
             stopInteractTxt.SetActive(false);
         }
+    }
+
+    void MachineEntered(bool entered)
+    {
+        if (entered)
+            center.SetActive(false);
+        else 
+            center.SetActive(true);
     }
 
     void OnDayChanged()

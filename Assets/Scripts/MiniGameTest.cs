@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class MiniGameTest : MonoBehaviour, IInteractable
 {
@@ -18,6 +19,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     [Header("Interaction")]
     public LayerMask interactLayer;
     public float maxDist = 50f;
+
+    public static Action<bool> OnMachineEntered;
 
     private MiniGameState state = MiniGameState.None;
 
@@ -66,6 +69,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     public void Interact()
     {
         if (state != MiniGameState.None) return;
+
+        OnMachineEntered?.Invoke(true);
 
         GameManager.Instance.currentState = GameManager.GameState.Minigame;
 
@@ -208,6 +213,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     void ExitMiniGame()
     {
         if (state != MiniGameState.Active) return;
+
+        OnMachineEntered?.Invoke(false);
 
         state = MiniGameState.Exiting;
         currentMoveTime = 0f;
