@@ -68,15 +68,19 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.currentState != GameState.Gameplay)
-            return;
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("AAA");
-            ChangePauseMenuState(!pauseMenu.activeSelf);
+            if (GameManager.Instance.currentState == GameState.Gameplay)
+            {
+                ChangePauseMenuState(true);
+            }
+            else if (GameManager.Instance.currentState == GameState.Paused)
+            {
+                ChangePauseMenuState(false);
+            }
         }
     }
+
     void ChangeInteractVisibility(bool visibility, bool interacting) 
     {
         if (interacting)
