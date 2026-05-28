@@ -41,13 +41,19 @@ public abstract class CapabilityBase : MonoBehaviour
     protected void UpdateCapacity(float amount)
     {
         currentCapacity += amount;
-        currentCapacity = Mathf.Clamp(currentCapacity, minCapacity, maxCapacity);
+
+        currentCapacity =
+            Mathf.Clamp(currentCapacity, minCapacity, maxCapacity);
 
         if (Mathf.Abs(currentCapacity - Mathf.Round(currentCapacity)) < 0.01f)
             currentCapacity = Mathf.Round(currentCapacity);
 
         CapacityUpdated();
+
+        OnCapacityChanged();
     }
+
+    protected virtual void OnCapacityChanged() { }
 
     protected void CapacityUpdated()
     {

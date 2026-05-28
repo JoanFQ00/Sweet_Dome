@@ -88,4 +88,9 @@ public class FunnelBase : CapabilityBase
             shaderValue
         );
     }
+
+    protected override void OnCapacityChanged()
+    {
+        UpdateLiquidVisual();
+    }
 }
