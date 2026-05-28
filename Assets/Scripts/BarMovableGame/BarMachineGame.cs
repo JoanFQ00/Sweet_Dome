@@ -15,6 +15,11 @@ public class BarMachineGame : MonoBehaviour
     [Header("Movimiento")]
     public float speed = 0.25f;
 
+
+    [Header("Funnels")]
+    [SerializeField] private FunnelBase sourceFunnel;
+    [SerializeField] private FunnelBase targetFunnel;
+
     private bool moving = true;
     private bool toRight = true;
     private bool completed = false;
@@ -32,20 +37,27 @@ public class BarMachineGame : MonoBehaviour
         }
 
         moveDirection = (rightLimit.position - leftLimit.position).normalized;
-        phase = 0;
 
-        if (phase1Zone != null) phase1Zone.SetActive(true);
+        bool hasLiquid = sourceFunnel != null && sourceFunnel.CurrentCapacity > 0;
+
+        moving = hasLiquid;
+
+        if (phase1Zone != null) phase1Zone.SetActive(hasLiquid);
         if (phase2Zone != null) phase2Zone.SetActive(false);
         if (phase3Zone != null) phase3Zone.SetActive(false);
     }
 
     void Update()
     {
+        CheckLiquidState();
+
         if (!moving || completed)
             return;
 
         float direction = toRight ? 1f : -1f;
+
         bar.position += moveDirection * direction * speed * Time.deltaTime;
+
         float distanceToRight = Vector3.Distance(bar.position, rightLimit.position);
         float distanceToLeft = Vector3.Distance(bar.position, leftLimit.position);
 
@@ -64,6 +76,20 @@ public class BarMachineGame : MonoBehaviour
         moving = false;
 
         CheckGoodArea();
+    }
+
+    private void CheckLiquidState()
+    {
+        if (completed || sourceFunnel == null)
+            return;
+
+        if (phase == 0)
+        {
+            bool hasLiquid = sourceFunnel.CurrentCapacity > 0;
+
+            phase1Zone.SetActive(hasLiquid);
+            moving = hasLiquid;
+        }
     }
 
     void CheckGoodArea()
@@ -143,14 +169,18 @@ public class BarMachineGame : MonoBehaviour
     void Fail()
     {
         Debug.Log("FALLO");
+        if (sourceFunnel != null)
+        {
+            sourceFunnel.RemoveLiquid(sourceFunnel.CurrentCapacity);
+        }
 
         phase = 0;
 
-        if (phase1Zone != null) phase1Zone.SetActive(true);
+        if (phase1Zone != null) phase1Zone.SetActive(false);
         if (phase2Zone != null) phase2Zone.SetActive(false);
         if (phase3Zone != null) phase3Zone.SetActive(false);
 
-        moving = true;
+        moving = false;
     }
 
     void CompleteMiniGame()
@@ -161,6 +191,11 @@ public class BarMachineGame : MonoBehaviour
         if (phase3Zone != null)
             phase3Zone.SetActive(false);
 
+        float availableSpace = targetFunnel.MaxCapacity - targetFunnel.CurrentCapacity;
+        float amountToTransfer = Mathf.Min(sourceFunnel.CurrentCapacity, availableSpace);
+
+        targetFunnel.AddLiquid(amountToTransfer);
+        sourceFunnel.RemoveLiquid(amountToTransfer);
         Debug.Log("JUEGO COMPLETADO");
     }
 }
