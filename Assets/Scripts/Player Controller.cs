@@ -62,7 +62,16 @@ public class PlayerController : MonoBehaviour
         cameraStartLocalPos = pitchController.localPosition;
     }
 
-    public void LockPlayer(bool locked) => playerLocked = locked;
+    public void LockPlayer(bool locked)
+    {
+        playerLocked = locked;
+
+        if (characterController != null)
+        {
+            characterController.enabled = !locked;
+        }
+    }
+
     public void LockCamera(bool locked) => cameraLocked = locked;
     public void ChangeGameMode(bool mode) => miniGameMode = mode;
 
@@ -116,15 +125,11 @@ public class PlayerController : MonoBehaviour
 
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
-        if (miniGameMode)
-        {
-            mainCamera.transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(0f, yaw, 0f);
-            pitchController.localRotation = Quaternion.Euler(pitch, 0f, 0f);
-        }
+        // SOLUCIÓN AL GIRO RARO:
+        // Tanto en Gameplay como en miniGameMode, rotar el cuerpo entero horizontalmente (yaw)
+        // y el pitchController verticalmente (pitch) evita que los ejes se tuerzan o colapsen.
+        transform.rotation = Quaternion.Euler(0f, yaw, 0f);
+        pitchController.localRotation = Quaternion.Euler(pitch, 0f, 0f);
     }
 
     public void SetRotationFromCamera()
@@ -143,13 +148,27 @@ public class PlayerController : MonoBehaviour
         pitchController.localRotation = Quaternion.Euler(pitch, 0f, 0f);
     }
 
+    // Sincroniza las variables yaw y pitch con la rotación exacta que tenga el transform
+    public void SyncRotationFromCurrentTransform()
+    {
+        yaw = transform.rotation.eulerAngles.y;
+
+        Vector3 pitchEuler = pitchController.localRotation.eulerAngles;
+        pitch = pitchEuler.x;
+        if (pitch > 180f) pitch -= 360f;
+
+        mainCamera.transform.localRotation = Quaternion.identity;
+    }
+
     void HandleHeadBob()
     {
         if (GameManager.Instance != null && GameManager.Instance.currentState != GameManager.GameState.Gameplay)
         {
-            pitchController.localPosition = Vector3.Lerp(pitchController.localPosition,cameraStartLocalPos,Time.deltaTime * m_BobSmooth);
+            pitchController.localPosition = Vector3.Lerp(pitchController.localPosition, cameraStartLocalPos, Time.deltaTime * m_BobSmooth);
             return;
         }
+
+        if (!characterController.enabled) return;
 
         Vector3 horizontalVel = characterController.velocity;
         horizontalVel.y = 0f;
@@ -165,16 +184,18 @@ public class PlayerController : MonoBehaviour
 
             Vector3 targetPos = cameraStartLocalPos + new Vector3(bobX, bobY, 0f);
 
-            pitchController.localPosition = Vector3.Lerp(pitchController.localPosition,targetPos,Time.deltaTime * m_BobSmooth);
+            pitchController.localPosition = Vector3.Lerp(pitchController.localPosition, targetPos, Time.deltaTime * m_BobSmooth);
         }
         else
         {
-            pitchController.localPosition = Vector3.Lerp(pitchController.localPosition,cameraStartLocalPos,Time.deltaTime * m_BobSmooth);
+            pitchController.localPosition = Vector3.Lerp(pitchController.localPosition, cameraStartLocalPos, Time.deltaTime * m_BobSmooth);
         }
     }
 
     void ChangeZoom(int direction)
     {
+        if (objectiveFov == null || objectiveFov.Length == 0) return;
+
         zoomIndex = Mathf.Clamp(zoomIndex + direction, 0, objectiveFov.Length - 1);
 
         targetFov = objectiveFov[zoomIndex];

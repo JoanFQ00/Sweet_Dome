@@ -2,18 +2,27 @@ using UnityEngine;
 
 public class Action_WatchTV : BaseAction
 {
+    [Header("Movement Settings")]
     public float timeToMove = 1.0f;
-    public Transform cameraTarget;
+    public Transform playerTarget;
+
+    [Header("Interaction Settings")]
+    public LayerMask interactionLayer;
+
+    [Header("Settings")]
     public bool isAction = false;
 
-    private Transform cam;
     private PlayerController player;
+    private Transform playerTransform;
 
     private Vector3 startPos;
     private Quaternion startRot;
 
     private Vector3 originalPos;
     private Quaternion originalRot;
+
+    bool hasWatchedTV;
+    bool dorothyTurnedOff;
 
     private float currentMoveTime = 0f;
 
@@ -30,11 +39,11 @@ public class Action_WatchTV : BaseAction
 
     void Start()
     {
-        cam = Camera.main.transform;
+        player = GameManager.Instance.playerController;
 
-        if (GameManager.Instance.playerController != null)
+        if (player != null)
         {
-            player = GameManager.Instance.playerController;
+            playerTransform = player.transform;
         }
     }
 
@@ -44,16 +53,35 @@ public class Action_WatchTV : BaseAction
 
         GameManager.Instance.currentState = GameManager.GameState.Interacting;
 
-        startPos = cam.position;
-        startRot = cam.rotation;
-
-        originalPos = cam.position;
-        originalRot = cam.rotation;
-
         player.LockPlayer(true);
+        player.LockCamera(true);
+        player.ChangeGameMode(false);
+
+        originalPos = playerTransform.position;
+        originalRot = playerTransform.rotation;
+
+        startPos = playerTransform.position;
+        startRot = playerTransform.rotation;
 
         currentMoveTime = 0f;
         state = State.MovingToTV;
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable(); 
+        GameManager.NewDay += RestartBool;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        GameManager.NewDay -= RestartBool;
+    }
+
+    void RestartBool() 
+    {
+        hasWatchedTV = false;
     }
 
     protected override void OnUpdateAction()
@@ -61,44 +89,68 @@ public class Action_WatchTV : BaseAction
         switch (state)
         {
             case State.MovingToTV:
-                Move(cameraTarget.position, cameraTarget.rotation, () =>
+
+                Move(playerTarget.position, playerTarget.rotation, () =>
                 {
+                    player.SyncRotationFromCurrentTransform();
+
+                    player.ChangeGameMode(true);
+                    player.LockCamera(false); 
+
                     state = State.WatchingPos;
                 });
+
                 break;
 
             case State.WatchingPos:
 
-                if (Input.GetKeyDown(KeyCode.E))
+                if (!dorothyTurnedOff || act.hourToInteract != GameManager.Instance.dayTime.currentHour) 
                 {
-                    //Load Tv Image
-                    state = State.Watching;
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        Ray ray = player.mainCamera.ScreenPointToRay(Input.mousePosition);
+
+                        if (Physics.Raycast(ray, out RaycastHit hit, 100f, interactionLayer))
+                        {
+                            if (hit.collider.CompareTag("TV"))
+                            {
+                                // LoadTV();
+
+                                hasWatchedTV = true;
+
+                                state = State.Watching;
+                            }
+                        }
+                    }
                 }
 
-                if (Input.GetMouseButtonDown(1)) 
+                if (Input.GetKeyDown(KeyCode.E))
                 {
-
+                    StartReturn();
                 }
 
                 break;
 
             case State.Watching:
 
-                if (Input.GetKeyDown(KeyCode.E)) 
+                if (Input.GetKeyDown(KeyCode.E))
                 {
-                    // Unload TV Image
+                    // UnloadTV();
 
-                    startPos = cam.position;
-                    startRot = cam.rotation;
-                    currentMoveTime = 0f;
-                    state = State.Returning;
+                    StartReturn();
                 }
+
                 break;
 
             case State.Returning:
+
                 Move(originalPos, originalRot, () =>
                 {
+                    player.ChangeGameMode(false);
+                    player.SyncRotationFromCurrentTransform();
+
                     player.LockPlayer(false);
+                    player.LockCamera(false);
 
                     GameManager.Instance.currentState = GameManager.GameState.Gameplay;
 
@@ -107,12 +159,21 @@ public class Action_WatchTV : BaseAction
                         .ChangeInteracting(false);
 
                     state = State.Idle;
-
-                    if (isAction)
-                        OnActionExecuted();
                 });
+
                 break;
         }
+    }
+
+    void StartReturn()
+    {
+        player.LockCamera(true);
+
+        startPos = playerTransform.position;
+        startRot = playerTransform.rotation;
+
+        currentMoveTime = 0f;
+        state = State.Returning;
     }
 
     void Move(Vector3 targetPos, Quaternion targetRot, System.Action onFinish)
@@ -120,13 +181,17 @@ public class Action_WatchTV : BaseAction
         currentMoveTime += Time.deltaTime;
 
         float pct = Mathf.Clamp01(currentMoveTime / timeToMove);
+        float smoothPct = Mathf.SmoothStep(0f, 1f, pct);
 
-        cam.position = Vector3.Lerp(startPos, targetPos, pct);
-        cam.rotation = Quaternion.Lerp(startRot, targetRot, pct);
+        playerTransform.position = Vector3.Lerp(startPos, targetPos, smoothPct);
+        playerTransform.rotation = Quaternion.Lerp(startRot, targetRot, smoothPct);
 
         if (pct >= 1f)
         {
             onFinish?.Invoke();
+
+            if (isAction && hasWatchedTV)
+                OnActionExecuted();
         }
     }
 }

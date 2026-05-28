@@ -14,6 +14,7 @@ public class NDec_Act : ScriptableObject
     public int hourToInteract;
     public int passTimeToHour;
     public int passTimeToMinute;
+    public bool alwaysAccesible = false;
 
     public static Action<NDec_Act, ActionTypes> OnExecuted;
 

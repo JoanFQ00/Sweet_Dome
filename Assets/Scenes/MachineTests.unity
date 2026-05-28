@@ -8121,6 +8121,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 7d282e38fa347f14ba24c08651212b83, type: 2}
+    - target: {fileID: 61166369392443744, guid: 14671484125bf004b96e902012872584, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 882129737928793925, guid: 14671484125bf004b96e902012872584, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -11284,7 +11288,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Action_WatchTV
   act: {fileID: 11400000, guid: 08b30a864fb6e3d4294d3141f38c2752, type: 2}
   timeToMove: 1
-  cameraTarget: {fileID: 1635703817}
+  playerTarget: {fileID: 1635703817}
+  interactionLayer:
+    serializedVersion: 2
+    m_Bits: 8
   isAction: 1
 --- !u!65 &1374418982
 BoxCollider:

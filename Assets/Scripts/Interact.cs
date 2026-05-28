@@ -2,7 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public interface IInteractable{
+public interface IInteractable
+{
     public void Interact();
 }
 
@@ -20,7 +21,7 @@ public class Interact : MonoBehaviour
 
     bool interacting;
 
-    public static event Action<bool,bool> CanInteract;
+    public static event Action<bool, bool> CanInteract;
 
     private void Awake()
     {
@@ -61,7 +62,8 @@ public class Interact : MonoBehaviour
             {
                 if (baseAct.act != null)
                 {
-                    if (baseAct.act.hourToInteract != DayTime.Instance.GetCurrentHour())
+                    // CORRECCIÓN: Solo cancelamos la interacción si NO es la hora Y ADEMÁS NO es siempre accesible
+                    if (!baseAct.act.alwaysAccesible && baseAct.act.hourToInteract != DayTime.Instance.GetCurrentHour())
                     {
                         interactable = null;
                         ClearHighlight();
@@ -94,7 +96,7 @@ public class Interact : MonoBehaviour
             }
             else
             {
-                ClearHighlight(); 
+                ClearHighlight();
                 CanInteract?.Invoke(false, interacting);
             }
         }
@@ -106,7 +108,7 @@ public class Interact : MonoBehaviour
         }
     }
 
-    private void OnInteract(InputAction.CallbackContext ctx) 
+    private void OnInteract(InputAction.CallbackContext ctx)
     {
         if (interactable != null)
         {
@@ -115,7 +117,7 @@ public class Interact : MonoBehaviour
         }
     }
 
-    public void ChangeInteracting(bool _interacting) 
+    public void ChangeInteracting(bool _interacting)
     {
         interacting = _interacting;
     }

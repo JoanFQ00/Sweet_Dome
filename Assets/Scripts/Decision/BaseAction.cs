@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public abstract class BaseAction : MonoBehaviour, IInteractable
@@ -32,15 +33,19 @@ public abstract class BaseAction : MonoBehaviour, IInteractable
         OnUpdateAction();
     }
 
-    public void CheckHour() 
+    public void CheckHour()
     {
         int hour = DayTime.Instance.GetCurrentHour();
         int newLayer;
 
-        if (hour != act.hourToInteract)
-            newLayer = LayerMask.NameToLayer("Default");
-        else
+        if (act.alwaysAccesible || hour == act.hourToInteract)
+        {
             newLayer = LayerMask.NameToLayer("Interactable");
+        }
+        else
+        {
+            newLayer = LayerMask.NameToLayer("Default");
+        }
 
         if (currentLayer != newLayer)
         {
