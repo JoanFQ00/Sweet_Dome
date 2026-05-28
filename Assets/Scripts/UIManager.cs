@@ -42,6 +42,9 @@ public class UIManager : MonoBehaviour
         optionsMenu.SetActive(false);
 
         menuButton.onClick.AddListener(OnMenuButtonClicked);
+
+        if (GameManager.Instance != null)
+            OnDayChanged();
     }
 
     private void OnEnable()

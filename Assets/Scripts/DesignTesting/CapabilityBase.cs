@@ -18,7 +18,9 @@ public abstract class CapabilityBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        GameManager.NewDay += StartDay; //CAMBIAR
+        GameManager.NewDay += StartDay;
+
+        StartDay();
     }
 
     protected virtual void OnDisable()
@@ -28,6 +30,7 @@ public abstract class CapabilityBase : MonoBehaviour
 
     public void StartDay()
     {
+        Debug.Log($"{name} StartDay");
         currentCapacity = PutInitialCapacity(GameManager.Instance.currentDay);
         CapacityUpdated();
     }
