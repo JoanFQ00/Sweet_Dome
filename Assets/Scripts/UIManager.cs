@@ -73,6 +73,7 @@ public class UIManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Debug.Log("AAA");
             ChangePauseMenuState(!pauseMenu.activeSelf);
         }
     }
