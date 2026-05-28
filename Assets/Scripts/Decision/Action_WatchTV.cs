@@ -74,6 +74,12 @@ public class Action_WatchTV : BaseAction
                     //Load Tv Image
                     state = State.Watching;
                 }
+
+                if (Input.GetMouseButtonDown(1)) 
+                {
+
+                }
+
                 break;
 
             case State.Watching:
