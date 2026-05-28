@@ -15,6 +15,10 @@ public class HL_Interact : MonoBehaviour
 
     public void LightenColor() 
     {
+        if (GameManager.Instance.playerController.GetComponent<Interact>()) 
+        {
+            return;
+        }
         Color lighterCol = Color.Lerp(originalColor, Color.white, lightenAmount);
 
         rend.material.color = lighterCol;

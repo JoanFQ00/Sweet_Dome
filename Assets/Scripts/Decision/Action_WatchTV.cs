@@ -21,6 +21,7 @@ public class Action_WatchTV : BaseAction
     {
         Idle,
         MovingToTV,
+        WatchingPos,
         Watching,
         Returning
     }
@@ -50,7 +51,6 @@ public class Action_WatchTV : BaseAction
         originalRot = cam.rotation;
 
         player.LockPlayer(true);
-        player.LockCamera(true);
 
         currentMoveTime = 0f;
         state = State.MovingToTV;
@@ -63,17 +63,28 @@ public class Action_WatchTV : BaseAction
             case State.MovingToTV:
                 Move(cameraTarget.position, cameraTarget.rotation, () =>
                 {
-                    state = State.Watching;
+                    state = State.WatchingPos;
                 });
                 break;
 
-            case State.Watching:
+            case State.WatchingPos:
+
                 if (Input.GetKeyDown(KeyCode.E))
                 {
+                    //Load Tv Image
+                    state = State.Watching;
+                }
+                break;
+
+            case State.Watching:
+
+                if (Input.GetKeyDown(KeyCode.E)) 
+                {
+                    // Unload TV Image
+
                     startPos = cam.position;
                     startRot = cam.rotation;
                     currentMoveTime = 0f;
-
                     state = State.Returning;
                 }
                 break;
@@ -82,7 +93,6 @@ public class Action_WatchTV : BaseAction
                 Move(originalPos, originalRot, () =>
                 {
                     player.LockPlayer(false);
-                    player.LockCamera(false);
 
                     GameManager.Instance.currentState = GameManager.GameState.Gameplay;
 

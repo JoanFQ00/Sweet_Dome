@@ -2,59 +2,132 @@ using UnityEngine;
 
 public class Action_Eat : BaseAction
 {
-    public GameObject foodPrefab;
-    public float distanceFromPlayer = 1.5f;
-    public float duration = 3f;
+    [Header("Movement")]
+    public float moveSpeed = 8f;
+    public float rotateSpeed = 10f;
 
-    private GameObject currentFood;
-    private float timer;
-    private bool isEating = false;
+    [Header("Eat Offset")]
+    public Vector3 localOffset = new Vector3(0.25f, -0.2f, 0.5f);
+    public Vector3 localRotationOffset = new Vector3(25f, -35f, 0f);
 
-    protected override void OnUpdateAction()
-    {
-        if (!isEating) return;
+    private Transform cam;
+    private Transform obj;
 
-        timer += Time.deltaTime;
-        if (timer >= duration)
-        {
-            GameManager.Instance.playerController.
-            GetComponent<Interact>().ChangeInteracting(false);
+    private Vector3 originalPos;
+    private Quaternion originalRot;
 
-            ResetEatingState();
-        }
-    }
+    private Vector3 targetPos;
+    private Quaternion targetRot;
+
+    private bool goingToMouth;
+    private bool waitingInput;
+    private bool returning;
+
+    private bool isActive;
 
     public override void Interact()
     {
-        if (isEating) return;
+        if (isActive) return;
 
-        GameManager.Instance.currentState = GameManager.GameState.Interacting;
-        Transform player = GameManager.Instance.playerController.transform;
+        cam = Camera.main.transform;
+        obj = transform;
 
-        currentFood = Instantiate(foodPrefab);
-        currentFood.transform.position = player.position + player.forward * distanceFromPlayer;
+        originalPos = obj.position;
+        originalRot = obj.rotation;
 
         GameManager.Instance.playerController.LockPlayer(true);
         GameManager.Instance.playerController.LockCamera(true);
 
-        timer = 0f;
-        isEating = true;
+        GameManager.Instance.currentState =
+            GameManager.GameState.Interacting;
+
+        targetPos =
+            cam.position +
+            cam.right * localOffset.x +
+            cam.up * localOffset.y +
+            cam.forward * localOffset.z;
+
+        targetRot =
+            cam.rotation *
+            Quaternion.Euler(localRotationOffset);
+
+        goingToMouth = true;
+        isActive = true;
     }
 
-    public void ResetEatingState()
+    protected override void OnUpdateAction()
     {
-        isEating = false;
-        timer = 0f;
+        if (!isActive) return;
 
-        if (currentFood != null)
+        if (goingToMouth)
         {
-            Destroy(currentFood);
-            currentFood = null;
+            MoveToMouth();
+            return;
         }
 
-        GameManager.Instance.currentState = GameManager.GameState.Gameplay;
+        if (waitingInput)
+        {
+            WaitForSecondInput();
+            return;
+        }
+
+        if (returning)
+        {
+            ReturnObject();
+        }
+    }
+
+    void MoveToMouth()
+    {
+        obj.position = Vector3.Lerp(obj.position, targetPos, moveSpeed * Time.deltaTime);
+        obj.rotation = Quaternion.Slerp(obj.rotation, targetRot, rotateSpeed * Time.deltaTime);
+
+        if (Vector3.Distance(obj.position, targetPos) < 0.03f)
+        {
+            obj.position = targetPos;
+            obj.rotation = targetRot;
+
+            goingToMouth = false;
+            waitingInput = true;
+        }
+    }
+
+    void WaitForSecondInput()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            waitingInput = false;
+            returning = true;
+        }
+    }
+
+    void ReturnObject()
+    {
+        obj.position = Vector3.Lerp(obj.position, originalPos, moveSpeed * Time.deltaTime);
+        obj.rotation = Quaternion.Slerp(obj.rotation, originalRot, rotateSpeed * Time.deltaTime);
+
+        if (Vector3.Distance(obj.position, originalPos) < 0.03f)
+        {
+            obj.position = originalPos;
+            obj.rotation = originalRot;
+
+            FinishAction();
+        }
+    }
+    void FinishAction()
+    {
+        if (!isActive) return;
+
+        isActive = false;
+
         GameManager.Instance.playerController.LockPlayer(false);
         GameManager.Instance.playerController.LockCamera(false);
+
+        GameManager.Instance.currentState = GameManager.GameState.Gameplay;
+
+        GameManager.Instance.playerController
+            .GetComponent<Interact>()
+            .ChangeInteracting(false);
 
         OnActionExecuted();
     }

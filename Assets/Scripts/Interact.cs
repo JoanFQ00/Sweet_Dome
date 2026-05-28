@@ -15,7 +15,6 @@ public class Interact : MonoBehaviour
 
     private PlayerInput playerInput;
     private InputAction interactAction;
-    private bool debugMode = true;
     private IInteractable interactable;
     private HL_Interact currentHL;
 
