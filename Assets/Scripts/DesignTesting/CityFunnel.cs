@@ -134,8 +134,20 @@ public class CityFunnel : FunnelBase
         var zone = zones[indexZone];
         if (zone == null || zone.funnel == null) return;
 
-        float added = zone.funnel.AddLiquid(CurrentCapacity);
-        UpdateCapacity(-added);
+        CityZoneEnergy energy = zone.funnel.GetComponent<CityZoneEnergy>();
+
+        if (energy != null)
+        {
+            float originalAmount = CurrentCapacity;
+
+            float modifiedAmount =
+                energy.GetModifiedAmount(originalAmount);
+
+            zone.funnel.AddLiquid(modifiedAmount);
+
+            // SOLO restas lo original
+            UpdateCapacity(-originalAmount);
+        }
     }
 
     // -------------------------
@@ -166,6 +178,16 @@ public class CityFunnel : FunnelBase
             result.Add(z.funnel);
 
         return result;
+    }
+
+    public FunnelBase GetCurrentZone()
+    {
+        var zones = GetUnlockedZones();
+
+        if (zones.Count == 0)
+            return null;
+
+        return zones[indexZone].funnel;
     }
 
     public List<CityZoneData> GetCityZonesData()
