@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviour
 
             if (presiSpeaker != null)
             {
-                presiSpeaker.ChangeDialogueID(0); 
+                presiSpeaker.ChangeDialogueID(1); 
                 presiSpeaker.PresiSpeaks();
             }
 
