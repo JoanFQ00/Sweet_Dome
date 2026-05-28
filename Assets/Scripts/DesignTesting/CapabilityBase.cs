@@ -33,7 +33,10 @@ public abstract class CapabilityBase : MonoBehaviour
         Debug.Log($"{name} StartDay");
         currentCapacity = PutInitialCapacity(GameManager.Instance.currentDay);
         CapacityUpdated();
+        OnStartDayFinished();
     }
+
+    protected virtual void OnStartDayFinished() { }
 
     protected void UpdateCapacity(float amount)
     {

@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
 
 public class MachineManager : MonoBehaviour
 {
@@ -17,6 +18,18 @@ public class MachineManager : MonoBehaviour
 
     [Header("Day 2 Goals")]
     [SerializeField] private List<float> cityValuesD2;
+
+    [Header("Day 3 Goals")]
+    [SerializeField] private List<float> cityValuesD3;
+
+    [Header("Day 4 Goals")]
+    [SerializeField] private List<float> cityValuesD4;
+
+    [Header("Day 5 Goals")]
+    [SerializeField] private List<float> cityValuesD5;
+
+    [Header("UpdateGoals")]
+    [SerializeField] private TextMeshProUGUI TMP_text;
 
     [Header("Minigames States")]
     public bool radarCompleted = false;
@@ -34,18 +47,62 @@ public class MachineManager : MonoBehaviour
         if (DayTime.Instance.currentHour >= 15)
             if (isDayGoalCompleted())
                 OnActionExecuted();
-
-        
     }
 
     private void OnEnable()
     {
+        GameManager.NewDay += UpdateText;
         PresiSys.OnDialogueTerminated += CheckTerminatedDialogue;
     }
 
     private void OnDisable()
     {
+        GameManager.NewDay -= UpdateText;
         PresiSys.OnDialogueTerminated -= CheckTerminatedDialogue;
+    }
+
+    private void UpdateText()
+    {
+        switch (GameManager.Instance.currentDay)
+        {
+            case Day.Day1:
+                TMP_text.text = 
+                    "Zona Urbana: " + cityValuesD1[0] +"\n"+
+                    "Escuela: " + cityValuesD1[1] + "\n" +
+                    "Hospital: " + cityValuesD1[2] + "\n" +
+                    "Residencia Presidencial: " + cityValuesD1[3];
+                break;
+                case Day.Day2:
+                TMP_text.text =
+                    "Zona Urbana: " + cityValuesD2[0] + "\n" +
+                    "Escuela: " + cityValuesD2[1] + "\n" +
+                    "Hospital: " + cityValuesD2[2] + "\n" +
+                    "Residencia Presidencial: " + cityValuesD2[3];
+                break;
+                case Day.Day3:
+                TMP_text.text =
+                    "Zona Urbana: " + cityValuesD3[0] + "\n" +
+                    "Escuela: " + cityValuesD3[1] + "\n" +
+                    "Hospital: " + cityValuesD3[2] + "\n" +
+                    "Residencia Presidencial: " + cityValuesD3[3];
+                break;
+                case Day.Day4:
+                TMP_text.text =
+                    "Zona Urbana: " + cityValuesD4[0] + "\n" +
+                    "Escuela: " + cityValuesD4[1] + "\n" +
+                    "Hospital: " + cityValuesD4[2] + "\n" +
+                    "Residencia Presidencial: " + cityValuesD4[3];
+                break;
+                case Day.Day5:
+                TMP_text.text =
+                    "Zona Urbana: " + cityValuesD5[0] + "\n" +
+                    "Escuela: " + cityValuesD5[1] + "\n" +
+                    "Hospital: " + cityValuesD5[2] + "\n" +
+                    "Residencia Presidencial: " + cityValuesD5[3];
+                break;
+                default:
+                break;
+        }
     }
 
     public bool isDayGoalCompleted()

@@ -36,7 +36,7 @@ public class RadarMinigame : MonoBehaviour
     public List<GameObject> objectives;
     private bool objectivesSpawned = false;
 
-    private string baseTxt = "00";
+    private string baseTxt = "";
     private bool onCenter;
     private Quaternion startLocalRot;
 
@@ -151,9 +151,9 @@ public class RadarMinigame : MonoBehaviour
 
     void UpdateTimerText(float currentTime)
     {
-        int seconds = Mathf.CeilToInt(currentTime); 
+        int seconds = Mathf.CeilToInt(currentTime);
 
-        timeTMP.text = $"{baseTxt}{seconds:00}";
+        timeTMP.text = $"{baseTxt}{Mathf.RoundToInt(seconds)}";
     }
 
     void SliderMoved(float value, SliderType type)
