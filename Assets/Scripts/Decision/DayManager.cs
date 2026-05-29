@@ -62,7 +62,7 @@ public class DayManager : MonoBehaviour
 
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name != "MachineTesting")
+        if (SceneManager.GetActiveScene().name != "MachineTests")
             return;
 
         dorothyBooks = GameObject.FindGameObjectsWithTag("DorothyBooks").ToList();
@@ -93,7 +93,7 @@ public class DayManager : MonoBehaviour
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name != "MachineTesting")
+        if (SceneManager.GetActiveScene().name != "MachineTests")
             return;
 
         switch (GameManager.Instance.currentDay)
@@ -108,6 +108,12 @@ public class DayManager : MonoBehaviour
 
             case Day.Day3:
                 UpdateDay3();
+            break;
+
+            case Day.Day4:
+                break;
+
+            case Day.Day5:
             break;
         }
     }
@@ -131,12 +137,12 @@ public class DayManager : MonoBehaviour
 
     void SceneLoaded() 
     {
-        //dorothyBooks = GameObject.FindGameObjectsWithTag("DorothyBooks").ToList();
+        dorothyBooks = GameObject.FindGameObjectsWithTag("DorothyBooks").ToList();
 
-        //foreach (GameObject b in dorothyBooks)
-        //{
-        //    b.SetActive(false);
-        //}
+        foreach (GameObject b in dorothyBooks)
+        {
+            b.SetActive(false);
+        }
 
         dorothyLaunch = GameObject.FindGameObjectWithTag("DorothyLaunch");
         dorothyLaunch.SetActive(false);
@@ -165,6 +171,7 @@ public class DayManager : MonoBehaviour
     void UpdateDay2() 
     {
         day2DorothyCurrentTime += Time.deltaTime;
+        Debug.Log(day2DorothyCurrentTime);
 
         if (day2DorothyCurrentTime >= day2DorothyTimer && !dorothyExplainsButton) 
         {
