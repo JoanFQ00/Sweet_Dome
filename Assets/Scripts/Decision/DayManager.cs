@@ -137,6 +137,9 @@ public class DayManager : MonoBehaviour
         //{
         //    b.SetActive(false);
         //}
+
+        dorothyLaunch = GameObject.FindGameObjectWithTag("DorothyLaunch");
+        dorothyLaunch.SetActive(false);
     }
 
     void UpdateDay1() 
