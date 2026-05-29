@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using static UnityEngine.GraphicsBuffer;
 
 public class WaveWinner : MonoBehaviour
@@ -22,18 +23,46 @@ public class WaveWinner : MonoBehaviour
     private bool showingMessage = false;
     public bool waveSolved = false;
 
-    void Start()
+    [Header("Event")]
+    private bool inEvent;
+    private float timeToEvent;
+    private float eventTime;
+    private float currentTimeEvent;
+    private float eventStart_Delay;
+    private bool delay_On;
+
+    public static Action<bool> OnEventFinished;
+
+    private void OnEnable()
     {
+        MachineManager.WaveDispatch += EventLoader;
+    }
+
+    private void OnDisable()
+    {
+        MachineManager.WaveDispatch -= EventLoader;
     }
 
     void Update()
     {
-        if (!hasWon)
+        if (delay_On)
         {
-            if (IsMatching())
+            DelayTime();
+        }
+        if (inEvent)
+        {
+            EventTimer();
+
+            if (!hasWon && IsMatching())
             {
                 hasWon = true;
+                waveSolved = true;
+
                 ShowWin();
+
+                ResetEvent();
+
+                OnEventFinished?.Invoke(true);
             }
         }
 
@@ -75,5 +104,54 @@ public class WaveWinner : MonoBehaviour
     void HideWinMessage()
     {
         showingMessage = false;
+    }
+
+    public void EventLoader(float _timeToEvent, float _eventTime)
+    {
+        timeToEvent = _timeToEvent;
+        eventTime = _eventTime;
+        eventStart_Delay = Time.time + timeToEvent;
+        delay_On = true;
+        currentTimeEvent = eventTime;
+    }
+
+    private void EventTimer()
+    {
+        currentTimeEvent -= Time.deltaTime;
+        if (currentTimeEvent <=0f)
+        {
+            currentTimeEvent = 0f;
+            ResetEvent();
+            OnEventFinished?.Invoke(false);
+        }
+    }
+
+    private void DelayTime()
+    {
+        if (Time.time >= eventStart_Delay)
+        {
+            delay_On = false;
+            inEvent = true;
+            hasWon = false;
+            waveSolved = false;
+
+            GenerateRandomTarget();
+        }
+    }
+
+    private void GenerateRandomTarget()
+    {
+        targetRenderer.amplitude = UnityEngine.Random.Range(1f, 5f);
+        targetRenderer.frequency = UnityEngine.Random.Range(1f, 5f);
+        targetRenderer.phase = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
+    }
+
+    void ResetEvent()
+    {
+        inEvent = false;
+        delay_On = false;
+        currentTimeEvent = 0f;
+        timeToEvent = 0f;
+        eventStart_Delay = 0f;
     }
 }

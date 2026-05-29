@@ -13,6 +13,13 @@ public class UIManager : MonoBehaviour
     public GameObject optionsMenu;
     public Button menuButton;
 
+    [Header("Options")]
+    [SerializeField] private Slider yawSlider;
+    [SerializeField] private Slider pitchSlider;
+
+    [SerializeField] private TMP_Text yawValueText;
+    [SerializeField] private TMP_Text pitchValueText;
+
     [Header("Interact")]
     public GameObject interactTxt;
     public GameObject stopInteractTxt;
@@ -35,6 +42,9 @@ public class UIManager : MonoBehaviour
         optionsMenu.SetActive(false);
 
         menuButton.onClick.AddListener(OnMenuButtonClicked);
+
+        if (GameManager.Instance != null)
+            OnDayChanged();
     }
 
     private void OnEnable()
@@ -61,14 +71,19 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.currentState != GameState.Gameplay)
-            return;
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ChangePauseMenuState(!pauseMenu.activeSelf);
+            if (GameManager.Instance.currentState == GameState.Gameplay)
+            {
+                ChangePauseMenuState(true);
+            }
+            else if (GameManager.Instance.currentState == GameState.Paused)
+            {
+                ChangePauseMenuState(false);
+            }
         }
     }
+
     void ChangeInteractVisibility(bool visibility, bool interacting) 
     {
         if (interacting)
@@ -151,6 +166,9 @@ public class UIManager : MonoBehaviour
     {
         optionsMenu.SetActive(state);
         pauseMenu.SetActive(!state);
+
+        if(state)
+            InitializeOptions();
     }
 
     private void OnSceneLoaded()
@@ -166,5 +184,75 @@ public class UIManager : MonoBehaviour
     private void OnMenuButtonClicked()
     {
         GameManager.Instance.levelManager.LoadMenu();
+    }
+
+    private const float MIN_LOOK_SPEED = 20f;
+    private const float MAX_LOOK_SPEED = 300f;
+
+    private void InitializeOptions()
+    {
+        PlayerController player = GameManager.Instance.playerController;
+
+        yawSlider.minValue = 5;
+        yawSlider.maxValue = 20;
+        yawSlider.wholeNumbers = true;
+
+        pitchSlider.minValue = 5;
+        pitchSlider.maxValue = 20;
+        pitchSlider.wholeNumbers = true;
+
+        yawSlider.value = ConvertSpeedToSlider(player.yawSpeed);
+        pitchSlider.value = ConvertSpeedToSlider(player.pitchSpeed);
+
+        yawValueText.text = yawSlider.value.ToString("F0");
+        pitchValueText.text = pitchSlider.value.ToString("F0");
+
+        yawSlider.onValueChanged.RemoveAllListeners();
+        pitchSlider.onValueChanged.RemoveAllListeners();
+
+        yawSlider.onValueChanged.AddListener(SetYawSpeed);
+        pitchSlider.onValueChanged.AddListener(SetPitchSpeed);
+    }
+
+    private float ConvertSliderToSpeed(float sliderValue)
+    {
+        return Mathf.Lerp(
+            MIN_LOOK_SPEED,
+            MAX_LOOK_SPEED,
+            (sliderValue - 1f) / 99f
+        );
+    }
+
+    private float ConvertSpeedToSlider(float speed)
+    {
+        return Mathf.Lerp(
+            1f,
+            100f,
+            Mathf.InverseLerp(MIN_LOOK_SPEED, MAX_LOOK_SPEED, speed)
+        );
+    }
+
+    private void SetYawSpeed(float sliderValue)
+    {
+        float speed = ConvertSliderToSpeed(sliderValue);
+
+        GameManager.Instance.playerController.yawSpeed = speed;
+
+        yawValueText.text = sliderValue.ToString("F0");
+
+        PlayerPrefs.SetFloat("YawSpeed", speed);
+        PlayerPrefs.Save();
+    }
+
+    private void SetPitchSpeed(float sliderValue)
+    {
+        float speed = ConvertSliderToSpeed(sliderValue);
+
+        GameManager.Instance.playerController.pitchSpeed = speed;
+
+        pitchValueText.text = sliderValue.ToString("F0");
+
+        PlayerPrefs.SetFloat("PitchSpeed", speed);
+        PlayerPrefs.Save();
     }
 }

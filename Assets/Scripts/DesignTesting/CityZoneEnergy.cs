@@ -22,7 +22,7 @@ public class CityZoneEnergy : MonoBehaviour
 
     private void Update()
     {
-        if (funnel == null)
+        if (funnel == null || DayTime.Instance.currentHour < 15)
             return;
 
         float finalDrain = drainPerSecond;

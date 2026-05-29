@@ -26,4 +26,15 @@ public class WaypointManager : MonoBehaviour
     }
 
     //Method for narrative ones
+
+    public Waypoints GetNarrativeWaypoint(string narrativeID)
+    {
+        return narrativeWaypoints.Find(w => w.narrativeID == narrativeID);
+    }
+
+    public void MarkWaypointUsed(Waypoints waypoint)
+    {
+        if (waypoint != null)
+            waypoint.hasBeenUsed = true;
+    }
 }

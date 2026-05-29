@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
     private bool loadScene = false;
 
     public GameObject controlPanel;
+    public GameObject optionsPanel;
     public GameObject menuPanel;
 
     void Start()
@@ -45,7 +46,13 @@ public class MainMenu : MonoBehaviour
 
     public void OptionsMenu()
     {
-        Debug.Log("Options");
+        optionsPanel.SetActive(true);
+        menuPanel.SetActive(false);
+    }
+    public void CloseOptions()
+    {
+        optionsPanel.SetActive(false);
+        menuPanel.SetActive(true);
     }
 
     public void ShowControls() 

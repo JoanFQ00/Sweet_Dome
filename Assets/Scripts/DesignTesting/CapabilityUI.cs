@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class CapabilityUI : MonoBehaviour
 {
-    public enum CapabilityType 
-    { 
+    public enum CapabilityType
+    {
         NORMAL = 0,
         CITY,
         BIG_CITY
@@ -15,22 +15,39 @@ public class CapabilityUI : MonoBehaviour
     [SerializeField] private CapabilityBase capabilityBase;
     [SerializeField] private TextMeshProUGUI capabilityText, nameText;
 
-    void Start()
+    private void Start()
     {
-        if (capabilityBase != null)
-        {
-            capabilityBase.OnCapacityUpdated += UpdateCapabilityUI;
-            //UpdateCapabilityUI(capabilityBase.CurrentCapacity);
+        if (capabilityBase == null)
+            return;
 
-            if (capabilityType != CapabilityType.NORMAL)
+        capabilityBase.OnCapacityUpdated += UpdateCapabilityUI;
+
+        UpdateCapabilityUI(capabilityBase.CurrentCapacity);
+
+        if (capabilityType != CapabilityType.NORMAL)
+        {
+            if (capabilityType == CapabilityType.CITY)
             {
-                if (capabilityType == CapabilityType.CITY)
-                    UpdateCityNameUI(capabilityBase.GetComponent<CityLabel>().label);
-                else
+                CityLabel label =
+                    capabilityBase.GetComponent<CityLabel>();
+
+                if (label != null)
+                    UpdateCityNameUI(label.label);
+            }
+            else
+            {
+                capabilityBase.OnNameUpdated += UpdateCityNameUI;
+
+                CityFunnel cityFunnel =
+                    capabilityBase.GetComponent<CityFunnel>();
+
+                if (cityFunnel != null)
                 {
-                    capabilityBase.OnNameUpdated += UpdateCityNameUI;
-                    UpdateCapabilityUI(capabilityBase.gameObject.GetComponent<CityFunnel>().GetInitialValue());
-                    UpdateCityNameUI(capabilityBase.gameObject.GetComponent<CityFunnel>().GetInitialName());
+                    UpdateCapabilityUI(
+                        cityFunnel.GetInitialValue());
+
+                    UpdateCityNameUI(
+                        cityFunnel.GetInitialName());
                 }
             }
         }
@@ -38,31 +55,24 @@ public class CapabilityUI : MonoBehaviour
 
     private void OnDisable()
     {
-        if (capabilityBase != null)
-        {
-            capabilityBase.OnCapacityUpdated -= UpdateCapabilityUI;
+        if (capabilityBase == null)
+            return;
 
-            if (capabilityType != CapabilityType.NORMAL)
-            {
-                if (capabilityType == CapabilityType.CITY)
-                    UpdateCityNameUI(capabilityBase.GetComponent<CityLabel>().label);
-                else
-                {
-                    capabilityBase.OnNameUpdated -= UpdateCityNameUI;
-                    UpdateCapabilityUI(capabilityBase.gameObject.GetComponent<CityFunnel>().GetInitialValue());
-                    UpdateCityNameUI(capabilityBase.gameObject.GetComponent<CityFunnel>().GetInitialName());
-                }
-            }
-        }
+        capabilityBase.OnCapacityUpdated -= UpdateCapabilityUI;
+
+        if (capabilityType == CapabilityType.BIG_CITY)
+            capabilityBase.OnNameUpdated -= UpdateCityNameUI;
     }
 
-    void UpdateCapabilityUI(float value)
+    private void UpdateCapabilityUI(float value)
     {
-        capabilityText.text = Mathf.RoundToInt(value).ToString();
+        capabilityText.text =
+            Mathf.RoundToInt(value).ToString();
     }
 
-    void UpdateCityNameUI(string name)
+    private void UpdateCityNameUI(string name)
     {
-        nameText.text = name;
+        if (nameText != null)
+            nameText.text = name;
     }
 }
