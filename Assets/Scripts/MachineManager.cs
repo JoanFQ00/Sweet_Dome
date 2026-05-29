@@ -39,11 +39,21 @@ public class MachineManager : MonoBehaviour
     [Header("EventDispatcher")]
     public static Action<float,float, int> RadarDispatch; // TimeToEvent, EventTime, QuantityOfObj
 
+    [Header("EventDispatcher")]
+    public static Action<float, float> WaveDispatch;
+    private bool waveEventLaunched = false;
+
     //[Header("EventTimers")]
     //public float timeToRadar = 7.5f;
 
     void Update()
     {
+        if (DayTime.Instance.currentHour >= 15 && !waveEventLaunched)
+        {
+            waveEventLaunched = true;
+            WaveDispatch?.Invoke(0f, 60f);
+        }
+
         if (DayTime.Instance.currentHour >= 15)
             if (isDayGoalCompleted())
                 OnActionExecuted();
@@ -52,6 +62,7 @@ public class MachineManager : MonoBehaviour
     private void OnEnable()
     {
         GameManager.NewDay += UpdateText;
+        GameManager.NewDay += ResetWaveEvent;
         PresiSys.OnDialogueTerminated += CheckTerminatedDialogue;
         UpdateText();
     }
@@ -59,6 +70,7 @@ public class MachineManager : MonoBehaviour
     private void OnDisable()
     {
         GameManager.NewDay -= UpdateText;
+        GameManager.NewDay -= ResetWaveEvent;
         PresiSys.OnDialogueTerminated -= CheckTerminatedDialogue;
     }
 
@@ -73,37 +85,42 @@ public class MachineManager : MonoBehaviour
                     "Hospital: " + cityValuesD1[2] + "\n" +
                     "Residencia Presidencial: " + cityValuesD1[3];
                 break;
-                case Day.Day2:
+            case Day.Day2:
                 TMP_text.text =
                     "Zona Urbana: " + cityValuesD2[0] + "\n" +
                     "Escuela: " + cityValuesD2[1] + "\n" +
                     "Hospital: " + cityValuesD2[2] + "\n" +
                     "Residencia Presidencial: " + cityValuesD2[3];
                 break;
-                case Day.Day3:
+            case Day.Day3:
                 TMP_text.text =
                     "Zona Urbana: " + cityValuesD3[0] + "\n" +
                     "Escuela: " + cityValuesD3[1] + "\n" +
                     "Hospital: " + cityValuesD3[2] + "\n" +
                     "Residencia Presidencial: " + cityValuesD3[3];
                 break;
-                case Day.Day4:
+            case Day.Day4:
                 TMP_text.text =
                     "Zona Urbana: " + cityValuesD4[0] + "\n" +
                     "Escuela: " + cityValuesD4[1] + "\n" +
                     "Hospital: " + cityValuesD4[2] + "\n" +
                     "Residencia Presidencial: " + cityValuesD4[3];
                 break;
-                case Day.Day5:
+            case Day.Day5:
                 TMP_text.text =
                     "Zona Urbana: " + cityValuesD5[0] + "\n" +
                     "Escuela: " + cityValuesD5[1] + "\n" +
                     "Hospital: " + cityValuesD5[2] + "\n" +
                     "Residencia Presidencial: " + cityValuesD5[3];
                 break;
-                default:
+            default:
                 break;
         }
+    }
+
+    private void ResetWaveEvent()
+    {
+        waveEventLaunched = false;
     }
 
     public bool isDayGoalCompleted()
