@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Action_Rotator : BaseAction
+public class Action_Interactable : BaseAction
 {
     [Header("Move")]
     public float timeToMove = 1.0f;
@@ -10,6 +10,8 @@ public class Action_Rotator : BaseAction
 
     [Header("Settings")]
     public bool isAction = false;
+    private enum InteractableType { Rotator, Look}
+    [SerializeField] private  InteractableType type;
 
     private float currentMoveTime = 0.0f;
 
@@ -108,7 +110,7 @@ public class Action_Rotator : BaseAction
                 if (GameManager.Instance.currentState != GameManager.GameState.Interacting)
                     return;
 
-                if (Input.GetMouseButton(0)) 
+                if (Input.GetMouseButton(0) && type == InteractableType.Rotator) 
                 {
                     RotateObject();
                 }

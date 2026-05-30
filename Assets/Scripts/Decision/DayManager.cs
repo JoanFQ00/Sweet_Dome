@@ -1,8 +1,9 @@
 using NUnit.Framework;
-using System.Linq;
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class DayManager : MonoBehaviour
@@ -60,18 +61,38 @@ public class DayManager : MonoBehaviour
     [Header("DorothyBooks")]
     public List<GameObject> dorothyBooks;
 
-    private void Start()
+    private IEnumerator Start()
+    {
+        yield return null;
+
+        AssignReferences();
+    }
+
+
+    void AssignReferences()
     {
         if (SceneManager.GetActiveScene().name != "MachineTests")
             return;
 
-        dorothyBooks = GameObject.FindGameObjectsWithTag("DorothyBooks").ToList();
-        foreach (GameObject b in dorothyBooks) 
+        GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+
+        foreach (GameObject obj in allObjects)
         {
-            b.SetActive(false);
+            if (obj.CompareTag("DorothyLaunch") && obj.scene == SceneManager.GetActiveScene())
+            {
+                dorothyLaunch = obj;
+                break; 
+            }
         }
-        dorothyLaunch = GameObject.FindGameObjectWithTag("DorothyLaunch");
-        dorothyLaunch.SetActive(false);
+
+        if (dorothyLaunch == null)
+        {
+            Debug.LogError("No se encontró ningún objeto con el tag DorothyLaunch en la escena!");
+        }
+        else
+        {
+            dorothyLaunch.SetActive(false);
+        }
     }
 
 
@@ -137,15 +158,7 @@ public class DayManager : MonoBehaviour
 
     void SceneLoaded() 
     {
-        dorothyBooks = GameObject.FindGameObjectsWithTag("DorothyBooks").ToList();
-
-        foreach (GameObject b in dorothyBooks)
-        {
-            b.SetActive(false);
-        }
-
-        dorothyLaunch = GameObject.FindGameObjectWithTag("DorothyLaunch");
-        dorothyLaunch.SetActive(false);
+       AssignReferences();
     }
 
     void UpdateDay1() 
@@ -382,18 +395,16 @@ public class DayManager : MonoBehaviour
 
     public void LoadInteractObjects(Day currentDay)
     {
-
         foreach (GameObject obj in dayInt)
         {
             if (obj != null)
                 obj.SetActive(false);
         }
 
-        foreach (GameObject book in dorothyBooks) 
+        foreach (GameObject book in dorothyBooks)
         {
-            if (book == null) return;
-
-            book.SetActive(false);
+            if (book != null)
+                book.SetActive(false);
         }
 
         int index = (int)currentDay;
@@ -407,9 +418,19 @@ public class DayManager : MonoBehaviour
             Debug.LogWarning($"No interact objects configured for {currentDay}");
         }
 
-        if (GameManager.Instance.currentDay == Day.Day3) 
+        // Buscar DorothyLaunch si todavía no está asignado
+        if (dorothyLaunch == null)
         {
-            dorothyLaunch.SetActive(true);
+            dorothyLaunch = GameObject.FindGameObjectWithTag("DorothyLaunch");
+        }
+
+        if (dorothyLaunch != null)
+        {
+            dorothyLaunch.SetActive(GameManager.Instance.currentDay == Day.Day3);
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró ningún objeto con el tag DorothyLaunch");
         }
     }
 
