@@ -401,6 +401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 4631654}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!1001 &6951368
 PrefabInstance:
@@ -2453,6 +2454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 9099485350462520427}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!65 &131517781
 BoxCollider:
@@ -4257,6 +4259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 381192815}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &381192819
 MonoBehaviour:
@@ -5915,6 +5918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 2113694925}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!1 &572473744
 GameObject:
@@ -8306,6 +8310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 819869041}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!65 &819869040
 BoxCollider:
@@ -8839,6 +8844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 837387470}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!23 &837387470
 MeshRenderer:
@@ -9037,6 +9043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 7312373766383115443}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!135 &859539174
 SphereCollider:
@@ -9389,6 +9396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 931282336}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!65 &931282335
 BoxCollider:
@@ -10685,6 +10693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 1039698097}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &1039698103
 MonoBehaviour:
@@ -10754,6 +10763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 1039698101}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &1039698106
 MonoBehaviour:
@@ -13896,6 +13906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 1711813855168182279}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.6
 --- !u!1001 &1375824905
 PrefabInstance:
@@ -14861,6 +14872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 1891055921}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!1 &1469122774
 GameObject:
@@ -18081,6 +18093,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 74273445}
     m_Modifications:
+    - target: {fileID: 1663364546693955111, guid: 97935104a60fb4741b313fdb0216fe37, type: 3}
+      propertyPath: lightenAmount
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1663364546693955111, guid: 97935104a60fb4741b313fdb0216fe37, type: 3}
+      propertyPath: highlightColor.b
+      value: 0.015886446
+      objectReference: {fileID: 0}
+    - target: {fileID: 1663364546693955111, guid: 97935104a60fb4741b313fdb0216fe37, type: 3}
+      propertyPath: highlightColor.g
+      value: 0.4811321
+      objectReference: {fileID: 0}
+    - target: {fileID: 1663364546693955111, guid: 97935104a60fb4741b313fdb0216fe37, type: 3}
+      propertyPath: highlightColor.r
+      value: 0.4269499
+      objectReference: {fileID: 0}
     - target: {fileID: 4390705915216786100, guid: 97935104a60fb4741b313fdb0216fe37, type: 3}
       propertyPath: m_Name
       value: Money
@@ -18930,6 +18958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 1860484406}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!65 &1860484408
 BoxCollider:
@@ -20603,6 +20632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 3073634779595943922}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!65 &1966233616
 BoxCollider:
@@ -20946,6 +20976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 1039698099}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &1996374442
 MonoBehaviour:
@@ -21568,6 +21599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 2028269950}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &2028269953
 MonoBehaviour:
@@ -22388,6 +22420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 2109012331}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!65 &2109012330
 BoxCollider:
@@ -40767,6 +40800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 2289387296583266768}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!23 &6029782120659682346
 MeshRenderer:
@@ -42152,6 +42186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 1279543452776856917}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &6608997409280395213
 MonoBehaviour:
@@ -43294,6 +43329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 5075097750729891049}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &7006569923609240886
 MonoBehaviour:
@@ -43909,6 +43945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 7291814254053808168}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!135 &7291814254053808171
 SphereCollider:
@@ -44068,6 +44105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 3153551973604309201}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!1 &7327692129376414453
 GameObject:
@@ -44423,6 +44461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 5198417585268843530}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!65 &7476765415210289055
 BoxCollider:
@@ -44706,6 +44745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 6891644734840605318}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &7593951902481820910
 MonoBehaviour:
@@ -45107,6 +45147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 3782097508066657612}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &7740843681470897639
 MonoBehaviour:
@@ -47413,6 +47454,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 7451298178139634767}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &8396524777244023400
 MonoBehaviour:
@@ -47449,6 +47491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 1092353024856731212}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &8397952697290001208
 MonoBehaviour:
@@ -47740,6 +47783,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 4311051282740553837}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &8447628854565727957
 MonoBehaviour:
@@ -47945,6 +47989,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 6357665816788356627}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &8495184238682434520
 MonoBehaviour:
@@ -48747,6 +48792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 8674839359944160985}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!1 &8681906220191940268
 GameObject:
@@ -49100,6 +49146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 5165648857022478604}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &8728165333104459569
 MonoBehaviour:
@@ -49854,6 +49901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 7996996001107608760}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!23 &8995838367752223008
 MeshRenderer:
@@ -50375,6 +50423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 8313121648681856119}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!222 &9102065848349492962
 CanvasRenderer:
@@ -50494,6 +50543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
   rend: {fileID: 8302232873044244531}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
 --- !u!114 &9121936871674309049
 MonoBehaviour:

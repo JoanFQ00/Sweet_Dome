@@ -43,8 +43,9 @@ public class Interact : MonoBehaviour
         bool isInteracting =
             GameManager.Instance.currentState == GameManager.GameState.Interacting;
 
-        if (isInteracting)
+        if (isInteracting && GameManager.Instance.currentState != GameManager.GameState.Minigame)
         {
+            ClearHighlight(); 
             CanInteract?.Invoke(false, true);
             return;
         }
@@ -112,7 +113,6 @@ public class Interact : MonoBehaviour
         {
             currentHL.ResetColor();
         }
-
         currentHL = null;
     }
 }
