@@ -2441,6 +2441,8 @@ MonoBehaviour:
       Data3: 1730435738
       Data4: 1136904439
     Path: event:/SFX_Buttons/SFX_Buttons_Final
+  targetAnimator: {fileID: 9099485350462520428}
+  animationStateName: RightArrowClick_MK2
 --- !u!114 &131517780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9035,6 +9037,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 7312373766383115444}
+  animationStateName: MiiddleButtonClick_MK2
 --- !u!114 &859539173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10734,6 +10738,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 1039698108}
+  animationStateName: RightButtonClick_MK1
 --- !u!135 &1039698104
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10804,6 +10810,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 1039698113}
+  animationStateName: LeftButtonClick_MK1
 --- !u!135 &1039698107
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10836,6 +10844,28 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 8bac328e4b868f548a5dba07ee9ea047, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!95 &1039698113
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039698100}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8534acd640e6fbd409e6f4b384116215, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -18918,6 +18948,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1111839797679023507, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1039698105}
+    - targetCorrespondingSourceObject: {fileID: 1111839797679023507, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1039698113}
     - targetCorrespondingSourceObject: {fileID: -6945895849411897645, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1996374443}
@@ -18927,6 +18960,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -6945895849411897645, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1996374441}
+    - targetCorrespondingSourceObject: {fileID: -6945895849411897645, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1996374446}
     - targetCorrespondingSourceObject: {fileID: -2063437938121494803, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1039698104}
@@ -20140,6 +20176,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!1 &1932007147 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7076590467822531996, guid: abd0035cc0a9a7649a2ea41b127ffd68, type: 3}
@@ -20633,6 +20671,8 @@ MonoBehaviour:
       Data3: 1730435738
       Data4: 1136904439
     Path: event:/SFX_Buttons/SFX_Buttons_Final
+  targetAnimator: {fileID: 7438186382883496111}
+  animationStateName: LeftArrowClick_MK2
 --- !u!114 &1966233615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21026,6 +21066,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 1996374446}
+  animationStateName: MiiddleButtonClick_MK1
 --- !u!135 &1996374443
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -21047,6 +21089,28 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.00029613244
   m_Center: {x: -0.0000000015719861, y: 0.000012788219, z: 0.000000058483586}
+--- !u!95 &1996374446
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039698098}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 29d3f5ccdb00da24e8be476690df2d65, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1998745473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23455,6 +23519,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!1 &288952690552618469
 GameObject:
   m_ObjectHideFlags: 0
@@ -25211,6 +25277,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!120 &736196735859391819
 LineRenderer:
   serializedVersion: 3
@@ -25660,6 +25728,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!222 &892221190416108016
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -28560,6 +28630,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!4 &1888022297629561305
 Transform:
   m_ObjectHideFlags: 0
@@ -30002,6 +30074,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!1 &2229413639872887536
 GameObject:
   m_ObjectHideFlags: 0
@@ -30079,6 +30153,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!114 &2276647103759375716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30101,6 +30177,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!33 &2284676592648585215
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -30552,6 +30630,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!4 &2395378566424334482
 Transform:
   m_ObjectHideFlags: 0
@@ -30958,6 +31038,7 @@ GameObject:
   - component: {fileID: 1966233616}
   - component: {fileID: 1966233615}
   - component: {fileID: 1966233614}
+  - component: {fileID: 7438186382883496111}
   m_Layer: 7
   m_Name: LeftButton_MK2
   m_TagString: Untagged
@@ -31789,6 +31870,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!223 &2900178168114938783
 Canvas:
   m_ObjectHideFlags: 0
@@ -32972,6 +33055,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!224 &3243474209941345245
 RectTransform:
   m_ObjectHideFlags: 0
@@ -33276,6 +33361,7 @@ GameObject:
   - component: {fileID: 859539173}
   - component: {fileID: 859539175}
   - component: {fileID: 859539172}
+  - component: {fileID: 7312373766383115444}
   m_Layer: 7
   m_Name: PowerUpButton_MK2
   m_TagString: Untagged
@@ -37218,6 +37304,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!114 &4759131152909035805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37240,6 +37328,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!33 &4759685394213933438
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -37636,6 +37726,7 @@ GameObject:
   - component: {fileID: 131517781}
   - component: {fileID: 131517780}
   - component: {fileID: 131517779}
+  - component: {fileID: 9099485350462520428}
   m_Layer: 7
   m_Name: RightButton_MK2
   m_TagString: Untagged
@@ -38672,6 +38763,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!1 &5191089832615135061
 GameObject:
   m_ObjectHideFlags: 0
@@ -38863,6 +38956,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!1 &5245189554001095284
 GameObject:
   m_ObjectHideFlags: 0
@@ -40297,6 +40392,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!114 &5692067194930356552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40728,6 +40825,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!224 &5849517940564727487
 RectTransform:
   m_ObjectHideFlags: 0
@@ -42805,6 +42904,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!33 &6741281215594711860
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -43864,6 +43965,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!4 &7116203969434530263
 Transform:
   m_ObjectHideFlags: 0
@@ -44246,6 +44349,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!114 &7291814254053808170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44376,6 +44481,28 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &7312373766383115444
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3435730279289592597}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 214b878ab978f0041b3ab745212b53ea, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!222 &7317386446815897932
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -44406,6 +44533,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!114 &7323491483373702156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44648,6 +44777,28 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2542162301505413202}
   m_Mesh: {fileID: -8214988622111717174, guid: 51703d7201f60f946ac46181d38e75be, type: 3}
+--- !u!95 &7438186382883496111
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2542162301505413202}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2bfd8e9920155df4ab2b7a7c7532f9c3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7442414154161613985
 GameObject:
   m_ObjectHideFlags: 0
@@ -44832,6 +44983,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!4 &7508707239503900683
 Transform:
   m_ObjectHideFlags: 0
@@ -44918,6 +45071,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!222 &7513175881087141390
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -45450,6 +45605,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!33 &7723951963343044441
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -45962,6 +46119,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!33 &7828214533913919010
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -47048,6 +47207,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!1 &8146784427593810455
 GameObject:
   m_ObjectHideFlags: 0
@@ -48004,6 +48165,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!224 &8380856328120193841
 RectTransform:
   m_ObjectHideFlags: 0
@@ -48087,6 +48250,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!114 &8396524777244023401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48585,6 +48750,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!114 &8490748870327855143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48737,6 +48904,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!114 &8544175690987525269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50062,6 +50231,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!23 &8812145886732571889
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50424,6 +50595,8 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!114 &8951385860706214756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50922,6 +51095,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!1 &9040975013199607350
 GameObject:
   m_ObjectHideFlags: 0
@@ -51108,6 +51283,28 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &9099485350462520428
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4855874965201030836}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 182dfb0f9bb90d94a8efd76527aa2cce, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &9100372838562926857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51374,6 +51571,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!114 &9162283482928197706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51486,6 +51685,8 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
+  targetAnimator: {fileID: 0}
+  animationStateName: 
 --- !u!222 &9179202325097661885
 CanvasRenderer:
   m_ObjectHideFlags: 0
