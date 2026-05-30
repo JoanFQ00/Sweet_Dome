@@ -6,7 +6,7 @@ Shader "Custom/URP_LiquidFill_FrontOpaque_Bright"
         _FillAmount     ("Fill Amount (Local Y)", Range(-1, 1)) = 0.0
         _LiquidColor    ("Liquid Color", Color) = (0, 0.6, 1, 1)
         _Alpha          ("Alpha", Range(0, 1)) = 1.0
-        _AmbientBoost   ("Ambient Light Boost", Range(0, 1)) = 0.4 // Controla qué tan brillante es en la sombra
+        _AmbientBoost   ("Ambient Light Boost", Range(0, 1)) = 0.4 
         
         [Header(Waves)]
         _WaveStrength   ("Wave Strength", Range(0, 0.15)) = 0.03
@@ -16,6 +16,10 @@ Shader "Custom/URP_LiquidFill_FrontOpaque_Bright"
         [Header(Surface Edge)]
         _SurfaceColor   ("Surface Edge Color", Color) = (1, 1, 1, 1)
         _SurfaceThickness ("Surface Thickness", Range(0.001, 0.1)) = 0.02
+
+        [Header(Emision Values)]
+        _EmissionColor  ("Emission Color", Color) = (0, 0.6, 1, 1)
+        _EmissionStrengh ("Emission Strength", Range(0, 10)) = 2.0 
     }
 
     SubShader
@@ -33,8 +37,8 @@ Shader "Custom/URP_LiquidFill_FrontOpaque_Bright"
             Tags { "LightMode" = "UniversalForward" }
             
             Blend SrcAlpha OneMinusSrcAlpha
-            ZWrite On       // Bloquea los objetos de atrás
-            Cull Back       // Solo render frontal, sin efecto billboard
+            ZWrite On
+            Cull Back
 
             HLSLPROGRAM
             #pragma vertex vert
@@ -56,7 +60,7 @@ Shader "Custom/URP_LiquidFill_FrontOpaque_Bright"
                 float4 positionHCS : SV_POSITION;
                 float3 positionWS  : TEXCOORD0;
                 float3 normalWS    : TEXCOORD1;
-                float3 positionOS  : TEXCOORD2;
+                float3 positionOS  : TEXCOORD3;
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
@@ -69,6 +73,8 @@ Shader "Custom/URP_LiquidFill_FrontOpaque_Bright"
             float _WaveScale;
             float4 _SurfaceColor;
             float _SurfaceThickness;
+            float4 _EmissionColor;
+            float _EmissionStrengh;
 
             Varyings vert (Attributes input)
             {
@@ -85,41 +91,28 @@ Shader "Custom/URP_LiquidFill_FrontOpaque_Bright"
 
             half4 frag (Varyings i) : SV_Target
             {
-                // Ondas locales estables
                 float time = _Time.y * _WaveSpeed;
                 float wave = sin(i.positionOS.x * _WaveScale + time) * cos(i.positionOS.z * _WaveScale * 0.8 + time) * _WaveStrength;
                 
                 float currentFillLevel = _FillAmount + wave;
-
-                // Corte del líquido
                 clip(currentFillLevel - i.positionOS.y);
 
-                // Iluminación
                 Light mainLight = GetMainLight();
                 half3 normalWS = normalize(i.normalWS);
                 half NdotL = saturate(dot(normalWS, mainLight.direction));
                 
-                // MEJORA: Escalamos la luz difusa para que nunca caiga a negro absoluto usando el _AmbientBoost
                 half3 diffuse = mainLight.color * lerp(_AmbientBoost, 1.0, NdotL);
-
-                // Efecto Fresnel para darle volumen translúcido en los bordes
                 half3 viewDir = normalize(_WorldSpaceCameraPos - i.positionWS);
                 half fresnel = pow(1.0 - saturate(dot(normalWS, viewDir)), 3.0);
 
-                // Color base del líquido iluminado
                 half3 color = _LiquidColor.rgb * diffuse;
-                
-                // Añadimos un extra de emisión basado en el propio color del líquido para que "brille" por sí mismo
                 color += _LiquidColor.rgb * _AmbientBoost * 0.5;
-                
-                // Añadimos el reflejo del Fresnel
                 color += fresnel * 0.2 * _LiquidColor.rgb;
 
-                // Línea de la superficie (borde superior nítido)
+                color += (_EmissionColor.rgb * _EmissionStrengh);
+
                 float distanceToSurface = currentFillLevel - i.positionOS.y;
                 float edgeMask = smoothstep(_SurfaceThickness, 0.0, distanceToSurface);
-                
-                // Forzamos a que el borde superior ignore la sombra del escenario para mantener el "look" de poción/líquido
                 color = lerp(color, _SurfaceColor.rgb, edgeMask);
 
                 return half4(color, _LiquidColor.a * _Alpha);

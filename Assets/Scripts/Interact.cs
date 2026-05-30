@@ -59,49 +59,33 @@ public class Interact : MonoBehaviour
 
         if (Physics.Raycast(interactRay, out hit, interactDistance, interactLayer))
         {
+            HL_Interact newHL = hit.collider.GetComponent<HL_Interact>();
+            if (currentHL != newHL)
+            {
+                ClearHighlight();
+                currentHL = newHL;
+                currentHL?.LightenColor();
+            }
+
+            bool canInteractNow = true;
+
             if (hit.collider.TryGetComponent(out BaseAction baseAct))
             {
-                if (baseAct.act != null)
+                if (baseAct.act != null && !baseAct.act.alwaysAccesible &&
+                    baseAct.act.hourToInteract != DayTime.Instance.GetCurrentHour())
                 {
-                    if (!baseAct.act.alwaysAccesible &&
-                        baseAct.act.hourToInteract != DayTime.Instance.GetCurrentHour())
-                    {
-                        interactable = null;
-                        ClearHighlight();
-
-                        CanInteract?.Invoke(false, false);
-                        return;
-                    }
+                    canInteractNow = false;
                 }
             }
 
-            if (hit.collider.TryGetComponent(out RobotBehaviour robo))
+            if (canInteractNow)
             {
-                if (GameManager.Instance.dayManager.watchTvTriggered)
-                {
-                    robo.dialogueSys.ChargeDialogues(robo.currentRandomDialogue);
-                }
-            }
-
-            interactable = hit.collider.GetComponent<IInteractable>();
-
-            if (interactable != null)
-            {
-                HL_Interact newHL = hit.collider.GetComponent<HL_Interact>();
-
-                if (currentHL != newHL)
-                {
-                    ClearHighlight();
-                    currentHL = newHL;
-                    currentHL?.LightenColor();
-                }
-
-                CanInteract?.Invoke(true, false);
+                interactable = hit.collider.GetComponent<IInteractable>();
+                CanInteract?.Invoke(interactable != null, false);
             }
             else
             {
-                ClearHighlight();
-
+                interactable = null;
                 CanInteract?.Invoke(false, false);
             }
         }
@@ -109,7 +93,6 @@ public class Interact : MonoBehaviour
         {
             ClearHighlight();
             interactable = null;
-
             CanInteract?.Invoke(false, false);
         }
     }

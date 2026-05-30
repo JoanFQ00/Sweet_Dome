@@ -10,16 +10,19 @@ public class HL_Interact : MonoBehaviour
 
     private void Start()
     {
+        if (rend == null) rend = GetComponentInChildren<Renderer>(); // Busca automáticamente
+        if (rend == null) Debug.LogError("¡No encontré un Renderer en " + gameObject.name + "!");
         originalColor = rend.material.color;
     }
 
     public void LightenColor() 
     {
+        Debug.Log("Intentando cambiar color de: " + gameObject.name);
         if (GameManager.Instance.playerController.GetComponent<Interact>()) 
         {
             return;
         }
-        Color lighterCol = Color.Lerp(originalColor, Color.white, lightenAmount);
+        Color lighterCol = Color.Lerp(originalColor, Color.red, lightenAmount);
 
         rend.material.color = lighterCol;
     }
