@@ -4430,6 +4430,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -3329902420748629119, guid: b959a5181d8689e4dafdf96b167a416c, type: 3}
+--- !u!23 &399966676 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -1120989108687609925, guid: b959a5181d8689e4dafdf96b167a416c, type: 3}
+  m_PrefabInstance: {fileID: 1811783107}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &401739452 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -2045257923548263128, guid: b959a5181d8689e4dafdf96b167a416c, type: 3}
@@ -9395,9 +9400,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dfea59c2de1b45478f84c2022c000df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
-  rend: {fileID: 931282336}
+  rend: {fileID: 1368471711}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
-  lightenAmount: 0.7
+  lightenAmount: 0.6
 --- !u!65 &931282335
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9492,7 +9497,7 @@ MonoBehaviour:
   timeToMove: 1
   rotationSpeed: 100
   isAction: 0
-  type: 0
+  type: 1
 --- !u!1 &932357519
 GameObject:
   m_ObjectHideFlags: 0
@@ -13788,6 +13793,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 213c8b7330282774d89f869227afe681, type: 3}
   m_PrefabInstance: {fileID: 1577591260}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &1368471711 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 213c8b7330282774d89f869227afe681, type: 3}
+  m_PrefabInstance: {fileID: 1577591260}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1373059616
 GameObject:
   m_ObjectHideFlags: 0
@@ -13905,7 +13915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dfea59c2de1b45478f84c2022c000df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
-  rend: {fileID: 1711813855168182279}
+  rend: {fileID: 399966676}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.6
 --- !u!1001 &1375824905
@@ -18095,19 +18105,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1663364546693955111, guid: 97935104a60fb4741b313fdb0216fe37, type: 3}
       propertyPath: lightenAmount
-      value: 0.3
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 1663364546693955111, guid: 97935104a60fb4741b313fdb0216fe37, type: 3}
       propertyPath: highlightColor.b
-      value: 0.015886446
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1663364546693955111, guid: 97935104a60fb4741b313fdb0216fe37, type: 3}
       propertyPath: highlightColor.g
-      value: 0.4811321
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1663364546693955111, guid: 97935104a60fb4741b313fdb0216fe37, type: 3}
       propertyPath: highlightColor.r
-      value: 0.4269499
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4390705915216786100, guid: 97935104a60fb4741b313fdb0216fe37, type: 3}
       propertyPath: m_Name
@@ -20454,6 +20464,10 @@ PrefabInstance:
       propertyPath: rend
       value: 
       objectReference: {fileID: 2019603460}
+    - target: {fileID: 1663364546693955111, guid: 97935104a60fb4741b313fdb0216fe37, type: 3}
+      propertyPath: lightenAmount
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 2047301067462796821, guid: 97935104a60fb4741b313fdb0216fe37, type: 3}
       propertyPath: m_Layer
       value: 3
