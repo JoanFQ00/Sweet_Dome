@@ -38,7 +38,7 @@ public class InteractionState : IState
 
         GameManager.Instance.playerController.LockPlayer(true);
 
-        GameManager.Instance.playerController.GetComponent<Interact>().ChangeInteracting(true);
+        GameManager.Instance.currentState = GameManager.GameState.Interacting;
 
         robot.UpdateUI();
 
@@ -101,7 +101,7 @@ public class InteractionState : IState
 
         GameManager.Instance.playerController.LockPlayer(false);
 
-        GameManager.Instance.playerController.GetComponent<Interact>().ChangeInteracting(false);
+        GameManager.Instance.currentState = GameManager.GameState.Gameplay;
     }
 
     private void ExitDialogue()

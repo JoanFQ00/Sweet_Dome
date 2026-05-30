@@ -138,10 +138,6 @@ public class Action_Interactable : BaseAction
 
                     GameManager.Instance.currentState = GameManager.GameState.Gameplay;
 
-                    GameManager.Instance.playerController
-                        .GetComponent<Interact>()
-                        .ChangeInteracting(false);
-
                     state = State.Idle;
 
                     if (isAction)

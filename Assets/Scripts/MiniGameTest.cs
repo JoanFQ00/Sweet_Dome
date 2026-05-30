@@ -222,8 +222,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         GameManager.Instance.playerController.LockCamera(true);
 
         gameObject.layer = LayerMask.NameToLayer("Interactable");
-
-        GameManager.Instance.playerController.GetComponent<Interact>().ChangeInteracting(false);
     }
 
     void FinishExit()

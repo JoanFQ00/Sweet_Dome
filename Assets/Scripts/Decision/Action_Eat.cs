@@ -38,8 +38,7 @@ public class Action_Eat : BaseAction
         GameManager.Instance.playerController.LockPlayer(true);
         GameManager.Instance.playerController.LockCamera(true);
 
-        GameManager.Instance.currentState =
-            GameManager.GameState.Interacting;
+        GameManager.Instance.currentState = GameManager.GameState.Interacting;
 
         targetPos =
             cam.position +
@@ -47,9 +46,7 @@ public class Action_Eat : BaseAction
             cam.up * localOffset.y +
             cam.forward * localOffset.z;
 
-        targetRot =
-            cam.rotation *
-            Quaternion.Euler(localRotationOffset);
+        targetRot = cam.rotation * Quaternion.Euler(localRotationOffset);
 
         goingToMouth = true;
         isActive = true;
@@ -124,10 +121,6 @@ public class Action_Eat : BaseAction
         GameManager.Instance.playerController.LockCamera(false);
 
         GameManager.Instance.currentState = GameManager.GameState.Gameplay;
-
-        GameManager.Instance.playerController
-            .GetComponent<Interact>()
-            .ChangeInteracting(false);
 
         OnActionExecuted();
     }

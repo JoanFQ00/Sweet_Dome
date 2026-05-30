@@ -106,9 +106,6 @@ public class Action_Reader : BaseAction
                     player.LockPlayer(false);
                     gameObject.layer = LayerMask.NameToLayer("Interactable");
 
-                    GameManager.Instance.playerController.
-                    GetComponent<Interact>().ChangeInteracting(false);
-                    
                     GameManager.Instance.currentState = GameManager.GameState.Gameplay;
                     state = State.Idle;
 

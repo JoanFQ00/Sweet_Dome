@@ -79,10 +79,6 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 
             }
         }
-
-            GameManager.Instance.playerController
-                .GetComponent<Interact>()
-                .ChangeInteracting(false);
     }
 
     private IEnumerator InteractionCooldown()

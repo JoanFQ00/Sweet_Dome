@@ -104,12 +104,11 @@ public class Action_WatchTV : BaseAction
 
             case State.WatchingPos:
 
-                if (!dorothyTurnedOff || act.hourToInteract != GameManager.Instance.dayTime.currentHour) 
+                if (!dorothyTurnedOff && act.hourToInteract == GameManager.Instance.dayTime.currentHour) 
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
                         Ray ray = player.mainCamera.ScreenPointToRay(Input.mousePosition);
-                        Debug.Log("Here");
 
                         if (Physics.Raycast(ray, out RaycastHit hit, 100f, interactionLayer))
                         {
@@ -154,10 +153,6 @@ public class Action_WatchTV : BaseAction
                     player.LockCamera(false);
 
                     GameManager.Instance.currentState = GameManager.GameState.Gameplay;
-
-                    GameManager.Instance.playerController
-                        .GetComponent<Interact>()
-                        .ChangeInteracting(false);
 
                     state = State.Idle;
                 });

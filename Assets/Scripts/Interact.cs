@@ -19,8 +19,6 @@ public class Interact : MonoBehaviour
     private IInteractable interactable;
     private HL_Interact currentHL;
 
-    bool interacting;
-
     public static event Action<bool, bool> CanInteract;
 
     private void Awake()
@@ -42,9 +40,12 @@ public class Interact : MonoBehaviour
 
     void Update()
     {
-        if (interacting)
+        bool isInteracting =
+            GameManager.Instance.currentState == GameManager.GameState.Interacting;
+
+        if (isInteracting)
         {
-            CanInteract?.Invoke(true, interacting);
+            CanInteract?.Invoke(false, true);
             return;
         }
 
@@ -62,12 +63,13 @@ public class Interact : MonoBehaviour
             {
                 if (baseAct.act != null)
                 {
-                    // CORRECCIÓN: Solo cancelamos la interacción si NO es la hora Y ADEMÁS NO es siempre accesible
-                    if (!baseAct.act.alwaysAccesible && baseAct.act.hourToInteract != DayTime.Instance.GetCurrentHour())
+                    if (!baseAct.act.alwaysAccesible &&
+                        baseAct.act.hourToInteract != DayTime.Instance.GetCurrentHour())
                     {
                         interactable = null;
                         ClearHighlight();
-                        CanInteract?.Invoke(false, interacting);
+
+                        CanInteract?.Invoke(false, false);
                         return;
                     }
                 }
@@ -85,41 +87,40 @@ public class Interact : MonoBehaviour
 
             if (interactable != null)
             {
-                HL_Interact newHL = hit.collider?.GetComponent<HL_Interact>();
+                HL_Interact newHL = hit.collider.GetComponent<HL_Interact>();
+
                 if (currentHL != newHL)
                 {
                     ClearHighlight();
                     currentHL = newHL;
                     currentHL?.LightenColor();
                 }
-                CanInteract?.Invoke(true, interacting);
+
+                CanInteract?.Invoke(true, false);
             }
             else
             {
                 ClearHighlight();
-                CanInteract?.Invoke(false, interacting);
+
+                CanInteract?.Invoke(false, false);
             }
         }
         else
         {
             ClearHighlight();
             interactable = null;
-            CanInteract?.Invoke(false, interacting);
+
+            CanInteract?.Invoke(false, false);
         }
     }
 
     private void OnInteract(InputAction.CallbackContext ctx)
     {
-        if (interactable != null)
+        if (interactable != null &&
+            GameManager.Instance.currentState == GameManager.GameState.Gameplay)
         {
-            interacting = true;
             interactable.Interact();
         }
-    }
-
-    public void ChangeInteracting(bool _interacting)
-    {
-        interacting = _interacting;
     }
 
     void ClearHighlight()
