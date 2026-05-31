@@ -25097,6 +25097,8 @@ GameObject:
   - component: {fileID: 9039709009316722585}
   - component: {fileID: 9039709009316722584}
   - component: {fileID: 9039709009316722583}
+  - component: {fileID: 9039709009316722588}
+  - component: {fileID: 9039709009316722587}
   m_Layer: 7
   m_Name: Mk4.017
   m_TagString: Untagged
@@ -51539,8 +51541,45 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 0}
-  animationStateName: 
+  targetAnimator: {fileID: 9039709009316722588}
+  animationStateName: Zero_Anim
+--- !u!114 &9039709009316722587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668007165938582498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfea59c2de1b45478f84c2022c000df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
+  rend: {fileID: 2057719444647583024}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
+  lightenAmount: 0.7
+--- !u!95 &9039709009316722588
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668007165938582498}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b5be821d020e5ae4b96bd4f75c97ad6d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &9040975013199607350
 GameObject:
   m_ObjectHideFlags: 0
