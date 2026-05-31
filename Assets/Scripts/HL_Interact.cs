@@ -12,6 +12,10 @@ public class HL_Interact : MonoBehaviour
 
     private void Start()
     {
+        if (rend == null) rend = GetComponentInChildren<Renderer>();
+
+        if (rend == null) rend = GetComponent<Renderer>();
+
         rend.material = new Material(rend.material);
         originalColor = rend.material.color;
     }
