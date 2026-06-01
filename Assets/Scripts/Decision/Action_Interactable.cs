@@ -50,7 +50,10 @@ public class Action_Interactable : BaseAction, ILookable
     {
         Init();
         playerController = GameManager.Instance.playerController;
-        popUpGO.SetActive(false);
+        if (popUpGO != null) 
+        {
+            popUpGO.SetActive(false);
+        }
     }
 
     protected override void OnEnable()
