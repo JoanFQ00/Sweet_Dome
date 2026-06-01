@@ -25,16 +25,6 @@ public class MachineActivator : MonoBehaviour
         GameManager.NewDay -= SwitchDayActivator;
     }
 
-    //void CheckDay()
-    //{
-    //    bool activeDay = SwitchDayActivator();
-    //    foreach (GameObject script in machineEnabled)
-    //    {
-    //        //if(script != null)
-    //        //    { script.enabled = true; }
-    //    }
-    //}
-
     void SwitchDayActivator()
     {
         switch (GameManager.Instance.currentDay)
