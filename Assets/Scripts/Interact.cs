@@ -7,6 +7,11 @@ public interface IInteractable
     public void Interact();
 }
 
+public interface ILookable 
+{
+    void OnLookStateChanged(bool isLooking);
+}
+
 public class Interact : MonoBehaviour
 {
     public float interactDistance = 2.5f;
@@ -14,6 +19,7 @@ public class Interact : MonoBehaviour
     public Camera playerCamera;
     public Transform readTransform;
 
+    private ILookable lastLookedAt;
     private PlayerInput playerInput;
     private InputAction interactAction;
     private IInteractable interactable;
@@ -60,6 +66,14 @@ public class Interact : MonoBehaviour
 
         if (Physics.Raycast(interactRay, out hit, interactDistance, interactLayer))
         {
+            ILookable newLookedAt = hit.collider.GetComponent<ILookable>();
+            if (newLookedAt != lastLookedAt)
+            {
+                lastLookedAt?.OnLookStateChanged(false);
+                lastLookedAt = newLookedAt;
+                lastLookedAt?.OnLookStateChanged(true);
+            }
+
             HL_Interact newHL = hit.collider.GetComponent<HL_Interact>();
             if (currentHL != newHL)
             {
@@ -69,7 +83,6 @@ public class Interact : MonoBehaviour
             }
 
             bool canInteractNow = true;
-
             if (hit.collider.TryGetComponent(out BaseAction baseAct))
             {
                 if (baseAct.act != null && !baseAct.act.alwaysAccesible &&
@@ -92,6 +105,9 @@ public class Interact : MonoBehaviour
         }
         else
         {
+            lastLookedAt?.OnLookStateChanged(false);
+            lastLookedAt = null;
+
             ClearHighlight();
             interactable = null;
             CanInteract?.Invoke(false, false);
