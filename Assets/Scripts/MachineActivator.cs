@@ -9,45 +9,65 @@ public class MachineActivator : MonoBehaviour
     public bool day4 = true;
     public bool day5 = true;
 
-    [Header("Gameobjects to activate")]
+    [Header("Gameobjects DAY 1")]
     public GameObject[] machineEnabled;
 
     private void Start()
     {
-        GameManager.NewDay += CheckDay;
+        foreach (GameObject machine in machineEnabled)
+            machine.SetActive(false);
+
+        GameManager.NewDay += SwitchDayActivator;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        GameManager.NewDay -= CheckDay;
+        GameManager.NewDay -= SwitchDayActivator;
     }
 
-    void CheckDay()
-    {
-        bool activeDay = SwitchDayActivator();
-        foreach (GameObject script in machineEnabled)
-        {
-            //if(script != null)
-            //    { script.enabled = true; }
-        }
-    }
+    //void CheckDay()
+    //{
+    //    bool activeDay = SwitchDayActivator();
+    //    foreach (GameObject script in machineEnabled)
+    //    {
+    //        //if(script != null)
+    //        //    { script.enabled = true; }
+    //    }
+    //}
 
-    bool SwitchDayActivator()
+    void SwitchDayActivator()
     {
         switch (GameManager.Instance.currentDay)
         {
             case Day.Day1:
-                return day1;
-            case Day.Day2:
-                return day2;
-            case Day.Day3:
-                return day3;
-            case Day.Day4:
-                return day4;
-            case Day.Day5:
-                return day5;
-        }
+                EnableMachineModules(1);
+                break;
 
-        return false;
+            case Day.Day2:
+                EnableMachineModules(2);
+                break;
+
+            case Day.Day3:
+                EnableMachineModules(3);
+               break;
+
+            case Day.Day4:
+                EnableMachineModules(4);
+                break;
+
+            case Day.Day5:
+                EnableMachineModules(5);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    void EnableMachineModules(int day)
+    {
+        for (int i = 0; i < machineEnabled.Length; i++)
+            if (i + 1 == day)
+                machineEnabled[i].SetActive(true);
     }
 }
