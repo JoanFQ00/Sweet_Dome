@@ -14,6 +14,7 @@ public class RadarMinigame : MonoBehaviour
     public SliderType type;
     [SerializeField] private float innerMargin = 0.05f;
     [SerializeField] private float outerMargin = 0.02f;
+    private float rotationSensitivity = 0.5f;
 
     public TMPro.TextMeshProUGUI timeTMP;
     public GameObject objectivePrefab;
@@ -163,17 +164,16 @@ public class RadarMinigame : MonoBehaviour
             case SliderType.Position:
                 Vector3 offset = radarPoint.forward * (maxDist * value);
                 radarPoint.position = radarPointZero.position + offset;
-
-                onCenter = Mathf.Abs(value) < 0.015f; 
-
-                return;
+                onCenter = Mathf.Abs(value) < 0.1f;
+                break;
 
             case SliderType.Rotation:
                 if (!onCenter) return;
 
-                float angle = (value - 0.5f) * 360f;
-                radarPoint.localRotation = startLocalRot * Quaternion.Euler(0f, angle, 0f);
-                return;
+                float angleDelta = value * rotationSensitivity;
+
+                radarPoint.Rotate(Vector3.up, angleDelta, Space.Self);
+                break;
         }
     }
 
