@@ -111,8 +111,10 @@ public class Action_Interactable : BaseAction, ILookable
 
     protected override void OnUpdateAction()
     {
-
-        PopUpCheck();
+        if (popUpGO != null)
+        {
+            PopUpCheck();
+        }
 
         switch (state)
         {
