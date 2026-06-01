@@ -20,6 +20,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     [Header("Interaction")]
     public LayerMask interactLayer;
     public float maxDist = 50f;
+    public Texture2D rotateCursor;
+    public Texture2D originalCursor;
 
     public static Action<bool> OnMachineEntered;
 
@@ -130,7 +132,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
     void HandleActiveInput()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E)
+            && GameManager.Instance.dayTime.currentHour >= 21)
         {
             GameManager.Instance.playerController.ChangeGameMode(false);
             ExitMiniGame();
@@ -146,12 +149,14 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         {
             GameManager.Instance.playerController.LockCamera(false);
             GameManager.Instance.playerController.ChangeGameMode(true);
+            ChangeCursor(rotateCursor);
         }
 
         if (Input.GetMouseButtonUp(1))
         {
             GameManager.Instance.playerController.LockCamera(true);
             GameManager.Instance.playerController.ChangeGameMode(false);
+            ChangeCursor(originalCursor);
         }
     }
 
@@ -243,6 +248,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         GameManager.Instance.playerController.LockPlayer(false);
         GameManager.Instance.playerController.LockCamera(false);
 
+        ChangeCursor(originalCursor);
         ShowCursor(false);
     }
 
@@ -261,6 +267,11 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     {
         if (DayTime.Instance.GetCurrentHour() >= 21)
             gameObject.layer = LayerMask.NameToLayer("Default");
+    }
+
+    void ChangeCursor(Texture2D cursorTexture) 
+    {
+        Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
     }
 
     void BeginDayInstructions() 
