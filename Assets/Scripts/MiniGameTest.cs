@@ -26,6 +26,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     public static Action<bool> OnMachineEntered;
 
     private MiniGameState state = MiniGameState.None;
+    private bool interacting;
 
     private float currentMoveTime;
     private Vector3 originalPlayerPos;
@@ -42,7 +43,19 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             return;
 
         CheckHour();
-        CheckHover();
+
+        if (!Input.GetMouseButton(0))
+        {
+            CheckHover();
+        }
+        else
+        {
+            if (currentHighlight != null)
+            {
+                currentHighlight.ResetColor();
+                currentHighlight = null;
+            }
+        }
 
         switch (state)
         {
@@ -166,6 +179,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
         if (!Input.GetMouseButtonDown(0)) return;
 
+        interacting = true;
+
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
@@ -176,6 +191,9 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             if (hit.collider.TryGetComponent(out MainButt button))
                 button.Press();
         }
+
+        if (Input.GetMouseButtonUp(0))
+            interacting = false;
     }
 
 
@@ -191,17 +209,11 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
             if (currentHighlight != newHighlight)
             {
-                if (currentHighlight != null)
-                {
-                    currentHighlight.ResetColor();
-                }
+                if (currentHighlight != null) currentHighlight.ResetColor();
 
                 currentHighlight = newHighlight;
 
-                if (currentHighlight != null)
-                {
-                    currentHighlight.LightenColor();
-                }
+                if (currentHighlight != null) currentHighlight.LightenColor();
             }
         }
         else
@@ -213,7 +225,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             }
         }
     }
-
     void ExitMiniGame()
     {
         if (state != MiniGameState.Active) return;
