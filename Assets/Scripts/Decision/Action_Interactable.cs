@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
-public class Action_Interactable : BaseAction, ILookable
+public class Action_Interactable : BaseAction
 {
     [Header("Move")]
     public float timeToMove = 1.0f;
@@ -13,16 +13,6 @@ public class Action_Interactable : BaseAction, ILookable
     public bool isAction = false;
     private enum InteractableType { Rotator, Look }
     [SerializeField] private InteractableType type;
-
-    [Header("Pop Up")]
-    [SerializeField] private float disanceToPop;
-    [SerializeField] private float distanceToPopInt;
-    [SerializeField] private GameObject popUpGO;
-    [SerializeField] private GameObject interactPopUpGO;
-    private bool onSight;
-
-    PlayerController playerController;
-
 
     private float currentMoveTime = 0.0f;
 
@@ -49,11 +39,6 @@ public class Action_Interactable : BaseAction, ILookable
     void Start()
     {
         Init();
-        playerController = GameManager.Instance.playerController;
-        if (popUpGO != null) 
-        {
-            popUpGO.SetActive(false);
-        }
     }
 
     protected override void OnEnable()
@@ -90,10 +75,7 @@ public class Action_Interactable : BaseAction, ILookable
         }
     }
 
-    public void OnLookStateChanged(bool isLooking)
-    {
-        onSight = isLooking;
-    }
+
 
     public override void Interact()
     {
@@ -114,11 +96,6 @@ public class Action_Interactable : BaseAction, ILookable
 
     protected override void OnUpdateAction()
     {
-        if (popUpGO != null)
-        {
-            PopUpCheck();
-        }
-
         switch (state)
         {
             case State.MovingToInspect:
@@ -171,32 +148,6 @@ public class Action_Interactable : BaseAction, ILookable
                 });
 
                 break;
-        }
-    }
-
-    private void PopUpCheck()
-    {
-        if (GameManager.Instance.currentState == GameManager.GameState.Gameplay)
-        {
-            float distanceToPlayer = Vector3.Distance(transform.position, playerController.transform.position);
-
-            if (distanceToPlayer <= distanceToPopInt && onSight)
-            {
-                popUpGO.SetActive(false);
-                interactPopUpGO.SetActive(true);
-                interactPopUpGO.transform.LookAt(playerController.transform);
-            }
-            else if (distanceToPlayer <= disanceToPop)
-            {
-                popUpGO.SetActive(true);
-                interactPopUpGO.SetActive(false);
-                popUpGO.transform.LookAt(playerController.transform);
-            }
-            else
-            {
-                popUpGO.SetActive(false);
-                interactPopUpGO.SetActive(false);
-            }
         }
     }
 

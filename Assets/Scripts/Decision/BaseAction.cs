@@ -1,24 +1,51 @@
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public abstract class BaseAction : MonoBehaviour, IInteractable
+public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
 {
     public NDec_Act act;
 
+    [Header("Pop Up")]
+    [SerializeField] private float disanceToPop;
+    [SerializeField] private float distanceToPopInt;
+    [SerializeField] private GameObject popUpGO;
+    [SerializeField] private GameObject interactPopUpGO;
+    private bool onSight;
+
+    PlayerController playerController;
     protected bool actionCompleted = false;
     protected bool actionTransfered = false;
     protected bool canInteract = false;
 
     protected int currentLayer = -1;
 
+    private void Start()
+    {
+        playerController = GameManager.Instance.playerController;
+
+        if (popUpGO != null) 
+        {
+            popUpGO.SetActive(false);
+        }
+
+    }
     protected virtual void OnEnable()
     {
+        if (GameManager.Instance != null)
+        {
+            playerController = GameManager.Instance.playerController;
+        }
         GameManager.OnChangeDay += ResetActionState;
     }
 
     protected virtual void OnDisable()
     {
         GameManager.OnChangeDay -= ResetActionState;
+    }
+
+    public void OnLookStateChanged(bool isLooking)
+    {
+        onSight = isLooking;
     }
 
     protected virtual void Update()
@@ -28,6 +55,11 @@ public abstract class BaseAction : MonoBehaviour, IInteractable
         if (act != null) 
         {
             CheckHour();
+        }
+
+        if (popUpGO != null)
+        {
+            PopUpCheck();
         }
 
         OnUpdateAction();
@@ -51,6 +83,32 @@ public abstract class BaseAction : MonoBehaviour, IInteractable
         {
             gameObject.layer = newLayer;
             currentLayer = newLayer;
+        }
+    }
+
+    private void PopUpCheck()
+    {
+        if (GameManager.Instance.currentState == GameManager.GameState.Gameplay)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, playerController.transform.position);
+
+            if (distanceToPlayer <= distanceToPopInt && onSight)
+            {
+                popUpGO.SetActive(false);
+                interactPopUpGO.SetActive(true);
+                interactPopUpGO.transform.LookAt(playerController.transform);
+            }
+            else if (distanceToPlayer <= disanceToPop)
+            {
+                popUpGO.SetActive(true);
+                interactPopUpGO.SetActive(false);
+                popUpGO.transform.LookAt(playerController.transform);
+            }
+            else
+            {
+                popUpGO.SetActive(false);
+                interactPopUpGO.SetActive(false);
+            }
         }
     }
 

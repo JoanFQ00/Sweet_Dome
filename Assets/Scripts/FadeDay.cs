@@ -42,7 +42,7 @@ public class FadeDay : MonoBehaviour
     private void OnDisable()
     {
         GameManager.NewDay -= StartFade;
-        LevelManager.OnLevelLoaded -= StartFade;
+        LevelManager.OnLevelLoaded -= StartFadeIn;
     }
 
     public void StartFade()
@@ -68,6 +68,8 @@ public class FadeDay : MonoBehaviour
                 dayTMP.text = "Day 67";
                 break;
         }
+        GameManager.Instance.playerController.LockPlayer(true);
+        GameManager.Instance.playerController.LockCamera(true);
 
         fadeState = FadeState.FadingOut;
     }
@@ -77,6 +79,9 @@ public class FadeDay : MonoBehaviour
         fadeImage.gameObject.SetActive(true);
         dayTMP.gameObject.SetActive(true);
         dayTMP.text = GameManager.Instance.currentDay.ToString();
+
+        GameManager.Instance.playerController.LockPlayer(true);
+        GameManager.Instance.playerController.LockCamera(true);
 
         fadeState = FadeState.FadingIn;
     }
@@ -117,6 +122,9 @@ public class FadeDay : MonoBehaviour
 
                     fadeImage.gameObject.SetActive(false);
                     dayTMP.gameObject.SetActive(false);
+
+                    GameManager.Instance.playerController.LockPlayer(false);
+                    GameManager.Instance.playerController.LockCamera(false);
                 }
             break;
         }
