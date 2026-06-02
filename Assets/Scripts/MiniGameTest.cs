@@ -21,6 +21,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     public LayerMask interactLayer;
     public float maxDist = 50f;
     public Texture2D rotateCursor;
+    public Texture2D interactCursor;
     public Texture2D originalCursor;
 
     public static Action<bool> OnMachineEntered;
@@ -48,6 +49,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         {
             CheckHover();
         }
+
         else
         {
             if (currentHighlight != null)
@@ -172,30 +174,39 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             ChangeCursor(originalCursor);
         }
     }
-
     void HandleClick()
     {
         if (playerCamera == null) return;
 
-        if (!Input.GetMouseButtonDown(0)) return;
-
-        interacting = true;
-
-        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
+        if (Input.GetMouseButtonDown(0))
         {
-            if (hit.collider.TryGetComponent(out SpherePoints points))
-                points.OnClick();
+            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
 
-            if (hit.collider.TryGetComponent(out MainButt button))
-                button.Press();
+            if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
+            {
+                bool interacted = false;
+
+                if (hit.collider.TryGetComponent(out SpherePoints points))
+                {
+                    points.OnClick();
+                    interacted = true;
+                }
+
+                if (hit.collider.TryGetComponent(out MainButt button))
+                {
+                    button.Press();
+                    interacted = true;
+                }
+
+                if (interacted) ChangeCursor(interactCursor);
+            }
         }
 
         if (Input.GetMouseButtonUp(0))
-            interacting = false;
+        {
+            CheckHover();
+        }
     }
-
 
     void CheckHover()
     {
@@ -205,19 +216,21 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
         if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
         {
+            ChangeCursor(interactCursor);
+
             HL_Interact newHighlight = hit.collider.GetComponent<HL_Interact>();
 
             if (currentHighlight != newHighlight)
             {
                 if (currentHighlight != null) currentHighlight.ResetColor();
-
                 currentHighlight = newHighlight;
-
                 if (currentHighlight != null) currentHighlight.LightenColor();
             }
         }
         else
         {
+            ChangeCursor(originalCursor);
+
             if (currentHighlight != null)
             {
                 currentHighlight.ResetColor();
@@ -225,6 +238,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             }
         }
     }
+
     void ExitMiniGame()
     {
         if (state != MiniGameState.Active) return;
