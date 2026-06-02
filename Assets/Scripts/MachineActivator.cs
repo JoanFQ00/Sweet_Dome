@@ -18,6 +18,8 @@ public class MachineActivator : MonoBehaviour
             machine.SetActive(false);
 
         GameManager.NewDay += SwitchDayActivator;
+
+        SwitchDayActivator();
     }
 
     private void OnDisable()
