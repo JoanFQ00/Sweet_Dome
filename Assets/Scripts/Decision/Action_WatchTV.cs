@@ -12,6 +12,8 @@ public class Action_WatchTV : BaseAction
     [Header("Settings")]
     public bool isAction = false;
 
+    public GameObject tvClickPopUp;
+
     private PlayerController player;
     private Transform playerTransform;
 
@@ -40,6 +42,7 @@ public class Action_WatchTV : BaseAction
     void Start()
     {
         player = GameManager.Instance.playerController;
+        tvClickPopUp.SetActive(false);
 
         if (player != null)
         {
@@ -103,32 +106,34 @@ public class Action_WatchTV : BaseAction
                 break;
 
             case State.WatchingPos:
+                bool isLookingAtTV = false; 
 
-                if (!dorothyTurnedOff && act.hourToInteract == GameManager.Instance.dayTime.currentHour) 
+                if (!dorothyTurnedOff && act.hourToInteract == GameManager.Instance.dayTime.currentHour)
                 {
-                    if (Input.GetMouseButtonDown(0))
+                    Ray ray = player.mainCamera.ScreenPointToRay(Input.mousePosition);
+                    if (Physics.Raycast(ray, out RaycastHit hit, 100f, interactionLayer))
                     {
-                        Ray ray = player.mainCamera.ScreenPointToRay(Input.mousePosition);
-
-                        if (Physics.Raycast(ray, out RaycastHit hit, 100f, interactionLayer))
+                        if (hit.collider.CompareTag("TV"))
                         {
-                            if (hit.collider.CompareTag("TV"))
+                            isLookingAtTV = true; 
+
+                            if (Input.GetMouseButtonDown(0))
                             {
-                                // LoadTV();
-
+                                tvClickPopUp.SetActive(false);
                                 hasWatchedTV = true;
-
                                 state = State.Watching;
                             }
                         }
                     }
                 }
 
+                tvClickPopUp.SetActive(isLookingAtTV);
+
                 if (Input.GetKeyDown(KeyCode.E))
                 {
+                    tvClickPopUp.SetActive(false); 
                     StartReturn();
                 }
-
                 break;
 
             case State.Watching:
@@ -136,7 +141,7 @@ public class Action_WatchTV : BaseAction
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     // UnloadTV();
-
+                    tvClickPopUp.SetActive(false);
                     StartReturn();
                 }
 
