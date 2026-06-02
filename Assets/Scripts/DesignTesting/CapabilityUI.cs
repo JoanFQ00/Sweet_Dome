@@ -15,13 +15,15 @@ public class CapabilityUI : MonoBehaviour
     [SerializeField] private CapabilityBase capabilityBase;
     [SerializeField] private TextMeshProUGUI capabilityText, nameText;
 
-    private void Start()
+    private void OnEnable()
     {
         if (capabilityBase == null)
             return;
 
         capabilityBase.OnCapacityUpdated += UpdateCapabilityUI;
-
+    }
+    private void Start()
+    {
         UpdateCapabilityUI(capabilityBase.CurrentCapacity);
 
         if (capabilityType != CapabilityType.NORMAL)
