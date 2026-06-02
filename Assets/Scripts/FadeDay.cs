@@ -10,6 +10,7 @@ public class FadeDay : MonoBehaviour
     [Header("Fade Settings")]
     public float fadeInTime = 2.5f;
     public float fadeOutTime = 2.0f;
+    public bool lockPlayer;
 
     private enum FadeState
     {
@@ -68,8 +69,12 @@ public class FadeDay : MonoBehaviour
                 dayTMP.text = "Day 67";
                 break;
         }
-        GameManager.Instance.playerController.LockPlayer(true);
-        GameManager.Instance.playerController.LockCamera(true);
+
+        if (lockPlayer) 
+        {
+            GameManager.Instance.playerController.LockPlayer(true);
+            GameManager.Instance.playerController.LockCamera(true);
+        }
 
         fadeState = FadeState.FadingOut;
     }
@@ -80,8 +85,11 @@ public class FadeDay : MonoBehaviour
         dayTMP.gameObject.SetActive(true);
         dayTMP.text = GameManager.Instance.currentDay.ToString();
 
-        GameManager.Instance.playerController.LockPlayer(true);
-        GameManager.Instance.playerController.LockCamera(true);
+        if (lockPlayer)
+        {
+            GameManager.Instance.playerController.LockPlayer(true);
+            GameManager.Instance.playerController.LockCamera(true);
+        }
 
         fadeState = FadeState.FadingIn;
     }

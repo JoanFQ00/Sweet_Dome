@@ -6,8 +6,8 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
     public NDec_Act act;
 
     [Header("Pop Up")]
-    [SerializeField] private float disanceToPop;
-    [SerializeField] private float distanceToPopInt;
+    [SerializeField] private float disanceToPop = 1.6f;
+    [SerializeField] private float distanceToPopInt = 1.25f;
     [SerializeField] private GameObject popUpGO;
     [SerializeField] private GameObject interactPopUpGO;
     private bool onSight;
@@ -22,6 +22,8 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
     private void Start()
     {
         playerController = GameManager.Instance.playerController;
+        Debug.Log(playerController);
+
 
         if (popUpGO != null) 
         {
@@ -31,10 +33,12 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
     }
     protected virtual void OnEnable()
     {
-        if (GameManager.Instance != null)
+        if (GameManager.Instance != null && playerController == null)
         {
             playerController = GameManager.Instance.playerController;
+            Debug.Log(playerController);
         }
+
         GameManager.OnChangeDay += ResetActionState;
     }
 
@@ -109,6 +113,11 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
                 popUpGO.SetActive(false);
                 interactPopUpGO.SetActive(false);
             }
+        }
+        else 
+        {
+            popUpGO.SetActive(false);
+            interactPopUpGO.SetActive(false);
         }
     }
 

@@ -184,7 +184,6 @@ public class DayManager : MonoBehaviour
     void UpdateDay2() 
     {
         day2DorothyCurrentTime += Time.deltaTime;
-        Debug.Log(day2DorothyCurrentTime);
 
         if (day2DorothyCurrentTime >= day2DorothyTimer && !dorothyExplainsButton) 
         {
