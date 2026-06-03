@@ -7,7 +7,6 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
 
     [Header("Pop Up")]
     [SerializeField] private float disanceToPop = 1.6f;
-    [SerializeField] private float distanceToPopInt = 1.25f;
     [SerializeField] private GameObject popUpGO;
     [SerializeField] private GameObject interactPopUpGO;
     private bool onSight;
@@ -96,7 +95,7 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
         {
             float distanceToPlayer = Vector3.Distance(transform.position, playerController.transform.position);
 
-            if (distanceToPlayer <= distanceToPopInt && onSight)
+            if (onSight)
             {
                 popUpGO.SetActive(false);
                 interactPopUpGO.SetActive(true);

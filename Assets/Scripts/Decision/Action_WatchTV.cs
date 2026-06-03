@@ -106,32 +106,39 @@ public class Action_WatchTV : BaseAction
                 break;
 
             case State.WatchingPos:
-                bool isLookingAtTV = false; 
+                bool isLookingAtTV = false;
 
-                if (!dorothyTurnedOff && act.hourToInteract == GameManager.Instance.dayTime.currentHour)
+                if (!hasWatchedTV && !dorothyTurnedOff && act.hourToInteract == GameManager.Instance.dayTime.currentHour)
                 {
                     Ray ray = player.mainCamera.ScreenPointToRay(Input.mousePosition);
                     if (Physics.Raycast(ray, out RaycastHit hit, 100f, interactionLayer))
                     {
                         if (hit.collider.CompareTag("TV"))
                         {
-                            isLookingAtTV = true; 
+                            isLookingAtTV = true;
 
                             if (Input.GetMouseButtonDown(0))
                             {
-                                tvClickPopUp.SetActive(false);
-                                hasWatchedTV = true;
-                                state = State.Watching;
+                                tvClickPopUp.SetActive(false); 
+                                hasWatchedTV = true;           
+                                state = State.Watching;        
                             }
                         }
                     }
                 }
 
-                tvClickPopUp.SetActive(isLookingAtTV);
+                if (!hasWatchedTV)
+                {
+                    tvClickPopUp.SetActive(isLookingAtTV);
+                }
+                else
+                {
+                    tvClickPopUp.SetActive(false);
+                }
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    tvClickPopUp.SetActive(false); 
+                    tvClickPopUp.SetActive(false);
                     StartReturn();
                 }
                 break;

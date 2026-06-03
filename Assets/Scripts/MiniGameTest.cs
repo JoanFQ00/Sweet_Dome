@@ -22,6 +22,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     public float maxDist = 50f;
     public Texture2D rotateCursor;
     public Texture2D originalCursor;
+    public Texture2D interactCursor;
 
     public static Action<bool> OnMachineEntered;
 
@@ -44,12 +45,14 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
         CheckHour();
 
-        if (!Input.GetMouseButton(0))
+        // Solo hacemos hover si no estamos clicando nada
+        if (!Input.GetMouseButton(0) && !Input.GetMouseButton(1))
         {
             CheckHover();
         }
         else
         {
+            // Limpiar highlight si estamos clicando
             if (currentHighlight != null)
             {
                 currentHighlight.ResetColor();
@@ -88,9 +91,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         if (state != MiniGameState.None) return;
 
         OnMachineEntered?.Invoke(true);
-
         GameManager.Instance.currentState = GameManager.GameState.Minigame;
-
         GameManager.Instance.playerController.LockPlayer(true);
         GameManager.Instance.playerController.LockCamera(true);
 
@@ -98,7 +99,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         if (playerCamera == null) return;
 
         playerTransform = GameManager.Instance.playerController.transform;
-
         originalPlayerPos = playerTransform.position;
         originalPlayerRot = playerTransform.rotation;
 
@@ -106,25 +106,21 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         state = MiniGameState.Entering;
 
         ShowCursor(true);
-
         gameObject.layer = LayerMask.NameToLayer("Default");
-
         BeginDayInstructions();
     }
 
     void HandleCameraTransition(bool entering)
     {
-        if (playerTransform == null) return;
-        if (gameCameraPosition == null) return;
+        if (playerTransform == null || gameCameraPosition == null) return;
 
         currentMoveTime += Time.deltaTime;
         float pct = currentMoveTime / timeToMove;
 
         if (entering)
         {
-            playerTransform.position = Vector3.Lerp(originalPlayerPos,gameCameraPosition.position,pct);
-            playerTransform.rotation = Quaternion.Lerp(originalPlayerRot,gameCameraPosition.rotation,pct);
-
+            playerTransform.position = Vector3.Lerp(originalPlayerPos, gameCameraPosition.position, pct);
+            playerTransform.rotation = Quaternion.Lerp(originalPlayerRot, gameCameraPosition.rotation, pct);
             if (pct >= 1f)
             {
                 currentMoveTime = 0f;
@@ -133,20 +129,15 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         }
         else
         {
-            playerTransform.position = Vector3.Lerp(gameCameraPosition.position,originalPlayerPos,pct);
-            playerTransform.rotation = Quaternion.Lerp(gameCameraPosition.rotation,originalPlayerRot,pct);
-
-            if (pct >= 1f)
-            {
-                FinishExit();
-            }
+            playerTransform.position = Vector3.Lerp(gameCameraPosition.position, originalPlayerPos, pct);
+            playerTransform.rotation = Quaternion.Lerp(gameCameraPosition.rotation, originalPlayerRot, pct);
+            if (pct >= 1f) FinishExit();
         }
     }
 
     void HandleActiveInput()
     {
-        if (Input.GetKeyDown(KeyCode.E)
-            && GameManager.Instance.dayTime.currentHour >= 21)
+        if (Input.GetKeyDown(KeyCode.E) && GameManager.Instance.dayTime.currentHour >= 21)
         {
             GameManager.Instance.playerController.ChangeGameMode(false);
             ExitMiniGame();
@@ -177,73 +168,69 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     {
         if (playerCamera == null) return;
 
-        if (!Input.GetMouseButtonDown(0)) return;
-
-        interacting = true;
-
-        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
+        // Lógica de cambio de cursor al clicar (Input 0)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (hit.collider.TryGetComponent(out SpherePoints points))
-                points.OnClick();
-
-            if (hit.collider.TryGetComponent(out MainButt button))
-                button.Press();
+            ChangeCursor(interactCursor);
+            interacting = true;
         }
 
         if (Input.GetMouseButtonUp(0))
+        {
+            ChangeCursor(originalCursor);
             interacting = false;
-    }
+        }
 
+        if (Input.GetMouseButton(0))
+        {
+            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
+            {
+                if (hit.collider.TryGetComponent(out SpherePoints points))
+                    points.OnClick();
+
+                if (hit.collider.TryGetComponent(out MainButt button))
+                    button.Press();
+            }
+        }
+    }
 
     void CheckHover()
     {
         if (playerCamera == null) return;
 
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-
         if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
         {
             HL_Interact newHighlight = hit.collider.GetComponent<HL_Interact>();
-
             if (currentHighlight != newHighlight)
             {
                 if (currentHighlight != null) currentHighlight.ResetColor();
-
                 currentHighlight = newHighlight;
-
                 if (currentHighlight != null) currentHighlight.LightenColor();
             }
         }
-        else
+        else if (currentHighlight != null)
         {
-            if (currentHighlight != null)
-            {
-                currentHighlight.ResetColor();
-                currentHighlight = null;
-            }
+            currentHighlight.ResetColor();
+            currentHighlight = null;
         }
     }
+
     void ExitMiniGame()
     {
         if (state != MiniGameState.Active) return;
-
         OnMachineEntered?.Invoke(false);
-
         state = MiniGameState.Exiting;
         currentMoveTime = 0f;
-
         GameManager.Instance.playerController.LockPlayer(true);
         GameManager.Instance.playerController.LockCamera(true);
-
         gameObject.layer = LayerMask.NameToLayer("Interactable");
     }
 
     void FinishExit()
     {
         state = MiniGameState.None;
-
         GameManager.Instance.currentState = GameManager.GameState.Gameplay;
 
         if (playerTransform != null)
@@ -253,12 +240,9 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         }
 
         GameManager.Instance.playerController.ChangeGameMode(false);
-
         GameManager.Instance.playerController.SetRotationFromCamera();
-
         GameManager.Instance.playerController.LockPlayer(false);
         GameManager.Instance.playerController.LockCamera(false);
-
         ChangeCursor(originalCursor);
         ShowCursor(false);
     }
@@ -269,10 +253,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         Cursor.visible = show;
     }
 
-    void ActivateChairLayer(Day c_Day)  
-    {
-        gameObject.layer = LayerMask.NameToLayer("Interactable");
-    }
+    void ActivateChairLayer(Day c_Day) => gameObject.layer = LayerMask.NameToLayer("Interactable");
 
     void CheckHour()
     {
@@ -280,32 +261,29 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             gameObject.layer = LayerMask.NameToLayer("Default");
     }
 
-    void ChangeCursor(Texture2D cursorTexture) 
-    {
-        Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
-    }
+    void ChangeCursor(Texture2D cursorTexture) => Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
 
-    void BeginDayInstructions() 
+    void BeginDayInstructions()
     {
-        if (GameManager.Instance.currentDay == Day.Day1) 
+        if (GameManager.Instance.currentDay == Day.Day1)
         {
             GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.ExplainMachineDay1);
             GameManager.Instance.presiSpeaker.PresiSpeaks();
         }
 
-        if (GameManager.Instance.currentDay == Day.Day2) 
+        else if (GameManager.Instance.currentDay == Day.Day2)
         {
             GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.ExplainMachineDay2);
             GameManager.Instance.presiSpeaker.PresiSpeaks();
         }
 
-        if (GameManager.Instance.currentDay == Day.Day3) 
+        else if (GameManager.Instance.currentDay == Day.Day3)
         {
             GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.ExplainMachineDay3);
             GameManager.Instance.presiSpeaker.PresiSpeaks();
         }
 
-        if (GameManager.Instance.currentDay == Day.Day4)
+        else if (GameManager.Instance.currentDay == Day.Day4)
         {
             GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.ExplainMachineDay4);
             GameManager.Instance.presiSpeaker.PresiSpeaks();

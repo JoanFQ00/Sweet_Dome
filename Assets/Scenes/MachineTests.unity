@@ -573,7 +573,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Action_Eat
   act: {fileID: 11400000, guid: 7801d84caca76824ab9c2612e800ff39, type: 2}
   disanceToPop: 0
-  distanceToPopInt: 0
   popUpGO: {fileID: 0}
   interactPopUpGO: {fileID: 0}
   moveSpeed: 8
@@ -5272,7 +5271,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Action_Eat
   act: {fileID: 11400000, guid: e00c4732200b46d4fa20e845443124f0, type: 2}
   disanceToPop: 1.6
-  distanceToPopInt: 1.35
   popUpGO: {fileID: 1152659805}
   interactPopUpGO: {fileID: 1075909129}
   moveSpeed: 4
@@ -6583,8 +6581,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   fadeImage: {fileID: 1846699733}
   dayTMP: {fileID: 803549597}
-  fadeInTime: 3
-  fadeOutTime: 3
+  fadeInTime: 2.4
+  fadeOutTime: 2.4
   lockPlayer: 0
 --- !u!1 &520983454
 GameObject:
@@ -7437,7 +7435,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Action_Reader
   act: {fileID: 11400000, guid: fd97aff4a48c3c34aba4d307390be895, type: 2}
   disanceToPop: 0
-  distanceToPopInt: 0
   popUpGO: {fileID: 0}
   interactPopUpGO: {fileID: 0}
   timeToMove: 1
@@ -10206,7 +10203,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Action_Reader
   act: {fileID: 11400000, guid: 9615a02adc6b17a43b27f5b81e44d203, type: 2}
   disanceToPop: 1.6
-  distanceToPopInt: 1.35
   popUpGO: {fileID: 376997808}
   interactPopUpGO: {fileID: 895210030}
   timeToMove: 1
@@ -10630,7 +10626,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Action_Reader
   act: {fileID: 11400000, guid: 8bbfe93b2cdbce04bb38eb4e9471bc66, type: 2}
   disanceToPop: 0
-  distanceToPopInt: 0
   popUpGO: {fileID: 0}
   interactPopUpGO: {fileID: 0}
   timeToMove: 1
@@ -11589,7 +11584,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Action_Rotator
   act: {fileID: 0}
   disanceToPop: 0
-  distanceToPopInt: 0
   popUpGO: {fileID: 0}
   interactPopUpGO: {fileID: 0}
   timeToMove: 1
@@ -15061,6 +15055,7 @@ MonoBehaviour:
   maxDist: 50
   rotateCursor: {fileID: 2800000, guid: 0aeede202744b484794d6d07b8206d69, type: 3}
   originalCursor: {fileID: 2800000, guid: 16042fc35b45b014c96a4a44ffccf601, type: 3}
+  interactCursor: {fileID: 2800000, guid: 0aeede202744b484794d6d07b8206d69, type: 3}
   isClickingUI: 0
 --- !u!1 &1151372142
 GameObject:
@@ -17033,7 +17028,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Action_WatchTV
   act: {fileID: 11400000, guid: 08b30a864fb6e3d4294d3141f38c2752, type: 2}
   disanceToPop: 0
-  distanceToPopInt: 0
   popUpGO: {fileID: 0}
   interactPopUpGO: {fileID: 0}
   timeToMove: 1
@@ -17062,8 +17056,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.58292466, y: 0.45597482, z: 0.559866}
-  m_Center: {x: -0.20853807, y: 0.17163683, z: -0.22006653}
+  m_Size: {x: 0.8888728, y: 0.65806925, z: 0.55986595}
+  m_Center: {x: -0.055562977, y: 0.27268526, z: -0.2200665}
 --- !u!114 &1374418983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21537,7 +21531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e552246ccbc68e409f9b72a23db2ad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interact
-  interactDistance: 1.35
+  interactDistance: 1.5
   interactLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -21751,7 +21745,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 562203306112931023, guid: 97935104a60fb4741b313fdb0216fe37, type: 3}
       propertyPath: disanceToPop
-      value: 1.6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 562203306112931023, guid: 97935104a60fb4741b313fdb0216fe37, type: 3}
       propertyPath: distanceToPopInt
@@ -26413,7 +26407,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Action_Reader
   act: {fileID: 0}
   disanceToPop: 0
-  distanceToPopInt: 0
   popUpGO: {fileID: 0}
   interactPopUpGO: {fileID: 0}
   timeToMove: 1
@@ -45150,6 +45143,7 @@ SceneRoots:
   - {fileID: 303979401}
   - {fileID: 1004737485}
   - {fileID: 623344518}
+  - {fileID: 173343746}
   - {fileID: 946706475}
   - {fileID: 694958094}
   - {fileID: 1161931541}
@@ -45162,7 +45156,6 @@ SceneRoots:
   - {fileID: 519819220}
   - {fileID: 796705605}
   - {fileID: 161111621}
-  - {fileID: 173343746}
   - {fileID: 722897643}
   - {fileID: 543450651581472291}
   - {fileID: 950527533}
