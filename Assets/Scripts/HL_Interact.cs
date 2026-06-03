@@ -28,8 +28,8 @@ public class HL_Interact : MonoBehaviour
         if (baseAction != null && baseAction.act != null)
         {
             bool isTime= baseAction.act.hourToInteract == GameManager.Instance.dayTime.currentHour;
-            bool isWatchTv = baseAction.act.actionName == "WatchTV";
-            if (!isTime && !isWatchTv)
+            bool isAlwaysAccessible = baseAction.act.alwaysAccesible;
+            if (!isTime && !isAlwaysAccessible)
             {
                 return;
             }

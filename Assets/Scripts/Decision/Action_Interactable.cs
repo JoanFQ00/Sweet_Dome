@@ -23,6 +23,9 @@ public class Action_Interactable : BaseAction
     private Vector3 startPos;
     private Quaternion startRot;
 
+    [SerializeField] Quaternion closeRot;
+    [SerializeField] Transform inspectorAnchor;
+
     private Vector3 originalPos;
     private Quaternion originalRot;
 
@@ -75,8 +78,6 @@ public class Action_Interactable : BaseAction
         }
     }
 
-
-
     public override void Interact()
     {
         if (state != State.Idle) return;
@@ -86,11 +87,13 @@ public class Action_Interactable : BaseAction
         startPos = transform.position;
         startRot = transform.rotation;
 
+        Quaternion lookAtRotation = Quaternion.LookRotation(Camera.main.transform.position - transform.position);
+        closeRot = lookAtRotation * Quaternion.Inverse(inspectorAnchor.localRotation);
+
         player.LockPlayer(true);
         player.LockCamera(true);
 
         currentMoveTime = 0f;
-
         state = State.MovingToInspect;
     }
 
@@ -100,7 +103,7 @@ public class Action_Interactable : BaseAction
         {
             case State.MovingToInspect:
 
-                Move(inspectTransform.position, inspectTransform.rotation, () =>
+                Move(inspectTransform.position, closeRot, () =>
                 {
                     gameObject.layer = LayerMask.NameToLayer("Default");
 
@@ -179,6 +182,16 @@ public class Action_Interactable : BaseAction
         if (pct >= 1.0f)
         {
             onFinish?.Invoke();
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (Camera.main != null)
+        {
+            Vector3 dirToCam = Camera.main.transform.position - transform.position;
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(transform.position, dirToCam.normalized * 0.35f);
         }
     }
 }

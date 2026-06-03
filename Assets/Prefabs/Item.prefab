@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &505362146725316317
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8684049258430234930}
+  m_Layer: 0
+  m_Name: Anchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8684049258430234930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 505362146725316317}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.05000019, y: 0.0009499788, z: -0.038110733}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7737991697080957394}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &682112337429371665
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,6 +172,7 @@ Transform:
   m_Children:
   - {fileID: 2847072678666773143}
   - {fileID: 6208141385936789809}
+  - {fileID: 8684049258430234930}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1663364546693955111
@@ -171,14 +203,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Action_Rotator
   act: {fileID: 0}
+  disanceToPop: 1.75
+  popUpGO: {fileID: 682112337429371665}
+  interactPopUpGO: {fileID: 4423973408951362404}
   timeToMove: 1
   rotationSpeed: 100
   isAction: 0
   type: 0
-  disanceToPop: 1.75
-  distanceToPopInt: 1.25
-  popUpGO: {fileID: 682112337429371665}
-  interactPopUpGO: {fileID: 4423973408951362404}
+  closeRot: {x: 0, y: 0, z: 0, w: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  inspectorAnchor: {fileID: 8684049258430234930}
 --- !u!65 &3192803907719994604
 BoxCollider:
   m_ObjectHideFlags: 0
