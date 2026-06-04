@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using UnityEditor;
 using UnityEngine;
 
 public class Action_Interactable : BaseAction
@@ -189,9 +190,9 @@ public class Action_Interactable : BaseAction
     {
         if (Camera.main != null)
         {
-            Vector3 dirToCam = Camera.main.transform.position - transform.position;
+            Vector3 dirForward = inspectorAnchor.forward;
             Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(transform.position, dirToCam.normalized * 0.35f);
+            Gizmos.DrawRay(inspectorAnchor.transform.position, dirForward.normalized * 0.35f);
         }
     }
 }
