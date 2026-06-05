@@ -6,29 +6,34 @@ public class Action_Interactable : BaseAction
 {
     [Header("Move")]
     public float timeToMove = 1.0f;
+    private float currentMoveTime = 0.0f;
+    private Vector3 startPos;
+    private Vector3 originalPos;
 
     [Header("Rotation")]
     public float rotationSpeed = 150f;
+    private Quaternion startRot;
+    private Quaternion originalRot;
+
+    public float restartRotTime = 0.8f;
+    private float currentRestartRot;
+    private bool restartingRotation;
+    private bool hasBeenRotated;
+    private Quaternion restartRot;
 
     [Header("Settings")]
     public bool isAction = false;
+    public float timeToRestartRotation = 3.0f;
+    private float currentTimeRotated;
+
     private enum InteractableType { Rotator, Look }
     [SerializeField] private InteractableType type;
 
-    private float currentMoveTime = 0.0f;
-
-    private Transform inspectTransform;
-
     private PlayerController player;
-
-    private Vector3 startPos;
-    private Quaternion startRot;
+    private Transform inspectTransform;
 
     [SerializeField] Quaternion closeRot;
     [SerializeField] Transform inspectorAnchor;
-
-    private Vector3 originalPos;
-    private Quaternion originalRot;
 
     private enum State
     {
@@ -76,6 +81,9 @@ public class Action_Interactable : BaseAction
 
             originalPos = transform.position;
             originalRot = transform.rotation;
+
+            hasBeenRotated = false;
+            restartingRotation = false;
         }
     }
 
@@ -117,21 +125,39 @@ public class Action_Interactable : BaseAction
                 if (GameManager.Instance.currentState != GameManager.GameState.Interacting)
                     return;
 
-                if (Input.GetMouseButton(0) && type == InteractableType.Rotator)
+                if (hasBeenRotated && !Input.GetMouseButton(0) && !restartingRotation)
                 {
-                    RotateObject();
+                    currentTimeRotated += Time.deltaTime;
+                }
+                else if (Input.GetMouseButton(0) && type == InteractableType.Rotator)
+                {
+                    currentTimeRotated = 0f;
                 }
 
-                if (Input.GetKeyDown(KeyCode.E))
+                if (currentTimeRotated >= timeToRestartRotation)
+                {
+                    if (!restartingRotation)
+                    {
+                        restartingRotation = true;
+                        restartRot = transform.rotation;
+                        currentRestartRot = 0f;
+                    }
+                    RestartRotation();
+                }
+
+                if (Input.GetMouseButton(0) && type == InteractableType.Rotator && !restartingRotation)
+                {
+                    RotateObject();
+                    hasBeenRotated = true;
+                }
+
+                if (Input.GetKeyDown(KeyCode.E) && !restartingRotation)
                 {
                     startPos = transform.position;
                     startRot = transform.rotation;
-
                     currentMoveTime = 0f;
-
                     state = State.Returning;
                 }
-
                 break;
 
             case State.Returning:
@@ -152,6 +178,21 @@ public class Action_Interactable : BaseAction
                 });
 
                 break;
+        }
+    }
+
+    void RestartRotation()
+    {
+        currentRestartRot += Time.deltaTime;
+        float pct = Mathf.Clamp01(currentRestartRot / restartRotTime);
+
+        transform.rotation = Quaternion.Lerp(restartRot, closeRot, pct);
+
+        if (pct >= 1.0f)
+        {
+            restartingRotation = false;
+            hasBeenRotated = false;
+            currentTimeRotated = 0f;
         }
     }
 
