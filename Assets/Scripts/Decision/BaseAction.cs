@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,6 +26,7 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
         if (popUpGO != null) 
         {
             popUpGO.SetActive(false);
+            interactPopUpGO.SetActive(false);
         }
 
     }
@@ -48,12 +50,13 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
         onSight = isLooking;
     }
 
-    void ChargePlayer() 
+    void ChargePlayer()
     {
-        if (GameManager.Instance != null && playerController == null)
+        if (GameManager.Instance != null)
         {
             playerController = GameManager.Instance.playerController;
-            Debug.Log(playerController);
+            if (playerController == null)
+                playerController = FindFirstObjectByType<PlayerController>();
         }
     }
 
@@ -97,33 +100,47 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
 
     private void PopUpCheck()
     {
-        if (GameManager.Instance.currentState == GameManager.GameState.Gameplay)
+        if (GameManager.Instance == null || playerController == null)
         {
-            float distanceToPlayer = Vector3.Distance(transform.position, playerController.transform.position);
+            if (popUpGO.activeSelf) popUpGO.SetActive(false);
+            if (interactPopUpGO.activeSelf) interactPopUpGO.SetActive(false);
+            return;
+        }
 
-            if (onSight)
-            {
-                popUpGO.SetActive(false);
-                interactPopUpGO.SetActive(true);
-                interactPopUpGO.transform.LookAt(playerController.transform);
-            }
-            else if (distanceToPlayer <= disanceToPop)
-            {
-                popUpGO.SetActive(true);
-                interactPopUpGO.SetActive(false);
-                popUpGO.transform.LookAt(playerController.transform);
-            }
-            else
-            {
-                popUpGO.SetActive(false);
-                interactPopUpGO.SetActive(false);
-            }
-        }
-        else 
+        if (GameManager.Instance.currentState != GameManager.GameState.Gameplay)
         {
-            popUpGO.SetActive(false);
-            interactPopUpGO.SetActive(false);
+            SetPopUps(false, false);
+            return;
         }
+
+        if (act != null && (!act.alwaysAccesible && DayTime.Instance.GetCurrentHour() != act.hourToInteract))
+        {
+            SetPopUps(false, false);
+            return;
+        }
+
+        float distanceToPlayer = Vector3.Distance(transform.position, playerController.transform.position);
+
+        if (onSight)
+        {
+            SetPopUps(false, true);
+            interactPopUpGO.transform.LookAt(playerController.transform);
+        }
+        else if (distanceToPlayer <= disanceToPop)
+        {
+            SetPopUps(true, false);
+            popUpGO.transform.LookAt(playerController.transform);
+        }
+        else
+        {
+            SetPopUps(false, false);
+        }
+    }
+
+    private void SetPopUps(bool showNormal, bool showInteract)
+    {
+        if (popUpGO.activeSelf != showNormal) popUpGO.SetActive(showNormal);
+        if (interactPopUpGO.activeSelf != showInteract) interactPopUpGO.SetActive(showInteract);
     }
 
     public abstract void Interact();
