@@ -28367,6 +28367,79 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9bbee80c170a5ef468b09301305e714f, type: 3}
   m_PrefabInstance: {fileID: 2064805700}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2079315573
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -10.134
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.31
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -17.534
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.96379423
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.26664704
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 30.93
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
+      propertyPath: m_Name
+      value: carregadorRobot
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d78b2ca4f25a7214f976da7ac91e812c, type: 3}
 --- !u!1 &2081784244 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1554193974251969968, guid: abd0035cc0a9a7649a2ea41b127ffd68, type: 3}
@@ -28897,7 +28970,7 @@ Transform:
   m_GameObject: {fileID: 2112425294}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -9.72, y: 3.717, z: -16.82}
+  m_LocalPosition: {x: -9.72, y: 3.717, z: -12.164}
   m_LocalScale: {x: 1.3386251, y: 1.338625, z: 1.338625}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33447,6 +33520,7 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  startCountdownDay1: 15
   cityValuesD2:
   - 40
   - 60
@@ -47725,3 +47799,4 @@ SceneRoots:
   - {fileID: 1272372874}
   - {fileID: 864282471}
   - {fileID: 428296776}
+  - {fileID: 2079315573}
