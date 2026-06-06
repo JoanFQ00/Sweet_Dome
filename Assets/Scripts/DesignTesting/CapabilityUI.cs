@@ -15,42 +15,43 @@ public class CapabilityUI : MonoBehaviour
     [SerializeField] private CapabilityBase capabilityBase;
     [SerializeField] private TextMeshProUGUI capabilityText, nameText;
 
-    private void OnEnable()
-    {
-        if (capabilityBase == null)
-            return;
-
-        capabilityBase.OnCapacityUpdated += UpdateCapabilityUI;
-    }
     private void Start()
     {
+        StartCoroutine(DelayedInit());
+    }
+
+    private System.Collections.IEnumerator DelayedInit()
+    {
+        yield return null;
+
         UpdateCapabilityUI(capabilityBase.CurrentCapacity);
 
-        if (capabilityType != CapabilityType.NORMAL)
+        if (capabilityType == CapabilityType.BIG_CITY)
         {
-            if (capabilityType == CapabilityType.CITY)
+            CityFunnel cityFunnel = capabilityBase.GetComponent<CityFunnel>();
+            if (cityFunnel != null)
             {
-                CityLabel label =
-                    capabilityBase.GetComponent<CityLabel>();
-
-                if (label != null)
-                    UpdateCityNameUI(label.label);
+                UpdateCityNameUI(cityFunnel.GetInitialName());
             }
-            else
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (capabilityBase == null) return;
+
+        capabilityBase.OnCapacityUpdated += UpdateCapabilityUI;
+        if (capabilityType == CapabilityType.BIG_CITY)
+            capabilityBase.OnNameUpdated += UpdateCityNameUI;
+
+        UpdateCapabilityUI(capabilityBase.CurrentCapacity);
+
+        if (capabilityType == CapabilityType.BIG_CITY)
+        {
+            CityFunnel cityFunnel = capabilityBase.GetComponent<CityFunnel>();
+            if (cityFunnel != null)
             {
-                capabilityBase.OnNameUpdated += UpdateCityNameUI;
-
-                CityFunnel cityFunnel =
-                    capabilityBase.GetComponent<CityFunnel>();
-
-                if (cityFunnel != null)
-                {
-                    UpdateCapabilityUI(
-                        cityFunnel.GetInitialValue());
-
-                    UpdateCityNameUI(
-                        cityFunnel.GetInitialName());
-                }
+                UpdateCityNameUI(cityFunnel.GetInitialName());
             }
         }
     }

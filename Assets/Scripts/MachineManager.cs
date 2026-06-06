@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TMPro;
+using Unity.VisualScripting;
 
 public class MachineManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class MachineManager : MonoBehaviour
 
     [Header("Day 1 Goals")]
     [SerializeField] private List<float> cityValuesD1;
+    [SerializeField] private float startCountdownDay1 = 15f;
 
     [Header("Day 2 Goals")]
     [SerializeField] private List<float> cityValuesD2;
@@ -31,12 +33,16 @@ public class MachineManager : MonoBehaviour
     [Header("UpdateGoals")]
     [SerializeField] private TextMeshProUGUI TMP_text;
 
+    private List<float> countdownList;
+    private float currentCountdown;
+
     [Header("Minigames States")]
     public bool radarCompleted = false;
     public bool codeCompleted = false;
     public bool temperatureCompleted = false;
 
     [Header("EventDispatcher")]
+    bool onCountdown = false;
     public static Action<float,float, int> RadarDispatch; // TimeToEvent, EventTime, QuantityOfObj
 
     [Header("EventDispatcher")]
@@ -46,12 +52,23 @@ public class MachineManager : MonoBehaviour
     //[Header("EventTimers")]
     //public float timeToRadar = 7.5f;
 
+    private void Start()
+    {
+        currentCountdown = 0;
+        countdownList.Add(startCountdownDay1);
+    }
+
     void Update()
     {
         if (DayTime.Instance.currentHour >= 15 && !waveEventLaunched)
         {
             waveEventLaunched = true;
             WaveDispatch?.Invoke(0f, 60f);
+        }
+
+        if (onCountdown) 
+        {
+            UpdateCountdown();
         }
 
         if (DayTime.Instance.currentHour >= 15)
@@ -64,6 +81,7 @@ public class MachineManager : MonoBehaviour
         GameManager.NewDay += UpdateText;
         GameManager.NewDay += ResetWaveEvent;
         PresiSys.OnDialogueTerminated += CheckTerminatedDialogue;
+        MiniGameTest.OnMachineEntered += MachineEntered;
         UpdateText();
     }
 
@@ -71,11 +89,14 @@ public class MachineManager : MonoBehaviour
     {
         GameManager.NewDay -= UpdateText;
         GameManager.NewDay -= ResetWaveEvent;
+        MiniGameTest.OnMachineEntered -= MachineEntered;
         PresiSys.OnDialogueTerminated -= CheckTerminatedDialogue;
     }
 
     private void UpdateText()
     {
+        if (GameManager.Instance == null) return;
+
         switch (GameManager.Instance.currentDay)
         {
             case Day.Day1:
@@ -142,6 +163,43 @@ public class MachineManager : MonoBehaviour
     {
         act.ActionExecuted();
         DayTime.Instance.SetCurrentTime(act.passTimeToHour, act.passTimeToMinute);
+    }
+
+    private void MachineEntered(bool entered) 
+    {
+        if (entered)
+        {
+            onCountdown = true;
+        }
+        else 
+        {
+            ResetCountdowns();
+            onCountdown = false;
+        }
+    }
+
+    void UpdateCountdown() 
+    {
+        if (GameManager.Instance.currentDay == Day.Day1) 
+        {
+            currentCountdown += Time.deltaTime;
+
+            if (currentCountdown >= startCountdownDay1)
+            {
+
+
+                ResetCountdowns();
+                onCountdown = false;
+            }
+        }
+    }
+
+    void ResetCountdowns()
+    {
+        for (int i = 0; i < countdownList.Count; i++)
+        {
+            countdownList[i] = 0f;
+        }
     }
 
     void CheckTerminatedDialogue() 

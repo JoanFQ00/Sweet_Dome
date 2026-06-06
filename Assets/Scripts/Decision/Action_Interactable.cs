@@ -24,6 +24,7 @@ public class Action_Interactable : BaseAction
     [Header("Settings")]
     public bool isAction = false;
     public float timeToRestartRotation = 3.0f;
+    public bool keepBetweenDays = true;
     private float currentTimeRotated;
 
     private enum InteractableType { Rotator, Look }
@@ -71,20 +72,31 @@ public class Action_Interactable : BaseAction
 
     void Init()
     {
-        if (GameManager.Instance.playerController != null)
+        if (GameManager.Instance == null) return;
+
+        player = GameManager.Instance.playerController;
+        if (player == null)
         {
-            player = GameManager.Instance.playerController;
-
-            inspectTransform = player
-                .GetComponent<Interact>()
-                .readTransform;
-
-            originalPos = transform.position;
-            originalRot = transform.rotation;
-
-            hasBeenRotated = false;
-            restartingRotation = false;
+            Debug.LogError($"[Action_Interactable] playerController es null en {name}");
+            return;
         }
+
+        var interactComp = player.GetComponent<Interact>();
+        if (interactComp != null)
+        {
+            inspectTransform = interactComp.readTransform;
+        }
+
+        if (inspectorAnchor == null)
+        {
+            Debug.LogError($"[Action_Interactable] inspectorAnchor no está asignado en {name}");
+            return;
+        }
+
+        originalPos = transform.position;
+        originalRot = transform.rotation;
+        hasBeenRotated = false;
+        restartingRotation = false;
     }
 
     public override void Interact()

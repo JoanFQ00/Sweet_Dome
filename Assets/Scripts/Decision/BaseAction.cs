@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
 {
@@ -19,9 +20,7 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
 
     private void Start()
     {
-        playerController = GameManager.Instance.playerController;
-        Debug.Log(playerController);
-
+        ChargePlayer();
 
         if (popUpGO != null) 
         {
@@ -31,23 +30,31 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
     }
     protected virtual void OnEnable()
     {
-        if (GameManager.Instance != null && playerController == null)
-        {
-            playerController = GameManager.Instance.playerController;
-            Debug.Log(playerController);
-        }
+      
+        LevelManager.OnLevelLoaded += ChargePlayer;
 
         GameManager.OnChangeDay += ResetActionState;
     }
 
     protected virtual void OnDisable()
     {
+        LevelManager.OnLevelLoaded -= ChargePlayer;
+
         GameManager.OnChangeDay -= ResetActionState;
     }
 
     public void OnLookStateChanged(bool isLooking)
     {
         onSight = isLooking;
+    }
+
+    void ChargePlayer() 
+    {
+        if (GameManager.Instance != null && playerController == null)
+        {
+            playerController = GameManager.Instance.playerController;
+            Debug.Log(playerController);
+        }
     }
 
     protected virtual void Update()

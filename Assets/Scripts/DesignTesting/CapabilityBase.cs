@@ -19,8 +19,9 @@ public abstract class CapabilityBase : MonoBehaviour
     protected virtual void Start()
     {
         GameManager.NewDay += StartDay;
-
         StartDay();
+
+        CapacityUpdated();
     }
 
     protected virtual void OnDisable()

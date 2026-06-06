@@ -20,7 +20,7 @@ public class CityFunnel : FunnelBase
         GameManager.NewDay += OnDayChanged;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
         GameManager.NewDay -= OnDayChanged;
     }

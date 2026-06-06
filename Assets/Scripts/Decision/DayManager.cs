@@ -396,8 +396,10 @@ public class DayManager : MonoBehaviour
     {
         foreach (GameObject obj in dayInt)
         {
-            if (obj != null)
-                obj.SetActive(false);
+            if (obj != null && obj.GetComponent<Action_Interactable>())
+
+                if (!obj.GetComponent<Action_Interactable>().keepBetweenDays)
+                    obj.SetActive(false);
         }
 
         foreach (GameObject book in dorothyBooks)
