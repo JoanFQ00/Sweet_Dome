@@ -33,6 +33,7 @@ public class DecManager : MonoBehaviour
         NDec_Act.OnExecuted += CheckExecutedAction;
         DayTime.OnTimeSkiped += TimeSkiped;
         GameManager.OnChangeDay += CleanPerformedActions;
+        LevelManager.OnLevelLoaded += LevelLoaded;
     }
 
     private void OnDisable()
@@ -40,7 +41,14 @@ public class DecManager : MonoBehaviour
         NDec_Act.OnExecuted -= CheckExecutedAction;
         DayTime.OnTimeSkiped -= TimeSkiped;
         GameManager.OnChangeDay -= CleanPerformedActions;
+        LevelManager.OnLevelLoaded -= LevelLoaded;
     }
+
+    private void LevelLoaded()
+    {
+        CleanPerformedActions(Day.Day1);
+    }
+
 
     private void Update()
     {

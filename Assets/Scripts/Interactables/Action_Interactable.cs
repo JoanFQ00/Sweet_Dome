@@ -25,12 +25,14 @@ public class Action_Interactable : BaseAction
     public bool keepBetweenDays = true;
     public Day DayLoad;
     private float currentTimeRotated;
+    public bool farPosition;
 
     private enum InteractableType { Rotator, Look }
     [SerializeField] private InteractableType type;
 
     private PlayerController player;
     private Transform inspectTransform;
+    private Transform farTransform;
 
     [SerializeField] Quaternion closeRot;
     [SerializeField] Transform inspectorAnchor;
@@ -84,6 +86,7 @@ public class Action_Interactable : BaseAction
         if (interactComp != null)
         {
             inspectTransform = interactComp.readTransform;
+            farTransform = interactComp.farTransform;
         }
 
         if (inspectorAnchor == null)
@@ -123,7 +126,9 @@ public class Action_Interactable : BaseAction
         {
             case State.MovingToInspect:
 
-                Move(inspectTransform.position, closeRot, () =>
+                Vector3 targetPos = farPosition ? farTransform.position : inspectTransform.position;
+
+                Move(targetPos, closeRot, () =>
                 {
                     gameObject.layer = LayerMask.NameToLayer("Default");
 

@@ -5,7 +5,7 @@ using System;
 
 public class LevelManager : MonoBehaviour
 {
-    public enum NameLevels { MachineTests, MenuScene, Final}
+    public enum NameLevels { Gameplay, MenuScene, Final}
 
     public static event Action OnLevelLoaded;
 
@@ -27,9 +27,9 @@ public class LevelManager : MonoBehaviour
     }
 
 
-    public void LoadMachineTesting()
+    public void LoadGameplay()
     {
-        SceneManager.LoadScene(NameLevels.MachineTests.ToString());
+        SceneManager.LoadScene(NameLevels.Gameplay.ToString());
     }
 
     public void LoadMenu()

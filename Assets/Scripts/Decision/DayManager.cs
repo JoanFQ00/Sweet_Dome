@@ -73,7 +73,7 @@ public class DayManager : MonoBehaviour
 
     void AssignReferences()
     {
-        if (SceneManager.GetActiveScene().name != "MachineTests")
+        if (SceneManager.GetActiveScene().name != "Gameplay")
             return;
 
         GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
@@ -116,7 +116,7 @@ public class DayManager : MonoBehaviour
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name != "MachineTests")
+        if (SceneManager.GetActiveScene().name != "Gameplay")
             return;
 
         switch (GameManager.Instance.currentDay)

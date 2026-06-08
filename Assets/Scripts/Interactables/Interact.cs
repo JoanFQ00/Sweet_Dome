@@ -18,6 +18,7 @@ public class Interact : MonoBehaviour
     public LayerMask interactLayer;
     public Camera playerCamera;
     public Transform readTransform;
+    public Transform farTransform;
 
     private ILookable lastLookedAt;
     private PlayerInput playerInput;
