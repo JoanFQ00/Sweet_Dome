@@ -14,6 +14,7 @@ public enum PresiDialogue
     ExplainMachineDay4 = 7,
 
     MachineOmitedDay1 = 8,
+    MachineOmitedDay12ndTime = 9,
 }
 
 public class PresiSys : DialogueSys

@@ -63,6 +63,28 @@ public class PresiSpeaker : MonoBehaviour
         UpdateUI();
     }
 
+    public void PresiSpeaks(int dialogueID)
+    {
+        if (dialogueSys == null)
+            return;
+
+        dialogueSys.ChargeDialogues(dialogueID);
+
+        if (dialogueSys.loadedDialogues == null ||
+            dialogueSys.loadedDialogues.Length == 0)
+        {
+            Debug.LogError("No dialogues loaded");
+            return;
+        }
+
+        dialogueSys.StartStopDialogue(true);
+
+        if (interactionBubble != null)
+            interactionBubble.SetActive(true);
+
+        UpdateUI();
+    }
+
     void UpdateUI()
     {
         if (dialogueSys.loadedDialogues == null ||

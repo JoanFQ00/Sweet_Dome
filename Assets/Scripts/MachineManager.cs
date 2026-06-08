@@ -15,8 +15,10 @@ public class MachineManager : MonoBehaviour
     [SerializeField] private CityFunnel cityFunnel;
 
     [Header("Day 1 Goals")]
-    [SerializeField] private List<float> cityValuesD1;
-    [SerializeField] private float startCountdownDay1 = 15f;
+    [SerializeField] List<float> cityValuesD1;
+    [SerializeField] float startCountdownDay1 = 15f;
+    bool day1CDCompleted;
+    [SerializeField] private float secondCountDay1 = 20f;
 
     [Header("Day 2 Goals")]
     [SerializeField] private List<float> cityValuesD2;
@@ -41,7 +43,7 @@ public class MachineManager : MonoBehaviour
     bool completedDay4;
 
     List<float> countdownList = new List<float>();
-    private float currentCountdown;
+    [SerializeField] private float currentCountdown;
 
     [Header("Minigames States")]
     public bool radarCompleted = false;
@@ -185,20 +187,42 @@ public class MachineManager : MonoBehaviour
         }
     }
 
-    void UpdateCountdown() 
+    void UpdateCountdown()
     {
-        if (GameManager.Instance.currentDay == Day.Day1 && !completedDay1) 
+        if (GameManager.Instance.currentDay == Day.Day1 && !completedDay1)
         {
             currentCountdown += Time.deltaTime;
 
-            if (currentCountdown >= startCountdownDay1)
+            if (!day1CDCompleted)
             {
-                GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.MachineOmitedDay1);
-                GameManager.Instance.presiSpeaker.PresiSpeaks();
-                ResetCountdowns();
-                onCountdown = false;
+                if (currentCountdown >= startCountdownDay1)
+                {
+                    GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.MachineOmitedDay1);
+                    ResetCountdowns();
+                    onCountdown = false;
+                    day1CDCompleted = true;
+                }
+            }
+            else
+            {
+                if (currentCountdown >= secondCountDay1)
+                {
+                    GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.MachineOmitedDay12ndTime);
+                    ResetCountdowns();
+                    onCountdown = false;
+                }
             }
         }
+
+        //if (GameManager.Instance.currentDay == Day.Day3) 
+        //{
+        //    if (currentCountdown >= startCountdownDay3) 
+        //    {
+        //        Activar Invoke y todo lo que toque, mirat tmb el de dalt
+
+        //    }
+
+        //}
     }
 
     void ResetCountdowns()
@@ -215,6 +239,12 @@ public class MachineManager : MonoBehaviour
         {
             RadarDispatch?.Invoke(5, 60, 3);
         }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.MachineOmitedDay1) 
+        {
+            onCountdown = true;
+        }
+
     }
 
     private List<float> GetCurrentDayValues()
