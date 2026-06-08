@@ -55,7 +55,7 @@ public class DayManager : MonoBehaviour
     public bool checkedTvDay3 = false;
 
     [Header("Interactables")]
-    public GameObject[] dayInt;
+    public Action_Interactable[] dayInt;
     public GameObject dorothyLaunch;
 
     [Header("DorothyBooks")]
@@ -66,6 +66,8 @@ public class DayManager : MonoBehaviour
         yield return null;
 
         AssignReferences();
+        FindInteractables();
+        LoadInteractObjects(GameManager.Instance.currentDay);
     }
 
 
@@ -159,6 +161,8 @@ public class DayManager : MonoBehaviour
     void SceneLoaded() 
     {
        AssignReferences();
+       FindInteractables();
+       LoadInteractObjects(GameManager.Instance.currentDay);
     }
 
     void UpdateDay1() 
@@ -394,12 +398,13 @@ public class DayManager : MonoBehaviour
 
     public void LoadInteractObjects(Day currentDay)
     {
-        foreach (GameObject obj in dayInt)
+        foreach (Action_Interactable obj in dayInt)
         {
-            if (obj != null && obj.GetComponent<Action_Interactable>())
-
-                if (!obj.GetComponent<Action_Interactable>().keepBetweenDays)
-                    obj.SetActive(false);
+            if (!obj.keepBetweenDays)
+            {
+                bool shouldBeActive = (obj.DayLoad == currentDay);
+                obj.gameObject.SetActive(shouldBeActive);
+            }
         }
 
         foreach (GameObject book in dorothyBooks)
@@ -412,7 +417,7 @@ public class DayManager : MonoBehaviour
 
         if (index >= 0 && index < dayInt.Length && dayInt[index] != null)
         {
-            dayInt[index].SetActive(true);
+            dayInt[index].gameObject.SetActive(true);
         }
         else
         {
@@ -437,8 +442,8 @@ public class DayManager : MonoBehaviour
 
     public void FindInteractables()
     {
-        dayInt = GameObject.FindGameObjectsWithTag("H_Interactables")
-            .OrderBy(obj => obj.name)
-            .ToArray();
+        dayInt = FindObjectsByType<Action_Interactable>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        Debug.Log($"Se encontraron {dayInt.Length} interactuables.");
     }
 }

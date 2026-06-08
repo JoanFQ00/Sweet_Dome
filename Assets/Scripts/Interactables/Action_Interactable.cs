@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-using UnityEditor;
 using UnityEngine;
 
 public class Action_Interactable : BaseAction
@@ -25,6 +23,7 @@ public class Action_Interactable : BaseAction
     public bool isAction = false;
     public float timeToRestartRotation = 3.0f;
     public bool keepBetweenDays = true;
+    public Day DayLoad;
     private float currentTimeRotated;
 
     private enum InteractableType { Rotator, Look }
