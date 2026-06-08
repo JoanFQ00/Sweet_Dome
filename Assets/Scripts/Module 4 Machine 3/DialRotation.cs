@@ -19,9 +19,6 @@ public class DialRotation : MonoBehaviour
     public float minAngle = -135f;
     public float maxAngle = 135f;
 
-    [Header("Speed")]
-    public float dragSpeed = 3f;
-
     [Header("Values")]
     public float minValue = 0f;
     public float maxValue = 5f;
@@ -29,6 +26,9 @@ public class DialRotation : MonoBehaviour
     private bool isDragging;
     private float currentAngle;
     private Vector3 initialRotation;
+
+    private float dragStartMouseAngle;
+    private float dragStartDialAngle;
 
     void Start()
     {
@@ -41,15 +41,17 @@ public class DialRotation : MonoBehaviour
 
     void Update()
     {
-        if (isDragging)
-        {
-            float mouseX = Input.GetAxis("Mouse X");
-            currentAngle -= mouseX * dragSpeed;
-            currentAngle = Mathf.Clamp(currentAngle,minAngle,maxAngle);
+        if (!isDragging)
+            return;
 
-            ApplyRotation();
-            UpdateWaveValue();
-        }
+        float mouseAngle = GetMouseAngle();
+        float delta = Mathf.DeltaAngle(dragStartMouseAngle,mouseAngle);
+        currentAngle = dragStartDialAngle - delta;
+
+        currentAngle = Mathf.Clamp(currentAngle,minAngle,maxAngle);
+
+        ApplyRotation();
+        UpdateWaveValue();
     }
 
     void ApplyRotation()
@@ -89,6 +91,15 @@ public class DialRotation : MonoBehaviour
     void OnMouseDown()
     {
         isDragging = true;
+
+        dragStartMouseAngle = GetMouseAngle();
+        dragStartDialAngle = currentAngle;
+    }
+    float GetMouseAngle()
+    {
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector2 direction = (Vector2)Input.mousePosition - (Vector2)screenPos;
+        return Mathf.Atan2(direction.y,direction.x) * Mathf.Rad2Deg;
     }
 
     void OnMouseUp()

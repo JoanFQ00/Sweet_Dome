@@ -10472,7 +10472,9 @@ MonoBehaviour:
   checkedEatDay3: 0
   checkedReadDay3: 0
   checkedTvDay3: 0
-  dayInt: []
+  dayInt:
+  - {fileID: 74273444}
+  - {fileID: 347563094}
   dorothyLaunch: {fileID: 4631652}
   dorothyBooks:
   - {fileID: 565056859}
@@ -11776,9 +11778,9 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 764972951}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0, y: 0, z: 9.83}
+  m_LocalScale: {x: 0.016071, y: 0.01, z: 0.01}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7830071345727535483}
   - {fileID: 7605147567682866035}
@@ -11786,7 +11788,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.000061035156, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &764972953
@@ -35686,7 +35688,7 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  startCountdownDay1: 40
+  startCountdownDay1: 15
   cityValuesD2:
   - 40
   - 60
@@ -45871,8 +45873,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.00081451837, y: -0.0000030911513, z: -23.00035}
-  m_LocalScale: {x: 300.36758, y: 273.52164, z: 229.89479}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 171.98447, y: 273.52164, z: 50.786755}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 764972952}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
@@ -46407,8 +46409,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -0, z: -23}
-  m_LocalScale: {x: 300.36758, y: 273.52164, z: 229.89479}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 171.98447, y: 273.52164, z: 50.786755}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 764972952}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
