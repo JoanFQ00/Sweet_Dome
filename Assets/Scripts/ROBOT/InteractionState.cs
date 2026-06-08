@@ -30,7 +30,7 @@ public class InteractionState : IState
 
         robot.gameObject.layer = defaultLayer;
 
-        robot.animator.SetFloat("Speed", 0);
+        robot.animator.SetFloat("Speed", 0f);
         robot.animator.SetBool("IsTalking", true);
 
         robot.dialogueBubble.SetActive(true);

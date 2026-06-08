@@ -36,7 +36,7 @@ public class PatrolState : IState
 
     public void OnState()
     {
-
+        robot.animator.SetFloat("Speed", robot.agent.velocity.magnitude);
         if (robot.testGoToPlayer)
         {
             robot.stateMachine.ChangeState(robot.goToPlayerState);

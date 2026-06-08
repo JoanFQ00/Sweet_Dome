@@ -81,7 +81,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
     void Update()
     {
-        animator.SetFloat("Speed", agent.desiredVelocity.magnitude);
+        //animator.SetFloat("Speed", agent.desiredVelocity.magnitude);
         CheckRechargeState();
 
         stateMachine.Update();

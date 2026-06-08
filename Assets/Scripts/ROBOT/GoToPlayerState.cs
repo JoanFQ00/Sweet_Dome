@@ -46,7 +46,7 @@ public class GoToPlayerState : IState
             return;
         }
 
-        robot.animator.SetFloat("Speed",robot.agent.velocity.magnitude);
+        robot.animator.SetFloat("Speed", robot.agent.velocity.magnitude);
         updatePathTimer -= Time.deltaTime;
 
         if (updatePathTimer <= 0f)
