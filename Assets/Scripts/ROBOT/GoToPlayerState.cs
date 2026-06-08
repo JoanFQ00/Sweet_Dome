@@ -9,6 +9,7 @@ public class GoToPlayerState : IState
 
     private int defaultLayer;
     private int interactingLayer;
+    private bool waitingForGameplay;
 
     private float updatePathTimer;
 
@@ -33,6 +34,18 @@ public class GoToPlayerState : IState
 
     public void OnState()
     {
+        if (waitingForGameplay)
+        {
+            if (GameManager.Instance.currentState == GameManager.GameState.Gameplay)
+            {
+                waitingForGameplay = false;
+                robot.agent.isStopped = false;
+                robot.stateMachine.ChangeState(robot.interactionState);
+            }
+
+            return;
+        }
+
         robot.animator.SetFloat("Speed",robot.agent.velocity.magnitude);
         updatePathTimer -= Time.deltaTime;
 
@@ -55,6 +68,14 @@ public class GoToPlayerState : IState
         if (!robot.agent.pathPending && robot.agent.remainingDistance <= stopDistance + 0.1f)
         {
             robot.LookAtTarget(robot.player.position);
+
+            if (GameManager.Instance.currentState == GameManager.GameState.Interacting)
+            {
+                robot.agent.isStopped = true;
+                waitingForGameplay = true;
+                return;
+            }
+
             robot.stateMachine.ChangeState(robot.interactionState);
             return;
         }
