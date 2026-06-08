@@ -33,6 +33,13 @@ public class MachineManager : MonoBehaviour
     [Header("UpdateGoals")]
     [SerializeField] private TextMeshProUGUI TMP_text;
 
+    [Header("Completion Flags")]
+    [HideInInspector]
+    bool completedDay1;
+    bool completedDay2;
+    bool completedDay3;
+    bool completedDay4;
+
     List<float> countdownList = new List<float>();
     private float currentCountdown;
 
@@ -72,7 +79,7 @@ public class MachineManager : MonoBehaviour
         }
 
         if (DayTime.Instance.currentHour >= 15)
-            if (isDayGoalCompleted())
+            if (IsDayGoalCompleted())
                 OnActionExecuted();
     }
 
@@ -144,7 +151,7 @@ public class MachineManager : MonoBehaviour
         waveEventLaunched = false;
     }
 
-    public bool isDayGoalCompleted()
+    public bool IsDayGoalCompleted()
     {
         var values = GetCurrentDayValues();
 
@@ -180,14 +187,14 @@ public class MachineManager : MonoBehaviour
 
     void UpdateCountdown() 
     {
-        if (GameManager.Instance.currentDay == Day.Day1) 
+        if (GameManager.Instance.currentDay == Day.Day1 && !completedDay1) 
         {
             currentCountdown += Time.deltaTime;
 
             if (currentCountdown >= startCountdownDay1)
             {
-
-
+                GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.MachineOmitedDay1);
+                GameManager.Instance.presiSpeaker.PresiSpeaks();
                 ResetCountdowns();
                 onCountdown = false;
             }
