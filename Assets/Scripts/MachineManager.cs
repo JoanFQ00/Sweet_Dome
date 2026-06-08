@@ -33,7 +33,7 @@ public class MachineManager : MonoBehaviour
     [Header("UpdateGoals")]
     [SerializeField] private TextMeshProUGUI TMP_text;
 
-    private List<float> countdownList;
+    List<float> countdownList = new List<float>();
     private float currentCountdown;
 
     [Header("Minigames States")]
