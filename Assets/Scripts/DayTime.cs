@@ -18,6 +18,13 @@ public class DayTime : MonoBehaviour
     public int currentHour;
     private int currentMinutes;
 
+    [Header("Lerp")]
+    private bool isLerpingTime = false;
+    private float startMinutes;
+    private float targetMinutes;
+    private float lerpDuration;
+    private float lerpElapsed;
+
     public static Action<int, int> OnTimeChanged;
 
     public static Action<int> OnTimeSkiped;
@@ -60,10 +67,12 @@ public class DayTime : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L)) 
+        if (Input.GetKeyDown(KeyCode.L))
         {
             SetCurrentTime(21, 00);
         }
+
+        UpdateTimeLerp();
     }
 
     void LoadNextDay(Day c_Day)
@@ -152,5 +161,42 @@ public class DayTime : MonoBehaviour
     private void NotifyTimeChanged()
     {
         OnTimeChanged?.Invoke(currentHour, currentMinutes);
+    }
+
+    public void LerpToTime(int targetHour, int targetMinute, float duration)
+    {
+        startMinutes = currentHour * 60 + currentMinutes;
+        targetMinutes = targetHour * 60 + targetMinute;
+
+        lerpDuration = Mathf.Max(0.01f, duration);
+        lerpElapsed = 0f;
+
+        isLerpingTime = true;
+    }
+
+    private void UpdateTimeLerp()
+    {
+        if (!isLerpingTime) return;
+
+        lerpElapsed += Time.deltaTime;
+
+        float t = lerpElapsed / lerpDuration;
+
+        float current = Mathf.Lerp(startMinutes, targetMinutes, t);
+
+        currentHour = Mathf.FloorToInt(current / 60f);
+        currentMinutes = Mathf.FloorToInt(current % 60f);
+
+        OnTimeChanged?.Invoke(currentHour, currentMinutes);
+
+        if (t >= 1f)
+        {
+            currentHour = Mathf.FloorToInt(targetMinutes / 60f);
+            currentMinutes = Mathf.FloorToInt(targetMinutes % 60f);
+
+            OnTimeChanged?.Invoke(currentHour, currentMinutes);
+
+            isLerpingTime = false;
+        }
     }
 }

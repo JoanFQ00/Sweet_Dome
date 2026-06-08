@@ -156,7 +156,7 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
     protected virtual void OnActionExecuted()
     {
         act.ActionExecuted();
-        DayTime.Instance.SetCurrentTime(act.passTimeToHour, act.passTimeToMinute);
+        DayTime.Instance.LerpToTime(act.passTimeToHour, act.passTimeToMinute, 1.5f);
         actionCompleted = true;
         actionTransfered = true;
     }  
