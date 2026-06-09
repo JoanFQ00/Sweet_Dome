@@ -28,6 +28,8 @@ public class CodeSystem : MonoBehaviour
     private float codeTimer = 0f;
     private bool inputLocked = false;
 
+    private bool codeSystemActive = false;
+
     void Start()
     {
         if (generatedCodeCanvas != null)
@@ -35,6 +37,8 @@ public class CodeSystem : MonoBehaviour
 
         if (inputDisplay != null)
             inputDisplay.text = "";
+
+        codeSystemActive = false;
     }
 
     void Update()
@@ -91,9 +95,7 @@ public class CodeSystem : MonoBehaviour
 
     public void AddNumber(int number)
     {
-        if (inputLocked)
-            return;
-
+        if (!codeSystemActive || inputLocked) return;
         if (currentInput.Length >= codeLength)
             return;
 
@@ -128,6 +130,7 @@ public class CodeSystem : MonoBehaviour
                 rawFunnel.AddLiquid(20f);
 
             Debug.Log("CORRECTO");
+            codeSystemActive = false;
         }
         else
         {
@@ -142,6 +145,7 @@ public class CodeSystem : MonoBehaviour
     }
     public void EnableCodeSystem()
     {
+        codeSystemActive = true;
         GenerateCode();
     }
 

@@ -181,7 +181,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             interacting = false;
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))

@@ -11,9 +11,9 @@ public class WaveWinner : MonoBehaviour
 
 
     [Header("Tolerancies")]
-    public float amplitudeTolerance = 1.0f;
-    public float frequencyTolerance = 1.0f;
-    public float phaseTolerance = 1.0f;
+    public float amplitudeTolerance = 0.25f;
+    public float frequencyTolerance = 0.25f;
+    public float phaseTolerance = 0.3f;
 
     [Header("Time Message")]
     public float messageDuration = 3f;
@@ -79,26 +79,33 @@ public class WaveWinner : MonoBehaviour
 
     bool IsMatching()
     {
+        if (playerRenderer == null || targetRenderer == null) return false;
+
         float ampDiff = Mathf.Abs(playerRenderer.amplitude - targetRenderer.amplitude);
         float freqDiff = Mathf.Abs(playerRenderer.frequency - targetRenderer.frequency);
-        float phaseDiff = PhaseDifference(playerRenderer.phase,targetRenderer.phase);
+        float phaseDiff = PhaseDifference(playerRenderer.phase, targetRenderer.phase);
 
-        return ampDiff < amplitudeTolerance && freqDiff < frequencyTolerance && phaseDiff < phaseTolerance;
+        return ampDiff <= amplitudeTolerance && freqDiff <= frequencyTolerance && phaseDiff <= phaseTolerance;
     }
 
     float PhaseDifference(float a, float b)
     {
-        float diff = Mathf.Abs(a - b);
-
-        return Mathf.Min(diff, Mathf.PI * 2f - diff);
+        float diff = Mathf.Abs(a - b) % (Mathf.PI * 2f);
+        if (diff > Mathf.PI)
+        {
+            diff = (Mathf.PI * 2f) - diff;
+        }
+        return diff;
     }
 
     void ShowWin()
     {
         if (codeSystem != null)
         {
-            codeSystem.GenerateCode();
+            codeSystem.EnableCodeSystem();
         }
+        showingMessage = true;
+        timer = 0f;
     }
 
     void HideWinMessage()

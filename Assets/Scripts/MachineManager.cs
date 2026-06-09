@@ -65,15 +65,16 @@ public class MachineManager : MonoBehaviour
     {
         currentCountdown = 0;
         countdownList.Add(startCountdownDay1);
+        OnNewDayReset();
     }
 
     void Update()
     {
-        if (DayTime.Instance.currentHour >= 15 && !waveEventLaunched)
-        {
-            waveEventLaunched = true;
-            WaveDispatch?.Invoke(0f, 60f);
-        }
+        //if (DayTime.Instance.currentHour >= 15 && !waveEventLaunched)
+        //{
+        //    waveEventLaunched = true;
+        //    WaveDispatch?.Invoke(0f, 60f);
+        //}
 
         if (onCountdown) 
         {
@@ -88,7 +89,7 @@ public class MachineManager : MonoBehaviour
     private void OnEnable()
     {
         GameManager.NewDay += UpdateText;
-        GameManager.NewDay += ResetWaveEvent;
+        GameManager.NewDay += OnNewDayReset;
         PresiSys.OnDialogueTerminated += CheckTerminatedDialogue;
         MiniGameTest.OnMachineEntered += MachineEntered;
         UpdateText();
@@ -182,7 +183,7 @@ public class MachineManager : MonoBehaviour
         }
         else 
         {
-            ResetCountdowns();
+            currentCountdown = 0f;
             onCountdown = false;
         }
     }
@@ -231,6 +232,18 @@ public class MachineManager : MonoBehaviour
         {
             countdownList[i] = 0f;
         }
+    }
+
+    private void OnNewDayReset()
+    {
+        currentCountdown = 0f;
+        day1CDCompleted = false;
+        onCountdown = false;
+
+        countdownList.Clear();
+        countdownList.Add(startCountdownDay1);
+
+        WaveDispatch?.Invoke(0f, 60f);
     }
 
     void CheckTerminatedDialogue() 
