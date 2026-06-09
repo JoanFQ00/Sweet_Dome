@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            ExecuteFinishAnimation(0);
+            ExecuteFinishAnimation(0, 1);
         }
     }
 
@@ -152,10 +152,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ExecuteFinishAnimation(int id)
+    public void ExecuteFinishAnimation(int id, int waitTime)
     {
         levelManager.LoadFinal();
-        StartCoroutine(WaitTime(id)); 
+        StartCoroutine(WaitTime(waitTime)); 
         ActivateFinalAnimation?.Invoke(id);
     }
 

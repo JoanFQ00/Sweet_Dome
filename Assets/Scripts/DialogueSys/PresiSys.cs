@@ -5,6 +5,7 @@ public enum PresiDialogue
 {
     GoodMorningDay1 = 1, 
     GoToWorkDay1 = 2,
+    GoToWorkDay2 = 25,
     MachineCompleted = 3,
 
     ExplainMachineDay1 = 4,
@@ -14,6 +15,12 @@ public enum PresiDialogue
 
     MachineOmitedDay1 = 8,
     MachineOmitedDay12ndTime = 9,
+
+    PresiSaysYouCanRead = 10,
+    PresiSaysYouCanWatchTv = 11,
+
+
+    MattewTraitorDay1 = 50,
 }
 
 public class PresiSys : DialogueSys

@@ -8,6 +8,9 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
     public UnityEvent onPress;
     public static Action<bool> OnFirstDayButt;
 
+    public Vector3 originalPos = new Vector3(2.9f, 1.3f, -8.14f);
+    public Quaternion originalRot = new Quaternion(0, -142, 0, 0);
+
     [Header("Cooldown")]
     public float interactCooldown = 1f;
 
@@ -20,6 +23,22 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
     {
         defaultLayer = LayerMask.NameToLayer("Default");
         interactableLayer = LayerMask.NameToLayer("Interactable");
+    }
+
+    private void OnEnable()
+    {
+        LevelManager.OnLevelLoaded += SetOriginalPosition;
+    }
+
+    private void OnDisable()
+    {
+        LevelManager.OnLevelLoaded -= SetOriginalPosition;
+    }
+
+    void SetOriginalPosition() 
+    {
+        transform.position = originalPos;
+        transform.rotation = originalRot;
     }
 
     public void Interact()

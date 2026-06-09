@@ -74,6 +74,8 @@ public class Action_Eat : BaseAction
         GameManager.Instance.playerController.LockPlayer(false);
         GameManager.Instance.playerController.LockCamera(false);
         GameManager.Instance.currentState = GameManager.GameState.Gameplay;
+        GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.PresiSaysYouCanRead);
+
         OnActionExecuted();
     }
 }

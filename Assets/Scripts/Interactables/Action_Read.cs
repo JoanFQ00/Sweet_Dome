@@ -110,7 +110,10 @@ public class Action_Reader : BaseAction
                     state = State.Idle;
 
                     if (isAction) 
+                    {
+                        GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.PresiSaysYouCanWatchTv);
                         OnActionExecuted();
+                    }
                 });
                 break;
         }

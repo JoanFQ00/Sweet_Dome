@@ -84,7 +84,6 @@ public class PresiSpeaker : MonoBehaviour
 
         UpdateUI();
     }
-
     void UpdateUI()
     {
         if (dialogueSys.loadedDialogues == null ||
