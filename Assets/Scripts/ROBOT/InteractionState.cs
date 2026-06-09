@@ -37,6 +37,7 @@ public class InteractionState : IState
         robot.dialogueSkipIm.SetActive(true);
 
         GameManager.Instance.playerController.LockPlayer(true);
+        GameManager.Instance.playerController.LockCamera(true);
 
         GameManager.Instance.currentState = GameManager.GameState.Interacting;
 
@@ -51,6 +52,20 @@ public class InteractionState : IState
     public void OnState()
     {
         LookAtPlayer();
+
+        Vector3 dirToPlayer = (robot.player.transform.position - robot.speakPoint.position).normalized;
+        Vector3 playerForward = robot.player.transform.forward;
+
+        float angleToPlayer = Vector3.Dot(playerForward, dirToPlayer);
+
+        if (angleToPlayer > robot.angleToSpeak)
+        {
+            GameManager.Instance.playerController.LookAtDorothy();
+        }
+        else 
+        {
+            GameManager.Instance.playerController.LockCamera(false);
+        }
 
         if (enterTimer > 0)
         {
@@ -100,6 +115,7 @@ public class InteractionState : IState
         robot.gameObject.layer = interactingLayer;
 
         GameManager.Instance.playerController.LockPlayer(false);
+        GameManager.Instance.playerController.LockCamera(false);
 
         GameManager.Instance.currentState = GameManager.GameState.Gameplay;
     }

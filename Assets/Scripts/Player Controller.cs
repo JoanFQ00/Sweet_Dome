@@ -25,6 +25,9 @@ public class PlayerController : MonoBehaviour
     float yaw;
     float pitch;
 
+    [Header("Look At Dorothy")]
+    public float lookSpeed = 2.5f;
+
     [Header("Head Bobbing")]
     public bool m_UseBobbing = true;
     [Range(0, 0.1f)] public float m_BobAmplitude = 0.015f;
@@ -127,11 +130,21 @@ public class PlayerController : MonoBehaviour
 
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
-        // SOLUCIÓN AL GIRO RARO:
-        // Tanto en Gameplay como en miniGameMode, rotar el cuerpo entero horizontalmente (yaw)
-        // y el pitchController verticalmente (pitch) evita que los ejes se tuerzan o colapsen.
         transform.rotation = Quaternion.Euler(0f, yaw, 0f);
         pitchController.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+    }
+
+    public void LookAtDorothy() 
+    {
+        Transform lookPoint = GameManager.Instance.robotBehaviour.speakPoint;
+
+        Vector3 direction = (lookPoint.position - transform.position).normalized;
+        direction.y = 0;
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lookSpeed * Time.deltaTime);
+
+        SyncRotationFromCurrentTransform();
     }
 
     public void SetRotationFromCamera()
@@ -150,7 +163,6 @@ public class PlayerController : MonoBehaviour
         pitchController.localRotation = Quaternion.Euler(pitch, 0f, 0f);
     }
 
-    // Sincroniza las variables yaw y pitch con la rotación exacta que tenga el transform
     public void SyncRotationFromCurrentTransform()
     {
         yaw = transform.rotation.eulerAngles.y;

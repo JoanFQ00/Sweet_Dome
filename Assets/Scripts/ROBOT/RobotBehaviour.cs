@@ -22,8 +22,9 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public TextMeshProUGUI interlocutor;
     public TextMeshProUGUI dialogueTxt;
     public RoboSys dialogueSys;
-
+    public Transform speakPoint; 
     public int currentRandomDialogue;
+    public float angleToSpeak;
 
     public NavMeshAgent agent;
     public StateMachineChanger stateMachine;
