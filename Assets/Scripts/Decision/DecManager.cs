@@ -46,6 +46,14 @@ public class DecManager : MonoBehaviour
 
     private void LevelLoaded()
     {
+        originalDayActions = new List<NDec_Act>();
+        foreach (NDec_Act act in dayActions)
+        {
+            originalDayActions.Add(Instantiate(act));
+        }
+        dayActions = new List<NDec_Act>(originalDayActions);
+        OnActionsChanged?.Invoke(dayActions);
+
         CleanPerformedActions(Day.Day1);
     }
 

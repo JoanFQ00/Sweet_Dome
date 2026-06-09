@@ -19,6 +19,7 @@ public class Interact : MonoBehaviour
     public Camera playerCamera;
     public Transform readTransform;
     public Transform farTransform;
+    public Transform mouthTarget;
 
     private ILookable lastLookedAt;
     private PlayerInput playerInput;

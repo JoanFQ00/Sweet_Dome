@@ -14,7 +14,6 @@ public class WaypointManager : MonoBehaviour
 
     private Waypoints lastWaypoints;
 
-    //Method to get random waypoint without repeting the last one
     public Waypoints GetRandomGenericWaypoint()
     {
 
@@ -24,8 +23,6 @@ public class WaypointManager : MonoBehaviour
 
         return lastWaypoints;
     }
-
-    //Method for narrative ones
 
     public Waypoints GetNarrativeWaypoint(string narrativeID)
     {

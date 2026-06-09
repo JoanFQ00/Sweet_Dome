@@ -311,7 +311,6 @@ public class DayManager : MonoBehaviour
 
     void Day3HourSkip()
     {
-        // ===== EAT =====
         if (!checkedEatDay3)
         {
             checkedEatDay3 = true;
@@ -334,7 +333,6 @@ public class DayManager : MonoBehaviour
             }
         }
 
-        // ===== READ =====
         if (!checkedReadDay3)
         {
             checkedReadDay3 = true;
@@ -353,7 +351,6 @@ public class DayManager : MonoBehaviour
             }
         }
 
-        // ===== TV =====
         if (!checkedTvDay3)
         {
             checkedTvDay3 = true;
@@ -424,7 +421,6 @@ public class DayManager : MonoBehaviour
             Debug.LogWarning($"No interact objects configured for {currentDay}");
         }
 
-        // Buscar DorothyLaunch si todavía no está asignado
         if (dorothyLaunch == null)
         {
             dorothyLaunch = GameObject.FindGameObjectWithTag("DorothyLaunch");
@@ -443,7 +439,5 @@ public class DayManager : MonoBehaviour
     public void FindInteractables()
     {
         dayInt = FindObjectsByType<Action_Interactable>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-
-        Debug.Log($"Se encontraron {dayInt.Length} interactuables.");
     }
 }

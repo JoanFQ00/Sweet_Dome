@@ -25,7 +25,6 @@ public class UIManager : MonoBehaviour
     public GameObject stopInteractTxt;
 
     [Header("Time")]
-    public TextMeshProUGUI timerText, dayText;
     public TextMeshProUGUI timeHour, timeMinute;
     public TextMeshProUGUI timeHourMachine, timeMinuteMachine;
 
@@ -109,13 +108,10 @@ public class UIManager : MonoBehaviour
 
     void OnDayChanged()
     {
-        dayText.text = $"{GameManager.Instance.currentDay.ToString().ToUpper()}";
     }
 
     private void UpdateTimeUI(int hour, int minutes)
     {
-        timerText.text = $"{hour:00} {minutes:00}";
-
         if (timeHour != null) 
         {
             timeHour.text = $"{hour}";

@@ -2,51 +2,33 @@ using UnityEngine;
 
 public class Action_Eat : BaseAction
 {
-    [Header("Movement")]
+    [Header("Referencias")]
+    private Transform mouthTarget;
     public float moveSpeed = 8f;
     public float rotateSpeed = 10f;
 
-    [Header("Eat Offset")]
-    public Vector3 localOffset = new Vector3(0.25f, -0.2f, 0.5f);
-    public Vector3 localRotationOffset = new Vector3(25f, -35f, 0f);
-
-    private Transform cam;
     private Transform obj;
-
     private Vector3 originalPos;
     private Quaternion originalRot;
 
-    private Vector3 targetPos;
-    private Quaternion targetRot;
+    private bool goingToMouth, waitingInput, returning, isActive;
 
-    private bool goingToMouth;
-    private bool waitingInput;
-    private bool returning;
-
-    private bool isActive;
+    private void Start()
+    {
+        mouthTarget = GameManager.Instance.playerController.GetComponent<Interact>().mouthTarget;
+    }
 
     public override void Interact()
     {
         if (isActive) return;
 
-        cam = Camera.main.transform;
         obj = transform;
-
         originalPos = obj.position;
         originalRot = obj.rotation;
 
         GameManager.Instance.playerController.LockPlayer(true);
         GameManager.Instance.playerController.LockCamera(true);
-
         GameManager.Instance.currentState = GameManager.GameState.Interacting;
-
-        targetPos =
-            cam.position +
-            cam.right * localOffset.x +
-            cam.up * localOffset.y +
-            cam.forward * localOffset.z;
-
-        targetRot = cam.rotation * Quaternion.Euler(localRotationOffset);
 
         goingToMouth = true;
         isActive = true;
@@ -58,70 +40,40 @@ public class Action_Eat : BaseAction
 
         if (goingToMouth)
         {
-            MoveToMouth();
-            return;
-        }
+            obj.position = Vector3.Lerp(obj.position, mouthTarget.position, moveSpeed * Time.deltaTime);
+            obj.rotation = Quaternion.Slerp(obj.rotation, mouthTarget.rotation, rotateSpeed * Time.deltaTime);
 
-        if (waitingInput)
-        {
-            WaitForSecondInput();
-            return;
+            if (Vector3.Distance(obj.position, mouthTarget.position) < 0.01f)
+            {
+                obj.position = mouthTarget.position;
+                obj.rotation = mouthTarget.rotation;
+                goingToMouth = false;
+                waitingInput = true;
+            }
         }
-
-        if (returning)
+        else if (waitingInput)
         {
-            ReturnObject();
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                waitingInput = false;
+                returning = true;
+            }
+        }
+        else if (returning)
+        {
+            obj.position = Vector3.Lerp(obj.position, originalPos, moveSpeed * Time.deltaTime);
+            obj.rotation = Quaternion.Slerp(obj.rotation, originalRot, rotateSpeed * Time.deltaTime);
+
+            if (Vector3.Distance(obj.position, originalPos) < 0.01f) FinishAction();
         }
     }
 
-    void MoveToMouth()
-    {
-        obj.position = Vector3.Lerp(obj.position, targetPos, moveSpeed * Time.deltaTime);
-        obj.rotation = Quaternion.Slerp(obj.rotation, targetRot, rotateSpeed * Time.deltaTime);
-
-        if (Vector3.Distance(obj.position, targetPos) < 0.03f)
-        {
-            obj.position = targetPos;
-            obj.rotation = targetRot;
-
-            goingToMouth = false;
-            waitingInput = true;
-        }
-    }
-
-    void WaitForSecondInput()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            waitingInput = false;
-            returning = true;
-        }
-    }
-
-    void ReturnObject()
-    {
-        obj.position = Vector3.Lerp(obj.position, originalPos, moveSpeed * Time.deltaTime);
-        obj.rotation = Quaternion.Slerp(obj.rotation, originalRot, rotateSpeed * Time.deltaTime);
-
-        if (Vector3.Distance(obj.position, originalPos) < 0.03f)
-        {
-            obj.position = originalPos;
-            obj.rotation = originalRot;
-
-            FinishAction();
-        }
-    }
     void FinishAction()
     {
-        if (!isActive) return;
-
         isActive = false;
-
         GameManager.Instance.playerController.LockPlayer(false);
         GameManager.Instance.playerController.LockCamera(false);
-
         GameManager.Instance.currentState = GameManager.GameState.Gameplay;
-
         OnActionExecuted();
     }
 }
