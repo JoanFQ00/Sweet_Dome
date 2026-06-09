@@ -75,13 +75,16 @@ public class FunnelBase : CapabilityBase
         if (liquidMat == null)
             liquidMat = liquidRenderer.material;
 
-        // NORMALIZE 0-maxCapacity -> 0-1
-        float normalized =
-            Mathf.Clamp01(currentCapacity / maxCapacity);
+        // 1. Mantenemos el cálculo clásico de 0 a 100 (No altera la velocidad de bajada)
+        float normalized = Mathf.Clamp01(currentCapacity / maxCapacity);
 
-        // CONVERT 0-1 -> -1 to 1
-        float shaderValue =
-            Mathf.Lerp(-1f, 1f, normalized);
+        // 2. Ajustamos el tope inferior del shader. 
+        // Si antes con -1f se escondía el líquido, prueba con un valor más alto (p.ej. -0.4f o -0.3f)
+        // -1f significa totalmente vacío, 1f significa totalmente lleno.
+        float minShaderValue = -0.4f;
+
+        // 3. El lerp ahora va desde ese tope mínimo que tú elijas hasta el 1f máximo de siempre
+        float shaderValue = Mathf.Lerp(minShaderValue, 1f, normalized);
 
         liquidMat.SetFloat(
             fillPropertyName,
