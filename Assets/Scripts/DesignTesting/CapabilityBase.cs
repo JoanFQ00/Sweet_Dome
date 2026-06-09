@@ -46,8 +46,9 @@ public abstract class CapabilityBase : MonoBehaviour
         currentCapacity =
             Mathf.Clamp(currentCapacity, minCapacity, maxCapacity);
 
-        if (Mathf.Abs(currentCapacity - Mathf.Round(currentCapacity)) < 0.01f)
-            currentCapacity = Mathf.Round(currentCapacity);
+        // Borra o comenta estas líneas:
+        // if (Mathf.Abs(currentCapacity - Mathf.Round(currentCapacity)) < 0.01f)
+        //     currentCapacity = Mathf.Round(currentCapacity);
 
         CapacityUpdated();
 
