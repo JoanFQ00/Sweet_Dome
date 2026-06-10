@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.Android;
 using UnityEngine.SceneManagement;
 
 public class DayManager : MonoBehaviour
@@ -305,6 +306,7 @@ public class DayManager : MonoBehaviour
         {
             ChangeRobotDialogue((int)DialoguesRobo.HasNotWatchedTv, true);
         }
+
         else if (hasWatchedTv.IsMet(GameManager.Instance.decManager) && triedToSkipMachine) 
         {
             PresidentSpeaks(PresiDialogue.MattewTraitorDay1);

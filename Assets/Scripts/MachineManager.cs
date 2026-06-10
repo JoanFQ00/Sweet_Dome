@@ -204,7 +204,7 @@ public class MachineManager : MonoBehaviour
                     day1CDCompleted = true;
                 }
             }
-            else
+            else  
             {
                 if (currentCountdown >= secondCountDay1)
                 {
@@ -248,16 +248,15 @@ public class MachineManager : MonoBehaviour
 
     void CheckTerminatedDialogue() 
     {
-        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay1) 
-        {
-            RadarDispatch?.Invoke(5, 60, 3);
-        }
-
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.MachineOmitedDay1) 
         {
             onCountdown = true;
         }
 
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay3) 
+        {
+            RadarDispatch?.Invoke(5, 60, 3);
+        }
     }
 
     private List<float> GetCurrentDayValues()
