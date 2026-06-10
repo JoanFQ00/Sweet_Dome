@@ -122,7 +122,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   originalPos: {x: 2.9, y: 1.3, z: -8.14}
-  originalRot: {x: 0, y: -142, z: 0, w: 0}
+  originalRot: {x: -0.2401544, y: -0.6757291, z: -0.66123194, w: 0.22020076}
   interactCooldown: 1
 --- !u!135 &5224730617503802710
 SphereCollider:
@@ -174,6 +174,7 @@ GameObject:
   - component: {fileID: 6821810648353979450}
   - component: {fileID: 4456930426903659648}
   - component: {fileID: 366755794930330247}
+  - component: {fileID: 8867187944809213797}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -316,6 +317,124 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7ca3dfeb415bf644959beef4ed873c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelManager
+--- !u!114 &8867187944809213797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8142599467856121575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08e9614934955fe4c95b5fcdb494ac9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  masterVolume: 1
+  footstep:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  chairEnter:
+    Guid:
+      Data1: -2092507829
+      Data2: 1101491125
+      Data3: 1122666426
+      Data4: 561367659
+    Path: event:/SFX_Player/SFX_Player_SitChair
+  chairExit:
+    Guid:
+      Data1: -1261566294
+      Data2: 1322644300
+      Data3: 396375435
+      Data4: -468452655
+    Path: event:/SFX_Player/SFX_Player_StandChair
+  doorOpen:
+    Guid:
+      Data1: -1337075001
+      Data2: 1080705758
+      Data3: 1110423688
+      Data4: -153350601
+    Path: event:/SFX_MachineSys/SFX_MachineSys_Door/SFX_MachineSys_OpenDoor
+  doorClose:
+    Guid:
+      Data1: 524328364
+      Data2: 1331677678
+      Data3: -2139670604
+      Data4: -1391420199
+    Path: event:/SFX_MachineSys/SFX_MachineSys_Door/SFX_MachineSys_CloseDoor
+  liquidAbsorb:
+    Guid:
+      Data1: 1591890259
+      Data2: 1126628741
+      Data3: -298212171
+      Data4: -2099195751
+    Path: event:/SFX_MachineSys/SFX_MachineSys_Liq/SFX_MachineSys_LiqAbs
+  liquidExpel:
+    Guid:
+      Data1: 484230976
+      Data2: 1226644370
+      Data3: -1453997411
+      Data4: 494419239
+    Path: event:/SFX_MachineSys/SFX_MachineSys_Liq/SFX_MachineSys_LiqExp
+  pumpMove:
+    Guid:
+      Data1: -548026484
+      Data2: 1278832106
+      Data3: -802498123
+      Data4: 842156860
+    Path: event:/SFX_MachineSys/SFX_MachineSys_Sort/SFX_MachineSys_MovimSort
+  pumpSwap:
+    Guid:
+      Data1: 1416095659
+      Data2: 1196385028
+      Data3: 754673586
+      Data4: 1075041109
+    Path: event:/SFX_MachineSys/SFX_MachineSys_Sort/SFX_MachineSys_CanviSort
+  funnelEmpty:
+    Guid:
+      Data1: 125567429
+      Data2: 1319056345
+      Data3: -585782910
+      Data4: -21806597
+    Path: event:/SFX_MachineSys/SFX_MachineSys_Empty
+  funnelFull:
+    Guid:
+      Data1: 1812347480
+      Data2: 1217764682
+      Data3: -864718200
+      Data4: 1144542087
+    Path: event:/SFX_MachineSys/SFX_MachineSys_Full
+  cameraZoomIn:
+    Guid:
+      Data1: 19243610
+      Data2: 1276584670
+      Data3: -1244695635
+      Data4: -1835616686
+    Path: event:/SFX_Radar/SFX_Radar_ZoomIn
+  cameraZoomOut:
+    Guid:
+      Data1: 1475431527
+      Data2: 1166258491
+      Data3: 2120311439
+      Data4: -275028234
+    Path: event:/SFX_Radar/SFX_Radar_ZoomOut
+  waveSuccess:
+    Guid:
+      Data1: -1577379796
+      Data2: 1175237362
+      Data3: 1118896026
+      Data4: -535743033
+    Path: event:/SFX_Radio/SFX_Radio_FreqCorr3
+  waveFail:
+    Guid:
+      Data1: 197641545
+      Data2: 1330477417
+      Data3: -1578652269
+      Data4: 788139945
+    Path: event:/SFX_Radio/SFX_Radio_FreqLost2
 --- !u!1001 &4762783437771676921
 PrefabInstance:
   m_ObjectHideFlags: 0

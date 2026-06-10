@@ -11,6 +11,9 @@ public class Action_Reader : BaseAction
 
     private PlayerController player;
 
+    private Renderer bookRenderer;
+    public Texture2D[] bookTextures;
+
     private Vector3 startPos;
     private Quaternion startRot;
 
@@ -33,6 +36,8 @@ public class Action_Reader : BaseAction
         { 
             player = GameManager.Instance.playerController;
             readTransform = player.GetComponent<Interact>().readTransform;
+            bookRenderer = GetComponentInChildren<Renderer>();
+            ChangeTexture(GameManager.Instance.currentDay);
 
             originalPos = transform.position;
             originalRot = transform.rotation;
@@ -44,6 +49,7 @@ public class Action_Reader : BaseAction
         base.OnEnable();
 
         LevelManager.OnLevelLoaded += LevelLoaded;
+        GameManager.OnChangeDay += ChangeTexture;
     }
 
     protected override void OnDisable()
@@ -51,12 +57,15 @@ public class Action_Reader : BaseAction
         base.OnDisable();
 
         LevelManager.OnLevelLoaded -= LevelLoaded;
+        GameManager.OnChangeDay -= ChangeTexture;
     }
 
     void LevelLoaded() 
     {
         player = GameManager.Instance.playerController;
         readTransform = player.GetComponent<Interact>().readTransform;
+        bookRenderer = GetComponentInChildren<Renderer>();
+        ChangeTexture(GameManager.Instance.currentDay);
 
         originalPos = transform.position;
         originalRot = transform.rotation;
@@ -117,6 +126,16 @@ public class Action_Reader : BaseAction
                 });
                 break;
         }
+    }
+
+    void ChangeTexture(Day currentDay)
+    {
+        int currentDayIdx = (int)currentDay;
+
+        if (bookTextures == null || currentDayIdx < 0 || currentDayIdx >= bookTextures.Length)
+            return;
+
+        bookRenderer.material.mainTexture = bookTextures[currentDayIdx];
     }
 
     void Move(Vector3 targetPos, Quaternion targetRot, System.Action onFinish)

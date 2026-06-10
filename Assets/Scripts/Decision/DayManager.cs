@@ -181,16 +181,14 @@ public class DayManager : MonoBehaviour
         {
             if (hasWatchedTv.IsMet(GameManager.Instance.decManager) && !watchTvTriggered)
             {
-                GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.GoToWorkDay1);
+                PresidentSpeaks(PresiDialogue.GoToWorkDay1);
                 watchTvTriggered = true;
-                PresidentSpeaks();
             }
 
             if (machineCompletedDay1.IsMet(GameManager.Instance.decManager) && !machineCompletedToday)
             {
-                GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.MachineCompleted);
+                PresidentSpeaks(PresiDialogue.MachineCompleted);
                 machineCompletedToday = true;
-                PresidentSpeaks();
             }
         }
     }
