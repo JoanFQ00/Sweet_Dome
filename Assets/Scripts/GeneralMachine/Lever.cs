@@ -1,4 +1,6 @@
 using UnityEngine;
+using FMODUnity;
+using FMOD.Studio;
 
 public class Lever : MonoBehaviour
 {
@@ -20,6 +22,9 @@ public class Lever : MonoBehaviour
     public float currentAngle;
 
     private Vector3 initialRotation;
+
+    private EventInstance absorbAudioInstance;
+    private EventInstance expelAudioInstance;
 
     private enum LeverState
     {

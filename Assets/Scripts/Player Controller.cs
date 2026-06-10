@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using FMODUnity;
 
 public class PlayerController : MonoBehaviour
 {
@@ -210,7 +211,20 @@ public class PlayerController : MonoBehaviour
     {
         if (objectiveFov == null || objectiveFov.Length == 0) return;
 
+        int previousIndex = zoomIndex;
         zoomIndex = Mathf.Clamp(zoomIndex + direction, 0, objectiveFov.Length - 1);
+
+        if (zoomIndex != previousIndex)
+        {
+            if (direction > 0)
+            {
+                RuntimeManager.PlayOneShot(AudioManager.Instance.cameraZoomIn);
+            }
+            else if (direction < 0)
+            {
+                RuntimeManager.PlayOneShot(AudioManager.Instance.cameraZoomOut);
+            }
+        }
 
         targetFov = objectiveFov[zoomIndex];
         currentZoomTime = 0f;

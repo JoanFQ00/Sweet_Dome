@@ -8,6 +8,9 @@ using UnityEngine.SceneManagement;
 
 public class DayManager : MonoBehaviour
 {
+    private bool playedSitAnim = false;
+    private bool playedTvAnim = false;
+
     [Header("Day1Con")]
     public Dec_Con hasEated;
     public Dec_Con hasRead;
@@ -279,12 +282,14 @@ public class DayManager : MonoBehaviour
         if (hasRead.IsMet(GameManager.Instance.decManager) && dorothyLaunchEated.IsMet(GameManager.Instance.decManager))
         {
             // Dorothy Se sienta y mira a matthew
+            GameManager.Instance.robotBehaviour.TriggerSitAnimation();
         }
 
         if (hasWatchedTv.IsMet(GameManager.Instance.decManager) &&
             dorothyBook2Readed.IsMet(GameManager.Instance.decManager))
-        { 
+        {
             // Dorothy Desconecta la television
+            GameManager.Instance.robotBehaviour.TriggerTurnOffTvAnimation();
         }
     }
 
@@ -410,12 +415,21 @@ public class DayManager : MonoBehaviour
         else if (hasWatchedTv.IsMet(GameManager.Instance.decManager) && triedToSkipMachine)
         {
             PresidentSpeaks(PresiDialogue.MattewTraitorDay1);
-            GameManager.Instance.ExecuteFinishAnimation(0, 6);
+            if (!playedSitAnim)
+            {
+                GameManager.Instance.robotBehaviour.TriggerSitAnimation();
+                playedSitAnim = true;
+            }
         }
         else if (hasWatchedTv.IsMet(GameManager.Instance.decManager))
         {
             ChangeRobotDialogue((int)DialoguesRobo.TryToSkipMachineDay1, true);
             triedToSkipMachine = true;
+            if (!playedTvAnim)
+            {
+                GameManager.Instance.robotBehaviour.TriggerTurnOffTvAnimation();
+                playedTvAnim = true;
+            }
         }
     }
 

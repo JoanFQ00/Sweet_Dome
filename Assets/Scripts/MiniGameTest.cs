@@ -1,6 +1,7 @@
 using System;
 using System.Security.Cryptography;
 using UnityEngine;
+using FMODUnity;
 
 public class MiniGameTest : MonoBehaviour, IInteractable
 {
@@ -104,6 +105,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
         currentMoveTime = 0f;
         state = MiniGameState.Entering;
+
+        AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.chairEnter, gameObject);
 
         ShowCursor(true);
         gameObject.layer = LayerMask.NameToLayer("Default");
@@ -223,6 +226,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         OnMachineEntered?.Invoke(false);
         state = MiniGameState.Exiting;
         currentMoveTime = 0f;
+        AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.chairExit, gameObject);
         GameManager.Instance.playerController.LockPlayer(true);
         GameManager.Instance.playerController.LockCamera(true);
         gameObject.layer = LayerMask.NameToLayer("Interactable");

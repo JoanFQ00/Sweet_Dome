@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using static UnityEngine.GraphicsBuffer;
+using FMODUnity;
 
 public class WaveWinner : MonoBehaviour
 {
@@ -57,6 +58,7 @@ public class WaveWinner : MonoBehaviour
             {
                 hasWon = true;
                 waveSolved = true;
+                RuntimeManager.PlayOneShot(AudioManager.Instance.waveSuccess);
 
                 ShowWin();
 
@@ -129,6 +131,7 @@ public class WaveWinner : MonoBehaviour
         {
             currentTimeEvent = 0f;
             ResetEvent();
+            RuntimeManager.PlayOneShot(AudioManager.Instance.waveFail);
             OnEventFinished?.Invoke(false);
         }
     }

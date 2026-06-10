@@ -10,6 +10,7 @@ public class Machine01 : MonoBehaviour
     public void SwapPump()
     {
         isPurifiedMode = !isPurifiedMode;
+        AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.pumpSwap, gameObject);
     }
 
     public void MovePumpToRight()

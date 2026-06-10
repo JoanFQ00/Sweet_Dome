@@ -56,6 +56,7 @@ public class LiquidPump : CapabilityBase
         {
             funnelIndex++;
             targetPosition = pumpPositions[funnelIndex].localPosition;
+            AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.pumpMove, gameObject);
         }
     }
 
@@ -65,6 +66,7 @@ public class LiquidPump : CapabilityBase
         {
             funnelIndex--;
             targetPosition = pumpPositions[funnelIndex].localPosition;
+            AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.pumpMove, gameObject);
         }
     }
 
@@ -78,6 +80,7 @@ public class LiquidPump : CapabilityBase
         float extracted = funnelArray[funnelIndex].RemoveLiquid(amount);
 
         UpdateCapacity(extracted);
+        AudioManager.Instance.PlayOneShot(AudioManager.Instance.liquidAbsorb, transform.position);
     }
 
     public void Expelling()
@@ -88,5 +91,6 @@ public class LiquidPump : CapabilityBase
         float inserted = funnelArray[funnelIndex].AddLiquid(amount);
 
         UpdateCapacity(-inserted);
+        AudioManager.Instance.PlayOneShot(AudioManager.Instance.liquidExpel, transform.position);
     }
 }

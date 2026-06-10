@@ -165,4 +165,14 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
             waypointManager.MarkWaypointUsed(waypoint);
         }
     }
+
+    public void TriggerSitAnimation()
+    {
+        animator.SetTrigger("SitTrigger");
+    }
+
+    public void TriggerTurnOffTvAnimation()
+    {
+        animator.SetTrigger("TurnOffTvTrigger");
+    }
 }

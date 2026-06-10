@@ -1,6 +1,6 @@
-
 using UnityEngine;
 using System.Collections;
+using FMODUnity;
 
 public class DoorBehaviour : MonoBehaviour
 {
@@ -73,6 +73,8 @@ public class DoorBehaviour : MonoBehaviour
             m_State = Tstate.OPEN;
             m_IsOpened = true;
 
+            AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.doorOpen, gameObject);
+
             if (m_Animation != null && Open != null)
             {
                 m_Animation.Play(Open.name);
@@ -91,6 +93,8 @@ public class DoorBehaviour : MonoBehaviour
         {
             m_State = Tstate.CLOSE;
             m_IsOpened = false;
+
+            AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.doorClose, gameObject);
 
             if (m_Animation != null && Close != null)
             {

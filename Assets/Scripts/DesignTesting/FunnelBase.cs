@@ -46,12 +46,20 @@ public class FunnelBase : CapabilityBase
     public virtual float AddLiquid(float amount)
     {
         float spaceLeft = maxCapacity - currentCapacity;
+        if (currentCapacity >= maxCapacity)
+        {
+            AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.funnelFull, gameObject);
+        }
 
         float added = Mathf.Min(amount, spaceLeft);
 
         UpdateCapacity(added);
 
         UpdateLiquidVisual();
+        if (currentCapacity >= maxCapacity)
+        {
+            AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.funnelFull, gameObject);
+        }
 
         return added;
     }
@@ -59,10 +67,19 @@ public class FunnelBase : CapabilityBase
     public virtual float RemoveLiquid(float amount)
     {
         float removable = Mathf.Min(amount, currentCapacity);
+        if (currentCapacity <= minCapacity)
+        {
+            AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.funnelEmpty, gameObject);
+        }
 
         UpdateCapacity(-removable);
 
         UpdateLiquidVisual();
+
+        if (currentCapacity <= minCapacity)
+        {
+            AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.funnelEmpty, gameObject);
+        }
 
         return removable;
     }
