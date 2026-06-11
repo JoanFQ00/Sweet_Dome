@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Video;
 
 public class Action_WatchTV : BaseAction
 {
@@ -11,6 +12,12 @@ public class Action_WatchTV : BaseAction
 
     [Header("Settings")]
     public bool isAction = false;
+
+    [Header("Video")]
+    public VideoPlayer videoPlayer;
+    public RenderTexture videoTexture;
+    public Texture blackTexture;
+    public Renderer tvRenderer;
 
     public GameObject tvClickPopUp;
 
@@ -48,6 +55,8 @@ public class Action_WatchTV : BaseAction
         {
             playerTransform = player.transform;
         }
+
+        TurnOffTV();
     }
 
     public override void Interact()
@@ -72,7 +81,7 @@ public class Action_WatchTV : BaseAction
 
     protected override void OnEnable()
     {
-        base.OnEnable(); 
+        base.OnEnable();
         GameManager.NewDay += RestartBool;
     }
 
@@ -82,7 +91,7 @@ public class Action_WatchTV : BaseAction
         GameManager.NewDay -= RestartBool;
     }
 
-    void RestartBool() 
+    void RestartBool()
     {
         hasWatchedTV = false;
     }
@@ -98,7 +107,7 @@ public class Action_WatchTV : BaseAction
                     player.SyncRotationFromCurrentTransform();
 
                     player.ChangeGameMode(true);
-                    player.LockCamera(false); 
+                    player.LockCamera(false);
 
                     state = State.WatchingPos;
                 });
@@ -106,11 +115,15 @@ public class Action_WatchTV : BaseAction
                 break;
 
             case State.WatchingPos:
+
                 bool isLookingAtTV = false;
 
-                if (!hasWatchedTV && !dorothyTurnedOff && act.hourToInteract == GameManager.Instance.dayTime.currentHour)
+                if (!hasWatchedTV &&
+                    !dorothyTurnedOff &&
+                    act.hourToInteract == GameManager.Instance.dayTime.currentHour)
                 {
                     Ray ray = player.mainCamera.ScreenPointToRay(Input.mousePosition);
+
                     if (Physics.Raycast(ray, out RaycastHit hit, 100f, interactionLayer))
                     {
                         if (hit.collider.CompareTag("TV"))
@@ -119,35 +132,34 @@ public class Action_WatchTV : BaseAction
 
                             if (Input.GetMouseButtonDown(0))
                             {
-                                tvClickPopUp.SetActive(false); 
-                                hasWatchedTV = true;           
-                                state = State.Watching;        
+                                TurnOnTV();
+
+                                tvClickPopUp.SetActive(false);
+                                hasWatchedTV = true;
+                                state = State.Watching;
                             }
                         }
                     }
                 }
 
                 if (!hasWatchedTV)
-                {
                     tvClickPopUp.SetActive(isLookingAtTV);
-                }
                 else
-                {
                     tvClickPopUp.SetActive(false);
-                }
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     tvClickPopUp.SetActive(false);
                     StartReturn();
                 }
+
                 break;
 
             case State.Watching:
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    // UnloadTV();
+                    TurnOffTV();
                     tvClickPopUp.SetActive(false);
                     StartReturn();
                 }
@@ -173,6 +185,32 @@ public class Action_WatchTV : BaseAction
         }
     }
 
+    void TurnOnTV()
+    {
+        if (tvRenderer != null)
+        {
+            tvRenderer.material.mainTexture = videoTexture;
+        }
+
+        videoPlayer.enabled = true;
+        videoPlayer.Play();
+
+        GameManager.Instance.presiSpeaker.PresiSpeaks(
+            500 + (int)GameManager.Instance.currentDay
+        );
+    }
+
+    void TurnOffTV()
+    {
+        videoPlayer.Stop();
+        videoPlayer.enabled = false;
+
+        if (tvRenderer != null)
+        {
+            tvRenderer.material.mainTexture = blackTexture;
+        }
+    }
+
     void StartReturn()
     {
         player.LockCamera(true);
@@ -191,8 +229,11 @@ public class Action_WatchTV : BaseAction
         float pct = Mathf.Clamp01(currentMoveTime / timeToMove);
         float smoothPct = Mathf.SmoothStep(0f, 1f, pct);
 
-        playerTransform.position = Vector3.Lerp(startPos, targetPos, smoothPct);
-        playerTransform.rotation = Quaternion.Lerp(startRot, targetRot, smoothPct);
+        playerTransform.position =
+            Vector3.Lerp(startPos, targetPos, smoothPct);
+
+        playerTransform.rotation =
+            Quaternion.Lerp(startRot, targetRot, smoothPct);
 
         if (pct >= 1f)
         {

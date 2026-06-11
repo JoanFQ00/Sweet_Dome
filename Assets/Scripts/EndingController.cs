@@ -7,6 +7,10 @@ public class EndingController : MonoBehaviour
 {
     [Header("FinishAnimations")]
     public List<AnimationClip> endingAnimations;
+    public float timeToMenu = 6.5f;
+    float currentTimer; 
+    bool startTimer;
+    Animation an;
 
     [Header("Canvas")]
     public GameObject canvasToMenu;
@@ -16,13 +20,6 @@ public class EndingController : MonoBehaviour
     public GameObject dialogueUI;
     public TextMeshProUGUI interlocutorTMP;
     public TextMeshProUGUI dialogueTMP;
-    public float printSpeed;
-    [Range(0f, 1f)]
-    public float printTimePct = 0.8f;
-
-    float lastCharTime;
-    int charsPrinted;
-
     SO_Dialogue[] loadedDialogues;
     SO_Dialogue currentDialogue;
     bool dialogueStarted = false;
@@ -30,8 +27,12 @@ public class EndingController : MonoBehaviour
     int dialogueIdx;
     int currentId;
 
-    private int currentAnimation;
-    private Animation an;
+    [Header("SlowPrint")]
+    public float printSpeed;
+    [Range(0f, 1f)]
+    public float printTimePct = 0.8f;
+    float lastCharTime;
+    int charsPrinted;
 
     private void Start()
     {
@@ -61,6 +62,7 @@ public class EndingController : MonoBehaviour
     {
         UpdateSlowPrinter();
         UpdateDialogues();
+        UpdateTimerToMenu();
     }
 
     void ThisLevelLoaded()
@@ -80,13 +82,14 @@ public class EndingController : MonoBehaviour
 
     void ActivateFinalAnimation(int id)
     {
+        startTimer = false;
         ChargeDialogueFinale(id);
-
         an.Play();
     }
 
     public void ActivateGoToMenu()
     {
+        Debug.Log("ActivateGoToMenu fue llamado por: " + StackTraceUtility.ExtractStackTrace());
         if (canvasToMenu != null)
         {
             canvasToMenu.SetActive(true);
@@ -98,6 +101,22 @@ public class EndingController : MonoBehaviour
     void GoToMenuAction()
     {
         GameManager.Instance.levelManager.LoadMenu();
+    }
+
+    void UpdateTimerToMenu() 
+    {
+        if (startTimer) 
+        {
+            Debug.Log("Here");
+            currentTimer += Time.deltaTime;
+
+            if (currentTimer >= timeToMenu) 
+            {
+                ActivateGoToMenu();
+                dialogueUI.SetActive(false);
+                startTimer = false;
+            }
+        }
     }
 
     void UpdateSlowPrinter() 
@@ -115,23 +134,22 @@ public class EndingController : MonoBehaviour
 
     void UpdateDialogues()
     {
-        if (!dialogueStarted) { return; }
+        if (!dialogueStarted || currentDialogue == null) return;
 
         currentDialogueTime += Time.deltaTime;
 
         if (currentDialogueTime >= currentDialogue.timeOnScreen)
         {
-            currentDialogueTime = 0;
-
             LoadNextIdx();
         }
     }
 
     void ChargeDialogueFinale(int id)
     {
-        dialogueStarted = true;
-        dialogueUI.SetActive(true);
         ChargeDialogues(id);
+        dialogueStarted = true; 
+        currentDialogueTime = 0; 
+        dialogueUI.SetActive(true);
     }
 
     void ChargeDialogues(int _id)
@@ -145,17 +163,21 @@ public class EndingController : MonoBehaviour
 
     void LoadNextIdx()
     {
-        if (dialogueIdx + 1 > loadedDialogues.Length - 1)
+        dialogueIdx++;
+
+        if (dialogueIdx >= loadedDialogues.Length)
         {
             dialogueStarted = false;
+            dialogueUI.SetActive(false);
+
+            startTimer = true;
+            currentTimer = 0;
             return;
         }
 
-        dialogueIdx++;
         currentDialogue = loadedDialogues[dialogueIdx];
+        currentDialogueTime = 0; 
         UpdateUI();
-
-        currentDialogueTime = 0;
     }
 
     void UpdateUI() 

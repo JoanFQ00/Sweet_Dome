@@ -7,9 +7,10 @@ public class BasicInt : MonoBehaviour, IInteractable, ILookable
     private HL_Interact highlight;
     private PlayerController playerController;
 
-    private enum Type {Lights, Radio, Megaphone}
+    private enum Type {Lights, Radio, RecordPlayer}
     [SerializeField] private Type type;
 
+    private bool isPlaying;
 
     [Header("Pop Up")]
     [SerializeField] private float disanceToPop = 1.6f;
@@ -21,6 +22,19 @@ public class BasicInt : MonoBehaviour, IInteractable, ILookable
     {
         highlight = GetComponent<HL_Interact>();
         playerController = GameManager.Instance.playerController;
+        StartStop();
+    }
+
+    private void OnEnable()
+    {
+        GameManager.NewDay += StartStop;
+        LevelManager.OnLevelLoaded += StartStop;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.NewDay -= StartStop;
+        LevelManager.OnLevelLoaded -= StartStop;
     }
 
     void Update() 
@@ -28,6 +42,15 @@ public class BasicInt : MonoBehaviour, IInteractable, ILookable
         if (popUpGO != null)
         {
             PopUpCheck();
+        }
+
+        if (GameManager.Instance != null) 
+        {
+            if (GameManager.Instance.dayTime.currentHour == 15)
+            {
+
+                isPlaying = false; Debug.Log(isPlaying);
+            }
         }
     }
 
@@ -41,8 +64,41 @@ public class BasicInt : MonoBehaviour, IInteractable, ILookable
             case Type.Radio:
                 break;
 
-            case Type.Megaphone:
+            case Type.RecordPlayer:
+                StartStop();
                 break;
+        }
+    }
+
+    void StartStop() 
+    {
+        if (!isPlaying)
+        {
+            switch (GameManager.Instance.currentDay)  //START MUSIC ACCORDING TO DAY
+            {
+                case Day.Day1:
+                    Debug.Log("StartingMusicDay1");
+                break;
+                case Day.Day2:
+
+                break;
+                case Day.Day3:
+
+                break;
+                case Day.Day4:
+
+                break;
+                case Day.Day5:
+
+                break;
+            }
+
+            isPlaying = true;
+        }
+        else 
+        {
+            // STOP Music
+            isPlaying = false;
         }
     }
 
