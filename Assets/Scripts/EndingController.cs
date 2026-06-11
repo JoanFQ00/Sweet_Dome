@@ -80,22 +80,9 @@ public class EndingController : MonoBehaviour
 
     void ActivateFinalAnimation(int id)
     {
-        Debug.Log(id);
         ChargeDialogueFinale(id);
 
-        currentAnimation = id;
-        AnimationClip targetClip = endingAnimations[id];
-
-        if (targetClip != null)
-        {
-            if (an.GetClip(targetClip.name) == null)
-            {
-                an.AddClip(targetClip, targetClip.name);
-            }
-
-            an.clip = targetClip;
-            an.Play();
-        }
+        an.Play();
     }
 
     public void ActivateGoToMenu()
@@ -142,23 +129,9 @@ public class EndingController : MonoBehaviour
 
     void ChargeDialogueFinale(int id)
     {
-        switch (id)
-        {
-            case 0:
-                dialogueStarted = true;
-                dialogueUI.SetActive(true);
-                ChargeDialogues(id);
-                break;
-
-            case 1:
-                break;
-
-            case 2:
-                break;
-
-            case 3:
-                break;
-        }
+        dialogueStarted = true;
+        dialogueUI.SetActive(true);
+        ChargeDialogues(id);
     }
 
     void ChargeDialogues(int _id)

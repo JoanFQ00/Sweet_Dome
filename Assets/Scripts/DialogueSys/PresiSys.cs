@@ -23,6 +23,8 @@ public enum PresiDialogue
 
 
     MattewTraitorDay1 = 50,
+
+    DorothySights = 124,
 }
 
 public class PresiSys : DialogueSys

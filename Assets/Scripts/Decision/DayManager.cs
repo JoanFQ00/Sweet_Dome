@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.Android;
@@ -33,9 +34,9 @@ public class DayManager : MonoBehaviour
     public float day3DorothyTimer = 5f;
     private float day3DorothyCurrentTime;
 
-    public float timerToBeBop = 3.5f;
+    public float timerToBeBop = 1f;
     float currentBeBopTimer;
-    bool hasTalkedAboutBeBop = false;
+    bool activatedBBTimer = false;
 
     public Dec_Con dorothyLaunchEated;
     public Dec_Con dorothyAngriedDay3;
@@ -126,6 +127,13 @@ public class DayManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "Gameplay")
             return;
 
+        if (Input.GetKeyDown(KeyCode.K)) 
+        {
+            GameManager.Instance.dayTime.SetCurrentTime(3, 0);
+        }
+
+        Timers();
+
         switch (GameManager.Instance.currentDay)
         {
             case Day.Day1:
@@ -170,6 +178,20 @@ public class DayManager : MonoBehaviour
        AssignReferences();
        FindInteractables();
        LoadInteractObjects(GameManager.Instance.currentDay);
+    }
+
+    void Timers() 
+    {
+        if (activatedBBTimer) 
+        {
+            currentBeBopTimer += Time.deltaTime;
+
+            if (currentBeBopTimer >= timerToBeBop) 
+            {
+                PresidentSpeaks(PresiDialogue.DorothySights);
+                activatedBBTimer = false;
+            }
+        }
     }
 
     void UpdateDay1() 
@@ -234,16 +256,6 @@ public class DayManager : MonoBehaviour
         {
             watchTvTriggered = true;
             PresidentSpeaks(PresiDialogue.GoToWorkDay2);
-        }
-
-        if (!hasTalkedAboutBeBop) 
-        {
-            currentBeBopTimer += Time.deltaTime;
-            if (currentBeBopTimer >= timerToBeBop) 
-            {
-                ChangeRobotDialogue((int)DialoguesRobo.DorothyMissesBeBop, true);    
-                hasTalkedAboutBeBop = true;
-            }
         }
     }
 
@@ -438,7 +450,16 @@ public class DayManager : MonoBehaviour
 
     void CheckPresiTerminatedDialogue()
     {
-      
+        if (watchTvTriggered && GameManager.Instance.currentDay == Day.Day2)
+        {
+            activatedBBTimer = true;
+            Debug.Log("Here");
+        }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.DorothySights)
+        {
+            ChangeRobotDialogue((int)DialoguesRobo.DorothyMissesBeBop, false);
+        }
     }
 
     void ChangeRobotDialogue(int id, bool goToPlayer) 

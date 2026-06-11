@@ -160,10 +160,10 @@ public class GameManager : MonoBehaviour
     // Numero de final i temps fins que s'executa per si has de ficar algun dialeg
     public void ExecuteFinishAnimation(int id, int waitTime)
     {
-        pendingFinalId = id; // Guardamos el estado
-        LoadFinalDelayed(waitTime);
-        levelManager.LoadFinal();
+        pendingFinalId = id;
+        StartCoroutine(LoadFinalDelayed(waitTime));
     }
+
     IEnumerator LoadFinalDelayed(int waitTime)
     {
         yield return new WaitForSeconds(waitTime);
