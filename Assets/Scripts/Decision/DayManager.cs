@@ -129,7 +129,7 @@ public class DayManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.K)) 
         {
-            GameManager.Instance.dayTime.SetCurrentTime(3, 0);
+            GameManager.Instance.dayTime.SetCurrentTime(15, 00);
         }
 
         Timers();

@@ -201,7 +201,7 @@ public class MachineManager : MonoBehaviour
 
     void UpdateCountdown()
     {
-        if (GameManager.Instance.currentDay == Day.Day1 && !completedDay1)
+        if (GameManager.Instance.currentDay == Day.Day1)
         {
             currentCountdown += Time.deltaTime;
 
@@ -210,12 +210,12 @@ public class MachineManager : MonoBehaviour
                 if (IsCityStable()) 
                 {
                     day1CDCompleted = true;
-                    //Activar evento Simulacro
-                    Shake.Instance.TriggerShake(1f);
                     GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.CongratDay1Presi);
+                    ResetCountdowns();
+                    onCountdown = false;
+                    day1CDCompleted = true;
                 }
-
-                if (currentCountdown >= startCountdownDay1)
+                else if (currentCountdown >= startCountdownDay1)
                 {
                     GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.MachineOmitedDay1);
                     ResetCountdowns();
@@ -256,7 +256,7 @@ public class MachineManager : MonoBehaviour
     private void OnNewDayReset()
     {
         currentCountdown = 0f;
-        day1CDCompleted = false;
+        //day1CDCompleted = false;
         onCountdown = false;
 
         countdownList.Clear();
@@ -272,6 +272,14 @@ public class MachineManager : MonoBehaviour
             onCountdown = true;
         }
 
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.CongratDay1Presi) 
+        {
+            //Activar evento Simulacro //////////////
+            cityFunnel.TriggerCrackInZone(1, 20f, 3f);
+            Shake.Instance.TriggerShake(1f);
+            onCountdown = true;
+        }
+        
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.MachineOmitedDay1) 
         {
             onCountdown = true;
