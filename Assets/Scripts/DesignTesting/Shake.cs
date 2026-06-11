@@ -1,13 +1,29 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Shake : MonoBehaviour
 {
     public AnimationCurve curve;
     private Coroutine currentShakeCoroutine;
 
+    public static Shake Instance;
+
     // Guardamos la posición local inicial por si acaso
     private Vector3 originalLocalPosition;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else 
+        {
+            Destroy(this);
+        }
+    }
 
     private void Start()
     {

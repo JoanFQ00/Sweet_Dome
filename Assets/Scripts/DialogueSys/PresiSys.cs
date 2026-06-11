@@ -19,6 +19,8 @@ public enum PresiDialogue
     PresiSaysYouCanRead = 10,
     PresiSaysYouCanWatchTv = 11,
 
+    CongratDay1Presi = 100,
+
 
     MattewTraitorDay1 = 50,
 }
