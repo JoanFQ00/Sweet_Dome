@@ -32,16 +32,13 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
     }
     protected virtual void OnEnable()
     {
-      
         LevelManager.OnLevelLoaded += ChargePlayer;
-
         GameManager.OnChangeDay += ResetActionState;
     }
 
     protected virtual void OnDisable()
     {
         LevelManager.OnLevelLoaded -= ChargePlayer;
-
         GameManager.OnChangeDay -= ResetActionState;
     }
 

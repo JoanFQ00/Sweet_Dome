@@ -85,29 +85,20 @@ public class DayManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "Gameplay")
             return;
 
-        GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("DorothyBooks");
 
-        foreach (GameObject obj in allObjects)
+        foreach (GameObject obj in objs)
         {
-            if (obj.CompareTag("DorothyLaunch") && obj.scene == SceneManager.GetActiveScene())
+            if (obj.CompareTag("DorothyLaunch"))
             {
                 dorothyLaunch = obj;
             }
 
-            if (obj.CompareTag("DorothyBooks") && obj.scene == SceneManager.GetActiveScene()) 
+            if (obj.CompareTag("DorothyBooks")) 
             {
                 dorothyBook = obj;
-                break;
+                dorothyBook.SetActive(false);
             }
-        }
-
-        if (dorothyLaunch == null)
-        {
-            Debug.LogError("No se encontró ningún objeto con el tag DorothyLaunch en la escena!");
-        }
-        else
-        {
-            dorothyLaunch.SetActive(false);
         }
     }
 
@@ -495,9 +486,6 @@ public void LoadInteractObjects(Day currentDay)
             }
         }
 
-        if (dorothyBook != null) 
-            dorothyBook.SetActive(false);
-
         int index = (int)currentDay;
 
         if (index >= 0 && index < dayInt.Length && dayInt[index] != null)
@@ -507,20 +495,6 @@ public void LoadInteractObjects(Day currentDay)
         else
         {
             Debug.LogWarning($"No interact objects configured for {currentDay}");
-        }
-
-        if (dorothyLaunch == null)
-        {
-            dorothyLaunch = GameObject.FindGameObjectWithTag("DorothyLaunch");
-        }
-
-        if (dorothyLaunch != null)
-        {
-            dorothyLaunch.SetActive(GameManager.Instance.currentDay == Day.Day3);
-        }
-        else
-        {
-            Debug.LogWarning("No se encontró ningún objeto con el tag DorothyLaunch");
         }
     }
 

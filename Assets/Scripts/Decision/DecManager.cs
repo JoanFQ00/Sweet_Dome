@@ -15,6 +15,14 @@ public class DecManager : MonoBehaviour
 
     public static Action<List<NDec_Act>> OnActionsChanged;
 
+    private void Awake()
+    {
+        originalDayActions = new List<NDec_Act>();
+        dayActions ??= new List<NDec_Act>();
+        actionsPerformed ??= new List<NDec_Act>();
+        actionsNotPerformed ??= new List<NDec_Act>();
+    }
+
     private void Start()
     {
         originalDayActions = new List<NDec_Act>();
@@ -47,6 +55,9 @@ public class DecManager : MonoBehaviour
 
     private void LevelLoaded()
     {
+        originalDayActions ??= new List<NDec_Act>();
+        dayActions ??= new List<NDec_Act>();
+
         originalDayActions.Clear();
         dayActions.Clear();
         actionsPerformed.Clear();

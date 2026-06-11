@@ -22,16 +22,16 @@ public class PatrolState : IState
         robot.agent.acceleration = 8f;
         robot.animator.SetFloat("Speed", 0.47f);
         NextPatrolPoint();
-        if (robot.agent.hasPath)
-        {
-            Vector3 direction = robot.agent.steeringTarget - robot.visualMesh.position;
-            direction.y = 0;
+        //if (robot.agent.hasPath)
+        //{
+        //    Vector3 direction = robot.agent.steeringTarget - robot.visualMesh.position;
+        //    direction.y = 0;
 
-            if (direction.sqrMagnitude > 0.01f)
-            {
-                robot.visualMesh.rotation = Quaternion.LookRotation(direction);
-            }
-        }
+        //    if (direction.sqrMagnitude > 0.01f)
+        //    {
+        //        robot.visualMesh.rotation = Quaternion.LookRotation(direction);
+        //    }
+        //}
     }
 
     public void OnState()

@@ -14,7 +14,7 @@ public class Action_Reader : BaseAction
 
     private PlayerController player;
 
-    private Renderer bookRenderer;
+    public Renderer bookRenderer;
     public Texture2D[] bookTextures;
 
     private Vector3 startPos;
@@ -39,11 +39,14 @@ public class Action_Reader : BaseAction
         { 
             player = GameManager.Instance.playerController;
             readTransform = player.GetComponent<Interact>().readTransform;
-            bookRenderer = GetComponentInChildren<Renderer>();
-
-            if (bookType == BookType.President)
-                ChangeTexture(GameManager.Instance.currentDay);
-            
+           
+            if (bookRenderer == null) 
+            {
+                bookRenderer = GetComponentInChildren<Renderer>();
+                if (bookType == BookType.President)
+                    ChangeTexture(GameManager.Instance.currentDay);
+            }
+          
             originalPos = transform.position;
             originalRot = transform.rotation;
         }
@@ -137,14 +140,19 @@ public class Action_Reader : BaseAction
 
     public void ChangeTexture(Day currentDay)
     {
+        if (bookRenderer == null)
+        {
+            bookRenderer = GetComponentInChildren<Renderer>(true);
+        }
+
+        if (bookRenderer == null) return;
+
         int currentDayIdx = (int)currentDay;
-
-        if (bookTextures == null || currentDayIdx < 0 || currentDayIdx >= bookTextures.Length)
-            return;
-
-        bookRenderer.material.mainTexture = bookTextures[currentDayIdx];
+        if (bookTextures != null && currentDayIdx >= 0 && currentDayIdx < bookTextures.Length)
+        {
+            bookRenderer.material.mainTexture = bookTextures[currentDayIdx];
+        }
     }
-
     void Move(Vector3 targetPos, Quaternion targetRot, System.Action onFinish)
     {
         currentMoveTime += Time.deltaTime;
