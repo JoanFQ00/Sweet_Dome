@@ -5,6 +5,9 @@ public class Action_Reader : BaseAction
     public float timeToMove = 1.0f;
     public bool isAction = false;
 
+    public enum BookType { Dorothy, President}
+    public BookType bookType;
+
     private float currentMoveTime = 0.0f;
 
     private Transform readTransform;
@@ -37,8 +40,10 @@ public class Action_Reader : BaseAction
             player = GameManager.Instance.playerController;
             readTransform = player.GetComponent<Interact>().readTransform;
             bookRenderer = GetComponentInChildren<Renderer>();
-            ChangeTexture(GameManager.Instance.currentDay);
 
+            if (bookType == BookType.President)
+                ChangeTexture(GameManager.Instance.currentDay);
+            
             originalPos = transform.position;
             originalRot = transform.rotation;
         }
@@ -65,7 +70,9 @@ public class Action_Reader : BaseAction
         player = GameManager.Instance.playerController;
         readTransform = player.GetComponent<Interact>().readTransform;
         bookRenderer = GetComponentInChildren<Renderer>();
-        ChangeTexture(GameManager.Instance.currentDay);
+
+        if (bookType == BookType.President)
+            ChangeTexture(GameManager.Instance.currentDay);
 
         originalPos = transform.position;
         originalRot = transform.rotation;
@@ -128,7 +135,7 @@ public class Action_Reader : BaseAction
         }
     }
 
-    void ChangeTexture(Day currentDay)
+    public void ChangeTexture(Day currentDay)
     {
         int currentDayIdx = (int)currentDay;
 

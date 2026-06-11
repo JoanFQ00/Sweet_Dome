@@ -68,7 +68,7 @@ public class DayManager : MonoBehaviour
     public GameObject dorothyLaunch;
 
     [Header("DorothyBooks")]
-    public List<GameObject> dorothyBooks;
+    private GameObject dorothyBook;
 
     private IEnumerator Start()
     {
@@ -92,7 +92,12 @@ public class DayManager : MonoBehaviour
             if (obj.CompareTag("DorothyLaunch") && obj.scene == SceneManager.GetActiveScene())
             {
                 dorothyLaunch = obj;
-                break; 
+            }
+
+            if (obj.CompareTag("DorothyBooks") && obj.scene == SceneManager.GetActiveScene()) 
+            {
+                dorothyBook = obj;
+                break;
             }
         }
 
@@ -209,7 +214,10 @@ public class DayManager : MonoBehaviour
             hasEated_SF = true;
             ChangeRobotDialogue((int)DialoguesRobo.DorothyRecomendsBook1, true);
 
-            dorothyBooks[0].SetActive(true);
+            dorothyBook.SetActive(true);
+            // IMPORTANT: Has de pensar que en realitat li has de pasar un INT (pero per com funciona el codi de canvi de dia)
+            // rep lenum, igualment els enums son ints so...
+            dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day1); 
         }
 
         if (dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && !youReadDorothyBook)
@@ -269,13 +277,15 @@ public class DayManager : MonoBehaviour
         {
             hasEated_SF = true;
             ChangeRobotDialogue((int)DialoguesRobo.DorothyAngryDay3, true);
-            dorothyBooks[1].SetActive(true);
+            dorothyBook.SetActive(true);
+            dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day2);
         }
         else if (!hasEated_SF && dorothyLaunchEated.IsMet(GameManager.Instance.decManager) && !hasEated_SF)
         {
             hasEated_SF = true;
             ChangeRobotDialogue((int)DialoguesRobo.DorothyHappyLaunch, true);
-            dorothyBooks[1].SetActive(true);
+            dorothyBook.SetActive(true);
+            dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day2);
         }
 
         if (hasRead.IsMet(GameManager.Instance.decManager) && dorothyLaunchEated.IsMet(GameManager.Instance.decManager))
@@ -325,7 +335,8 @@ public class DayManager : MonoBehaviour
             ChangeRobotDialogue((int)DialoguesRobo.DorothyCongratsotNotEat, true);
             hasEated_SF = true;
 
-            dorothyBooks[0].SetActive(true);
+            dorothyBook.SetActive(true);
+            dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day1);
         }
         else if (!hasRead.IsMet(GameManager.Instance.decManager) && !dorothyAngry)
         {
@@ -368,7 +379,8 @@ public class DayManager : MonoBehaviour
             {
                 hasEated_SF = true;
                 ChangeRobotDialogue((int)DialoguesRobo.DorothyAngryDay3, true);
-                dorothyBooks[1].SetActive(true);
+                dorothyBook.SetActive(true);
+                dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day2);
                 return;
             }
             else if (!hasEated.IsMet(GameManager.Instance.decManager)
@@ -386,7 +398,7 @@ public class DayManager : MonoBehaviour
             checkedReadDay3 = true;
 
             if (!hasRead.IsMet(GameManager.Instance.decManager)
-                && dorothyBooks[1].activeSelf)
+                && dorothyBook.activeSelf)
             {
                 ChangeRobotDialogue((int)DialoguesRobo.HasNotReaded, true);
                 return;
@@ -483,11 +495,7 @@ public void LoadInteractObjects(Day currentDay)
             }
         }
 
-        foreach (GameObject book in dorothyBooks)
-        {
-            if (book != null)
-                book.SetActive(false);
-        }
+        dorothyBook.SetActive(false);
 
         int index = (int)currentDay;
 
