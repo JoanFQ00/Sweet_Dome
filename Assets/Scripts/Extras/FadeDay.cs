@@ -1,5 +1,7 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class FadeDay : MonoBehaviour
@@ -16,10 +18,16 @@ public class FadeDay : MonoBehaviour
     {
         None,
         FadingOut,
-        FadingIn
+        FadingIn,
+        FinalFade
     }
 
     private FadeState fadeState;
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Start()
     {
@@ -38,12 +46,22 @@ public class FadeDay : MonoBehaviour
     {
         GameManager.NewDay += StartFade;
         LevelManager.OnLevelLoaded += StartFadeIn;
+        GameManager.FinalFade += StartFinalFade;
     }
 
     private void OnDisable()
     {
         GameManager.NewDay -= StartFade;
         LevelManager.OnLevelLoaded -= StartFadeIn;
+        GameManager.FinalFade -= StartFinalFade;
+    }
+
+    void StartFinalFade() 
+    {
+        fadeImage.gameObject.SetActive(true);
+        dayTMP.gameObject.SetActive(false);
+
+        fadeState = FadeState.FinalFade;
     }
 
     public void StartFade()
@@ -81,8 +99,10 @@ public class FadeDay : MonoBehaviour
 
     public void StartFadeIn() 
     {
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Gameplay"))
+            dayTMP.gameObject.SetActive(true);
+
         fadeImage.gameObject.SetActive(true);
-        dayTMP.gameObject.SetActive(true);
         dayTMP.text = GameManager.Instance.currentDay.ToString();
 
         if (lockPlayer)
@@ -135,6 +155,21 @@ public class FadeDay : MonoBehaviour
                     GameManager.Instance.playerController.LockCamera(false);
                 }
             break;
+            case FadeState.FinalFade:
+                imgColor.a += Time.unscaledDeltaTime / fadeOutTime;
+                textColor.a = 0f; 
+
+                fadeImage.color = imgColor;
+                dayTMP.color = textColor;
+
+                if (imgColor.a >= 1f)
+                {
+                    imgColor.a = 1f;
+                    fadeImage.color = imgColor;
+
+                    fadeState = FadeState.None;
+                }
+                break;
         }
     }
 }

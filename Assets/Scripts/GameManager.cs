@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public static event Action NewDay;
 
     public static event Action<int> ActivateFinalAnimation;
+    public static event Action FinalFade;
     public int pendingFinalId;
 
     public enum GameState
@@ -161,6 +162,7 @@ public class GameManager : MonoBehaviour
     public void ExecuteFinishAnimation(int id, int waitTime)
     {
         pendingFinalId = id;
+        FinalFade?.Invoke();
         StartCoroutine(LoadFinalDelayed(waitTime));
     }
 
