@@ -16,6 +16,12 @@ public class EndingController : MonoBehaviour
     public GameObject dialogueUI;
     public TextMeshProUGUI interlocutorTMP;
     public TextMeshProUGUI dialogueTMP;
+    public float printSpeed;
+    [Range(0f, 1f)]
+    public float printTimePct = 0.8f;
+
+    float lastCharTime;
+    int charsPrinted;
 
     SO_Dialogue[] loadedDialogues;
     SO_Dialogue currentDialogue;
@@ -53,6 +59,7 @@ public class EndingController : MonoBehaviour
 
     private void Update()
     {
+        UpdateSlowPrinter();
         UpdateDialogues();
     }
 
@@ -106,6 +113,19 @@ public class EndingController : MonoBehaviour
         GameManager.Instance.levelManager.LoadMenu();
     }
 
+    void UpdateSlowPrinter() 
+    {
+        if (dialogueTMP.text.Length >= currentDialogue.text.Length)
+            return;
+
+        if (Time.time >= lastCharTime + printSpeed) 
+        {
+            charsPrinted++;
+            dialogueTMP.text = currentDialogue.text.Substring(0, charsPrinted);
+            lastCharTime = Time.time;   
+        }
+    }
+
     void UpdateDialogues()
     {
         if (!dialogueStarted) { return; }
@@ -122,7 +142,6 @@ public class EndingController : MonoBehaviour
 
     void ChargeDialogueFinale(int id)
     {
-        Debug.Log("ChargingDialogue");
         switch (id)
         {
             case 0:
@@ -169,6 +188,21 @@ public class EndingController : MonoBehaviour
     void UpdateUI() 
     {
         interlocutorTMP.text = currentDialogue.speaker;
-        interlocutorTMP.text = currentDialogue.text;
+
+        float targetTime = currentDialogue.timeOnScreen * printTimePct;
+        int textLenght = currentDialogue.text.Length;
+
+        if (textLenght > 0)
+        {
+            printSpeed = targetTime / textLenght;
+        }
+        else 
+        {
+            printSpeed = 0.05f;
+        }
+
+        charsPrinted = 0;
+        dialogueTMP.text = "";
+        lastCharTime = Time.time;
     }
 }

@@ -8,6 +8,7 @@ public class DecManager : MonoBehaviour
 {
     public List<NDec_Act> dayActions;
     private List<NDec_Act> originalDayActions;
+    [SerializeField] List<NDec_Act> starterDayActions;
 
     public List<NDec_Act> actionsPerformed = new List<NDec_Act>();
     public List<NDec_Act> actionsNotPerformed = new List<NDec_Act>();
@@ -46,17 +47,20 @@ public class DecManager : MonoBehaviour
 
     private void LevelLoaded()
     {
-        originalDayActions = new List<NDec_Act>();
-        foreach (NDec_Act act in dayActions)
+        originalDayActions.Clear();
+        dayActions.Clear();
+        actionsPerformed.Clear();
+        actionsNotPerformed.Clear();
+
+        foreach (NDec_Act act in starterDayActions)
         {
-            originalDayActions.Add(Instantiate(act));
+            NDec_Act newInstance = Instantiate(act);
+            originalDayActions.Add(newInstance);
+            dayActions.Add(newInstance);
         }
-        dayActions = new List<NDec_Act>(originalDayActions);
+
         OnActionsChanged?.Invoke(dayActions);
-
-        CleanPerformedActions(Day.Day1);
     }
-
 
     private void Update()
     {
@@ -146,9 +150,22 @@ public class DecManager : MonoBehaviour
         OnActionsChanged?.Invoke(dayActions);
     }
 
+    void ResetToInitialState() 
+    {
+        dayActions.Clear();
+        actionsPerformed.Clear();
+        actionsNotPerformed.Clear();
+
+        foreach (NDec_Act act in originalDayActions) 
+        {
+            dayActions.Add(Instantiate(act));
+        }
+
+        ActionsChanged();
+    }
+
     public void ActionsChanged() 
     {
         OnActionsChanged?.Invoke(dayActions);
-
     }
 }

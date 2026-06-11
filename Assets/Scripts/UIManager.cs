@@ -189,6 +189,7 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         optionsMenu.SetActive(false);
 
+        menuButton.onClick.RemoveAllListeners();
         menuButton.onClick.AddListener(OnMenuButtonClicked);
     }
 

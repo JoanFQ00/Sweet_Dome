@@ -62,7 +62,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Y)) 
+        {
+            ExecuteFinishAnimation(0, 3);
+        }
     }
 
     private IEnumerator DelayedStartDay()
@@ -87,6 +90,10 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Final")
             return;
+
+        currentState = GameState.Gameplay;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         playerController = FindFirstObjectByType<PlayerController>();
         presiSpeaker = FindFirstObjectByType<PresiSpeaker>();

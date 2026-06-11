@@ -68,6 +68,12 @@ public class PlayerController : MonoBehaviour
         cameraStartLocalPos = pitchController.localPosition;
     }
 
+    private void OnEnable()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.SetPlayer(this);
+    }
+
     public void LockPlayer(bool locked)
     {
         playerLocked = locked;
