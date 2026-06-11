@@ -242,7 +242,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 288.11252, y: 0, z: -116.56241, w: 0}
+  m_margin: {x: 288.11252, y: 0, z: -116.56241, w: 74.71866}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -271,7 +271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &435435796
 RectTransform:
   m_ObjectHideFlags: 0
@@ -463,10 +463,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a68a1ace6a33614ab454d18579d5093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  endingAnimations: []
+  endingAnimations:
+  - {fileID: 7400000, guid: 2708b96f0bb0b9d41aa18d92329465da, type: 2}
   canvasToMenu: {fileID: 568000240}
   menuButton: {fileID: 1938797574}
   dialogueUI: {fileID: 435435795}
+  interlocutorTMP: {fileID: 415919970}
+  dialogueTMP: {fileID: 1713036576}
 --- !u!1 &568000240
 GameObject:
   m_ObjectHideFlags: 0
@@ -1358,6 +1361,7 @@ MonoBehaviour:
   levelManager: {fileID: 0}
   currentDay: 0
   playerStart: {fileID: 0}
+  pendingFinalId: 0
   currentState: 0
 --- !u!4 &1614640588
 Transform:

@@ -1,8 +1,7 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using System;
 using UnityEngine.UI;
-using NUnit.Framework.Internal.Execution;
 
 public class EndingController : MonoBehaviour
 {
@@ -15,6 +14,9 @@ public class EndingController : MonoBehaviour
 
     [Header("Dialogue")]
     public GameObject dialogueUI;
+    public TextMeshProUGUI interlocutorTMP;
+    public TextMeshProUGUI dialogueTMP;
+
     SO_Dialogue[] loadedDialogues;
     SO_Dialogue currentDialogue;
     bool dialogueStarted = false;
@@ -29,6 +31,12 @@ public class EndingController : MonoBehaviour
     {
         an = GetComponent<Animation>();
         dialogueUI.SetActive(false);
+
+        if (GameManager.Instance != null)
+        {
+            int finalId = GameManager.Instance.pendingFinalId;
+            ActivateFinalAnimation(finalId);
+        }
     }
 
     private void OnEnable()
@@ -65,9 +73,7 @@ public class EndingController : MonoBehaviour
 
     void ActivateFinalAnimation(int id)
     {
-        if (id < 0 || id >= endingAnimations.Count)
-            return;
-
+        Debug.Log(id);
         ChargeDialogueFinale(id);
 
         currentAnimation = id;
@@ -85,64 +91,6 @@ public class EndingController : MonoBehaviour
         }
     }
 
-    void UpdateDialogues() 
-    {
-        if (!dialogueStarted) { return; }
-
-        currentDialogueTime += Time.deltaTime;
-
-        if (currentDialogueTime >= currentDialogue.timeOnScreen)
-        {
-            currentDialogueTime = 0;
-
-            LoadNextIdx();
-        }
-    }
-
-    void ChargeDialogueFinale(int id) 
-    {
-        Debug.Log(id);
-        switch (id) 
-        {
-            case 1:
-                dialogueStarted = true;
-                dialogueUI.SetActive(true);
-                ChargeDialogues(id);
-                break;
-
-            case 2:
-                break;
-
-            case 3:
-                break;
-
-            case 4:
-                break;
-        }
-    }
-
-    void ChargeDialogues(int _id)
-    {
-        currentId = _id;
-        dialogueIdx = 0;
-        loadedDialogues = Resources.LoadAll<SO_Dialogue>("Dialogues/Finale/" + currentId);
-        currentDialogue = loadedDialogues[dialogueIdx];
-    }
-
-    void LoadNextIdx()
-    {
-        if (dialogueIdx + 1 > loadedDialogues.Length - 1)
-        {
-            dialogueStarted = false;
-            return;
-        }
-
-        dialogueIdx++;
-        currentDialogue = loadedDialogues[dialogueIdx];
-
-        currentDialogueTime = 0;
-    }
-
     public void ActivateGoToMenu()
     {
         if (canvasToMenu != null)
@@ -156,5 +104,71 @@ public class EndingController : MonoBehaviour
     void GoToMenuAction()
     {
         GameManager.Instance.levelManager.LoadMenu();
+    }
+
+    void UpdateDialogues()
+    {
+        if (!dialogueStarted) { return; }
+
+        currentDialogueTime += Time.deltaTime;
+
+        if (currentDialogueTime >= currentDialogue.timeOnScreen)
+        {
+            currentDialogueTime = 0;
+
+            LoadNextIdx();
+        }
+    }
+
+    void ChargeDialogueFinale(int id)
+    {
+        Debug.Log("ChargingDialogue");
+        switch (id)
+        {
+            case 0:
+                dialogueStarted = true;
+                dialogueUI.SetActive(true);
+                ChargeDialogues(id);
+                break;
+
+            case 1:
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+        }
+    }
+
+    void ChargeDialogues(int _id)
+    {
+        currentId = _id;
+        dialogueIdx = 0;
+        loadedDialogues = Resources.LoadAll<SO_Dialogue>("Dialogues/Final/" + currentId);
+        currentDialogue = loadedDialogues[dialogueIdx];
+        UpdateUI();
+    }
+
+    void LoadNextIdx()
+    {
+        if (dialogueIdx + 1 > loadedDialogues.Length - 1)
+        {
+            dialogueStarted = false;
+            return;
+        }
+
+        dialogueIdx++;
+        currentDialogue = loadedDialogues[dialogueIdx];
+        UpdateUI();
+
+        currentDialogueTime = 0;
+    }
+
+    void UpdateUI() 
+    {
+        interlocutorTMP.text = currentDialogue.speaker;
+        interlocutorTMP.text = currentDialogue.text;
     }
 }

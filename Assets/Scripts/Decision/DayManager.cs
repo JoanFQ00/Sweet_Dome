@@ -320,7 +320,7 @@ public class DayManager : MonoBehaviour
         else if (hasWatchedTv.IsMet(GameManager.Instance.decManager) && triedToSkipMachine) 
         {
             // Numero de final i temps fins que s'executa per si has de ficar algun dialeg
-            GameManager.Instance.ExecuteFinishAnimation(1, 2); 
+            GameManager.Instance.ExecuteFinishAnimation(0, 2); 
         }
         else if (hasWatchedTv.IsMet(GameManager.Instance.decManager))
         {

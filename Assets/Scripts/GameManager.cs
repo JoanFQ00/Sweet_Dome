@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public static event Action NewDay;
 
     public static event Action<int> ActivateFinalAnimation;
+    public int pendingFinalId;
 
     public enum GameState
     {
@@ -61,10 +62,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            ExecuteFinishAnimation(0, 1);
-        }
+        
     }
 
     private IEnumerator DelayedStartDay()
@@ -155,15 +153,13 @@ public class GameManager : MonoBehaviour
     // Numero de final i temps fins que s'executa per si has de ficar algun dialeg
     public void ExecuteFinishAnimation(int id, int waitTime)
     {
+        pendingFinalId = id; // Guardamos el estado
+        LoadFinalDelayed(waitTime);
         levelManager.LoadFinal();
-        StartCoroutine(WaitTime(waitTime)); 
-        ActivateFinalAnimation?.Invoke(id);
     }
-
-    IEnumerator WaitTime(int id)
+    IEnumerator LoadFinalDelayed(int waitTime)
     {
-        yield return new WaitForSeconds(1.5f);
-
-        ActivateFinalAnimation?.Invoke(id);
+        yield return new WaitForSeconds(waitTime);
+        levelManager.LoadFinal();
     }
 }
