@@ -319,8 +319,8 @@ public class DayManager : MonoBehaviour
 
         else if (hasWatchedTv.IsMet(GameManager.Instance.decManager) && triedToSkipMachine) 
         {
-            PresidentSpeaks(PresiDialogue.MattewTraitorDay1);
-            GameManager.Instance.ExecuteFinishAnimation(0, 6);
+            // Numero de final i temps fins que s'executa per si has de ficar algun dialeg
+            GameManager.Instance.ExecuteFinishAnimation(1, 2); 
         }
         else if (hasWatchedTv.IsMet(GameManager.Instance.decManager))
         {
@@ -495,7 +495,8 @@ public void LoadInteractObjects(Day currentDay)
             }
         }
 
-        dorothyBook.SetActive(false);
+        if (dorothyBook != null) 
+            dorothyBook.SetActive(false);
 
         int index = (int)currentDay;
 

@@ -152,6 +152,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Numero de final i temps fins que s'executa per si has de ficar algun dialeg
     public void ExecuteFinishAnimation(int id, int waitTime)
     {
         levelManager.LoadFinal();
