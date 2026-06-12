@@ -3246,6 +3246,7 @@ MonoBehaviour:
     Path: event:/SFX_Buttons/SFX_Buttons_Final
   targetAnimator: {fileID: 9099485350462520428}
   animationStateName: RightArrowClick_MK2
+  validator: {fileID: 9099485350462520429}
 --- !u!114 &131517780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10175,33 +10176,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f0be5549f268d214191f33387d1b4dec, type: 3}
   m_PrefabInstance: {fileID: 275411254}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &279594505 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4459726531934321220, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-  m_PrefabInstance: {fileID: 1092662022}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &279594509
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 279594505}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -6516459708581338841, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
 --- !u!1 &279950468
 GameObject:
   m_ObjectHideFlags: 0
@@ -11925,33 +11899,6 @@ Transform:
   - {fileID: 546344884}
   m_Father: {fileID: 1161931541}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &448781121 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7240861120923012558, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-  m_PrefabInstance: {fileID: 1092662022}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &448781125
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 448781121}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1635227259651148443, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
 --- !u!1 &459634160
 GameObject:
   m_ObjectHideFlags: 0
@@ -15940,7 +15887,6 @@ Transform:
   - {fileID: 339576179}
   - {fileID: 1348298803}
   - {fileID: 1866616783}
-  - {fileID: 1092662023}
   - {fileID: 6951369}
   - {fileID: 1540249758}
   - {fileID: 1057744667}
@@ -17931,6 +17877,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 7312373766383115444}
   animationStateName: MiiddleButtonClick_MK2
+  validator: {fileID: 7312373766383115445}
 --- !u!114 &859539173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20641,6 +20588,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 1039698108}
   animationStateName: RightButtonClick_MK1
+  validator: {fileID: 0}
 --- !u!135 &1039698104
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -20713,6 +20661,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 1039698113}
   animationStateName: LeftButtonClick_MK1
+  validator: {fileID: 0}
 --- !u!135 &1039698107
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -21761,106 +21710,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d7daf9fdd8a5e674f8b2b4d7e8169c64, type: 3}
   m_PrefabInstance: {fileID: 1092441805}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &1092662022
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 694958094}
-    m_Modifications:
-    - target: {fileID: -8721175688456208455, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 8e2d3f6421ea3bb4586c224de9fa0b52, type: 2}
-    - target: {fileID: -8679921383154817045, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.75
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.21
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -12.62
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_Name
-      value: terraCasaFinal
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 4459726531934321220, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4459726531934321220, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 7240861120923012558, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7240861120923012558, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
-    - target: {fileID: 8369082591220000329, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 8e2d3f6421ea3bb4586c224de9fa0b52, type: 2}
-    - target: {fileID: 8369082591220000329, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      propertyPath: 'm_Materials.Array.data[1]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 8ec272c2af1380d4ea3415eecedf4b12, type: 2}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4459726531934321220, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 279594509}
-    - targetCorrespondingSourceObject: {fileID: 7240861120923012558, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 448781125}
-  m_SourcePrefab: {fileID: 100100000, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
---- !u!4 &1092662023 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 379fc21f5d2786e4e921fb4664e5516b, type: 3}
-  m_PrefabInstance: {fileID: 1092662022}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1098879900
 GameObject:
@@ -36017,7 +35866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   characterController: {fileID: 1736802195}
   mainCamera: {fileID: 330585545}
-  walkSpeed: 2.7
+  walkSpeed: 5
   cameraLocked: 0
   groundedGravity: -2
   pitchController: {fileID: 239646625}
@@ -37591,15 +37440,15 @@ PrefabInstance:
     - target: {fileID: 3860304793834078597, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 1ff2392eac13c244d9d050d11a19fa0d, type: 2}
+      objectReference: {fileID: 2100000, guid: d09b7141c242b6b4cbca7c63de9348ab, type: 2}
     - target: {fileID: 4048836984289418703, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 1ff2392eac13c244d9d050d11a19fa0d, type: 2}
+      objectReference: {fileID: 2100000, guid: d09b7141c242b6b4cbca7c63de9348ab, type: 2}
     - target: {fileID: 6591437147795199124, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 1ff2392eac13c244d9d050d11a19fa0d, type: 2}
+      objectReference: {fileID: 2100000, guid: ce737bfea02cff24880712e5a5b8168f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -37646,6 +37495,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -6945895849411897645, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1996374443}
+    - targetCorrespondingSourceObject: {fileID: -6945895849411897645, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1996374447}
     - targetCorrespondingSourceObject: {fileID: -6945895849411897645, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1996374442}
@@ -38826,6 +38678,7 @@ MonoBehaviour:
     Path: 
   targetAnimator: {fileID: 8427812220776211893}
   animationStateName: ButtonCliick_MK4
+  validator: {fileID: 0}
 --- !u!1 &1932007147 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7076590467822531996, guid: abd0035cc0a9a7649a2ea41b127ffd68, type: 3}
@@ -44096,6 +43949,7 @@ MonoBehaviour:
     Path: event:/SFX_Buttons/SFX_Buttons_Final
   targetAnimator: {fileID: 7438186382883496111}
   animationStateName: LeftArrowClick_MK2
+  validator: {fileID: 7438186382883496112}
 --- !u!114 &1966233615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44632,6 +44486,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 1996374446}
   animationStateName: MiiddleButtonClick_MK1
+  validator: {fileID: 1996374447}
 --- !u!135 &1996374443
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -44675,6 +44530,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1996374447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039698098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27afc8a7e77ca64291b4651fc476073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Day1ButtonValidator
 --- !u!1001 &1998745473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48740,7 +48607,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9b3e4a00eb7222740957459659c10a9f, type: 2}
+  - {fileID: 2100000, guid: 2c4984fd0fd0e9b4ca54835e9c10558f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -51835,6 +51702,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 1881911132639619985}
   animationStateName: One_Anim
+  validator: {fileID: 0}
 --- !u!95 &1881911132639619985
 Animator:
   serializedVersion: 7
@@ -52291,7 +52159,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2ff17a571ac5e16448970e02cad23354, type: 2}
+  - {fileID: 2100000, guid: 908c1c9dfa028f54696e94c35fc56807, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -53502,6 +53370,7 @@ GameObject:
   - component: {fileID: 3073634779595943922}
   - component: {fileID: 1966233616}
   - component: {fileID: 1966233615}
+  - component: {fileID: 7438186382883496112}
   - component: {fileID: 1966233614}
   - component: {fileID: 7438186382883496111}
   m_Layer: 7
@@ -54152,6 +54021,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 2892166251239999845}
   animationStateName: Eight_Anim
+  validator: {fileID: 0}
 --- !u!114 &2892166251239999844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55066,6 +54936,7 @@ GameObject:
   - component: {fileID: 859539174}
   - component: {fileID: 859539173}
   - component: {fileID: 859539175}
+  - component: {fileID: 7312373766383115445}
   - component: {fileID: 859539172}
   - component: {fileID: 7312373766383115444}
   m_Layer: 7
@@ -55088,6 +54959,7 @@ GameObject:
   - component: {fileID: 7291814254053808168}
   - component: {fileID: 7291814254053808171}
   - component: {fileID: 7291814254053808170}
+  - component: {fileID: 7291814254053808173}
   - component: {fileID: 7291814254053808169}
   - component: {fileID: 7291814254053808172}
   m_Layer: 7
@@ -57249,7 +57121,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9b3e4a00eb7222740957459659c10a9f, type: 2}
+  - {fileID: 2100000, guid: 090aa99b7eeb0df4f80a31bc91a8f618, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -57908,6 +57780,7 @@ GameObject:
   - component: {fileID: 9099485350462520427}
   - component: {fileID: 131517781}
   - component: {fileID: 131517780}
+  - component: {fileID: 9099485350462520429}
   - component: {fileID: 131517779}
   - component: {fileID: 9099485350462520428}
   m_Layer: 7
@@ -59836,6 +59709,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 5686226395317800617}
   animationStateName: Delate_Anim
+  validator: {fileID: 0}
 --- !u!114 &5686226395317800616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60624,7 +60498,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2ff17a571ac5e16448970e02cad23354, type: 2}
+  - {fileID: 2100000, guid: 74cc1a691734ea04d9370b2ac88a51b1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -61716,6 +61590,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 6724418336168041674}
   animationStateName: Nine_Anim
+  validator: {fileID: 0}
 --- !u!114 &6724418336168041673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62744,6 +62619,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 7291814254053808172}
   animationStateName: ConfirmationClicl
+  validator: {fileID: 7291814254053808173}
 --- !u!114 &7291814254053808170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62802,6 +62678,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7291814254053808173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3438892212730218651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96239d68905236449825a3df875962dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CityButtonValidator
+  cityFunnel: {fileID: 1469307825388841629}
 --- !u!23 &7312373766383115443
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62827,7 +62716,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9b3e4a00eb7222740957459659c10a9f, type: 2}
+  - {fileID: 2100000, guid: 2c4984fd0fd0e9b4ca54835e9c10558f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -62873,6 +62762,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7312373766383115445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3435730279289592597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c02f2ffa906f84881e8aa8adef2fba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PriorityButtonValidator
 --- !u!1 &7327692129376414453
 GameObject:
   m_ObjectHideFlags: 0
@@ -63006,6 +62907,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7438186382883496112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2542162301505413202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27afc8a7e77ca64291b4651fc476073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Day1ButtonValidator
 --- !u!4 &7461801766951650109
 Transform:
   m_ObjectHideFlags: 0
@@ -63130,6 +63043,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 7508707239503900688}
   animationStateName: Three_Anim
+  validator: {fileID: 0}
 --- !u!95 &7508707239503900688
 Animator:
   serializedVersion: 7
@@ -63915,6 +63829,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 7826160148513828876}
   animationStateName: Seven_Anim
+  validator: {fileID: 0}
 --- !u!95 &7826160148513828876
 Animator:
   serializedVersion: 7
@@ -64760,6 +64675,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 8139190219771933331}
   animationStateName: Six_Anim
+  validator: {fileID: 0}
 --- !u!114 &8139190219771933330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65125,7 +65041,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2ff17a571ac5e16448970e02cad23354, type: 2}
+  - {fileID: 2100000, guid: dd18d326f93aa0c4d9f8c55c180d127c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -65426,6 +65342,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 8373873888933183521}
   animationStateName: Two_Anim
+  validator: {fileID: 0}
 --- !u!114 &8373873888933183520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67472,6 +67389,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 9039709009316722588}
   animationStateName: Zero_Anim
+  validator: {fileID: 0}
 --- !u!114 &9039709009316722587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67740,6 +67658,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9099485350462520429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4855874965201030836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27afc8a7e77ca64291b4651fc476073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Day1ButtonValidator
 --- !u!1 &9104828452919015575
 GameObject:
   m_ObjectHideFlags: 0
@@ -67917,6 +67847,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 9155920293560118609}
   animationStateName: Five_Anim
+  validator: {fileID: 0}
 --- !u!114 &9155920293560118608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68070,6 +68001,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 9174769383447025233}
   animationStateName: Four_Anim
+  validator: {fileID: 0}
 --- !u!114 &9174769383447025232
 MonoBehaviour:
   m_ObjectHideFlags: 0
