@@ -94,7 +94,8 @@ public class DayTime : MonoBehaviour
     {
         for (int i = 0; i < minigames.Count; i++)
         {
-            minigames[i].SetActive(i == currentDay);
+            // CAMBIO: Ahora se activa si su índice es menor o igual al día actual
+            minigames[i].SetActive(i <= currentDay);
         }
     }
 

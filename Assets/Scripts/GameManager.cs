@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
-using System.Diagnostics;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// El Enum global restaurado en la raíz del script maestro
 public enum Day { Day1 = 0, Day2, Day3, Day4, Day5, Day6 }
 
 public class GameManager : MonoBehaviour
@@ -19,6 +20,8 @@ public class GameManager : MonoBehaviour
     public DecManager decManager;
     public DayTime dayTime;
     public LevelManager levelManager;
+
+    // Tu variable pública estructural original
     public Day currentDay;
 
     [Header("StartPosition")]
@@ -40,6 +43,9 @@ public class GameManager : MonoBehaviour
     }
 
     public GameState currentState;
+
+    // Lista de objetos registrados con el contrato IResetable
+    private List<IResetable> resetableObjects = new List<IResetable>();
 
     void Awake()
     {
@@ -63,7 +69,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y)) 
+        if (Input.GetKeyDown(KeyCode.Y))
         {
             ExecuteFinishAnimation(0, 3);
         }
@@ -72,7 +78,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator DelayedStartDay()
     {
         yield return null;
-        NewDay?.Invoke();
+        ExecuteDayTransitionSequence();
     }
 
     private void OnEnable()
@@ -133,6 +139,9 @@ public class GameManager : MonoBehaviour
 
         if (presiSpeaker != null)
             presiSpeaker.DialogueIni();
+
+        // Sincronizar líquidos al cargar escena
+        ExecuteDayTransitionSequence();
     }
 
     public void SetPlayer(PlayerController controller)
@@ -148,11 +157,52 @@ public class GameManager : MonoBehaviour
 
             OnChangeDay?.Invoke(currentDay);
 
-            NewDay?.Invoke();
+            // Ejecuta la secuencia secuencial limpia para evitar el lag de frames de la UI
+            ExecuteDayTransitionSequence();
         }
     }
 
-    // Numero de final i temps fins que s'executa per si has de ficar algun dialeg
+    // =================================================================
+    // NÚCLEO DE REINICIO SÍNCRONO PARA MÁQUINAS E INTERFACES
+    // =================================================================
+
+    public void RegisterResetable(IResetable resetable)
+    {
+        if (!resetableObjects.Contains(resetable))
+        {
+            resetableObjects.Add(resetable);
+        }
+    }
+
+    private void ExecuteDayTransitionSequence()
+    {
+        // 1. Limpiar referencias muertas de la lista
+        resetableObjects.RemoveAll(item => item == null);
+
+        // 2. Buscamos y actualizamos todos los componentes mecánicos (Bases, Tanques, Pumps)
+        var allMonoBehaviours = FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        foreach (var mono in allMonoBehaviours)
+        {
+            if (mono is IResetable resetable && mono.GetComponent<CapabilityUI>() == null)
+            {
+                resetable.ResetValues();
+            }
+        }
+
+        // 3. Disparar el evento para los escuchas tradicionales
+        NewDay?.Invoke();
+
+        // 4. Actualizar las pantallas de texto de la UI al mismo tiempo
+        foreach (var mono in allMonoBehaviours)
+        {
+            if (mono is IResetable resetable && mono.GetComponent<CapabilityUI>() != null)
+            {
+                resetable.ResetValues();
+            }
+        }
+    }
+
     public void ExecuteFinishAnimation(int id, int waitTime)
     {
         pendingFinalId = id;

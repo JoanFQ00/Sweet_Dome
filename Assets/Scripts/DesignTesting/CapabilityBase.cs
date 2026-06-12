@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public abstract class CapabilityBase : MonoBehaviour
+public abstract class CapabilityBase : MonoBehaviour, IResetable
 {
     // INTERRUPTOR GLOBAL: Si es true, congela el volumen de líquido de todo el juego
     public static bool IsGlobalFlowPaused = false;
@@ -21,20 +21,18 @@ public abstract class CapabilityBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        GameManager.NewDay += StartDay;
-        StartDay();
-
-        CapacityUpdated();
+        // Se inicializan valores de forma segura al arrancar
+        ResetValues();
     }
 
     protected virtual void OnDisable()
     {
-        GameManager.NewDay -= StartDay;
+        // Limpieza de seguridad
     }
 
-    public void StartDay()
+    // Método de la interfaz IResetable para limpiar y actualizar datos sin hilos fantasmas
+    public void ResetValues()
     {
-        Debug.Log($"{name} StartDay");
         currentCapacity = PutInitialCapacity(GameManager.Instance.currentDay);
         CapacityUpdated();
         OnStartDayFinished();
@@ -49,16 +47,9 @@ public abstract class CapabilityBase : MonoBehaviour
             return;
 
         currentCapacity += amount;
-
-        currentCapacity =
-            Mathf.Clamp(currentCapacity, minCapacity, maxCapacity);
-
-        // Borra o comenta estas líneas:
-        // if (Mathf.Abs(currentCapacity - Mathf.Round(currentCapacity)) < 0.01f)
-        //     currentCapacity = Mathf.Round(currentCapacity);
+        currentCapacity = Mathf.Clamp(currentCapacity, minCapacity, maxCapacity);
 
         CapacityUpdated();
-
         OnCapacityChanged();
     }
 

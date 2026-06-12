@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CityFunnel : FunnelBase
+public class CityFunnel : FunnelBase, IResetable
 {
     [System.Serializable]
     public class CityZoneData
@@ -30,12 +30,36 @@ public class CityFunnel : FunnelBase
         indexZone = 0;
         base.Start();
 
+        // Registrar este objeto en el GameManager central para el reinicio limpio de días
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterResetable(this);
+        }
+
         UpdateSelectedZoneUI();
     }
 
-    // -------------------------
-    // CORE: zonas desbloqueadas
-    // -------------------------
+    // Método obligatorio de la interfaz IResetable para limpiar los días
+    // Añadimos 'new' para indicarle a C# que oculte el método heredado a propósito
+    public new void ResetValues()
+    {
+        // Forzamos a que cada zona de la ciudad resetee su líquido al del nuevo día
+        for (int i = 0; i < cityZones.Count; i++)
+        {
+            if (cityZones[i] != null && cityZones[i].funnel != null)
+            {
+                cityZones[i].funnel.ResetValues();
+            }
+        }
+
+        // También nos reseteamos a nosotros mismos (como FunnelBase)
+        currentCapacity = PutInitialCapacity(GameManager.Instance.currentDay);
+        CapacityUpdated();
+        OnStartDayFinished();
+
+        UpdateSelectedZoneUI();
+    }
+
     private List<CityZoneData> GetUnlockedZones()
     {
         int currentDay = (int)GameManager.Instance.currentDay;
@@ -54,9 +78,6 @@ public class CityFunnel : FunnelBase
         return result;
     }
 
-    // -------------------------
-    // EVENTO día cambiado
-    // -------------------------
     private void OnDayChanged()
     {
         ClampIndex();
@@ -80,9 +101,6 @@ public class CityFunnel : FunnelBase
             indexZone = 0;
     }
 
-    // -------------------------
-    // UI UPDATE
-    // -------------------------
     private void UpdateSelectedZoneUI()
     {
         var zones = GetUnlockedZones();
@@ -95,23 +113,19 @@ public class CityFunnel : FunnelBase
         if (zone == null || zone.funnel == null)
             return;
 
-        OnCapacityUpdated?.Invoke(zone.funnel.CurrentCapacity);
+        CapacityUpdated();
 
         CityLabel label = zone.funnel.GetComponent<CityLabel>();
         if (label != null)
             OnNameUpdated?.Invoke(label.label);
     }
 
-    // -------------------------
-    // INPUT
-    // -------------------------
     public void GoRight()
     {
         var zones = GetUnlockedZones();
         if (zones.Count == 0) return;
 
         indexZone = (indexZone + 1) % zones.Count;
-        //UpdateSelectedZoneUI();
     }
 
     public void GoLeft()
@@ -120,12 +134,8 @@ public class CityFunnel : FunnelBase
         if (zones.Count == 0) return;
 
         indexZone = (indexZone - 1 + zones.Count) % zones.Count;
-        //UpdateSelectedZoneUI();
     }
 
-    // -------------------------
-    // ACTION
-    // -------------------------
     public void ConfirmLiquid()
     {
         var zones = GetUnlockedZones();
@@ -139,20 +149,13 @@ public class CityFunnel : FunnelBase
         if (energy != null)
         {
             float originalAmount = CurrentCapacity;
-
-            float modifiedAmount =
-                energy.GetModifiedAmount(originalAmount);
+            float modifiedAmount = energy.GetModifiedAmount(originalAmount);
 
             zone.funnel.AddLiquid(modifiedAmount);
-
-            // SOLO restas lo original
             UpdateCapacity(-originalAmount);
         }
     }
 
-    // -------------------------
-    // INITIAL UI HELPERS
-    // -------------------------
     public float GetInitialValue()
     {
         var zones = GetUnlockedZones();
@@ -173,7 +176,6 @@ public class CityFunnel : FunnelBase
     public List<FunnelBase> GetCityZones()
     {
         List<FunnelBase> result = new();
-
         foreach (var z in cityZones)
             result.Add(z.funnel);
 
@@ -183,9 +185,7 @@ public class CityFunnel : FunnelBase
     public FunnelBase GetCurrentZone()
     {
         var zones = GetUnlockedZones();
-
-        if (zones.Count == 0)
-            return null;
+        if (zones.Count == 0) return null;
 
         return zones[indexZone].funnel;
     }
@@ -195,79 +195,38 @@ public class CityFunnel : FunnelBase
         return cityZones;
     }
 
-
-    // =================================================================
-    // ENTRADAS PÚBLICAS PARA EL ÁRBOL DE DECISIONES (PUENTE / FACHADA)
-    // =================================================================
-
-    /// <summary>
-    /// Dispara el evento de grieta en una ciudad específica buscando por su índice en la lista global.
-    /// </summary>
-    /// <param name="zoneIndex">0: Zona Urbana, 1: Escuela, 2: Hospital, 3: Residencia Presidencial</param>
-    /// <param name="duration">Duración en segundos del evento.</param>
-    /// <param name="severityMultiplier">Multiplicador de velocidad de drenaje.</param>
     public void TriggerCrackInZone(int zoneIndex, float duration, float severityMultiplier)
     {
-        Debug.Log($"<color=#FF0055><b>[ÁRBOL DE DECISIONES]</b></color> Llamando a TriggerCrackInZone -> Índice: {zoneIndex} | Duración: {duration}s | Fuerza: x{severityMultiplier}");
-
-        if (zoneIndex < 0 || zoneIndex >= cityZones.Count)
-        {
-            Debug.LogError($"[CityFunnel] Índice de zona inválido: {zoneIndex}. No se puede aplicar la grieta.");
-            return;
-        }
+        if (zoneIndex < 0 || zoneIndex >= cityZones.Count) return;
 
         var zoneData = cityZones[zoneIndex];
-
         if (zoneData != null && zoneData.funnel != null)
         {
             CityZoneEnergy energyComponent = zoneData.funnel.GetComponent<CityZoneEnergy>();
-
             if (energyComponent != null)
             {
                 energyComponent.TriggerCrackEvent(duration, severityMultiplier);
             }
-            else
-            {
-                Debug.LogWarning($"[CityFunnel] El objeto {zoneData.funnel.name} no contiene un componente CityZoneEnergy.");
-            }
         }
     }
 
-    /// <summary>
-    /// Modifica de forma directa y suavizada (Lerp por Update) el líquido de una zona mediante su índice.
-    /// </summary>
-    /// <param name="zoneIndex">0: Zona Urbana, 1: Escuela, 2: Hospital, 3: Residencia Presidencial</param>
-    /// <param name="targetValue">Cantidad de líquido objetivo.</param>
-    /// <param name="duration">Tiempo en segundos que tardará en llegar a ese valor.</param>
     public void ChangeLiquidInZone(int zoneIndex, float targetValue, float duration)
     {
-        Debug.Log($"<color=#00FFCC><b>[ÁRBOL DE DECISIONES]</b></color> Llamando a ChangeLiquidInZone -> Índice: {zoneIndex} | Target: {targetValue} | Tiempo: {duration}s");
-
-        if (zoneIndex < 0 || zoneIndex >= cityZones.Count)
-        {
-            Debug.LogError($"[CityFunnel] Índice de zona inválido: {zoneIndex}. No se puede cambiar el líquido.");
-            return;
-        }
+        if (zoneIndex < 0 || zoneIndex >= cityZones.Count) return;
 
         var zoneData = cityZones[zoneIndex];
-
         if (zoneData != null && zoneData.funnel != null)
         {
             CityZoneEnergy energyComponent = zoneData.funnel.GetComponent<CityZoneEnergy>();
-
             if (energyComponent != null)
             {
                 energyComponent.ChangeLiquidDirectly(targetValue, duration);
-            }
-            else
-            {
-                Debug.LogWarning($"[CityFunnel] El objeto {zoneData.funnel.name} no contiene un componente CityZoneEnergy.");
             }
         }
     }
 
     // =================================================================
-    // CONTROL DE FLUJO GLOBAL (PAUSA DE MÁQUINA - ULTRA OPTIMIZADO)
+    // CONTROL DE FLUJO GLOBAL (PAUSA DE MÁQUINA)
     // =================================================================
 
     /// <summary>
