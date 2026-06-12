@@ -120,17 +120,36 @@ public class DecManager : MonoBehaviour
 
     public void ResetDayActions()
     {
+        HashSet<int> baseIds = new HashSet<int>();
+        foreach (NDec_Act act in originalDayActions)
+        {
+            baseIds.Add(act.ID);
+        }
+
+        List<NDec_Act> accionesParaConservar = new List<NDec_Act>();
+        foreach (var act in dayActions)
+        {
+            if (!baseIds.Contains(act.ID))
+            {
+                accionesParaConservar.Add(act);
+            }
+        }
+
         dayActions.Clear();
-        actionsPerformed.Clear();
-        actionsNotPerformed.Clear();
 
         foreach (NDec_Act act in originalDayActions)
         {
             dayActions.Add(Instantiate(act));
         }
 
+        dayActions.AddRange(accionesParaConservar);
+
+        actionsPerformed.RemoveAll(a => baseIds.Contains(a.ID));
+        actionsNotPerformed.Clear();
+
         ActionsChanged();
     }
+
     public void CleanPerformedActions(Day c_Day)
     {
         HashSet<int> originalIds = new HashSet<int>();

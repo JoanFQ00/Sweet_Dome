@@ -7,6 +7,9 @@ public class Action_Eat : BaseAction
     public float moveSpeed = 8f;
     public float rotateSpeed = 10f;
 
+    public enum FoodType { Dorothy, President }
+    public FoodType bookType;
+
     private Transform obj;
     private Vector3 originalPos;
     private Quaternion originalRot;

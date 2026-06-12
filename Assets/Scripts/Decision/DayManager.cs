@@ -32,8 +32,8 @@ public class DayManager : MonoBehaviour
 
 
     [Header("Day3Con")] //Podria reutilizar el timer IKIK
-    public float day3DorothyTimer = 5f;
-    private float day3DorothyCurrentTime;
+    public float dayLaunchDorothyTimer = 5f;
+    private float dayLaunchDorothyCurrentTime;
 
     public float timerToBeBop = 1f;
     float currentBeBopTimer;
@@ -57,7 +57,7 @@ public class DayManager : MonoBehaviour
     public bool dorothyAngry = false;
     public bool dorothyExplainsButton = false;
     public bool afterTvDay2 = false;
-    public bool dorothyTalksDay3 = false;
+    public bool dorothyTalksAboutLaunch = false;
     public bool finishedEatin2 = false;
     public bool triedToSkipMachine = false;
 
@@ -109,23 +109,23 @@ public class DayManager : MonoBehaviour
     private void OnEnable()
     {
         SkipTimeButt.OnFirstDayButt += HourSkiped;
-        GameManager.OnChangeDay += RestartTriggers;
+        GameManager.OnChangeDay += RestartTriggersAndTimers;
         GameManager.OnChangeDay += LoadInteractObjects;
         GameManager.NewDay += GoodMorningPresi;
         LevelManager.OnLevelLoaded += SceneLoaded;
         PresiSys.OnDialogueTerminated += CheckPresiTerminatedDialogue;
-        GameManager.NewDay += ChangeBookIfActDorothys;
+        GameManager.NewDay += BookLaunchActChange;
     }
 
     private void OnDisable()
     {
         SkipTimeButt.OnFirstDayButt -= HourSkiped;
-        GameManager.OnChangeDay -= RestartTriggers;
+        GameManager.OnChangeDay -= RestartTriggersAndTimers;
         GameManager.OnChangeDay -= LoadInteractObjects;
         GameManager.NewDay -= GoodMorningPresi;
         LevelManager.OnLevelLoaded -= SceneLoaded;
         PresiSys.OnDialogueTerminated -= CheckPresiTerminatedDialogue;
-        GameManager.NewDay -= ChangeBookIfActDorothys;
+        GameManager.NewDay -= BookLaunchActChange;
     }
 
     private void Update()
@@ -270,11 +270,11 @@ public class DayManager : MonoBehaviour
 
     void UpdateDay3()
     {
-        day3DorothyCurrentTime += Time.deltaTime;
+        dayLaunchDorothyCurrentTime += Time.deltaTime;
 
-        if (day3DorothyCurrentTime >= day3DorothyTimer && !dorothyTalksDay3)
+        if (dayLaunchDorothyCurrentTime >= dayLaunchDorothyTimer && !dorothyTalksAboutLaunch)
         {
-            dorothyTalksDay3 = true;
+            dorothyTalksAboutLaunch = true;
             ChangeRobotDialogue((int)DialoguesRobo.DorothyLaunch, true);
         }
 
@@ -316,7 +316,13 @@ public class DayManager : MonoBehaviour
 
     void UpdateDay4() 
     {
+        dayLaunchDorothyCurrentTime += Time.deltaTime;
 
+        if (dayLaunchDorothyCurrentTime >= dayLaunchDorothyTimer && !dorothyTalksAboutLaunch)
+        {
+            dorothyTalksAboutLaunch = true;
+            ChangeRobotDialogue((int)DialoguesRobo.DorothyLaunch, true);
+        }
     }
 
     void Day1HourSkip()
@@ -493,7 +499,7 @@ public class DayManager : MonoBehaviour
         GameManager.Instance.presiSpeaker.PresiSpeaks((int)dialogue);
     }
 
-    public void RestartTriggers(Day currentDay)
+    public void RestartTriggersAndTimers(Day currentDay)
     {
         watchTvTriggered = false;
         machineCompletedToday = false;
@@ -504,6 +510,10 @@ public class DayManager : MonoBehaviour
         afterTvDay2 = false;
         finishedEatin2 = false;
         triedToSkipMachine = false;
+        dorothyTalksAboutLaunch = false;
+
+        //Timers
+        dayLaunchDorothyCurrentTime = 0;
     }
 
     public void LoadInteractObjects(Day currentDay)
@@ -563,26 +573,25 @@ public class DayManager : MonoBehaviour
         }
     }
 
-    void ChangeBookIfActDorothys()
+    void BookLaunchActChange()
     {
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Gameplay"))
         {
             Action_Reader readerCode = dorothyBook.GetComponent<Action_Reader>();
+            Action_Eat eatCode = dorothyLaunch.GetComponent<Action_Eat>();
 
-            if (readerCode.bookType == BookType.Dorothy)
+            switch (GameManager.Instance.currentDay)
             {
-                switch (GameManager.Instance.currentDay)
-                {
-                    case Day.Day3:
-                        NDec_Act newAct = Resources.Load<NDec_Act>("Actions/DorothyBook2");
-                        readerCode.act = newAct;
-                        break;
+                case Day.Day3:
+                    NDec_Act newAct = Resources.Load<NDec_Act>("Actions/DorothyBook2");
+                    readerCode.act = newAct;
+                break;
 
-                    case Day.Day4:
-                        NDec_Act newAct2 = Resources.Load<NDec_Act>("Actions/DorothyBook3");
-                        readerCode.act = newAct2;
-                        break;
-                }
+                case Day.Day4:
+                    NDec_Act newAct2 = Resources.Load<NDec_Act>("Actions/DorothyBook3");
+                    NDec_Act eatAct2 = Resources.Load<NDec_Act>("Actions/DorothyLaunchD4");
+                    readerCode.act = newAct2;
+                break;
             }
         }
     }
