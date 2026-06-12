@@ -21,16 +21,29 @@ public abstract class CapabilityBase : MonoBehaviour, IResetable
 
     protected virtual void Start()
     {
-        // Se inicializan valores de forma segura al arrancar
+        // REGISTRO AUTOMÁTICO: Le dice al GameManager "Aquí estoy, apúntame"
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterResetable(this);
+        }
+
         ResetValues();
+    }
+
+    protected virtual void OnDestroy()
+    {
+        // LIMPIEZA AUTOMÁTICA: Si el objeto se destruye, se borra de la lista
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.UnregisterResetable(this);
+        }
     }
 
     protected virtual void OnDisable()
     {
-        // Limpieza de seguridad
+        // Limpieza de seguridad secundaria
     }
 
-    // Método de la interfaz IResetable para limpiar y actualizar datos sin hilos fantasmas
     public void ResetValues()
     {
         currentCapacity = PutInitialCapacity(GameManager.Instance.currentDay);
@@ -42,7 +55,6 @@ public abstract class CapabilityBase : MonoBehaviour, IResetable
 
     protected void UpdateCapacity(float amount)
     {
-        // SI EL FLUJO GLOBAL ESTÁ PAUSADO, SE RECHAZA CUALQUIER CAMBIO DE LÍQUIDO EN EL JUEGO
         if (IsGlobalFlowPaused)
             return;
 

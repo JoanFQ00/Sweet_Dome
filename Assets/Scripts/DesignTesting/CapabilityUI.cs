@@ -3,22 +3,33 @@ using UnityEngine;
 
 public class CapabilityUI : MonoBehaviour, IResetable
 {
-    public enum CapabilityType
-    {
-        NORMAL = 0,
-        CITY,
-        BIG_CITY
-    }
+    public enum CapabilityType { NORMAL = 0, CITY, BIG_CITY }
 
     [SerializeField] private CapabilityType capabilityType;
     [SerializeField] private CapabilityBase capabilityBase;
     [SerializeField] private TextMeshProUGUI capabilityText, nameText;
 
+    private void Start()
+    {
+        // REGISTRO DE UI: Las pantallas se apuntan al manager síncronamente
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterResetable(this);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.UnregisterResetable(this);
+        }
+    }
+
     private void OnEnable()
     {
         if (capabilityBase == null) return;
 
-        // Limpieza preventiva de eventos para evitar duplicados
         capabilityBase.OnCapacityUpdated -= UpdateCapabilityUI;
         capabilityBase.OnCapacityUpdated += UpdateCapabilityUI;
 
@@ -41,7 +52,6 @@ public class CapabilityUI : MonoBehaviour, IResetable
             capabilityBase.OnNameUpdated -= UpdateCityNameUI;
     }
 
-    // Implementación de IResetable para actualizar la interfaz al instante sin desajustes de frames
     public void ResetValues()
     {
         if (capabilityBase == null) return;

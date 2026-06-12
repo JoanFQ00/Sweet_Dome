@@ -34,14 +34,7 @@ public class GameManager : MonoBehaviour
     public static event Action FinalFade;
     public int pendingFinalId;
 
-    public enum GameState
-    {
-        Gameplay,
-        Interacting,
-        Minigame,
-        Paused
-    }
-
+    public enum GameState { Gameplay, Interacting, Minigame, Paused }
     public GameState currentState;
 
     // Lista de objetos registrados con el contrato IResetable
@@ -163,30 +156,38 @@ public class GameManager : MonoBehaviour
     }
 
     // =================================================================
-    // NÚCLEO DE REINICIO SÍNCRONO PARA MÁQUINAS E INTERFACES
+    // API DE REGISTRO DINÁMICO (PREVIENE ENTIERROS Y DUPLICADOS)
     // =================================================================
 
     public void RegisterResetable(IResetable resetable)
     {
-        if (!resetableObjects.Contains(resetable))
+        if (resetable != null && !resetableObjects.Contains(resetable))
         {
             resetableObjects.Add(resetable);
+        }
+    }
+
+    public void UnregisterResetable(IResetable resetable)
+    {
+        if (resetableObjects.Contains(resetable))
+        {
+            resetableObjects.Remove(resetable);
         }
     }
 
     private void ExecuteDayTransitionSequence()
     {
         // 1. Limpiar referencias muertas de la lista
-        resetableObjects.RemoveAll(item => item == null);
+        resetableObjects.RemoveAll(item => item == null || (item is MonoBehaviour mono && mono == null));
 
         // 2. Buscamos y actualizamos todos los componentes mecánicos (Bases, Tanques, Pumps)
         var allMonoBehaviours = FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
-        foreach (var mono in allMonoBehaviours)
+        for (int i = 0; i < resetableObjects.Count; i++)
         {
-            if (mono is IResetable resetable && mono.GetComponent<CapabilityUI>() == null)
+            if (resetableObjects[i] is MonoBehaviour mono && mono.GetComponent<CapabilityUI>() == null)
             {
-                resetable.ResetValues();
+                resetableObjects[i].ResetValues();
             }
         }
 
@@ -194,15 +195,20 @@ public class GameManager : MonoBehaviour
         NewDay?.Invoke();
 
         // 4. Actualizar las pantallas de texto de la UI al mismo tiempo
-        foreach (var mono in allMonoBehaviours)
+        for (int i = 0; i < resetableObjects.Count; i++)
         {
-            if (mono is IResetable resetable && mono.GetComponent<CapabilityUI>() != null)
+            if (resetableObjects[i] is MonoBehaviour mono && mono.GetComponent<CapabilityUI>() != null)
             {
-                resetable.ResetValues();
+                resetableObjects[i].ResetValues();
             }
         }
     }
 
+    // =================================================================
+    // GESTIÓN DE FINALES DEL JUEGO (RESTAURADO)
+    // =================================================================
+
+    // Numero de final i temps fins que s'executa per si has de ficar algun dialeg
     public void ExecuteFinishAnimation(int id, int waitTime)
     {
         pendingFinalId = id;
@@ -210,7 +216,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(LoadFinalDelayed(waitTime));
     }
 
-    IEnumerator LoadFinalDelayed(int waitTime)
+    private IEnumerator LoadFinalDelayed(int waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         levelManager.LoadFinal();

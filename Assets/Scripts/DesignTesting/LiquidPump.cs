@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-// SOLUCIÓN: Añadimos explícitamente la firma IResetable para que el GameManager la capture sí o sí
 public class LiquidPump : CapabilityBase, IResetable
 {
     public enum PumpType
@@ -37,13 +36,10 @@ public class LiquidPump : CapabilityBase, IResetable
     {
         initialValues = new List<float> { 0f, 0f, 0f, 0f, 0f };
 
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.RegisterResetable(this);
-        }
-
+        // Inicializamos los waypoints en el frame 1
         InitializePositions();
 
+        // Ejecuta el Start de CapabilityBase que lo registra en el manager de forma segura
         base.Start();
     }
 
@@ -62,7 +58,6 @@ public class LiquidPump : CapabilityBase, IResetable
         }
     }
 
-    // El método ahora se ejecutará perfectamente de forma síncrona cada mañana
     public new void ResetValues()
     {
         currentCapacity = PutInitialCapacity(GameManager.Instance.currentDay);
