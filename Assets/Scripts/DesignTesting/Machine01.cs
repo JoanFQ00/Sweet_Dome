@@ -26,15 +26,20 @@ public class Machine01 : MonoBehaviour, IResetable
         InvokeInitialSwap();
     }
 
+    // =================================================================
+    // ACCIONES DE LA MÁQUINA (Lógica Limpia sin ifs de días)
+    // =================================================================
+
     public void SwapPump()
     {
-        if (GameManager.Instance.currentDay != Day.Day1)
-        {
-            isPurifiedMode = !isPurifiedMode;
-            AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.pumpSwap, gameObject);
+        // ELIMINADO: El control del Día 1 ya lo hace el ChangeZoneButtonValidator
+        isPurifiedMode = !isPurifiedMode;
 
-            OnPumpSwapped?.Invoke(GetActivePump());
-        }
+        // Nota: Si ya tienes sonido de click en el MainButt y este pumpSwap suena igual, 
+        // podrías borrar esta línea de audio para que no se duplique.
+        AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.pumpSwap, gameObject);
+
+        OnPumpSwapped?.Invoke(GetActivePump());
     }
 
     public void MovePumpToRight()

@@ -142,6 +142,11 @@ public class CityFunnel : FunnelBase, IResetable
         indexZone = (indexZone - 1 + zones.Count) % zones.Count;
     }
 
+    public bool HasLiquid()
+    {
+        return CurrentCapacity > 0f;
+    }
+
     public void ConfirmLiquid()
     {
         var zones = GetUnlockedZones();

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CityPriorityManager : MonoBehaviour
+public class CityPriorityManager : MonoBehaviour, IResetable
 {
     [Header("References")]
     [SerializeField] private CityFunnel cityFunnel;
@@ -8,42 +8,56 @@ public class CityPriorityManager : MonoBehaviour
     private FunnelBase prioritizedZone;
     private bool priorityUsedToday = false;
 
-    private void OnEnable()
+    private void Start()
     {
-        GameManager.NewDay += ResetPriority;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterResetable(this);
+        }
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
-        GameManager.NewDay -= ResetPriority;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.UnregisterResetable(this);
+        }
     }
 
-    // -------------------------
-    // BUTTON
-    // -------------------------
+    // =================================================================
+    // IMPLEMENTACIÓN DE INTERFAZ (RESET DE PRIORIDAD DIARIA)
+    // =================================================================
+
+    public void ResetValues()
+    {
+        prioritizedZone = null;
+        priorityUsedToday = false;
+
+        OnPriorityResetVisual();
+
+        Debug.Log($"<color=#00FFCC><b>[PRIORITY MANAGER]</b></color> Botón de prioridad restablecido para el nuevo día.");
+    }
+
+    protected virtual void OnPriorityResetVisual() { }
+
+    // =================================================================
+    // ACCIÓN DEL BOTÓN (Lógica Limpia y Directa)
+    // =================================================================
+
     public void PrioritizeCurrentZone()
     {
-        if (priorityUsedToday)
-            return;
+        // ELIMINADO: Los 'if' de control de clics repetidos ya no hacen falta aquí.
+        // El validador del MainButt se encarga de filtrar las pulsaciones falsas.
+
+        if (cityFunnel == null) return;
 
         FunnelBase currentZone = cityFunnel.GetCurrentZone();
-
-        if (currentZone == null)
-            return;
+        if (currentZone == null) return;
 
         prioritizedZone = currentZone;
         priorityUsedToday = true;
 
         Debug.Log($"Prioritized zone: {prioritizedZone.name}");
-    }
-
-    // -------------------------
-    // RESET EACH DAY
-    // -------------------------
-    private void ResetPriority()
-    {
-        prioritizedZone = null;
-        priorityUsedToday = false;
     }
 
     // -------------------------
