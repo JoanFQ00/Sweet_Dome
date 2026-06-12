@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Machine01 : MonoBehaviour
@@ -7,10 +8,23 @@ public class Machine01 : MonoBehaviour
     [SerializeField] private LiquidPump rawPump;
     [SerializeField] private bool isPurifiedMode;
 
+    public Action<LiquidPump> OnPumpSwapped;
+
+    // Cambiado a Start para garantizar que las TVs y UIs ya estén en OnEnable escuchando
+    private void Start()
+    {
+        InvokeInitialSwap();
+    }
+
     public void SwapPump()
     {
-        isPurifiedMode = !isPurifiedMode;
-        AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.pumpSwap, gameObject);
+        if (GameManager.Instance.currentDay != Day.Day1)
+        {
+            isPurifiedMode = !isPurifiedMode;
+            AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.pumpSwap, gameObject);
+
+            OnPumpSwapped?.Invoke(GetActivePump());
+        }
     }
 
     public void MovePumpToRight()
@@ -28,5 +42,13 @@ public class Machine01 : MonoBehaviour
     public LiquidPump GetActivePump()
     {
         return isPurifiedMode ? purifiedPump : rawPump;
+    }
+
+    private void InvokeInitialSwap()
+    {
+        if (purifiedPump != null && rawPump != null)
+        {
+            OnPumpSwapped?.Invoke(GetActivePump());
+        }
     }
 }
