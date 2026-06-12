@@ -39,11 +39,16 @@ public class CityFunnel : FunnelBase, IResetable
         UpdateSelectedZoneUI();
     }
 
-    // Método obligatorio de la interfaz IResetable para limpiar los días
-    // Añadimos 'new' para indicarle a C# que oculte el método heredado a propósito
+    // =================================================================
+    // IMPLEMENTACIÓN DE INTERFAZ (RESET DE ÍNDICES DE CIUDAD)
+    // =================================================================
+
     public new void ResetValues()
     {
-        // Forzamos a que cada zona de la ciudad resetee su líquido al del nuevo día
+        // 1. NUEVO: Forzamos la selección de la primera zona de la lista (Índice 0) al iniciar la mañana
+        indexZone = 0;
+
+        // 2. Forzamos a que cada zona de la ciudad resetee su líquido al del nuevo día
         for (int i = 0; i < cityZones.Count; i++)
         {
             if (cityZones[i] != null && cityZones[i].funnel != null)
@@ -52,11 +57,12 @@ public class CityFunnel : FunnelBase, IResetable
             }
         }
 
-        // También nos reseteamos a nosotros mismos (como FunnelBase)
+        // 3. También nos reseteamos a nosotros mismos (como FunnelBase)
         currentCapacity = PutInitialCapacity(GameManager.Instance.currentDay);
         CapacityUpdated();
         OnStartDayFinished();
 
+        // 4. Refrescamos la UI seleccionada para que se entere del salto al índice 0
         UpdateSelectedZoneUI();
     }
 
@@ -225,19 +231,9 @@ public class CityFunnel : FunnelBase, IResetable
         }
     }
 
-    // =================================================================
-    // CONTROL DE FLUJO GLOBAL (PAUSA DE MÁQUINA)
-    // =================================================================
-
-    /// <summary>
-    /// Activa o desactiva por completo el paso del tiempo y energía en todas las zonas de la ciudad.
-    /// </summary>
-    /// <param name="pause">True para congelar la energía, False para reanudarla.</param>
     public void SetGlobalEnergyFlowPause(bool pause)
     {
         Debug.Log($"<color=#FFFF00><b>[CONTROL MÁQUINA]</b></color> Pausa global de fluidos cambiada a: PAUSADO = {pause}");
-
-        // Modificamos la propiedad estática de la base. Afecta a todo el juego instantáneamente.
         CapabilityBase.IsGlobalFlowPaused = pause;
     }
 }

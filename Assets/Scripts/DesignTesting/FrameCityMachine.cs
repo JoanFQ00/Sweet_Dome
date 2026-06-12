@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FrameCityMachine : MonoBehaviour
+public class FrameCityMachine : MonoBehaviour, IResetable
 {
     [Header("References")]
     [SerializeField] private CityFunnel cityFunnel;
@@ -18,10 +18,42 @@ public class FrameCityMachine : MonoBehaviour
 
     void Start()
     {
+        // Registro síncrono y directo en la lista del GameManager central
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterResetable(this);
+        }
+
+        ResetValues();
+    }
+
+    private void OnDestroy()
+    {
+        // Limpieza automática al destruir la escena
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.UnregisterResetable(this);
+        }
+    }
+
+    // =================================================================
+    // IMPLEMENTACIÓN DE INTERFAZ (RESET DE MARCO VISUAL)
+    // =================================================================
+
+    public void ResetValues()
+    {
         indexZone = 0;
 
-        if (cityWayPoints.Count > 0)
+        if (cityWayPoints != null && cityWayPoints.Count > 0 && cityWayPoints[0] != null)
+        {
+            // Forzamos la posición física global e interna de golpe para evitar el Lerp fantasma por la mañana
+            transform.localPosition = cityWayPoints[0].localPosition;
             targetPosition = cityWayPoints[0].localPosition;
+        }
+        else
+        {
+            targetPosition = transform.localPosition;
+        }
     }
 
     void Update()
@@ -38,13 +70,17 @@ public class FrameCityMachine : MonoBehaviour
     // -------------------------
     private int GetUnlockedCount()
     {
-        int currentDay = (int)GameManager.Instance.currentDay;
+        if (GameManager.Instance == null || cityFunnel == null) return 0;
 
+        int currentDay = (int)GameManager.Instance.currentDay;
         int count = 0;
 
-        foreach (var zone in cityFunnel.GetCityZonesData())
+        var zonesData = cityFunnel.GetCityZonesData();
+        if (zonesData == null) return 0;
+
+        foreach (var zone in zonesData)
         {
-            if ((int)zone.unlockDay <= currentDay)
+            if (zone != null && (int)zone.unlockDay <= currentDay)
                 count++;
         }
 
@@ -60,7 +96,6 @@ public class FrameCityMachine : MonoBehaviour
         if (max <= 0) return;
 
         indexZone = (indexZone + 1) % max;
-
         ApplyTarget(max);
     }
 
@@ -70,7 +105,6 @@ public class FrameCityMachine : MonoBehaviour
         if (max <= 0) return;
 
         indexZone = (indexZone - 1 + max) % max;
-
         ApplyTarget(max);
     }
 
@@ -81,6 +115,9 @@ public class FrameCityMachine : MonoBehaviour
     {
         indexZone = Mathf.Clamp(indexZone, 0, max - 1);
 
-        targetPosition = cityWayPoints[indexZone].localPosition;
+        if (cityWayPoints != null && indexZone < cityWayPoints.Count && cityWayPoints[indexZone] != null)
+        {
+            targetPosition = cityWayPoints[indexZone].localPosition;
+        }
     }
 }

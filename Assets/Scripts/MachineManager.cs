@@ -269,6 +269,7 @@ public class MachineManager : MonoBehaviour
         countdownList.Clear();
         countdownList.Add(startCountdownDay1);
 
+        cityFunnel.SetGlobalEnergyFlowPause(true);
         WaveDispatch?.Invoke(0f, 60f);
     }
 
