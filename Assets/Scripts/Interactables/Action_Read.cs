@@ -68,6 +68,8 @@ public class Action_Reader : BaseAction
         GameManager.OnChangeDay -= ChangeTexture;
     }
 
+    
+
     void LevelLoaded() 
     {
         player = GameManager.Instance.playerController;

@@ -25,16 +25,11 @@ public class DecManager : MonoBehaviour
 
     private void Start()
     {
-        originalDayActions = new List<NDec_Act>();
-
         foreach (NDec_Act act in dayActions)
         {
-            originalDayActions.Add(Instantiate(act));
+        originalDayActions.Add(Instantiate(act));
         }
-
-        dayActions = new List<NDec_Act>(originalDayActions);
-
-        OnActionsChanged?.Invoke(dayActions);
+        ResetToInitialState();  
     }
 
     private void OnEnable()
@@ -55,32 +50,17 @@ public class DecManager : MonoBehaviour
 
     private void LevelLoaded()
     {
-        originalDayActions ??= new List<NDec_Act>();
-        dayActions ??= new List<NDec_Act>();
-
         originalDayActions.Clear();
         dayActions.Clear();
-        actionsPerformed.Clear();
-        actionsNotPerformed.Clear();
 
         foreach (NDec_Act act in starterDayActions)
         {
-            NDec_Act newInstance = Instantiate(act);
-            originalDayActions.Add(newInstance);
-            dayActions.Add(newInstance);
+            originalDayActions.Add(act);
         }
 
-        OnActionsChanged?.Invoke(dayActions);
+        ResetDayActions();
     }
 
-    private void Update()
-    {
-        if (dayActions.Count <= 0)
-        {
-            Debug.Log("All day actions performed Go To Work");
-            ResetDayActions();
-        }
-    }
     private void CheckExecutedAction(NDec_Act action, ActionTypes actionType)
     {
         NDec_Act actToRemove = null;
@@ -141,11 +121,15 @@ public class DecManager : MonoBehaviour
     public void ResetDayActions()
     {
         dayActions.Clear();
+        actionsPerformed.Clear();
+        actionsNotPerformed.Clear();
 
         foreach (NDec_Act act in originalDayActions)
         {
             dayActions.Add(Instantiate(act));
         }
+
+        ActionsChanged();
     }
     public void CleanPerformedActions(Day c_Day)
     {
@@ -164,14 +148,14 @@ public class DecManager : MonoBehaviour
     void ResetToInitialState() 
     {
         dayActions.Clear();
-        actionsPerformed.Clear();
-        actionsNotPerformed.Clear();
 
-        foreach (NDec_Act act in originalDayActions) 
+        foreach (NDec_Act act in originalDayActions)
         {
-            dayActions.Add(Instantiate(act));
+            dayActions.Add(act);
         }
 
+        actionsPerformed.Clear();
+        actionsNotPerformed.Clear();
         ActionsChanged();
     }
 

@@ -148,12 +148,6 @@ public class GameManager : MonoBehaviour
 
             OnChangeDay?.Invoke(currentDay);
 
-            if (presiSpeaker != null)
-            {
-                presiSpeaker.ChangeDialogueID(1); 
-                presiSpeaker.PresiSpeaks();
-            }
-
             NewDay?.Invoke();
         }
     }

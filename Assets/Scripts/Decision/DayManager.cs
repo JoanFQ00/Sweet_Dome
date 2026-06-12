@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.Android;
 using UnityEngine.SceneManagement;
+using static Action_Reader;
 
 public class DayManager : MonoBehaviour
 {
@@ -46,6 +47,7 @@ public class DayManager : MonoBehaviour
     public NDec_Act angriedDay2;
     public NDec_Act angriedDay3;
     public NDec_Act dorothySaysWatchTv;
+    public NDec_Act disconectTV;
 
     [Header("SafeChecks")]
     public bool hasEated_SF = false;
@@ -69,7 +71,7 @@ public class DayManager : MonoBehaviour
     public GameObject dorothyLaunch;
 
     [Header("DorothyBooks")]
-    private GameObject dorothyBook;
+    public GameObject dorothyBook;
 
     private IEnumerator Start()
     {
@@ -109,8 +111,10 @@ public class DayManager : MonoBehaviour
         SkipTimeButt.OnFirstDayButt += HourSkiped;
         GameManager.OnChangeDay += RestartTriggers;
         GameManager.OnChangeDay += LoadInteractObjects;
+        GameManager.NewDay += GoodMorningPresi;
         LevelManager.OnLevelLoaded += SceneLoaded;
         PresiSys.OnDialogueTerminated += CheckPresiTerminatedDialogue;
+        GameManager.NewDay += ChangeBookIfActDorothys;
     }
 
     private void OnDisable()
@@ -118,8 +122,10 @@ public class DayManager : MonoBehaviour
         SkipTimeButt.OnFirstDayButt -= HourSkiped;
         GameManager.OnChangeDay -= RestartTriggers;
         GameManager.OnChangeDay -= LoadInteractObjects;
+        GameManager.NewDay -= GoodMorningPresi;
         LevelManager.OnLevelLoaded -= SceneLoaded;
         PresiSys.OnDialogueTerminated -= CheckPresiTerminatedDialogue;
+        GameManager.NewDay -= ChangeBookIfActDorothys;
     }
 
     private void Update()
@@ -149,6 +155,7 @@ public class DayManager : MonoBehaviour
                 break;
 
             case Day.Day4:
+                UpdateDay4();
                 break;
 
             case Day.Day5:
@@ -305,6 +312,11 @@ public class DayManager : MonoBehaviour
             // Dorothy Desconecta la television
             GameManager.Instance.robotBehaviour.TriggerTurnOffTvAnimation();
         }
+    }
+
+    void UpdateDay4() 
+    {
+
     }
 
     void Day1HourSkip()
@@ -505,20 +517,73 @@ public class DayManager : MonoBehaviour
             }
         }
 
+        if (dorothyLaunch != null) 
+        {
+            if (GameManager.Instance.currentDay == Day.Day3 ||
+                GameManager.Instance.currentDay == Day.Day4)
+            {
+                dorothyLaunch.SetActive(true);
+            }
+            else
+                dorothyLaunch.SetActive(false);
+        }
+
         int index = (int)currentDay;
 
         if (index >= 0 && index < dayInt.Length && dayInt[index] != null)
         {
             dayInt[index].gameObject.SetActive(true);
         }
-        else
-        {
-            Debug.LogWarning($"No interact objects configured for {currentDay}");
-        }
     }
 
     public void FindInteractables()
     {
         dayInt = FindObjectsByType<Action_Interactable>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+    }
+
+    void GoodMorningPresi()
+    {
+        switch (GameManager.Instance.currentDay) 
+        {
+            case Day.Day2:
+                PresidentSpeaks(PresiDialogue.GoodMorningDay1);
+            break;
+
+            case Day.Day3:
+                PresidentSpeaks(PresiDialogue.GoodMorningDay1);
+            break;
+
+            case Day.Day4:
+                //If branca 4/1 Com els anteriors else nou dialeg amb error 
+            break;
+
+            case Day.Day5:
+
+            break;
+        }
+    }
+
+    void ChangeBookIfActDorothys()
+    {
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Gameplay"))
+        {
+            Action_Reader readerCode = dorothyBook.GetComponent<Action_Reader>();
+
+            if (readerCode.bookType == BookType.Dorothy)
+            {
+                switch (GameManager.Instance.currentDay)
+                {
+                    case Day.Day3:
+                        NDec_Act newAct = Resources.Load<NDec_Act>("Actions/DorothyBook2");
+                        readerCode.act = newAct;
+                        break;
+
+                    case Day.Day4:
+                        NDec_Act newAct2 = Resources.Load<NDec_Act>("Actions/DorothyBook3");
+                        readerCode.act = newAct2;
+                        break;
+                }
+            }
+        }
     }
 }
