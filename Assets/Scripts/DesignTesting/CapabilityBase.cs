@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class CapabilityBase : MonoBehaviour
 {
+    // INTERRUPTOR GLOBAL: Si es true, congela el volumen de líquido de todo el juego
+    public static bool IsGlobalFlowPaused = false;
+
     [Header("Capability")]
     [SerializeField] protected float maxCapacity = 100f;
     [SerializeField] protected float minCapacity = 0f;
@@ -41,6 +44,10 @@ public abstract class CapabilityBase : MonoBehaviour
 
     protected void UpdateCapacity(float amount)
     {
+        // SI EL FLUJO GLOBAL ESTÁ PAUSADO, SE RECHAZA CUALQUIER CAMBIO DE LÍQUIDO EN EL JUEGO
+        if (IsGlobalFlowPaused)
+            return;
+
         currentCapacity += amount;
 
         currentCapacity =

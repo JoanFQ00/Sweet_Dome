@@ -70,6 +70,12 @@ public class MachineManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.M))
+            cityFunnel.SetGlobalEnergyFlowPause(false);
+        
+        if (Input.GetKeyDown(KeyCode.N))
+            cityFunnel.SetGlobalEnergyFlowPause(true);
+
         if (DayTime.Instance.currentHour >= 21)
             return;
 
@@ -186,22 +192,26 @@ public class MachineManager : MonoBehaviour
         DayTime.Instance.SetCurrentTime(act.passTimeToHour, act.passTimeToMinute);
     }
 
-    private void MachineEntered(bool entered) 
+    private void MachineEntered(bool entered)
     {
         if (entered)
         {
             BeginDayInstructions();
+            // Despausamos el flujo para que empiece la simulación
+            cityFunnel.SetGlobalEnergyFlowPause(false);
         }
-        else 
+        else
         {
             currentCountdown = 0f;
             onCountdown = false;
+            // Pausamos el flujo de energía porque el jugador se ha levantado de la silla
+            cityFunnel.SetGlobalEnergyFlowPause(true);
         }
     }
 
     void UpdateCountdown()
     {
-        if (GameManager.Instance.currentDay == Day.Day1 && !completedDay1)
+        if (GameManager.Instance.currentDay == Day.Day1)
         {
             currentCountdown += Time.deltaTime;
 
@@ -209,10 +219,10 @@ public class MachineManager : MonoBehaviour
             {
                 if (IsCityStable()) 
                 {
-                    day1CDCompleted = true;
-                    //Activar evento Simulacro
-                    Shake.Instance.TriggerShake(1f);
                     GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.CongratDay1Presi);
+                    ResetCountdowns();
+                    onCountdown = false;
+                    day1CDCompleted = true;
                 }
 
                 if (currentCountdown >= startCountdownDay1)
@@ -225,12 +235,9 @@ public class MachineManager : MonoBehaviour
             }
             else if (currentCountdown >= secondCountDay1)
             {
-                if (currentCountdown >= secondCountDay1)
-                {
-                    GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.MachineOmitedDay12ndTime);
-                    ResetCountdowns();
-                    onCountdown = false;
-                }
+                GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.MachineOmitedDay12ndTime);
+                ResetCountdowns();
+                onCountdown = false;
             }
         }
 
@@ -272,8 +279,10 @@ public class MachineManager : MonoBehaviour
             onCountdown = true;
         }
 
-        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.MachineOmitedDay1) 
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.CongratDay1Presi) 
         {
+            cityFunnel.TriggerCrackInZone(0, 20f, 3f);
+            Shake.Instance.TriggerShake(1f);
             onCountdown = true;
         }
 
@@ -300,26 +309,22 @@ public class MachineManager : MonoBehaviour
     {
         if (GameManager.Instance.currentDay == Day.Day1)
         {
-            GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.ExplainMachineDay1);
-            GameManager.Instance.presiSpeaker.PresiSpeaks();
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.ExplainMachineDay1);
         }
 
         else if (GameManager.Instance.currentDay == Day.Day2)
         {
-            GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.ExplainMachineDay2);
-            GameManager.Instance.presiSpeaker.PresiSpeaks();
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.ExplainMachineDay2);
         }
 
         else if (GameManager.Instance.currentDay == Day.Day3)
         {
-            GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.ExplainMachineDay3);
-            GameManager.Instance.presiSpeaker.PresiSpeaks();
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.ExplainMachineDay3);
         }
 
         else if (GameManager.Instance.currentDay == Day.Day4)
         {
-            GameManager.Instance.presiSpeaker.ChangeDialogueID((int)PresiDialogue.ExplainMachineDay4);
-            GameManager.Instance.presiSpeaker.PresiSpeaks();
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.ExplainMachineDay4);
         }
     }
 }
