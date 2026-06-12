@@ -23,6 +23,9 @@ public enum DialoguesRobo
     Angry3AndNoBook = 16,
 
     TryToSkipMachineDay1 = 17,
+
+    PleaseEatMyLaunch = 72,
+    ILoveYou = 74,
 }
 
 public class RoboSys : DialogueSys

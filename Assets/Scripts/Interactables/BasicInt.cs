@@ -77,7 +77,6 @@ public class BasicInt : MonoBehaviour, IInteractable, ILookable
             switch (GameManager.Instance.currentDay)  //START MUSIC ACCORDING TO DAY
             {
                 case Day.Day1:
-                    Debug.Log("StartingMusicDay1");
                 break;
                 case Day.Day2:
 

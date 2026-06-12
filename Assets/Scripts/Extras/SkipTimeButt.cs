@@ -49,7 +49,6 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
         StartCoroutine(InteractionCooldown());
         int hour = GameManager.Instance.dayTime.currentHour;
 
-
         if (GameManager.Instance.currentDay == Day.Day6)
             onPress?.Invoke();
         else if (GameManager.Instance.currentDay == Day.Day1)
@@ -74,7 +73,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
 
             OnFirstDayButt?.Invoke(true);
         }
-        else if (GameManager.Instance.currentDay == Day.Day3) 
+        else if (GameManager.Instance.currentDay == Day.Day3)
         {
             if (hour < 10)
             {
@@ -88,14 +87,39 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 {
                     GameManager.Instance.dayTime.AddMinutes(30);
                 }
-                else 
+                else
                 {
                     GameManager.Instance.dayTime.SetCurrentTime(11, 30);
                 }
             }
             else
             {
-                
+
+            }
+        }
+        else if (GameManager.Instance.currentDay == Day.Day4) 
+        {
+            if (hour < 10)
+            {
+                if (!GameManager.Instance.dayManager.trySkipEatingD4)
+                {
+                    GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.PleaseEatMyLaunch, true);
+                }
+                else 
+                {
+                    GameManager.Instance.dayTime.SetCurrentTime(10, 00);
+                }
+            }
+            else if (hour < 11)
+            {
+                GameManager.Instance.dayTime.SetCurrentTime(11, 30);
+
+                // A partir de aqui esto va en DayManager Day4SKip
+                if (GameManager.Instance.dayManager.
+                    dorothyLaunch2.IsMet(GameManager.Instance.decManager)) // SHA DE COMPROBAR LA BRANCA 3/1 aqui tambe  
+                {
+                    GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.ILoveYou, true);
+                }
             }
         }
     }
