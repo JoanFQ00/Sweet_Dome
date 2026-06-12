@@ -10,7 +10,8 @@ public class DayTime : MonoBehaviour
     [Header("Days")]
     public List<GameObject> minigames;
     public int maxDays = 2;
-    private int currentDay;
+
+    // REMOVIDO: Se elimina private int currentDay para evitar desincronizaciones con el GameManager
 
     [Header("Time")]
     public int startHourDay = 9;
@@ -26,7 +27,6 @@ public class DayTime : MonoBehaviour
     private float lerpElapsed;
 
     public static Action<int, int> OnTimeChanged;
-
     public static Action<int> OnTimeSkiped;
 
     private bool canSleep = false;
@@ -58,10 +58,7 @@ public class DayTime : MonoBehaviour
 
     void Start()
     {
-        currentDay = PlayerPrefs.GetInt("lastDay", 0);
-
         ResetDayTime();
-
         LoadMinigames();
     }
 
@@ -77,31 +74,34 @@ public class DayTime : MonoBehaviour
 
     void LoadNextDay(Day c_Day)
     {
-        currentDay++;
-
-        if (currentDay > maxDays)
-            currentDay = 0;
+        // Guardamos el día en PlayerPrefs usando el valor real enviado por el GameManager
+        int dayIndex = (int)c_Day;
+        SaveLastDay(dayIndex);
 
         GameManager.Instance.decManager.ResetDayActions();
-
-        SaveLastDay(currentDay);
 
         LoadMinigames();
         ResetDayTime();
     }
 
-    void LoadMinigames()
+    public void LoadMinigames()
     {
+        if (GameManager.Instance == null) return;
+
+        // Conseguimos el índice del día actual directamente desde la fuente real del juego
+        int gameDayIndex = (int)GameManager.Instance.currentDay;
+
         for (int i = 0; i < minigames.Count; i++)
         {
-            // CAMBIO: Ahora se activa si su índice es menor o igual al día actual
-            minigames[i].SetActive(i <= currentDay);
+            // Sincronización absoluta: Se activan de forma acumulativa todos los anteriores y el actual
+            minigames[i].SetActive(i <= gameDayIndex);
         }
     }
 
     void SaveLastDay(int lastDay)
     {
         PlayerPrefs.SetInt("lastDay", lastDay);
+        PlayerPrefs.Save();
     }
 
     public bool CanSleepInBed()

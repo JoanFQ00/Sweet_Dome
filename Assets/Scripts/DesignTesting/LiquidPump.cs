@@ -1,32 +1,75 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class LiquidPump : CapabilityBase
+// SOLUCIÓN: Añadimos explícitamente la firma IResetable para que el GameManager la capture sí o sí
+public class LiquidPump : CapabilityBase, IResetable
 {
+    public enum PumpType
+    {
+        Purified,
+        Raw
+    }
+
     [Header("Initial Values")]
     [SerializeField] private List<float> initialValues;
 
-    [Header("Funnels")]
+    [Header("Pump Configuration")]
+    [SerializeField] private PumpType pumpType = PumpType.Purified;
+
+    [Header("Funnels & Mapping")]
+    [Tooltip("Coloca los tubos DE IZQUIERDA A DERECHA (Elemento 0 = Izquierda, Elemento 1 = Derecha)")]
     [SerializeField] private FunnelBase[] funnelArray;
+
+    [Tooltip("El índice por defecto al arrancar el día (0 para el tubo izquierdo de su zona, 1 para el derecho)")]
     [SerializeField] private int initialIndex = 0;
     private int funnelIndex;
 
     [Header("Other")]
     [SerializeField] private float transferSpeed = 10f;
+    [Tooltip("Coloca los Waypoints DE IZQUIERDA A DERECHA (Elemento 0 = Izquierda, Elemento 1 = Derecha)")]
     [SerializeField] private Transform[] pumpPositions;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
-    private Vector3 targetPosition;
+    private Vector3 targetGlobalPosition;
 
     protected override void Start()
     {
-        initialValues = new List<float> { 0f, 0f, 0f, 0f, 0f }; // Example values for each day
+        initialValues = new List<float> { 0f, 0f, 0f, 0f, 0f };
 
-        funnelIndex = initialIndex;
-        targetPosition = transform.localPosition;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterResetable(this);
+        }
+
+        InitializePositions();
 
         base.Start();
+    }
+
+    private void InitializePositions()
+    {
+        funnelIndex = initialIndex;
+
+        if (pumpPositions != null && funnelIndex < pumpPositions.Length && pumpPositions[funnelIndex] != null)
+        {
+            transform.position = pumpPositions[funnelIndex].position;
+            targetGlobalPosition = pumpPositions[funnelIndex].position;
+        }
+        else
+        {
+            targetGlobalPosition = transform.position;
+        }
+    }
+
+    // El método ahora se ejecutará perfectamente de forma síncrona cada mañana
+    public new void ResetValues()
+    {
+        currentCapacity = PutInitialCapacity(GameManager.Instance.currentDay);
+        CapacityUpdated();
+        OnStartDayFinished();
+
+        InitializePositions();
     }
 
     protected override float PutInitialCapacity(Day day)
@@ -43,37 +86,48 @@ public class LiquidPump : CapabilityBase
 
     void Update()
     {
-        transform.localPosition = Vector3.MoveTowards(
-            transform.localPosition,
-            targetPosition,
+        transform.position = Vector3.MoveTowards(
+            transform.position,
+            targetGlobalPosition,
             moveSpeed * Time.deltaTime
         );
     }
 
-    public void GoRight()
+    public void ShiftRight()
     {
-        if (funnelIndex + 1 < funnelArray.Length)
+        MoveTowardsIndexIncreasing();
+    }
+
+    public void ShiftLeft()
+    {
+        MoveTowardsIndexDecreasing();
+    }
+
+    private void MoveTowardsIndexIncreasing()
+    {
+        if (funnelIndex + 1 < funnelArray.Length && funnelIndex + 1 < pumpPositions.Length)
         {
             funnelIndex++;
-            targetPosition = pumpPositions[funnelIndex].localPosition;
+            targetGlobalPosition = pumpPositions[funnelIndex].position;
             AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.pumpMove, gameObject);
         }
     }
 
-    public void GoLeft()
+    private void MoveTowardsIndexDecreasing()
     {
         if (funnelIndex - 1 >= 0)
         {
             funnelIndex--;
-            targetPosition = pumpPositions[funnelIndex].localPosition;
+            targetGlobalPosition = pumpPositions[funnelIndex].position;
             AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.pumpMove, gameObject);
         }
     }
 
     public void Absorbing()
     {
-        float amount = transferSpeed * Time.deltaTime;
+        if (funnelArray == null || funnelIndex >= funnelArray.Length || funnelArray[funnelIndex] == null) return;
 
+        float amount = transferSpeed * Time.deltaTime;
         float freeSpace = maxCapacity - currentCapacity;
         amount = Mathf.Min(amount, freeSpace);
 
@@ -85,8 +139,9 @@ public class LiquidPump : CapabilityBase
 
     public void Expelling()
     {
-        float amount = transferSpeed * Time.deltaTime;
+        if (funnelArray == null || funnelIndex >= funnelArray.Length || funnelArray[funnelIndex] == null) return;
 
+        float amount = transferSpeed * Time.deltaTime;
         amount = Mathf.Min(amount, currentCapacity);
         float inserted = funnelArray[funnelIndex].AddLiquid(amount);
 

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Machine01 : MonoBehaviour
+public class Machine01 : MonoBehaviour, IResetable
 {
     [Header("Pump Settings")]
     [SerializeField] private LiquidPump purifiedPump;
@@ -10,9 +10,19 @@ public class Machine01 : MonoBehaviour
 
     public Action<LiquidPump> OnPumpSwapped;
 
-    // Cambiado a Start para garantizar que las TVs y UIs ya estén en OnEnable escuchando
     private void Start()
     {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterResetable(this);
+        }
+
+        InvokeInitialSwap();
+    }
+
+    public void ResetValues()
+    {
+        isPurifiedMode = true;
         InvokeInitialSwap();
     }
 
@@ -29,14 +39,14 @@ public class Machine01 : MonoBehaviour
 
     public void MovePumpToRight()
     {
-        if (isPurifiedMode) purifiedPump.GoRight();
-        else rawPump.GoRight();
+        if (isPurifiedMode) purifiedPump.ShiftRight();
+        else rawPump.ShiftRight();
     }
 
     public void MovePumpToLeft()
     {
-        if (isPurifiedMode) purifiedPump.GoLeft();
-        else rawPump.GoLeft();
+        if (isPurifiedMode) purifiedPump.ShiftLeft();
+        else rawPump.ShiftLeft();
     }
 
     public LiquidPump GetActivePump()
