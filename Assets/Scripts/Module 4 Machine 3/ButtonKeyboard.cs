@@ -19,6 +19,6 @@ public class ButtonKeyboard : ButtonValidator
         if (waveWinner == null || codeSystem == null)
             return false;
 
-        return waveWinner.waveSolved && codeSystem.IsCodeSystemActive(); 
+        return waveWinner.waveSolved && codeSystem.IsCodeSystemActive();
     }
 }

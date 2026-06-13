@@ -32,17 +32,20 @@ public class DialRotation : MonoBehaviour
     private Vector3 initialRotation;
     private float lastMouseAngle;
 
-    // Flag interno para controlar la animación del Lerp automático
     private bool isResetting = false;
     private float targetResetAngle;
+
+    // Referencia local automática para saber el estado del juego
+    private WaveWinner waveWinner;
 
     void Start()
     {
         initialRotation = transform.localEulerAngles;
-        // El punto de inicio de fábrica de las ruedecitas será el centro exacto entre sus límites
         targetResetAngle = (minAngle + maxAngle) / 2f;
-
         currentAngle = NormalizeAngle(transform.localEulerAngles.z);
+
+        // Buscamos el componente WaveWinner de forma automática en la escena
+        waveWinner = Object.FindAnyObjectByType<WaveWinner>();
 
         ApplyRotation();
         UpdateWaveValue();
@@ -50,18 +53,25 @@ public class DialRotation : MonoBehaviour
 
     private void OnEnable()
     {
-        // Nos suscribimos a la orden de reseteo del mánager de ondas
         WaveWinner.OnHardwareResetRequested += StartHardwareReset;
+        WaveWinner.OnDialsLockRequested += LockDialInteraction;
     }
 
     private void OnDisable()
     {
         WaveWinner.OnHardwareResetRequested -= StartHardwareReset;
+        WaveWinner.OnDialsLockRequested -= LockDialInteraction;
     }
 
     void Update()
     {
-        // MÁQUINA DE ESTADOS: Si la consola se está reseteando sola, ejecuta el Lerp rotatorio
+        // REGLA NUEVA: Si el mánager ya ha solucionado la sintonización, congelamos las ruedas de inmediato
+        if (waveWinner != null && waveWinner.waveSolved)
+        {
+            isDragging = false;
+            return;
+        }
+
         if (isResetting)
         {
             currentAngle = Mathf.MoveTowards(currentAngle, targetResetAngle, resetLerpSpeed * 50f * Time.deltaTime);
@@ -71,9 +81,9 @@ public class DialRotation : MonoBehaviour
             if (Mathf.Approximately(currentAngle, targetResetAngle))
             {
                 currentAngle = targetResetAngle;
-                isResetting = false; // Liberamos los controles
+                isResetting = false;
             }
-            return; // Bloqueo: el ratón se ignora por completo mientras gira solo
+            return;
         }
 
         if (!isDragging)
@@ -106,7 +116,13 @@ public class DialRotation : MonoBehaviour
     private void StartHardwareReset()
     {
         isDragging = false;
-        isResetting = true; // Activa el modo Lerp automático en el Update
+        isResetting = true;
+    }
+
+    private void LockDialInteraction()
+    {
+        isDragging = false;
+        isResetting = false;
     }
 
     void ApplyRotation()
@@ -144,8 +160,9 @@ public class DialRotation : MonoBehaviour
 
     void OnMouseDown()
     {
-        // Candado: No puedes interactuar con el dial si el minijuego no está activo o se está reseteando
-        if (isResetting || !waveRenderer.gameObject.activeInHierarchy) return;
+        // REGLA NUEVA: Si se está reseteando, la pantalla está apagada o la onda YA está solucionada, no dejes arrastrar con el ratón
+        if (isResetting || !waveRenderer.gameObject.activeInHierarchy || (waveWinner != null && waveWinner.waveSolved))
+            return;
 
         isDragging = true;
         lastMouseAngle = GetMouseAngle();

@@ -27,17 +27,14 @@ public class CodeSystem : MonoBehaviour
     private bool showingCode = false;
     private float codeTimer = 0f;
     private bool inputLocked = false;
-
     private bool codeSystemActive = false;
+
+    private WaveWinner currentWaveManager;
 
     void Start()
     {
-        if (generatedCodeCanvas != null)
-            generatedCodeCanvas.SetActive(false);
-
-        if (inputDisplay != null)
-            inputDisplay.text = "";
-
+        if (generatedCodeCanvas != null) generatedCodeCanvas.SetActive(false);
+        if (inputDisplay != null) inputDisplay.text = "";
         codeSystemActive = false;
     }
 
@@ -46,7 +43,6 @@ public class CodeSystem : MonoBehaviour
         if (showingCode)
         {
             codeTimer += Time.deltaTime;
-
             if (codeTimer >= codeVisibleTime)
             {
                 HideGeneratedCode();
@@ -58,7 +54,6 @@ public class CodeSystem : MonoBehaviour
     {
         generatedCode = "";
         currentInput = "";
-
         inputLocked = false;
 
         for (int i = 0; i < codeLength; i++)
@@ -67,14 +62,12 @@ public class CodeSystem : MonoBehaviour
         }
 
         Debug.Log("CODIGO: " + generatedCode);
-
         ShowGeneratedCode();
     }
 
     void ShowGeneratedCode()
     {
-        if (generatedCodeCanvas != null)
-            generatedCodeCanvas.SetActive(true);
+        if (generatedCodeCanvas != null) generatedCodeCanvas.SetActive(true);
 
         generatedCodeText.color = defaultColor;
         generatedCodeText.text = generatedCode;
@@ -86,21 +79,16 @@ public class CodeSystem : MonoBehaviour
     void HideGeneratedCode()
     {
         showingCode = false;
-
         generatedCodeText.text = "";
-
-        if (generatedCodeCanvas != null)
-            generatedCodeCanvas.SetActive(false);
+        if (generatedCodeCanvas != null) generatedCodeCanvas.SetActive(false);
     }
 
     public void AddNumber(int number)
     {
         if (!codeSystemActive || inputLocked) return;
-        if (currentInput.Length >= codeLength)
-            return;
+        if (currentInput.Length >= codeLength) return;
 
         currentInput += number.ToString();
-
         inputDisplay.text = currentInput;
 
         if (currentInput.Length == codeLength)
@@ -108,29 +96,32 @@ public class CodeSystem : MonoBehaviour
             CheckCode();
         }
     }
+
     public void DeleteLastNumber()
     {
-        if (inputLocked)
-            return;
-
-        if (currentInput.Length <= 0)
-            return;
+        if (inputLocked) return;
+        if (currentInput.Length <= 0) return;
 
         currentInput = currentInput.Substring(0, currentInput.Length - 1);
         inputDisplay.text = currentInput;
     }
 
+    // PASO 4: Cualquiera de los dos da por finalizado el evento y ejecuta su animación
     void CheckCode()
     {
         if (currentInput == generatedCode)
         {
             inputDisplay.color = correctColor;
+            inputLocked = true;
 
-            if (rawFunnel != null)
-                rawFunnel.AddLiquid(20f);
+            if (rawFunnel != null) rawFunnel.AddLiquid(20f);
 
-            Debug.Log("CORRECTO");
-            codeSystemActive = false;
+            Debug.Log("CÓDIGO CORRECTO");
+
+            // <color=green>// COMENTARIO VERDE: Activa aquí tu animación de parpadeo de ÉXITO (P.ej: miAnimator.SetTrigger("BlinkSuccess");)</color>
+
+            // Esperamos un segundo y medio para que dé tiempo a ver la pantalla en verde y la animación antes de apagar todo de golpe
+            Invoke(nameof(EndEventSuccess), 1.5f);
         }
         else
         {
@@ -138,26 +129,51 @@ public class CodeSystem : MonoBehaviour
             inputDisplay.color = wrongColor;
             inputDisplay.text = "ERROR";
 
-            Debug.Log("INCORRECTO");
+            Debug.Log("CÓDIGO INCORRECTO");
 
-            Invoke(nameof(ResetInput), 1.5f);
+            // <color=green>// COMENTARIO VERDE: Activa aquí tu animación de parpadeo de ERROR (P.ej: miAnimator.SetTrigger("BlinkWrong");)</color>
+
+            // Lo mismo: se muestra el fallo en rojo, se ejecuta la animación y se corta el evento para dejar paso al siguiente
+            Invoke(nameof(EndEventFail), 1.5f);
         }
     }
-    public void EnableCodeSystem()
+
+    private void EndEventSuccess()
     {
+        codeSystemActive = false;
+        ResetInput();
+        if (currentWaveManager != null) currentWaveManager.NotifyEventResult(true);
+    }
+
+    private void EndEventFail()
+    {
+        codeSystemActive = false;
+        ResetInput();
+        if (currentWaveManager != null) currentWaveManager.NotifyEventResult(false);
+    }
+
+    public void EnableCodeSystem(WaveWinner manager)
+    {
+        currentWaveManager = manager;
         codeSystemActive = true;
         GenerateCode();
+    }
+
+    public void ForceDisable()
+    {
+        codeSystemActive = false;
+        showingCode = false;
+        HideGeneratedCode();
+        ResetInput();
     }
 
     void ResetInput()
     {
         currentInput = "";
-
         inputDisplay.text = "";
         inputDisplay.color = defaultColor;
+        inputLocked = false;
     }
-    public bool IsCodeSystemActive()
-    {
-        return codeSystemActive;
-    }
+
+    public bool IsCodeSystemActive() => codeSystemActive;
 }

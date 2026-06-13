@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 using FMODUnity;
 
 public class WaveWinner : MonoBehaviour, IResetable
@@ -10,49 +11,38 @@ public class WaveWinner : MonoBehaviour, IResetable
     public CodeSystem codeSystem;
 
     [Header("Objetos a Desactivar")]
-    [Tooltip("El objeto padre que contiene los LineRenderers de las ondas para apagarlos por completo fuera de los eventos.")]
     public GameObject waveVisualsContainer;
 
-    [Header("Tolerancies (Ajustadas)")]
+    [Header("Tolerancies")]
     public float amplitudeTolerance = 0.18f;
     public float frequencyTolerance = 0.18f;
     public float phaseTolerance = 0.22f;
 
-    [Header("Time Message")]
-    public float messageDuration = 3f;
-
     [Header("Ajustes de Seguridad del Puzzle")]
     [SerializeField] private float safetyMargin = 0.3f;
+    [SerializeField] private float snapDuration = 1.5f;
 
-    private bool hasWon = false;
-    private float timer = 0f;
-    private bool showingMessage = false;
-    public bool waveSolved = false;
+    // Cambiado a público para que tus botones (ButtonKeyboard) puedan leerlo bien
+    [HideInInspector] public bool hasWon = false;
+    [HideInInspector] public bool waveSolved = false;
 
     [Header("Event State")]
     private bool inEvent = false;
     private float currentEventTime;
+    private bool isSnapping = false;
 
     public static Action<bool> OnEventFinished;
     public static Action OnHardwareResetRequested;
+    public static Action OnDialsLockRequested;
 
-    // BLINDAJE DE ARRANQUE: Forzamos el apagado en el Awake para ganarle la carrera a Unity
     private void Awake()
     {
-        if (waveVisualsContainer != null)
-        {
-            waveVisualsContainer.SetActive(false);
-        }
+        if (waveVisualsContainer != null) waveVisualsContainer.SetActive(false);
     }
 
     void Start()
     {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.RegisterResetable(this);
-        }
-
-        // Aseguramos la limpieza de estados inicial
+        if (GameManager.Instance != null) GameManager.Instance.RegisterResetable(this);
         ResetValues();
     }
 
@@ -70,77 +60,91 @@ public class WaveWinner : MonoBehaviour, IResetable
 
     private void OnDestroy()
     {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.UnregisterResetable(this);
-        }
+        if (GameManager.Instance != null) GameManager.Instance.UnregisterResetable(this);
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.V))
-            StartWaveEvent(45f);
-
-        if (inEvent)
+            StartWaveEvent(40f);
+        // REGLA: El temporizador SOLO descuenta tiempo si el evento está activo 
+        // Y el jugador todavía NO ha sintonizado con éxito la onda (evita que se apague en mitad del código)
+        if (inEvent && !waveSolved && !isSnapping)
         {
             EventTimer();
 
-            if (!hasWon && IsMatching())
+            if (IsMatching())
             {
-                hasWon = true;
-                waveSolved = true;
-                RuntimeManager.PlayOneShot(AudioManager.Instance.waveSuccess);
-
-                ShowWin();
-                OnEventFinished?.Invoke(true);
-                ResetValues();
-            }
-        }
-
-        if (showingMessage)
-        {
-            timer += Time.deltaTime;
-            if (timer >= messageDuration)
-            {
-                HideWinMessage();
+                StartCoroutine(SnapWaveRoutine());
             }
         }
     }
 
     private void HandleChairInteraction(bool entered)
     {
-        if (!entered)
+        if (!entered) ResetValues();
+    }
+
+    // =================================================================
+    // PASO 1 Y 2: CORRUTINA DE ACOPLE PERFECTO Y ENTREGA DE CÓDIGO
+    // =================================================================
+    private IEnumerator SnapWaveRoutine()
+    {
+        isSnapping = true;
+        OnDialsLockRequested?.Invoke(); // Congelamos las ruedas del jugador
+
+        float elapsedTime = 0f;
+        float startAmp = playerRenderer.amplitude;
+        float startFreq = playerRenderer.frequency;
+        float startPhase = playerRenderer.phase;
+
+        while (elapsedTime < snapDuration)
         {
-            ResetValues();
+            elapsedTime += Time.deltaTime;
+            float percent = elapsedTime / snapDuration;
+            percent = percent * percent * (3f - 2f * percent); // Suavizado matemático
+
+            playerRenderer.amplitude = Mathf.Lerp(startAmp, targetRenderer.amplitude, percent);
+            playerRenderer.frequency = Mathf.Lerp(startFreq, targetRenderer.frequency, percent);
+            playerRenderer.phase = Mathf.Lerp(startPhase, targetRenderer.phase, percent);
+
+            yield return null;
+        }
+
+        playerRenderer.amplitude = targetRenderer.amplitude;
+        playerRenderer.frequency = targetRenderer.frequency;
+        playerRenderer.phase = targetRenderer.phase;
+
+        isSnapping = false;
+        waveSolved = true; // <-- PASO 2: ¡Aquí tus botones ButtonKeyboard ya dan "true"!
+        hasWon = true;
+
+        RuntimeManager.PlayOneShot(AudioManager.Instance.waveSuccess);
+
+        // PASO 3: Se permite poner el código activando el sistema
+        if (codeSystem != null)
+        {
+            codeSystem.EnableCodeSystem(this);
         }
     }
 
     public void StartWaveEvent(float duration)
     {
-        if (inEvent)
-        {
-            Debug.LogWarning("[ONDA] Intento de sobrelapar evento rechazado. Ya hay un evento activo.");
-            return;
-        }
+        if (inEvent) return;
 
         inEvent = true;
         hasWon = false;
         waveSolved = false;
+        isSnapping = false;
         currentEventTime = duration;
 
-        // Encendemos la pantalla al comenzar
         if (waveVisualsContainer != null) waveVisualsContainer.SetActive(true);
 
         OnHardwareResetRequested?.Invoke();
         GenerateRandomTarget();
-
-        Debug.Log($"<color=cyan><b>[ONDA]</b></color> Evento iniciado. Tiempo: {duration}s");
     }
 
-    public void EventLoader(float _timeToEvent, float _eventTime)
-    {
-        StartWaveEvent(_eventTime);
-    }
+    public void EventLoader(float _timeToEvent, float _eventTime) => StartWaveEvent(_eventTime);
 
     private void EventTimer()
     {
@@ -150,26 +154,35 @@ public class WaveWinner : MonoBehaviour, IResetable
             currentEventTime = 0f;
             RuntimeManager.PlayOneShot(AudioManager.Instance.waveFail);
 
-            OnEventFinished?.Invoke(false);
-            ResetValues();
+            // Si el tiempo general del evento llega a cero antes de sintonizar, da fallo y apaga todo
+            NotifyEventResult(false);
         }
     }
 
-    // =================================================================
-    // INTERFAZ DE RESETEO (SE LLAMA AL CAMBIAR DE DÍA O FIN DE EVENTO)
-    // =================================================================
+    // PASO 4: El CodeSystem llama aquí para finiquitar el evento tras procesar el código
+    public void NotifyEventResult(bool success)
+    {
+        OnEventFinished?.Invoke(success);
+        ResetValues(); // Limpieza absoluta de la pantalla al terminar el código (bien o mal)
+    }
+
     public void ResetValues()
     {
+        StopAllCoroutines();
         inEvent = false;
+        isSnapping = false;
+        waveSolved = false;
+        hasWon = false;
         currentEventTime = 0f;
 
-        // Apagamos la pantalla y los LineRenderers de forma fulminante
-        if (waveVisualsContainer != null)
-        {
-            waveVisualsContainer.SetActive(false);
-        }
-
+        // Se apaga todo (LineRenderers incluidos)
+        if (waveVisualsContainer != null) waveVisualsContainer.SetActive(false);
         OnHardwareResetRequested?.Invoke();
+
+        if (codeSystem != null && codeSystem.IsCodeSystemActive())
+        {
+            codeSystem.ForceDisable();
+        }
     }
 
     bool IsMatching()
@@ -189,15 +202,6 @@ public class WaveWinner : MonoBehaviour, IResetable
         if (diff > Mathf.PI) diff = (Mathf.PI * 2f) - diff;
         return diff;
     }
-
-    void ShowWin()
-    {
-        if (codeSystem != null) codeSystem.EnableCodeSystem();
-        showingMessage = true;
-        timer = 0f;
-    }
-
-    void HideWinMessage() => showingMessage = false;
 
     private void GenerateRandomTarget()
     {
