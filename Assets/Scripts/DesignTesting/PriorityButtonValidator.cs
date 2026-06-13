@@ -2,18 +2,25 @@ using UnityEngine;
 
 public class PriorityButtonValidator : ButtonValidator
 {
-    CityPriorityManager priorityManager;
+    private CityPriorityManager priorityManager;
 
-    private void Start()
+    private void Awake()
     {
         priorityManager = GetComponent<CityPriorityManager>();
     }
 
     public override bool CanPress()
     {
+        if (GameManager.Instance == null) return false;
+
+        // Regresa false el Día 1 (Bloqueado)
+        if (GameManager.Instance.currentDay == Day.Day1)
+        {
+            return false;
+        }
+
         if (priorityManager == null) return false;
 
-        // El botón SOLO se puede pulsar si NO se ha usado la prioridad hoy
         return !priorityManager.HasUsedPriorityToday();
     }
 }
