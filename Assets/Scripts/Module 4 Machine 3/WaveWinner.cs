@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using static UnityEngine.GraphicsBuffer;
 using FMODUnity;
 
 public class WaveWinner : MonoBehaviour
@@ -10,7 +9,6 @@ public class WaveWinner : MonoBehaviour
     public WaveRenderer targetRenderer;
     public CodeSystem codeSystem;
 
-
     [Header("Tolerancies")]
     public float amplitudeTolerance = 0.25f;
     public float frequencyTolerance = 0.25f;
@@ -18,6 +16,10 @@ public class WaveWinner : MonoBehaviour
 
     [Header("Time Message")]
     public float messageDuration = 3f;
+
+    [Header("Ajustes de Seguridad del Puzzle")]
+    [Tooltip("Margen de seguridad para no forzar la generación en los límites absolutos de los diales (Evita valores inalcanzables).")]
+    [SerializeField] private float safetyMargin = 0.3f;
 
     private bool hasWon = false;
     private float timer = 0f;
@@ -127,7 +129,7 @@ public class WaveWinner : MonoBehaviour
     private void EventTimer()
     {
         currentTimeEvent -= Time.deltaTime;
-        if (currentTimeEvent <=0f)
+        if (currentTimeEvent <= 0f)
         {
             currentTimeEvent = 0f;
             ResetEvent();
@@ -149,11 +151,66 @@ public class WaveWinner : MonoBehaviour
         }
     }
 
+    // =================================================================
+    // GENERACIÓN ALEATORIA BLINDADA Y GARANTIZADA
+    // =================================================================
     private void GenerateRandomTarget()
     {
-        targetRenderer.amplitude = UnityEngine.Random.Range(1f, 5f);
-        targetRenderer.frequency = UnityEngine.Random.Range(1f, 5f);
-        targetRenderer.phase = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
+        // Valores por defecto de seguridad por si no se encuentran los diales
+        float minAmp = 0.8f, maxAmp = 5f;
+        float minFreq = 0.8f, maxFreq = 5f;
+        float minPhase = 0f, maxPhase = 5f;
+
+        // Buscamos los diales en la escena para leer sus rangos en tiempo real
+        DialRotation[] dials = FindObjectsByType<DialRotation>(FindObjectsSortMode.None);
+
+        foreach (DialRotation dial in dials)
+        {
+            if (dial.dialType == DialRotation.DialType.Amplitude)
+            {
+                // Leemos su máximo del inspector, y su mínimo real (que está condicionado por el safeMinimumValue)
+                // Intentamos acceder de forma dinámica reflejando lo que calculamos en su script
+                minAmp = dial.minValue;
+                maxAmp = dial.maxValue;
+
+                // Usamos un truco de reflexión para obtener su safeMinimumValue si está expuesto
+                var field = dial.GetType().GetField("safeMinimumValue", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                if (field != null) minAmp = (float)field.GetValue(dial);
+            }
+            else if (dial.dialType == DialRotation.DialType.Frequency)
+            {
+                minFreq = dial.minValue;
+                maxFreq = dial.maxValue;
+
+                var field = dial.GetType().GetField("safeMinimumValue", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                if (field != null) minFreq = (float)field.GetValue(dial);
+            }
+            else if (dial.dialType == DialRotation.DialType.Phase)
+            {
+                minPhase = dial.minValue;
+                maxPhase = dial.maxValue;
+            }
+        }
+
+        // Aplicamos el margen de seguridad para no apurar en los extremos de la rosca
+        float safeMinAmp = minAmp + safetyMargin;
+        float safeMaxAmp = maxAmp - safetyMargin;
+
+        float safeMinFreq = minFreq + safetyMargin;
+        float safeMaxFreq = maxFreq - safetyMargin;
+
+        float safeMinPhase = minPhase + safetyMargin;
+        float safeMaxPhase = maxPhase - safetyMargin;
+
+        // Aseguramos que por un margen muy grande no se inviertan los límites
+        if (safeMinAmp >= safeMaxAmp) { safeMinAmp = minAmp; safeMaxAmp = maxAmp; }
+        if (safeMinFreq >= safeMaxFreq) { safeMinFreq = minFreq; safeMaxFreq = maxFreq; }
+        if (safeMinPhase >= safeMaxPhase) { safeMinPhase = minPhase; safeMaxPhase = maxPhase; }
+
+        // Asignamos los valores finales calculados de forma segura
+        targetRenderer.amplitude = UnityEngine.Random.Range(safeMinAmp, safeMaxAmp);
+        targetRenderer.frequency = UnityEngine.Random.Range(safeMinFreq, safeMaxFreq);
+        targetRenderer.phase = UnityEngine.Random.Range(safeMinPhase, safeMaxPhase);
     }
 
     void ResetEvent()

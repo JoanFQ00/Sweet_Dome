@@ -57048,7 +57048,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &3331896775709958957
 GameObject:
   m_ObjectHideFlags: 0
@@ -61800,6 +61800,8 @@ MonoBehaviour:
   maxAngle: 135
   minValue: 0
   maxValue: 5
+  safeMinimumValue: 0.8
+  centerDeadZonePixels: 25
 --- !u!4 &5654836610634608620
 Transform:
   m_ObjectHideFlags: 0
@@ -63652,6 +63654,8 @@ MonoBehaviour:
   maxAngle: 135
   minValue: -10
   maxValue: 10
+  safeMinimumValue: 0.2
+  centerDeadZonePixels: 25
 --- !u!1 &6616130783772587997
 GameObject:
   m_ObjectHideFlags: 0
@@ -66349,7 +66353,7 @@ Transform:
   m_GameObject: {fileID: 8628011640489540704}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0, z: -23}
+  m_LocalPosition: {x: -0, y: -0, z: -94}
   m_LocalScale: {x: 171.98447, y: 273.52164, z: 50.786755}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -68525,6 +68529,8 @@ MonoBehaviour:
   maxAngle: 135
   minValue: 0
   maxValue: 10
+  safeMinimumValue: 3
+  centerDeadZonePixels: 25
 --- !u!4 &8609300557406687303 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4792115896490671520, guid: 07f7f133ab48d5c46a4c057f918fbc09, type: 3}
@@ -68822,6 +68828,7 @@ MonoBehaviour:
   frequencyTolerance: 1
   phaseTolerance: 1
   messageDuration: 3
+  safetyMargin: 0.3
   waveSolved: 0
 --- !u!114 &8701490934947448237
 MonoBehaviour:
