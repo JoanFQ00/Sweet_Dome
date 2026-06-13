@@ -23,8 +23,8 @@ public class RadarMinigame : MonoBehaviour
     private bool inEvent;
     private float timeToEvent;
 
-    public float eventTime; 
-    private float currentEventTime; 
+    public float eventTime;
+    private float currentEventTime;
 
     private int spawnQuantity;
 
@@ -51,17 +51,15 @@ public class RadarMinigame : MonoBehaviour
     private void OnEnable()
     {
         SliderCont.OnSliderMoved += SliderMoved;
-        WheelRotator.OnRotatedMoved += SliderMoved; 
+        WheelRotator.OnRotatedMoved += SliderMoved;
         RadarVision.OnObjectiveGet += ObjectiveTaken;
         MachineManager.RadarDispatch += EventLoader;
-
-        //Falta evento start event
     }
 
     private void OnDisable()
     {
         SliderCont.OnSliderMoved -= SliderMoved;
-        WheelRotator.OnRotatedMoved -= SliderMoved; 
+        WheelRotator.OnRotatedMoved -= SliderMoved;
         RadarVision.OnObjectiveGet -= ObjectiveTaken;
         MachineManager.RadarDispatch -= EventLoader;
     }
@@ -106,7 +104,7 @@ public class RadarMinigame : MonoBehaviour
 
                 for (int i = 0; i < spawnQuantity; i++)
                 {
-                    SpawnRandomObjective(); 
+                    SpawnRandomObjective();
                 }
             }
         }
@@ -170,7 +168,8 @@ public class RadarMinigame : MonoBehaviour
             case SliderType.Rotation:
                 if (!onCenter) return;
 
-                float angleDelta = value * rotationSensitivity;
+                // Modificado: El valor delta del ratón ahora se aplica directamente sin multiplicadores
+                float angleDelta = value;
 
                 radarPoint.Rotate(Vector3.up, angleDelta, Space.Self);
                 break;
