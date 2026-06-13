@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BarMachineGame : MonoBehaviour
+public class BarMachineGame : MonoBehaviour, IResetable
 {
     [Header("Referencias")]
     public Transform bar;
@@ -15,7 +15,6 @@ public class BarMachineGame : MonoBehaviour
     [Header("Movimiento")]
     public float speed = 0.25f;
 
-
     [Header("Funnels")]
     [SerializeField] private FunnelBase sourceFunnel;
     [SerializeField] private FunnelBase targetFunnel;
@@ -27,6 +26,9 @@ public class BarMachineGame : MonoBehaviour
     private int phase = 0;
     private Vector3 moveDirection;
 
+    // Guardamos la posición local exacta que le diste en la escena
+    private Vector3 initialLocalPosition;
+
     void Start()
     {
         if (bar == null || leftLimit == null || rightLimit == null)
@@ -36,36 +38,90 @@ public class BarMachineGame : MonoBehaviour
             return;
         }
 
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterResetable(this);
+        }
+
+        initialLocalPosition = bar.localPosition;
         moveDirection = (rightLimit.position - leftLimit.position).normalized;
 
-        bool hasLiquid = sourceFunnel != null && sourceFunnel.CurrentCapacity > 0;
+        InitializeGameLogic();
+    }
 
-        moving = hasLiquid;
-
-        if (phase1Zone != null) phase1Zone.SetActive(hasLiquid);
-        if (phase2Zone != null) phase2Zone.SetActive(false);
-        if (phase3Zone != null) phase3Zone.SetActive(false);
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.UnregisterResetable(this);
+        }
     }
 
     void Update()
     {
+        // =================================================================
+        // LA CLAVE: Redondeamos el float al entero más cercano para sincronizarlo 
+        // exactamente con lo que el jugador ve en la pantalla de la máquina.
+        // =================================================================
+        int visibleLiquid = (sourceFunnel != null) ? Mathf.RoundToInt(sourceFunnel.CurrentCapacity) : 0;
+        bool hasLiquid = visibleLiquid >= 1;
+
+        // Si estaba completado pero vuelve a entrar líquido visible, reiniciamos partida
+        if (completed && hasLiquid)
+        {
+            completed = false;
+            phase = 0;
+            moving = true;
+            if (phase1Zone != null) phase1Zone.SetActive(true);
+        }
+
+        // Si el líquido visible cae a 0, congelamos, limpiamos fase y hacemos Lerp al origen
+        if (!hasLiquid)
+        {
+            moving = false;
+            phase = 0;
+
+            if (completed) completed = false;
+
+            DeactivateAllZones();
+
+            if (Vector3.Distance(bar.localPosition, initialLocalPosition) > 0.001f)
+            {
+                bar.localPosition = Vector3.Lerp(bar.localPosition, initialLocalPosition, 8f * Time.deltaTime);
+            }
+            return;
+        }
+
+        // Flujo normal de juego si hay líquido entero disponible
         CheckLiquidState();
 
         if (!moving || completed)
             return;
 
         float direction = toRight ? 1f : -1f;
-
         bar.position += moveDirection * direction * speed * Time.deltaTime;
 
+        // Sistema de waypoints controlado para evitar fugas
         float distanceToRight = Vector3.Distance(bar.position, rightLimit.position);
         float distanceToLeft = Vector3.Distance(bar.position, leftLimit.position);
 
-        if (distanceToRight < 0.02f)
-            toRight = false;
+        if (distanceToRight < 0.02f || (toRight && Vector3.Distance(leftLimit.position, bar.position) > Vector3.Distance(leftLimit.position, rightLimit.position)))
+        {
+            if (toRight)
+            {
+                bar.position = rightLimit.position;
+                toRight = false;
+            }
+        }
 
-        if (distanceToLeft < 0.02f)
-            toRight = true;
+        if (distanceToLeft < 0.02f || (!toRight && Vector3.Distance(rightLimit.position, bar.position) > Vector3.Distance(leftLimit.position, rightLimit.position)))
+        {
+            if (!toRight)
+            {
+                bar.position = leftLimit.position;
+                toRight = true;
+            }
+        }
     }
 
     public void PressButtonMovingBar()
@@ -74,7 +130,6 @@ public class BarMachineGame : MonoBehaviour
             return;
 
         moving = false;
-
         CheckGoodArea();
     }
 
@@ -85,9 +140,13 @@ public class BarMachineGame : MonoBehaviour
 
         if (phase == 0)
         {
-            bool hasLiquid = sourceFunnel.CurrentCapacity > 0;
+            int visibleLiquid = Mathf.RoundToInt(sourceFunnel.CurrentCapacity);
+            bool hasLiquid = visibleLiquid >= 1;
 
-            phase1Zone.SetActive(hasLiquid);
+            if (phase1Zone != null && !phase1Zone.activeSelf)
+            {
+                phase1Zone.SetActive(hasLiquid);
+            }
             moving = hasLiquid;
         }
     }
@@ -95,40 +154,26 @@ public class BarMachineGame : MonoBehaviour
     void CheckGoodArea()
     {
         GameObject currentZone = GetCurrentZone();
-
-        if (currentZone == null)
-            return;
+        if (currentZone == null) return;
 
         Renderer zoneRenderer = currentZone.GetComponent<Renderer>();
-
-        if (zoneRenderer == null)
-            return;
+        if (zoneRenderer == null) return;
 
         bool success = zoneRenderer.bounds.Contains(bar.position);
-
         Debug.Log("Acierto: " + success);
 
-        if (success)
-            Correct();
-        else
-            Fail();
+        if (success) Correct();
+        else Fail();
     }
 
     GameObject GetCurrentZone()
     {
         switch (phase)
         {
-            case 0:
-                return phase1Zone;
-
-            case 1:
-                return phase2Zone;
-
-            case 2:
-                return phase3Zone;
-
-            default:
-                return null;
+            case 0: return phase1Zone;
+            case 1: return phase2Zone;
+            case 2: return phase3Zone;
+            default: return null;
         }
     }
 
@@ -137,26 +182,20 @@ public class BarMachineGame : MonoBehaviour
         if (phase == 0)
         {
             Debug.Log("FASE 1 SUPERADA");
-
-            phase1Zone.SetActive(false);
-            phase2Zone.SetActive(true);
-
+            if (phase1Zone != null) phase1Zone.SetActive(false);
+            if (phase2Zone != null) phase2Zone.SetActive(true);
             phase = 1;
             moving = true;
-
             return;
         }
 
         if (phase == 1)
         {
             Debug.Log("FASE 2 SUPERADA");
-
-            phase2Zone.SetActive(false);
-            phase3Zone.SetActive(true);
-
+            if (phase2Zone != null) phase2Zone.SetActive(false);
+            if (phase3Zone != null) phase3Zone.SetActive(true);
             phase = 2;
             moving = true;
-
             return;
         }
 
@@ -175,11 +214,7 @@ public class BarMachineGame : MonoBehaviour
         }
 
         phase = 0;
-
-        if (phase1Zone != null) phase1Zone.SetActive(false);
-        if (phase2Zone != null) phase2Zone.SetActive(false);
-        if (phase3Zone != null) phase3Zone.SetActive(false);
-
+        DeactivateAllZones();
         moving = false;
     }
 
@@ -188,14 +223,70 @@ public class BarMachineGame : MonoBehaviour
         completed = true;
         moving = false;
 
-        if (phase3Zone != null)
-            phase3Zone.SetActive(false);
+        if (phase3Zone != null) phase3Zone.SetActive(false);
 
-        float availableSpace = targetFunnel.MaxCapacity - targetFunnel.CurrentCapacity;
-        float amountToTransfer = Mathf.Min(sourceFunnel.CurrentCapacity, availableSpace);
+        if (sourceFunnel == null || targetFunnel == null) return;
 
-        targetFunnel.AddLiquid(amountToTransfer);
-        sourceFunnel.RemoveLiquid(amountToTransfer);
-        Debug.Log("JUEGO COMPLETADO");
+        // =================================================================
+        // TRANSFERENCIA SIN PÉRDIDAS: Convertimos todo a números enteros redondeados
+        // =================================================================
+        int sourceRounded = Mathf.RoundToInt(sourceFunnel.CurrentCapacity);
+        int targetCapacityRounded = Mathf.RoundToInt(targetFunnel.CurrentCapacity);
+        int targetMaxRounded = Mathf.RoundToInt(targetFunnel.MaxCapacity);
+
+        int availableSpaceRounded = targetMaxRounded - targetCapacityRounded;
+        int amountToTransferRounded = Mathf.Min(sourceRounded, availableSpaceRounded);
+
+        if (amountToTransferRounded > 0)
+        {
+            // Pasamos el valor entero exacto
+            targetFunnel.AddLiquid(amountToTransferRounded);
+
+            // Para no dejar "residuos flotantes" microscópicos (como un 0.2 o 0.05 huerfano),
+            // vaciamos el source funnel por completo si su valor entero ya se ha transferido.
+            if (sourceRounded == amountToTransferRounded)
+            {
+                sourceFunnel.RemoveLiquid(sourceFunnel.CurrentCapacity);
+            }
+            else
+            {
+                sourceFunnel.RemoveLiquid(amountToTransferRounded);
+            }
+        }
+
+        Debug.Log($"JUEGO COMPLETADO - Transferidos {amountToTransferRounded}L enteros.");
+    }
+
+    public void ResetValues()
+    {
+        completed = false;
+        phase = 0;
+        toRight = true;
+
+        if (bar != null)
+        {
+            bar.localPosition = initialLocalPosition;
+        }
+
+        InitializeGameLogic();
+    }
+
+    private void InitializeGameLogic()
+    {
+        int visibleLiquid = (sourceFunnel != null) ? Mathf.RoundToInt(sourceFunnel.CurrentCapacity) : 0;
+        bool hasLiquid = visibleLiquid >= 1;
+
+        moving = hasLiquid;
+
+        DeactivateAllZones();
+
+        if (hasLiquid && phase1Zone != null) phase1Zone.SetActive(true);
+    }
+
+    private void DeactivateAllZones()
+    {
+        if (phase1Zone != null) phase1Zone.SetActive(false);
+        if (phase2Zone != null) phase2Zone.SetActive(false);
+        if (phase3Zone != null) phase3Zone.SetActive(false);
     }
 }
