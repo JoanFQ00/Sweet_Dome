@@ -50566,6 +50566,7 @@ GameObject:
   - component: {fileID: 6724418336168041669}
   - component: {fileID: 6724418336168041674}
   - component: {fileID: 6724418336168041673}
+  - component: {fileID: 6724418336168041675}
   m_Layer: 7
   m_Name: Mk4.014
   m_TagString: Untagged
@@ -51412,6 +51413,7 @@ GameObject:
   - component: {fileID: 9039709009316722583}
   - component: {fileID: 9039709009316722588}
   - component: {fileID: 9039709009316722587}
+  - component: {fileID: 9039709009316722589}
   m_Layer: 7
   m_Name: Mk4.017
   m_TagString: Untagged
@@ -52918,6 +52920,7 @@ GameObject:
   - component: {fileID: 7508707239503900684}
   - component: {fileID: 7508707239503900688}
   - component: {fileID: 7508707239503900689}
+  - component: {fileID: 7508707239503900690}
   m_Layer: 7
   m_Name: Mk4.008
   m_TagString: Untagged
@@ -53913,6 +53916,7 @@ GameObject:
   - component: {fileID: 1881911132639619981}
   - component: {fileID: 1881911132639619985}
   - component: {fileID: 1881911132639619986}
+  - component: {fileID: 1881911132639619987}
   m_Layer: 7
   m_Name: Mk4.010
   m_TagString: Untagged
@@ -53993,7 +53997,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 1881911132639619985}
   animationStateName: One_Anim
-  validator: {fileID: 0}
+  validator: {fileID: 1881911132639619987}
 --- !u!95 &1881911132639619985
 Animator:
   serializedVersion: 7
@@ -54031,6 +54035,20 @@ MonoBehaviour:
   rend: {fileID: 1501055812670099755}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
+--- !u!114 &1881911132639619987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881911132639619980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62a4a2decce4d6478d409b8bc4dba21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
+  waveWinner: {fileID: 8690154530438501864}
+  codeSystem: {fileID: 1541904294494712769}
 --- !u!4 &1888022297629561305
 Transform:
   m_ObjectHideFlags: 0
@@ -54402,6 +54420,7 @@ GameObject:
   - component: {fileID: 8139190219771933326}
   - component: {fileID: 8139190219771933331}
   - component: {fileID: 8139190219771933330}
+  - component: {fileID: 8139190219771933332}
   m_Layer: 7
   m_Name: Mk4.011
   m_TagString: Untagged
@@ -56234,6 +56253,7 @@ GameObject:
   - component: {fileID: 2892166251239999840}
   - component: {fileID: 2892166251239999845}
   - component: {fileID: 2892166251239999844}
+  - component: {fileID: 2892166251239999846}
   m_Layer: 7
   m_Name: Mk4.015
   m_TagString: Untagged
@@ -56314,7 +56334,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 2892166251239999845}
   animationStateName: Eight_Anim
-  validator: {fileID: 0}
+  validator: {fileID: 2892166251239999846}
 --- !u!114 &2892166251239999844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56352,6 +56372,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2892166251239999846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2892166251239999839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62a4a2decce4d6478d409b8bc4dba21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
+  waveWinner: {fileID: 8690154530438501864}
+  codeSystem: {fileID: 1541904294494712769}
 --- !u!223 &2900178168114938783
 Canvas:
   m_ObjectHideFlags: 0
@@ -58216,6 +58250,7 @@ GameObject:
   - component: {fileID: 5686226395317800613}
   - component: {fileID: 5686226395317800617}
   - component: {fileID: 5686226395317800616}
+  - component: {fileID: 5686226395317800618}
   m_Layer: 7
   m_Name: Mk4.002
   m_TagString: Untagged
@@ -58933,6 +58968,7 @@ GameObject:
   - component: {fileID: 9155920293560118604}
   - component: {fileID: 9155920293560118609}
   - component: {fileID: 9155920293560118608}
+  - component: {fileID: 9155920293560118610}
   m_Layer: 7
   m_Name: Mk4.012
   m_TagString: Untagged
@@ -62005,7 +62041,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 5686226395317800617}
   animationStateName: Delate_Anim
-  validator: {fileID: 0}
+  validator: {fileID: 5686226395317800618}
 --- !u!114 &5686226395317800616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62043,6 +62079,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5686226395317800618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3979258160797402981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62a4a2decce4d6478d409b8bc4dba21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
+  waveWinner: {fileID: 8690154530438501864}
+  codeSystem: {fileID: 1541904294494712769}
 --- !u!23 &5687787870744763563
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63886,7 +63936,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 6724418336168041674}
   animationStateName: Nine_Anim
-  validator: {fileID: 0}
+  validator: {fileID: 6724418336168041675}
 --- !u!114 &6724418336168041673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63924,6 +63974,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6724418336168041675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481830039745924055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62a4a2decce4d6478d409b8bc4dba21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
+  waveWinner: {fileID: 8690154530438501864}
+  codeSystem: {fileID: 1541904294494712769}
 --- !u!1 &6743008646071694817 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5773087634823484106, guid: 03a5cecbc70026e4487a88e0e17c1a69, type: 3}
@@ -64709,6 +64773,7 @@ GameObject:
   - component: {fileID: 7826160148513828872}
   - component: {fileID: 7826160148513828876}
   - component: {fileID: 7826160148513828877}
+  - component: {fileID: 7826160148513828878}
   m_Layer: 7
   m_Name: Mk4.016
   m_TagString: Untagged
@@ -65391,7 +65456,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 7508707239503900688}
   animationStateName: Three_Anim
-  validator: {fileID: 0}
+  validator: {fileID: 7508707239503900690}
 --- !u!95 &7508707239503900688
 Animator:
   serializedVersion: 7
@@ -65429,6 +65494,20 @@ MonoBehaviour:
   rend: {fileID: 2655549386025687280}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
+--- !u!114 &7508707239503900690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432973919863212898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62a4a2decce4d6478d409b8bc4dba21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
+  waveWinner: {fileID: 8690154530438501864}
+  codeSystem: {fileID: 1541904294494712769}
 --- !u!222 &7513175881087141390
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -65932,6 +66011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   type: 0
+  centerDeadZonePixels: 35
 --- !u!33 &7752104490825374074
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -66200,7 +66280,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 7826160148513828876}
   animationStateName: Seven_Anim
-  validator: {fileID: 0}
+  validator: {fileID: 7826160148513828878}
 --- !u!95 &7826160148513828876
 Animator:
   serializedVersion: 7
@@ -66238,6 +66318,20 @@ MonoBehaviour:
   rend: {fileID: 2376580360811848221}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
+--- !u!114 &7826160148513828878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220041739873364984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62a4a2decce4d6478d409b8bc4dba21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
+  waveWinner: {fileID: 8690154530438501864}
+  codeSystem: {fileID: 1541904294494712769}
 --- !u!33 &7828214533913919010
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -67046,7 +67140,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 8139190219771933331}
   animationStateName: Six_Anim
-  validator: {fileID: 0}
+  validator: {fileID: 8139190219771933332}
 --- !u!114 &8139190219771933330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67084,6 +67178,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8139190219771933332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980142658670005634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62a4a2decce4d6478d409b8bc4dba21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
+  waveWinner: {fileID: 8690154530438501864}
+  codeSystem: {fileID: 1541904294494712769}
 --- !u!1 &8146784427593810455
 GameObject:
   m_ObjectHideFlags: 0
@@ -67633,6 +67741,7 @@ GameObject:
   - component: {fileID: 8373873888933183516}
   - component: {fileID: 8373873888933183521}
   - component: {fileID: 8373873888933183520}
+  - component: {fileID: 8373873888933183522}
   m_Layer: 7
   m_Name: Mk4.009
   m_TagString: Untagged
@@ -67713,7 +67822,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 8373873888933183521}
   animationStateName: Two_Anim
-  validator: {fileID: 0}
+  validator: {fileID: 8373873888933183522}
 --- !u!114 &8373873888933183520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67751,6 +67860,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8373873888933183522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8373873888933183515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62a4a2decce4d6478d409b8bc4dba21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
+  waveWinner: {fileID: 8690154530438501864}
+  codeSystem: {fileID: 1541904294494712769}
 --- !u!224 &8380856328120193841
 RectTransform:
   m_ObjectHideFlags: 0
@@ -69761,7 +69884,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 9039709009316722588}
   animationStateName: Zero_Anim
-  validator: {fileID: 0}
+  validator: {fileID: 9039709009316722589}
 --- !u!114 &9039709009316722587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69799,6 +69922,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9039709009316722589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668007165938582498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62a4a2decce4d6478d409b8bc4dba21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
+  waveWinner: {fileID: 8690154530438501864}
+  codeSystem: {fileID: 1541904294494712769}
 --- !u!1 &9040975013199607350
 GameObject:
   m_ObjectHideFlags: 0
@@ -70236,7 +70373,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 9155920293560118609}
   animationStateName: Five_Anim
-  validator: {fileID: 0}
+  validator: {fileID: 9155920293560118610}
 --- !u!114 &9155920293560118608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70274,6 +70411,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9155920293560118610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4332293202956077116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62a4a2decce4d6478d409b8bc4dba21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
+  waveWinner: {fileID: 8690154530438501864}
+  codeSystem: {fileID: 1541904294494712769}
 --- !u!114 &9162283482928197706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70310,6 +70461,7 @@ GameObject:
   - component: {fileID: 9174769383447025228}
   - component: {fileID: 9174769383447025233}
   - component: {fileID: 9174769383447025232}
+  - component: {fileID: 9174769383447025234}
   m_Layer: 7
   m_Name: Mk4.013
   m_TagString: Untagged
@@ -70390,7 +70542,7 @@ MonoBehaviour:
     Path: event:/SFX_UI/SFX_UI_MenuButton
   targetAnimator: {fileID: 9174769383447025233}
   animationStateName: Four_Anim
-  validator: {fileID: 0}
+  validator: {fileID: 9174769383447025234}
 --- !u!114 &9174769383447025232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70428,6 +70580,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9174769383447025234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174769383447025227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62a4a2decce4d6478d409b8bc4dba21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
+  waveWinner: {fileID: 8690154530438501864}
+  codeSystem: {fileID: 1541904294494712769}
 --- !u!222 &9179202325097661885
 CanvasRenderer:
   m_ObjectHideFlags: 0

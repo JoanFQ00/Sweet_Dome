@@ -156,4 +156,8 @@ public class CodeSystem : MonoBehaviour
         inputDisplay.text = "";
         inputDisplay.color = defaultColor;
     }
+    public bool IsCodeSystemActive()
+    {
+        return codeSystemActive;
+    }
 }
