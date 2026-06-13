@@ -24,8 +24,8 @@ public class GoToPlayerState : IState
     {
         robot.agent.isStopped = false;
         robot.agent.stoppingDistance = stopDistance;
-        robot.agent.speed = 1.2f;
-        robot.agent.acceleration = 2f;
+        robot.agent.speed = 1f;
+        robot.agent.acceleration = 1f;
         robot.gameObject.layer = defaultLayer;
         robot.animator.SetBool("IsTalking", false);
         robot.animator.SetBool("IsMoving", true);

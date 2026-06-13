@@ -12,6 +12,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
     [Header("Waypoint Manager")]
     public WaypointManager waypointManager;
+    public DayManager dayManager;
 
     [Header("Visual")]
     public Transform visualMesh;
@@ -34,8 +35,17 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public GoToPlayerState goToPlayerState;
     public RechargeState rechargeState;
 
+    public TaskMoveState taskMoveState;
+    public TaskActionState taskActionState;
+    public HistoryMoveState historyMoveState;
+    public HistoryActionState historyActionState;
+    public Waypoint currentTask;
+    public Waypoint currentHistoryWaypoint;
+
     public bool testGoToPlayer = false;
     private bool isRecharging;
+    [HideInInspector] public string activeHistoryEvent = "";
+    private bool isExecutingHistory = false;
     public bool isInDialogue;
 
     void Start()
@@ -51,6 +61,10 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         interactionState = new InteractionState(this);
         goToPlayerState = new GoToPlayerState(this);
         rechargeState = new RechargeState(this);
+        taskMoveState = new TaskMoveState(this);
+        taskActionState = new TaskActionState(this);
+        historyMoveState = new HistoryMoveState(this);
+        historyActionState = new HistoryActionState(this);
 
         dialogueSys.SysIni();
 
@@ -84,6 +98,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     {
         //animator.SetFloat("Speed", agent.desiredVelocity.magnitude);
         CheckRechargeState();
+        CheckDayManagerHistory();
 
         stateMachine.Update();
     }
@@ -153,17 +168,58 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         }
     }
 
-    public void ExecuteWaypointAnimation(Waypoints waypoint)
+    void CheckDayManagerHistory()
+    {
+        if (isRecharging || dayManager == null)
+            return;
+
+        if (GameManager.Instance.currentDay == Day.Day3)
+        {
+            if (dayManager.hasRead.IsMet(GameManager.Instance.decManager) && dayManager.dorothyLaunchEated.IsMet(GameManager.Instance.decManager))
+            {
+                TriggerHistoryEvent("DorothySitDay3");
+                return;
+            }
+
+            if (dayManager.hasWatchedTv.IsMet(GameManager.Instance.decManager) && dayManager.dorothyBook2Readed.IsMet(GameManager.Instance.decManager))
+            {
+                TriggerHistoryEvent("DorothyTurnOffTvDay3");
+                return;
+            }
+        }
+    }
+
+    public void TriggerHistoryEvent(string eventKey)
+    {
+        activeHistoryEvent = eventKey;
+        if (waypointManager != null)
+        {
+            Waypoint targetWp = waypointManager.GetHistoryWaypointByKey(eventKey);
+
+            if (targetWp != null)
+            {
+                agent.SetDestination(targetWp.transform.position);
+                stateMachine.ChangeState(historyMoveState);
+            }
+            else
+            {
+            }
+        }
+    }
+
+    public void FinishHistoryAction()
+    {
+        currentHistoryWaypoint = null;
+        stateMachine.ChangeState(patrolState);
+    }
+
+    public void ExecuteWaypointAnimation(Waypoint waypoint)
     {
         if (waypoint == null)
             return;
 
         if (!string.IsNullOrEmpty(waypoint.animationTrigger))
-        {
             animator.SetTrigger(waypoint.animationTrigger);
-
-            waypointManager.MarkWaypointUsed(waypoint);
-        }
     }
 
     public void TriggerSitAnimation()

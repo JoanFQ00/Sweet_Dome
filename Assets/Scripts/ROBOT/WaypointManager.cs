@@ -1,37 +1,34 @@
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class WaypointManager : MonoBehaviour
 {
-    [Header("Generic waypoints")]
-    public List<Waypoints> genericWaypoints;
+    [Header("Routine Tasks")]
+    public List<Waypoint> taskWaypoints;
 
-    [Header("Narrative waypoints")]
-    public List<Waypoints> narrativeWaypoints;
+    [Header("Story Points")]
+    public List<Waypoint> historyWaypoints;
 
     [Header("Recharge")]
     public Transform rechargeWaypoint;
 
-    private Waypoints lastWaypoints;
-
-    public Waypoints GetRandomGenericWaypoint()
+    public Waypoint GetRandomPatrolWaypoint()
     {
+        if (taskWaypoints.Count == 0)
+            return null;
 
-        List<Waypoints> posibleWaypoints = new List<Waypoints>();
-
-
-
-        return lastWaypoints;
+        return taskWaypoints[Random.Range(0, taskWaypoints.Count)];
     }
 
-    public Waypoints GetNarrativeWaypoint(string narrativeID)
+    public Waypoint GetHistoryWaypointByKey(string eventKey)
     {
-        return narrativeWaypoints.Find(w => w.narrativeID == narrativeID);
-    }
+        foreach (Waypoint waypoint in historyWaypoints)
+        {
+            if (waypoint.historyEventKey == eventKey)
+                return waypoint;
+        }
 
-    public void MarkWaypointUsed(Waypoints waypoint)
-    {
-        if (waypoint != null)
-            waypoint.hasBeenUsed = true;
+        return null;
     }
 }

@@ -5,7 +5,8 @@ public class PatrolState : IState
 {
     private RobotBehaviour robot;
 
-    private Waypoints currentWaypoint;
+    private Waypoint currentWaypoint;
+    private int chanceToGoToWaypoint = 30;
 
     public PatrolState(RobotBehaviour robot)
     {
@@ -21,17 +22,8 @@ public class PatrolState : IState
         robot.agent.speed = 0.47f;
         robot.agent.acceleration = 8f;
         robot.animator.SetFloat("Speed", 0.47f);
+        currentWaypoint = null;
         NextPatrolPoint();
-        //if (robot.agent.hasPath)
-        //{
-        //    Vector3 direction = robot.agent.steeringTarget - robot.visualMesh.position;
-        //    direction.y = 0;
-
-        //    if (direction.sqrMagnitude > 0.01f)
-        //    {
-        //        robot.visualMesh.rotation = Quaternion.LookRotation(direction);
-        //    }
-        //}
     }
 
     public void OnState()
@@ -50,14 +42,11 @@ public class PatrolState : IState
 
         if (!robot.agent.pathPending && robot.agent.remainingDistance <= 1f)
         {
+            if (currentWaypoint != null && !string.IsNullOrEmpty(currentWaypoint.animationTrigger))
+                robot.animator.SetTrigger(currentWaypoint.animationTrigger);
+
             robot.stateMachine.ChangeState(robot.idleState);
         }
-
-        //float distance = Vector3.Distance(robot.transform.position, robot.player.position);
-
-        //if (distance <= robot.interactionRadius)
-        //{
-        //}
     }
 
     public void OnExit()
@@ -68,12 +57,26 @@ public class PatrolState : IState
 
     void NextPatrolPoint()
     {
-        Vector3 randomPoint = Random.insideUnitSphere * robot.patrolRange;
-        randomPoint += robot.transform.position;
+        int roll = Random.Range(1, 101);
 
-        if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, robot.patrolRange, NavMesh.AllAreas))
+        if (roll <= chanceToGoToWaypoint && robot.waypointManager != null)
         {
-            robot.agent.SetDestination(hit.position);
+            currentWaypoint = robot.waypointManager.GetRandomPatrolWaypoint();
+        }
+
+        if (currentWaypoint != null)
+        {
+            robot.agent.SetDestination(currentWaypoint.transform.position);
+        }
+        else
+        {
+            Vector3 randomPoint = Random.insideUnitSphere * robot.patrolRange;
+            randomPoint += robot.transform.position;
+
+            if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, robot.patrolRange, NavMesh.AllAreas))
+            {
+                robot.agent.SetDestination(hit.position);
+            }
         }
     }
 

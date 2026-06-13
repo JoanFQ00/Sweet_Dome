@@ -312,15 +312,20 @@ public class DayManager : MonoBehaviour
 
         if (hasRead.IsMet(GameManager.Instance.decManager) && dorothyLaunchEated.IsMet(GameManager.Instance.decManager))
         {
-            // Dorothy Se sienta y mira a matthew
-            GameManager.Instance.robotBehaviour.TriggerSitAnimation();
+            //if (!checkedEatDay3)
+            //{
+            //    checkedEatDay3 = true;
+            //    GameManager.Instance.robotBehaviour.TriggerHistoryEvent("DorothySitDay3");
+            //}
         }
 
-        if (hasWatchedTv.IsMet(GameManager.Instance.decManager) &&
-            dorothyBook2Readed.IsMet(GameManager.Instance.decManager))
+        if (hasWatchedTv.IsMet(GameManager.Instance.decManager) && dorothyBook2Readed.IsMet(GameManager.Instance.decManager))
         {
-            // Dorothy Desconecta la television
-            GameManager.Instance.robotBehaviour.TriggerTurnOffTvAnimation();
+            //if (!checkedTvDay3)
+            //{
+            //    checkedTvDay3 = true;
+            //    GameManager.Instance.robotBehaviour.TriggerHistoryEvent("DorothyTurnOffTvDay3");
+            //}
         }
     }
 

@@ -2,23 +2,18 @@ using UnityEngine;
 
 public enum WaypointType
 {
-    Generic, 
-    Narrative
+    Task,
+    History
 }
 
-public class Waypoints : MonoBehaviour
+public class Waypoint : MonoBehaviour
 {
     public WaypointType waypointType;
 
-    [Header("Idle/Zona")]
-    public string zoneAnimation;
+    [Header("History")]
+    public string historyEventKey;
 
-    [Header("Narrative")]
-    public string narrativeID;
-
-    [Header("Animation")]
+    [Header("Task")]
     public string animationTrigger;
-
-    [HideInInspector]
-    public bool hasBeenUsed;
+    public float actionDuration = 5f;
 }

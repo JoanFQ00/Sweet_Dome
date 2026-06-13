@@ -13,10 +13,9 @@ public class IdleState : IState
 
     public void OnEnter()
     {
-        timer = Random.Range(4f, 10f);
+        timer = Random.Range(3f, 6f);
         robot.agent.isStopped = true;
         robot.animator.SetFloat("Speed", 0f);
-
         robot.animator.SetTrigger("IdleTrigger");
     }
 
@@ -26,6 +25,15 @@ public class IdleState : IState
 
         if (timer <= 0)
         {
+            if(Random.value < 0.4f)
+            {
+                robot.currentTask = robot.waypointManager.GetRandomPatrolWaypoint();
+                if(robot.currentTask != null)
+                {
+                    robot.stateMachine.ChangeState(robot.taskMoveState);
+                    return;
+                }
+            }
             robot.stateMachine.ChangeState(robot.patrolState);
         }
     }
