@@ -10900,6 +10900,43 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -6619638658177629414, guid: abd0035cc0a9a7649a2ea41b127ffd68, type: 3}
+--- !u!1 &319088592
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 319088593}
+  m_Layer: 5
+  m_Name: Parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &319088593
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319088592}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7830071345727535483}
+  - {fileID: 7605147567682866035}
+  m_Father: {fileID: 764972952}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -17503,8 +17540,7 @@ RectTransform:
   m_LocalScale: {x: 0.016071, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7830071345727535483}
-  - {fileID: 7605147567682866035}
+  - {fileID: 319088593}
   m_Father: {fileID: 2119223216}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -61802,6 +61838,7 @@ MonoBehaviour:
   maxValue: 5
   safeMinimumValue: 0.8
   centerDeadZonePixels: 25
+  resetLerpSpeed: 5
 --- !u!4 &5654836610634608620
 Transform:
   m_ObjectHideFlags: 0
@@ -63656,6 +63693,7 @@ MonoBehaviour:
   maxValue: 10
   safeMinimumValue: 0.2
   centerDeadZonePixels: 25
+  resetLerpSpeed: 5
 --- !u!1 &6616130783772587997
 GameObject:
   m_ObjectHideFlags: 0
@@ -65726,12 +65764,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1637142517892181725}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.00081451837, y: -0.0000030911513, z: -23.00035}
-  m_LocalScale: {x: 171.98447, y: 273.52164, z: 50.786755}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: 0.000000029802312, w: 0.70710677}
+  m_LocalPosition: {x: -0.0005721983, y: 0.00014837526, z: -23.000622}
+  m_LocalScale: {x: 171.9845, y: 273.52167, z: 50.786762}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 764972952}
+  m_Father: {fileID: 319088593}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &7606134584997603217
 MeshFilter:
@@ -66352,12 +66390,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8628011640489540704}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: -0, z: -94}
-  m_LocalScale: {x: 171.98447, y: 273.52164, z: 50.786755}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: 0.000000029802312, w: 0.70710677}
+  m_LocalPosition: {x: -0.0012800221, y: 0.00014837526, z: -94.000534}
+  m_LocalScale: {x: 171.9845, y: 273.52167, z: 50.786762}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 764972952}
+  m_Father: {fileID: 319088593}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &7833256823908969076
 GameObject:
@@ -68531,6 +68569,7 @@ MonoBehaviour:
   maxValue: 10
   safeMinimumValue: 3
   centerDeadZonePixels: 25
+  resetLerpSpeed: 5
 --- !u!4 &8609300557406687303 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4792115896490671520, guid: 07f7f133ab48d5c46a4c057f918fbc09, type: 3}
@@ -68824,6 +68863,7 @@ MonoBehaviour:
   playerRenderer: {fileID: 3631924549039623458}
   targetRenderer: {fileID: 5264341507627243170}
   codeSystem: {fileID: 1541904294494712769}
+  waveVisualsContainer: {fileID: 319088592}
   amplitudeTolerance: 1
   frequencyTolerance: 1
   phaseTolerance: 1
