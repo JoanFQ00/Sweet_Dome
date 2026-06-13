@@ -200,6 +200,11 @@ public class CityFunnel : FunnelBase, IResetable
 
         return zones[indexZone].funnel;
     }
+    
+    public int GetIdxCurrentZone()
+    {
+        return indexZone;
+    }
 
     public List<CityZoneData> GetCityZonesData()
     {

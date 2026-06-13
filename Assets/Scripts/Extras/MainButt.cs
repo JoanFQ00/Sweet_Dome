@@ -8,18 +8,25 @@ public class MainButt : MonoBehaviour
     public UnityEvent onPress;
 
     [Header("Audio")]
-    [SerializeField] private EventReference pressSound;
+    [SerializeField] protected EventReference pressSound;
 
     [Header("Animation")]
-    [SerializeField] private Animator targetAnimator;
-    [SerializeField] private string animationStateName;
+    [SerializeField] protected Animator targetAnimator;
+    [SerializeField] protected string animationStateName;
 
     [Header("Validation (Optional)")]
     [Tooltip("Arrastra aquí un script que herede de ButtonValidator si este botón tiene restricciones de uso.")]
-    [SerializeField] private ButtonValidator validator;
+    [SerializeField] protected ButtonValidator validator;
 
-    public void Press()
+    // Flag protegido para que los scripts hijos puedan leer si la pulsación fue legítima
+    protected bool wasLastPressValid { get; private set; }
+
+    // Volvemos al método 'void' original para que tu Raycast no tenga problemas
+    public virtual void Press()
     {
+        // Reseteamos el estado al iniciar la pulsación
+        wasLastPressValid = false;
+
         bool isPlayerSeated = true; // Cambiar por tu lógica real de interacción de silla
 
         if (!isPlayerSeated)
@@ -33,6 +40,9 @@ public class MainButt : MonoBehaviour
             Debug.Log($"<color=yellow><b>[MainButt]</b></color> Botón {gameObject.name} bloqueado por validación interna.");
             return;
         }
+
+        // Si el código llega aquí, significa que la pulsación es 100% válida
+        wasLastPressValid = true;
 
         RuntimeManager.PlayOneShotAttached(pressSound, gameObject);
 

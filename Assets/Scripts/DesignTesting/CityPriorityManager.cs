@@ -73,6 +73,11 @@ public class CityPriorityManager : MonoBehaviour, IResetable
         return prioritizedZone;
     }
 
+    public int GetIdxPrioritizedZone()
+    {
+        return cityFunnel.GetIdxCurrentZone();
+    }
+
     public bool IsZonePrioritized(FunnelBase zone)
     {
         return prioritizedZone == zone;
