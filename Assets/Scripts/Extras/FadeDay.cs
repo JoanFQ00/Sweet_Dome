@@ -14,6 +14,8 @@ public class FadeDay : MonoBehaviour
     public float fadeOutTime = 2.0f;
     public bool lockPlayer;
 
+    public static FadeDay Instance;
+
     private enum FadeState
     {
         None,
@@ -26,7 +28,29 @@ public class FadeDay : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        //DontDestroyOnLoad(gameObject);
+    }
+
+    public void ActivarFadeOutManual()
+    {
+        fadeImage.gameObject.SetActive(true);
+        dayTMP.gameObject.SetActive(false); // Ocultamos el texto del día en cinemáticas
+        fadeState = FadeState.FadingOut;
+    }
+
+    public void ActivarFadeInManual()
+    {
+        fadeImage.gameObject.SetActive(true);
+        fadeState = FadeState.FadingIn;
     }
 
     private void Start()

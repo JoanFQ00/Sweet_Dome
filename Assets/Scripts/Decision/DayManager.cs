@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Playables;
 
 public class DayManager : MonoBehaviour
 {
@@ -73,6 +74,11 @@ public class DayManager : MonoBehaviour
     [Header("DorothyBooks")]
     public GameObject dorothyBook;
 
+    [Header("Cinematics Settings (Day 3)")]
+    public PlayableDirector day3Timeline;
+    private bool cinematicStarted = false;
+    private bool cinematicEndedTriggered = false;
+
     private IEnumerator Start()
     {
         yield return null;
@@ -139,6 +145,15 @@ public class DayManager : MonoBehaviour
         }
 
         Timers();
+
+        if (cinematicStarted && !cinematicEndedTriggered && day3Timeline != null)
+        {
+            if (day3Timeline.state != PlayState.Playing || day3Timeline.time >= day3Timeline.duration)
+            {
+                cinematicEndedTriggered = true;
+                TerminarCinematicaYVolverAlJuego();
+            }
+        }
 
         switch (GameManager.Instance.currentDay)
         {
@@ -312,11 +327,11 @@ public class DayManager : MonoBehaviour
 
         if (hasRead.IsMet(GameManager.Instance.decManager) && dorothyLaunchEated.IsMet(GameManager.Instance.decManager))
         {
-            //if (!checkedEatDay3)
-            //{
-            //    checkedEatDay3 = true;
-            //    GameManager.Instance.robotBehaviour.TriggerHistoryEvent("DorothySitDay3");
-            //}
+            if (!checkedEatDay3)
+            {
+                checkedEatDay3 = true;
+                IniciarSecuenciaCinematica();
+            }
         }
 
         if (hasWatchedTv.IsMet(GameManager.Instance.decManager) && dorothyBook2Readed.IsMet(GameManager.Instance.decManager))
@@ -633,5 +648,39 @@ public class DayManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    void IniciarSecuenciaCinematica()
+    {
+        GameManager.Instance.playerController.LockPlayer(true);
+        GameManager.Instance.playerController.LockCamera(true);
+
+        if (CinematicFader.Instance != null)
+        {
+            CinematicFader.Instance.FundidoANegro();
+        }
+
+        if (day3Timeline != null)
+        {
+            day3Timeline.Play();
+            cinematicStarted = true;
+        }
+    }
+
+    void TerminarCinematicaYVolverAlJuego()
+    {
+        if (CinematicFader.Instance != null)
+        {
+            CinematicFader.Instance.FundidoATransparente();
+        }
+
+        if (GameManager.Instance != null && GameManager.Instance.playerController != null)
+        {
+            GameManager.Instance.playerController.LockPlayer(false);
+            GameManager.Instance.playerController.LockCamera(false);
+        }
+
+        cinematicStarted = false;
+        cinematicEndedTriggered = false;
     }
 }
