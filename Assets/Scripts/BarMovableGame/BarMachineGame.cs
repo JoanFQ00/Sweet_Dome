@@ -26,8 +26,11 @@ public class BarMachineGame : MonoBehaviour, IResetable
     private int phase = 0;
     private Vector3 moveDirection;
 
-    // Guardamos la posición local exacta que le diste en la escena
+    // Guardamos la posición local de diseño para los retornos y reseteos
     private Vector3 initialLocalPosition;
+
+    // Control interno de seguridad para saber si el jugador sigue sentado
+    private bool isPlayerSeated = false;
 
     void Start()
     {
@@ -38,15 +41,30 @@ public class BarMachineGame : MonoBehaviour, IResetable
             return;
         }
 
+        // Registramos el módulo en el GameManager para el cambio de día
         if (GameManager.Instance != null)
         {
             GameManager.Instance.RegisterResetable(this);
         }
 
+        // Guardamos tu posición inicial de la escena de forma sagrada
         initialLocalPosition = bar.localPosition;
         moveDirection = (rightLimit.position - leftLimit.position).normalized;
 
         InitializeGameLogic();
+    }
+
+    private void OnEnable()
+    {
+        // =================================================================
+        // VINCULACIÓN CON LA SILLA: Nos acoplamos al mismo evento del MachineManager
+        // =================================================================
+        MiniGameTest.OnMachineEntered += HandleMachineSeatInteraction;
+    }
+
+    private void OnDisable()
+    {
+        MiniGameTest.OnMachineEntered -= HandleMachineSeatInteraction;
     }
 
     private void OnDestroy()
@@ -60,9 +78,23 @@ public class BarMachineGame : MonoBehaviour, IResetable
     void Update()
     {
         // =================================================================
-        // LA CLAVE: Redondeamos el float al entero más cercano para sincronizarlo 
-        // exactamente con lo que el jugador ve en la pantalla de la máquina.
+        // CANDADO DE SEGURIDAD 1: Si el jugador NO está sentado, congelamos y Lerp
         // =================================================================
+        if (!isPlayerSeated && !completed)
+        {
+            moving = false;
+            phase = 0; // Reseteamos el progreso para que al sentarse empiece en Fase 1
+            DeactivateAllZones();
+
+            // Retorno suave por Lerp a la posición inicial estética de tu escena
+            if (Vector3.Distance(bar.localPosition, initialLocalPosition) > 0.001f)
+            {
+                bar.localPosition = Vector3.Lerp(bar.localPosition, initialLocalPosition, 8f * Time.deltaTime);
+            }
+            return; // Cortamos el Update de inmediato
+        }
+
+        // CANDADO DE SEGURIDAD 2: Control de líquido basado en enteros (Evita el bug del 0.2)
         int visibleLiquid = (sourceFunnel != null) ? Mathf.RoundToInt(sourceFunnel.CurrentCapacity) : 0;
         bool hasLiquid = visibleLiquid >= 1;
 
@@ -75,7 +107,7 @@ public class BarMachineGame : MonoBehaviour, IResetable
             if (phase1Zone != null) phase1Zone.SetActive(true);
         }
 
-        // Si el líquido visible cae a 0, congelamos, limpiamos fase y hacemos Lerp al origen
+        // Si el líquido cae por debajo del umbral visible, congelamos todo
         if (!hasLiquid)
         {
             moving = false;
@@ -92,7 +124,7 @@ public class BarMachineGame : MonoBehaviour, IResetable
             return;
         }
 
-        // Flujo normal de juego si hay líquido entero disponible
+        // Flujo normal de juego si hay líquido entero disponible y estamos sentados
         CheckLiquidState();
 
         if (!moving || completed)
@@ -101,7 +133,7 @@ public class BarMachineGame : MonoBehaviour, IResetable
         float direction = toRight ? 1f : -1f;
         bar.position += moveDirection * direction * speed * Time.deltaTime;
 
-        // Sistema de waypoints controlado para evitar fugas
+        // Sistema de waypoints controlado para evitar fugas definitivas
         float distanceToRight = Vector3.Distance(bar.position, rightLimit.position);
         float distanceToLeft = Vector3.Distance(bar.position, leftLimit.position);
 
@@ -124,9 +156,24 @@ public class BarMachineGame : MonoBehaviour, IResetable
         }
     }
 
+    // =================================================================
+    // MANEJADOR DEL EVENTO DE LA SILLA (Lanzado por tu sistema de juego)
+    // =================================================================
+    private void HandleMachineSeatInteraction(bool entered)
+    {
+        isPlayerSeated = entered;
+
+        // Si se acaba de sentar y la máquina tiene líquido visible, inicializamos la marcha
+        if (isPlayerSeated)
+        {
+            InitializeGameLogic();
+        }
+    }
+
     public void PressButtonMovingBar()
     {
-        if (completed)
+        // Si el jugador no está sentado frente a la pantalla, bloqueamos el botón físico
+        if (!isPlayerSeated || completed)
             return;
 
         moving = false;
@@ -227,9 +274,7 @@ public class BarMachineGame : MonoBehaviour, IResetable
 
         if (sourceFunnel == null || targetFunnel == null) return;
 
-        // =================================================================
-        // TRANSFERENCIA SIN PÉRDIDAS: Convertimos todo a números enteros redondeados
-        // =================================================================
+        // Transferencia limpia basada en enteros matemáticos para evitar descuadres en los tanques
         int sourceRounded = Mathf.RoundToInt(sourceFunnel.CurrentCapacity);
         int targetCapacityRounded = Mathf.RoundToInt(targetFunnel.CurrentCapacity);
         int targetMaxRounded = Mathf.RoundToInt(targetFunnel.MaxCapacity);
@@ -239,11 +284,8 @@ public class BarMachineGame : MonoBehaviour, IResetable
 
         if (amountToTransferRounded > 0)
         {
-            // Pasamos el valor entero exacto
             targetFunnel.AddLiquid(amountToTransferRounded);
 
-            // Para no dejar "residuos flotantes" microscópicos (como un 0.2 o 0.05 huerfano),
-            // vaciamos el source funnel por completo si su valor entero ya se ha transferido.
             if (sourceRounded == amountToTransferRounded)
             {
                 sourceFunnel.RemoveLiquid(sourceFunnel.CurrentCapacity);
@@ -257,6 +299,9 @@ public class BarMachineGame : MonoBehaviour, IResetable
         Debug.Log($"JUEGO COMPLETADO - Transferidos {amountToTransferRounded}L enteros.");
     }
 
+    // =================================================================
+    // INTERFAZ DE RESETEO DE TU JUEGO (IResetable) - NUEVO DÍA / INTERFAZ
+    // =================================================================
     public void ResetValues()
     {
         completed = false;
@@ -273,14 +318,18 @@ public class BarMachineGame : MonoBehaviour, IResetable
 
     private void InitializeGameLogic()
     {
+        // Solo puede inicializar el movimiento real si hay líquido Y el jugador está sentado
         int visibleLiquid = (sourceFunnel != null) ? Mathf.RoundToInt(sourceFunnel.CurrentCapacity) : 0;
         bool hasLiquid = visibleLiquid >= 1;
 
-        moving = hasLiquid;
+        moving = hasLiquid && isPlayerSeated;
 
         DeactivateAllZones();
 
-        if (hasLiquid && phase1Zone != null) phase1Zone.SetActive(true);
+        if (moving && phase1Zone != null)
+        {
+            phase1Zone.SetActive(true);
+        }
     }
 
     private void DeactivateAllZones()
