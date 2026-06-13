@@ -14,6 +14,8 @@ public class RadarVision : MonoBehaviour
 
     public static Action<GameObject> OnObjectiveGet;
 
+    public GameObject CurrentTarget { get; private set; }
+
     void Update()
     {
         if (radarMinigame.objectives.Count <= 0)
@@ -42,10 +44,13 @@ public class RadarVision : MonoBehaviour
     {
         if (!radarMinigame.objectives.Contains(other.gameObject))
             return;
+        CurrentTarget = other.gameObject;
+    }
 
-        OnObjectiveGet?.Invoke(other.gameObject);
-
-        rawFunnel.AddLiquid(20f);
+    private void OnTriggerExit(Collider other)
+    {
+        if(CurrentTarget == other.gameObject)
+            CurrentTarget = null;
     }
 
     bool CheckVision(GameObject objective)
