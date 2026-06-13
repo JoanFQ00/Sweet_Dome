@@ -9,6 +9,7 @@ public class SliderCont : MonoBehaviour
     public Transform maxPos;
 
     bool isDragging;
+    public static bool IsAtMinPos { get; private set; } = true;
 
     public SliderType type;
     public static Action<float, SliderType> OnSliderMoved;
@@ -16,6 +17,7 @@ public class SliderCont : MonoBehaviour
     public void Start()
     {
         sliderPhy.transform.position = minPos.transform.position;
+        IsAtMinPos = true;
     }
 
     void Update()
@@ -59,7 +61,7 @@ public class SliderCont : MonoBehaviour
             float maxDistance = Vector3.Distance(minPos.position, maxPos.position);
 
             float t = Mathf.Clamp01(distance / maxDistance);
-
+            IsAtMinPos = (t < 0.01f);
             sliderPhy.transform.position = Vector3.Lerp(minPos.position, maxPos.position, t);
 
             OnSliderMoved?.Invoke(t, type);

@@ -26,7 +26,7 @@ public class RadarMinigame : MonoBehaviour
     public float eventTime;
     private float currentEventTime;
 
-    private int spawnQuantity;
+    public int spawnQuantity = 3;
 
     private bool delay_On;
     private float eventStart_Delay;
@@ -76,6 +76,21 @@ public class RadarMinigame : MonoBehaviour
             EventTimer();
         }
     }
+
+    //private void TriggerTestShortcut()
+    //{
+    //    ResetEvent();
+
+    //    inEvent = true;
+    //    delay_On = false;
+    //    currentEventTime = 99f; // Tiempo de sobra para la prueba
+    //    objectivesSpawned = true;
+
+    //    for (int i = 0; i < spawnQuantity; i++)
+    //    {
+    //        SpawnRandomObjective();
+    //    }
+    //}
 
     public void EventLoader(float _timeToEvent, float _eventTime, int _quantity)
     {
@@ -155,6 +170,7 @@ public class RadarMinigame : MonoBehaviour
         timeTMP.text = $"{baseTxt}{Mathf.RoundToInt(seconds)}";
     }
 
+    // Busca este método dentro de tu RadarMinigame.cs y reemplázalo:
     void SliderMoved(float value, SliderType type)
     {
         switch (type)
@@ -166,11 +182,10 @@ public class RadarMinigame : MonoBehaviour
                 break;
 
             case SliderType.Rotation:
+                if (!SliderCont.IsAtMinPos) return;
                 if (!onCenter) return;
 
-                // Modificado: El valor delta del ratón ahora se aplica directamente sin multiplicadores
                 float angleDelta = value;
-
                 radarPoint.Rotate(Vector3.up, angleDelta, Space.Self);
                 break;
         }
@@ -212,6 +227,10 @@ public class RadarMinigame : MonoBehaviour
 
         objectivesSpawned = false;
 
+        foreach (var obj in objectives)
+        {
+            if (obj != null) Destroy(obj);
+        }
         objectives.Clear();
     }
 }
