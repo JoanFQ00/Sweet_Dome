@@ -15614,13 +15614,63 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -2293706130255993779, guid: e44f5bb323c509e4cbcd9d71eefd65eb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 583865655}
+    - targetCorrespondingSourceObject: {fileID: -8168954444781677299, guid: e44f5bb323c509e4cbcd9d71eefd65eb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 583865654}
   m_SourcePrefab: {fileID: 100100000, guid: e44f5bb323c509e4cbcd9d71eefd65eb, type: 3}
 --- !u!4 &583865651 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e44f5bb323c509e4cbcd9d71eefd65eb, type: 3}
   m_PrefabInstance: {fileID: 583865650}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &583865652 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8168954444781677299, guid: e44f5bb323c509e4cbcd9d71eefd65eb, type: 3}
+  m_PrefabInstance: {fileID: 583865650}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &583865653 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2293706130255993779, guid: e44f5bb323c509e4cbcd9d71eefd65eb, type: 3}
+  m_PrefabInstance: {fileID: 583865650}
+  m_PrefabAsset: {fileID: 0}
+--- !u!111 &583865654
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583865652}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 158e285cdab7e5549a0dbb1e02d88b9f, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
+--- !u!111 &583865655
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 583865653}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 59ce9f24adbf1a74f8ae7e630ae6b416, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &584551425
 GameObject:
   m_ObjectHideFlags: 0
