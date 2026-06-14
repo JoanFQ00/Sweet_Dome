@@ -3,7 +3,7 @@ using UnityEngine;
 public class ButtonEmissionController : MonoBehaviour
 {
     [Header("Configuración del Validador")]
-    [Tooltip("El validador físico asignado a este botón (como tu Day1ButtonValidator).")]
+    [Tooltip("El validador físico asignado a este botón (ej: tu CityButtonValidator).")]
     [SerializeField] private ButtonValidator validator;
 
     [Header("Configuración Estética de Colores")]
@@ -13,15 +13,18 @@ public class ButtonEmissionController : MonoBehaviour
     [ColorUsage(true, true)]
     [SerializeField] private Color disabledColor = Color.black;
 
-    [Header("Mallas / Materiales Secundarios")]
-    [Tooltip("Opcional: Arrastra aquí el Renderer de la segunda pieza del botón que deba iluminarse idénticamente.")]
+    [Header("Mallas / Materiales Secundarios o Externos")]
+    [Tooltip("Arrastra aquí la malla externa de la ciudad que deba imitar al botón al 100%.")]
     [SerializeField] private Renderer secondaryButtonMesh;
 
-    [Header("Restricciones de Campaña (¡REGLA DÍA 1!)")]
+    [Header("Restricciones de Campaña (Reglas de Flujo)")]
     [Tooltip("MARCA ESTO SÓLO EN EL BOTÓN DE PRIORIDAD. Hace que el botón amanezca completamente apagado en negro el Día 1.")]
     [SerializeField] private bool turnOffOnDay1 = false;
 
-    // Propiedad pública para que el sistema de cursores y el Highlight lean el validador desde fuera
+    [Tooltip("MARCA ESTO EN EL BOTÓN DE LA CIUDAD. El botón y su malla externa SOLO se encenderán si CanPress es estrictamente TRUE, ignorando excepciones estéticas del Día 1.")]
+    [SerializeField] private bool strictlyFollowValidator = false;
+
+    // Propiedad pública para que el mánager de cursores lea el validador
     public ButtonValidator Validator => validator;
 
     private Renderer primaryRenderer;
@@ -31,7 +34,7 @@ public class ButtonEmissionController : MonoBehaviour
 
     private void Awake()
     {
-        // 1. Capturamos e instanciamos el material principal
+        // 1. Capturamos e instanciamos el material del propio botón
         primaryRenderer = GetComponent<Renderer>();
         if (primaryRenderer != null && primaryRenderer.materials.Length > 0)
         {
@@ -39,7 +42,7 @@ public class ButtonEmissionController : MonoBehaviour
             runtimeMatOne.EnableKeyword("_EMISSION");
         }
 
-        // 2. Capturamos e instanciamos el material secundario si se ha asignado en el Inspector
+        // 2. Capturamos e instanciamos el material de la malla externa (Luz de la ciudad)
         if (secondaryButtonMesh != null && secondaryButtonMesh.materials.Length > 0)
         {
             runtimeMatTwo = secondaryButtonMesh.material;
@@ -49,37 +52,47 @@ public class ButtonEmissionController : MonoBehaviour
 
     private void Update()
     {
-        // Si un trigger externo (como el Switch o la prioridad en días 2+) bloquea el color, congelamos el refresco
+        // Si un trigger externo (como el Switch de zona) bloquea el color, congelamos el refresco automático
         if (isOverridden) return;
 
-        // Comprobamos si estamos en el Día 1
+        // 1. REGLA ULTRA-ESTRICTA (Para tu botón de la Ciudad):
+        // Si esta casilla está marcada, obedecemos a ciegas al validador sin importar el calendario
+        if (strictlyFollowValidator)
+        {
+            if (validator != null && validator.CanPress())
+            {
+                SetEmissionColorToAll(activeColor);
+            }
+            else
+            {
+                SetEmissionColorToAll(disabledColor);
+            }
+            return; // Cortamos la ejecución aquí para que no entre en las reglas de los demás botones
+        }
+
+        // 2. COMPORTAMIENTO PARA LOS DEMÁS BOTONES DE LA CABINA (Switch, Prioridad, etc.)
         bool isDay1 = (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day1);
 
-        // EXCEPCIÓN DEL BOTÓN DE PRIORIDAD: Si es el Día 1 Y tiene la casilla marcada, a negro absoluto.
+        // Excepción del botón de prioridad en el Día 1
         if (isDay1 && turnOffOnDay1)
         {
             SetEmissionColorToAll(disabledColor);
             return;
         }
 
-        // COMPORTAMIENTO PARA LOS DEMÁS BOTONES (Con tu Day1ButtonValidator):
-        // Si el validador dice que no se puede pulsar en este frame...
         if (validator != null && !validator.CanPress())
         {
-            // Si es el Día 1 pero NO es el de prioridad (la casilla está desmarcada), lo mantenemos encendido estéticamente
             if (isDay1 && !turnOffOnDay1)
             {
                 SetEmissionColorToAll(activeColor);
             }
             else
             {
-                // En cualquier otro día normal del juego, si el validador da false, se apaga (a negro)
                 SetEmissionColorToAll(disabledColor);
             }
         }
         else
         {
-            // Si el validador da el visto bueno, color encendido normal
             SetEmissionColorToAll(activeColor);
         }
     }
@@ -101,14 +114,15 @@ public class ButtonEmissionController : MonoBehaviour
         isOverridden = false;
     }
 
-    /// <summary>
-    /// Comprueba si el botón se puede clicar o interactuar en este frame (Para el Highlight).
-    /// </summary>
     public bool IsInteractable()
     {
-        bool isDay1 = (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day1);
+        if (strictlyFollowValidator)
+        {
+            if (validator == null) return true;
+            return validator.CanPress();
+        }
 
-        // El botón de prioridad en el Día 1 no da feedback de ningún tipo
+        bool isDay1 = (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day1);
         if (isDay1 && turnOffOnDay1) return false;
 
         if (validator == null) return true;

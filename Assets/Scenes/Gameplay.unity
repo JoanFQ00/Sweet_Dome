@@ -23463,11 +23463,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
-  validator: {fileID: 0}
-  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  validator: {fileID: 1039698112}
+  activeColor: {r: 4.2295003, g: 6.473058, b: 0, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 0}
   turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!111 &1039698116
 Animation:
   m_ObjectHideFlags: 0
@@ -23512,11 +23513,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
-  validator: {fileID: 0}
-  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  validator: {fileID: 1039698117}
+  activeColor: {r: 4.2295003, g: 6.473058, b: 0, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 0}
   turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!1 &1043045862
 GameObject:
   m_ObjectHideFlags: 0
@@ -49604,11 +49606,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
-  validator: {fileID: 0}
+  validator: {fileID: 1996374447}
   activeColor: {r: 1, g: 1, b: 1, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 0}
   turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!111 &1996374451
 Animation:
   m_ObjectHideFlags: 0
@@ -53692,6 +53695,7 @@ GameObject:
   - component: {fileID: 5496781936223831135}
   - component: {fileID: 5452332969699154509}
   - component: {fileID: 6724418336168041672}
+  - component: {fileID: 6724418336168041677}
   - component: {fileID: 6724418336168041671}
   - component: {fileID: 6724418336168041670}
   - component: {fileID: 6724418336168041669}
@@ -54540,6 +54544,7 @@ GameObject:
   - component: {fileID: 9039709009316722582}
   - component: {fileID: 2057719444647583024}
   - component: {fileID: 9039709009316722586}
+  - component: {fileID: 9039709009316722591}
   - component: {fileID: 9039709009316722585}
   - component: {fileID: 9039709009316722584}
   - component: {fileID: 9039709009316722583}
@@ -56075,6 +56080,7 @@ GameObject:
   - component: {fileID: 4099845785085940653}
   - component: {fileID: 2655549386025687280}
   - component: {fileID: 7508707239503900687}
+  - component: {fileID: 7508707239503900692}
   - component: {fileID: 7508707239503900686}
   - component: {fileID: 7508707239503900685}
   - component: {fileID: 7508707239503900684}
@@ -57090,6 +57096,7 @@ GameObject:
   - component: {fileID: 1100442241612152091}
   - component: {fileID: 1501055812670099755}
   - component: {fileID: 1881911132639619984}
+  - component: {fileID: 1881911132639619989}
   - component: {fileID: 1881911132639619983}
   - component: {fileID: 1881911132639619982}
   - component: {fileID: 1881911132639619981}
@@ -57233,6 +57240,24 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &1881911132639619989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881911132639619980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  validator: {fileID: 1881911132639619987}
+  activeColor: {r: 178.90814, g: 0, b: 0, a: 1}
+  disabledColor: {r: 0, g: 0, b: 0, a: 1}
+  secondaryButtonMesh: {fileID: 0}
+  turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!4 &1888022297629561305
 Transform:
   m_ObjectHideFlags: 0
@@ -57599,6 +57624,7 @@ GameObject:
   - component: {fileID: 8139190219771933325}
   - component: {fileID: 2147112418159607726}
   - component: {fileID: 8139190219771933329}
+  - component: {fileID: 8139190219771933334}
   - component: {fileID: 8139190219771933328}
   - component: {fileID: 8139190219771933327}
   - component: {fileID: 8139190219771933326}
@@ -59453,6 +59479,7 @@ GameObject:
   - component: {fileID: 418522161409881111}
   - component: {fileID: 62631581757034237}
   - component: {fileID: 2892166251239999843}
+  - component: {fileID: 2892166251239999848}
   - component: {fileID: 2892166251239999842}
   - component: {fileID: 2892166251239999841}
   - component: {fileID: 2892166251239999840}
@@ -59596,6 +59623,24 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &2892166251239999848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2892166251239999839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  validator: {fileID: 2892166251239999846}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0, g: 0, b: 0, a: 1}
+  secondaryButtonMesh: {fileID: 0}
+  turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!223 &2900178168114938783
 Canvas:
   m_ObjectHideFlags: 0
@@ -61504,6 +61549,7 @@ GameObject:
   - component: {fileID: 2052021899865670118}
   - component: {fileID: 119207311801697738}
   - component: {fileID: 5686226395317800615}
+  - component: {fileID: 5686226395317800620}
   - component: {fileID: 5686226395317800614}
   - component: {fileID: 5686226395317800613}
   - component: {fileID: 5686226395317800616}
@@ -62229,6 +62275,7 @@ GameObject:
   - component: {fileID: 5563961653610935343}
   - component: {fileID: 1134271147862683729}
   - component: {fileID: 9155920293560118607}
+  - component: {fileID: 9155920293560118612}
   - component: {fileID: 9155920293560118606}
   - component: {fileID: 9155920293560118605}
   - component: {fileID: 9155920293560118604}
@@ -65459,6 +65506,24 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &5686226395317800620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3979258160797402981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  validator: {fileID: 5686226395317800618}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0, g: 0, b: 0, a: 1}
+  secondaryButtonMesh: {fileID: 0}
+  turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!23 &5687787870744763563
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -67388,6 +67453,24 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &6724418336168041677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481830039745924055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  validator: {fileID: 6724418336168041675}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0, g: 0, b: 0, a: 1}
+  secondaryButtonMesh: {fileID: 0}
+  turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!1 &6743008646071694817 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5773087634823484106, guid: 03a5cecbc70026e4487a88e0e17c1a69, type: 3}
@@ -68232,6 +68315,7 @@ GameObject:
   - component: {fileID: 452728554452801635}
   - component: {fileID: 2376580360811848221}
   - component: {fileID: 7826160148513828875}
+  - component: {fileID: 7826160148513828880}
   - component: {fileID: 7826160148513828874}
   - component: {fileID: 7826160148513828873}
   - component: {fileID: 7826160148513828872}
@@ -68536,11 +68620,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
-  validator: {fileID: 0}
-  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  validator: {fileID: 7291814254053808173}
+  activeColor: {r: 51.984146, g: 0, b: 0, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
-  secondaryButtonMesh: {fileID: 0}
+  secondaryButtonMesh: {fileID: 2020366537009726649}
   turnOffOnDay1: 0
+  strictlyFollowValidator: 1
 --- !u!111 &7291814254053808175
 Animation:
   m_ObjectHideFlags: 0
@@ -68632,11 +68717,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
-  validator: {fileID: 0}
+  validator: {fileID: 7312373766383115445}
   activeColor: {r: 95.874504, g: 35.823357, b: 0, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 577357555813706289}
   turnOffOnDay1: 1
+  strictlyFollowValidator: 0
 --- !u!114 &7312373766383115447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68867,11 +68953,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
-  validator: {fileID: 0}
+  validator: {fileID: 7438186382883496112}
   activeColor: {r: 1, g: 1, b: 1, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 0}
   turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!111 &7438186382883496114
 Animation:
   m_ObjectHideFlags: 0
@@ -69071,6 +69158,24 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &7508707239503900692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432973919863212898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  validator: {fileID: 7508707239503900690}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0, g: 0, b: 0, a: 1}
+  secondaryButtonMesh: {fileID: 0}
+  turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!222 &7513175881087141390
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -70076,6 +70181,24 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &7826160148513828880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220041739873364984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  validator: {fileID: 7826160148513828878}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0, g: 0, b: 0, a: 1}
+  secondaryButtonMesh: {fileID: 0}
+  turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!33 &7828214533913919010
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -71045,6 +71168,24 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &8139190219771933334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980142658670005634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  validator: {fileID: 8139190219771933332}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0, g: 0, b: 0, a: 1}
+  secondaryButtonMesh: {fileID: 0}
+  turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!1 &8146784427593810455
 GameObject:
   m_ObjectHideFlags: 0
@@ -71680,6 +71821,7 @@ GameObject:
   - component: {fileID: 927407716398999771}
   - component: {fileID: 6307007954847776448}
   - component: {fileID: 8373873888933183519}
+  - component: {fileID: 8373873888933183524}
   - component: {fileID: 8373873888933183518}
   - component: {fileID: 8373873888933183517}
   - component: {fileID: 8373873888933183516}
@@ -71823,6 +71965,24 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &8373873888933183524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8373873888933183515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  validator: {fileID: 8373873888933183522}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0, g: 0, b: 0, a: 1}
+  secondaryButtonMesh: {fileID: 0}
+  turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!224 &8380856328120193841
 RectTransform:
   m_ObjectHideFlags: 0
@@ -72088,11 +72248,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
-  validator: {fileID: 0}
+  validator: {fileID: 8427812220776211897}
   activeColor: {r: 1, g: 1, b: 1, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 0}
   turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!114 &8427812220776211897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73942,6 +74103,24 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &9039709009316722591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668007165938582498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  validator: {fileID: 9039709009316722589}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0, g: 0, b: 0, a: 1}
+  secondaryButtonMesh: {fileID: 0}
+  turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!1 &9040975013199607350
 GameObject:
   m_ObjectHideFlags: 0
@@ -74175,11 +74354,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
-  validator: {fileID: 0}
+  validator: {fileID: 9099485350462520429}
   activeColor: {r: 1, g: 1, b: 1, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 0}
   turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!111 &9099485350462520431
 Animation:
   m_ObjectHideFlags: 0
@@ -74432,6 +74612,24 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &9155920293560118612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4332293202956077116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  validator: {fileID: 9155920293560118610}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0, g: 0, b: 0, a: 1}
+  secondaryButtonMesh: {fileID: 0}
+  turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!114 &9162283482928197706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74463,6 +74661,7 @@ GameObject:
   - component: {fileID: 8683322544791658092}
   - component: {fileID: 8281178435774422866}
   - component: {fileID: 9174769383447025231}
+  - component: {fileID: 9174769383447025236}
   - component: {fileID: 9174769383447025230}
   - component: {fileID: 9174769383447025229}
   - component: {fileID: 9174769383447025228}
@@ -74606,6 +74805,24 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &9174769383447025236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174769383447025227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  validator: {fileID: 9174769383447025234}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  disabledColor: {r: 0, g: 0, b: 0, a: 1}
+  secondaryButtonMesh: {fileID: 0}
+  turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!222 &9179202325097661885
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -144,7 +144,8 @@ public class CityFunnel : FunnelBase, IResetable
 
     public bool HasLiquid()
     {
-        return CurrentCapacity > 0f;
+        // Optimizador complementario local: evalúa también en base al redondeo visual
+        return Mathf.RoundToInt(CurrentCapacity) >= 1;
     }
 
     public void ConfirmLiquid()
@@ -159,11 +160,22 @@ public class CityFunnel : FunnelBase, IResetable
 
         if (energy != null)
         {
-            float originalAmount = CurrentCapacity;
-            float modifiedAmount = energy.GetModifiedAmount(originalAmount);
+            // 1. Calculamos la cantidad entera real visible que se va a enviar
+            // (Si tu UI trunca hacia abajo, recuerda cambiar aquí también a Mathf.FloorToInt)
+            float visualAmountToSend = Mathf.RoundToInt(CurrentCapacity);
 
+            // Control de seguridad: Si por un desfase de frames el valor visual bajó de 1, abortamos
+            if (visualAmountToSend < 1f) return;
+
+            // 2. Pasamos la cantidad entera por el modificador de la zona (multiplicadores de eficiencia/grietas)
+            float modifiedAmount = energy.GetModifiedAmount(visualAmountToSend);
+
+            // 3. Inyectamos la cantidad neta exacta calculada en el depósito de la ciudad
             zone.funnel.AddLiquid(modifiedAmount);
-            UpdateCapacity(-originalAmount);
+
+            // 4. Restamos ÚNICAMENTE la cantidad entera del total de la máquina.
+            // Los decimales sobrantes (ej: el 0.3f de un 1.3f) se quedan retenidos en el tanque original
+            UpdateCapacity(-visualAmountToSend);
         }
     }
 
