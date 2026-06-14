@@ -26,6 +26,18 @@ public class RadarMinigame : MonoBehaviour, IResetable
     [Header("Seguridad de Spawn (Anti-solapamiento)")]
     [SerializeField] private float minDistanceBetweenTargets = 0.04f;
 
+    [Header("SISTEMA DE ALARMAS SEPARADO (Visual)")]
+    [Tooltip("Componente Animation físico de la Alarma Roja.")]
+    [SerializeField] private Animation redAlarmAnimation;
+    [Tooltip("Clip .anim de la alarma Roja.")]
+    [SerializeField] private AnimationClip redAlarmClip;
+
+    [Space(10)]
+    [Tooltip("Componente Animation físico de la Alarma Azul.")]
+    [SerializeField] private Animation blueAlarmAnimation;
+    [Tooltip("Clip .anim de la alarma Azul.")]
+    [SerializeField] private AnimationClip blueAlarmClip;
+
     [Header("Objectives Spawn")]
     public List<GameObject> objectives = new List<GameObject>();
 
@@ -68,6 +80,8 @@ public class RadarMinigame : MonoBehaviour, IResetable
         SliderCont.OnSliderMoved -= SliderMoved;
         WheelRotator.OnRotatedMoved -= SliderMoved;
         RadarVision.OnObjectiveGet -= ObjectiveTaken;
+
+        StopAlarmHardwareFeedback();
     }
 
     private void OnDestroy()
@@ -98,6 +112,9 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
         ClearAllActiveObjectivesImmediate();
 
+        // Encendemos la alarma correspondiente al tipo de peligro
+        PlayAlarmHardwareFeedback(eventType);
+
         for (int i = 0; i < spawnQuantity; i++)
         {
             SpawnRandomObjective();
@@ -106,7 +123,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
     private void EventTimer()
     {
-        // CANDADO INMEDIATO: Si la lista de naves está limpia, congelamos el tiempo para que no siga bajando
         if (objectives.Count <= 0 || isSliderResetting || isRotationResetting) return;
 
         currentEventTime -= Time.deltaTime;
@@ -149,7 +165,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
         if (objectives.Count <= 0)
         {
-            // Victoria: Apagamos el flag inEvent en el acto para matar el temporizador
             inEvent = false;
             StartSequenceEnd(true);
         }
@@ -165,8 +180,50 @@ public class RadarMinigame : MonoBehaviour, IResetable
         inEvent = false;
         if (timeTMP != null) timeTMP.text = "";
 
+        // Apagamos los componentes de animación de inmediato
+        StopAlarmHardwareFeedback();
+
         StopAllCoroutines();
         StartCoroutine(FinalHardwareResetSequenceRoutine(success));
+    }
+
+    /// <summary>
+    /// Activa el componente de animación y el clip concreto de la alarma correspondiente.
+    /// </summary>
+    private void PlayAlarmHardwareFeedback(RadarEventType type)
+    {
+        if (type == RadarEventType.Meteorite)
+        {
+            // Dispara la alarma Roja de forma independiente
+            if (redAlarmAnimation != null && redAlarmClip != null)
+            {
+                redAlarmAnimation.Play(redAlarmClip.name);
+            }
+        }
+        else if (type == RadarEventType.SpaceShip)
+        {
+            // Dispara la alarma Azul de forma independiente
+            if (blueAlarmAnimation != null && blueAlarmClip != null)
+            {
+                blueAlarmAnimation.Play(blueAlarmClip.name);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Detiene ambos componentes físicos de animación para apagar las luces de la cabina.
+    /// </summary>
+    private void StopAlarmHardwareFeedback()
+    {
+        if (redAlarmAnimation != null)
+        {
+            redAlarmAnimation.Stop();
+        }
+
+        if (blueAlarmAnimation != null)
+        {
+            blueAlarmAnimation.Stop();
+        }
     }
 
     private IEnumerator FinalHardwareResetSequenceRoutine(bool? success)
@@ -198,14 +255,13 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
         if (sceneSlider != null) sceneSlider.ResetValues();
 
-        // BLINDAJE DIRECTO ABSOLUTO
         SliderCont.ForceMinPosState(true);
         isSliderResetting = false;
 
         yield return new WaitForEndOfFrame();
 
         // -------------------------------------------------------------
-        // FASE 2: Retorno ULTRA RÁPIDO del Volante de Rotación (Multiplicado x8)
+        // FASE 2: Retorno ULTRA RÁPIDO del Volante de Rotación
         // -------------------------------------------------------------
         WheelRotator rotationWheel = null;
         WheelRotator[] wheels = UnityEngine.Object.FindObjectsByType<WheelRotator>(FindObjectsSortMode.None);
@@ -214,7 +270,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
             if (wheels[i].type == SliderType.Rotation) rotationWheel = wheels[i];
         }
 
-        // Se incrementa la velocidad x8 para que encaje al instante con un latigazo veloz
         float fastResetSpeed = autoResetSpeed * 8f;
 
         while (Quaternion.Angle(radarPoint.localRotation, initialRadarRotation) > 0.01f)
@@ -328,6 +383,7 @@ public class RadarMinigame : MonoBehaviour, IResetable
     {
         StopAllCoroutines();
         ClearAllActiveObjectivesImmediate();
+        StopAlarmHardwareFeedback();
 
         inEvent = false;
         isSliderResetting = false;
