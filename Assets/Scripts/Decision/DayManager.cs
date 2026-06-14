@@ -39,12 +39,32 @@ public class DayManager : MonoBehaviour
 
     [Header("Day4Con")]
     public Dec_Con dorothyLaunch2;
+    public Dec_Con hasReadDorothyBook3;
 
     [Header("ActionsToRemember")]
     public NDec_Act angriedDay2;
     public NDec_Act angriedDay3;
     public NDec_Act dorothySaysWatchTv;
     public NDec_Act disconectTV;
+
+    [Header("Branches")]
+    public bool D11 = false;
+    public bool D12 = false;
+    public bool D21 = false;
+    public bool D22 = false;
+    public bool D31 = false;
+    public bool notLaunchDay4;
+    public bool D32 = false;
+    public bool D41 = false;
+    public bool D42 = false;
+    public bool D51 = false;
+    public bool D52 = false;
+    public bool D53 = false;
+    public bool D61 = false;
+    public bool D62 = false;
+    public bool D71 = false;
+    public bool D72 = false;
+    public bool D84 = false;
 
     [Header("SafeChecks")]
     public bool hasEated_SC = false;
@@ -139,6 +159,11 @@ public class DayManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "Gameplay")
             return;
 
+        if (Input.GetKeyDown(KeyCode.P)) 
+        {
+            D32 = true;
+        }
+
         if (Input.GetKeyDown(KeyCode.K))
         {
             GameManager.Instance.dayTime.SetCurrentTime(15, 0);
@@ -174,6 +199,7 @@ public class DayManager : MonoBehaviour
                 break;
 
             case Day.Day5:
+                UpdateDay5();
                 break;
         }
     }
@@ -193,16 +219,6 @@ public class DayManager : MonoBehaviour
         {
             Day3HourSkip();
         }
-
-        if (GameManager.Instance.currentDay == Day.Day4) 
-        {
-            Day4HourSkip();
-        }
-
-        if (GameManager.Instance.currentDay == Day.Day5) 
-        {
-            Day5HourSkip();
-        }
     }
 
     void SceneLoaded()
@@ -221,6 +237,8 @@ public class DayManager : MonoBehaviour
             if (currentBeBopTimer >= timerToBeBop)
             {
                 PresidentSpeaks(PresiDialogue.DorothySights);
+
+                // - Cinematica Dorothy va a la ventana 
                 activatedBBTimer = false;
             }
         }
@@ -260,8 +278,6 @@ public class DayManager : MonoBehaviour
             ChangeDorothyDialogue((int)DialoguesRobo.DorothyRecomendsBook1, true);
 
             dorothyBook.SetActive(true);
-            // IMPORTANT: Has de pensar que en realitat li has de pasar un INT (pero per com funciona el codi de canvi de dia)
-            // rep lenum, igualment els enums son ints so...
             dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day1);
         }
 
@@ -269,12 +285,16 @@ public class DayManager : MonoBehaviour
         {
             ChangeDorothyDialogue((int)DialoguesRobo.YouReadDorothyBook, true);
             youReadDorothyBook = true;
+
+            D11 = true;
         }
         else if (hasRead.IsMet(GameManager.Instance.decManager) && !dorothyAngry)
         {
             ChangeDorothyDialogue((int)DialoguesRobo.DorothyAngryDay2, true);
             dorothyAngry = true;
             angriedDay2.ActionExecuted();
+
+            D12 = true;
         }
 
         if ((afterTvDay2) && ((dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && !watchTvTriggered) ||
@@ -309,6 +329,8 @@ public class DayManager : MonoBehaviour
             hasEated_SC = true;
             ChangeDorothyDialogue((int)DialoguesRobo.Angry3AndNoBook, true);
             angriedDay3.ActionExecuted();
+
+            D22 = true;
         }
         else if (!hasEated_SC && hasEated.IsMet(GameManager.Instance.decManager) && !hasEated_SC)
         {
@@ -316,6 +338,8 @@ public class DayManager : MonoBehaviour
             ChangeDorothyDialogue((int)DialoguesRobo.DorothyAngryDay3, true);
             dorothyBook.SetActive(true);
             dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day2);
+
+            D22 = true;
         }
         else if (!hasEated_SC && dorothyLaunchEated.IsMet(GameManager.Instance.decManager))
         {
@@ -323,6 +347,8 @@ public class DayManager : MonoBehaviour
             ChangeDorothyDialogue((int)DialoguesRobo.DorothyHappyLaunch, true);
             dorothyBook.SetActive(true);
             dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day2);
+
+            D21 = true;
         }
 
         if ((hasRead.IsMet(GameManager.Instance.decManager) || dorothyBook2Readed.IsMet(GameManager.Instance.decManager))&& 
@@ -331,17 +357,10 @@ public class DayManager : MonoBehaviour
             if (!checkedEatDay3)
             {
                 checkedEatDay3 = true;
-                IniciarSecuenciaCinematica();
-            }
-        }
+                IniciarSecuenciaCinematica(); // -Cinematica Despres d'acabar aqueta ha de fer la cinematica d'apagar la tele
+                D31 = true;
 
-        if (hasWatchedTv.IsMet(GameManager.Instance.decManager) && dorothyBook2Readed.IsMet(GameManager.Instance.decManager))
-        {
-            //if (!checkedTvDay3)
-            //{
-            //    checkedTvDay3 = true;
-            //    GameManager.Instance.robotBehaviour.TriggerHistoryEvent("DorothyTurnOffTvDay3");
-            //}
+            }
         }
     }
 
@@ -355,18 +374,92 @@ public class DayManager : MonoBehaviour
             ChangeDorothyDialogue((int)DialoguesRobo.DorothyLaunch, true);
         }
 
-        if (!hasEated_SC && dorothyLaunch2.IsMet(GameManager.Instance.decManager))  
+        if (D31)
         {
-            ChangeDorothyDialogue((int)DialoguesRobo.DorothyHappyLaunch, true);
-            hasEated_SC = true;
-            dorothyBook.SetActive(true);
-            dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day3);
-        }
+            if (!hasEated_SC && dorothyLaunch2.IsMet(GameManager.Instance.decManager))
+            {
+                ChangeDorothyDialogue((int)DialoguesRobo.DorothyHappyLaunch, true);
+                hasEated_SC = true;
+                dorothyBook.SetActive(true);
+                dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day3);
+            }
 
-        if (hasRead.IsMet(GameManager.Instance.decManager) && !checkedReadD4) // SHA DE COMPROBAR LA BRANCA 3/1 aqui tambe  
+            if (hasRead.IsMet(GameManager.Instance.decManager)
+               && !checkedReadD4 && notLaunchDay4)
+            {
+                checkedReadD4 = true;
+                ChangeDorothyDialogue((int)DialoguesRobo.MadDoro, true);
+                GameManager.Instance.dayTime.SetCurrentTime(15, 0);
+                D52 = true;
+            }
+
+            else if ((hasRead.IsMet(GameManager.Instance.decManager) || hasReadDorothyBook3.IsMet(GameManager.Instance.decManager))
+                && !checkedReadD4)
+            {
+                checkedReadD4 = true;
+                //Play Cinematic "DOROTHY SE SIENTA CON MATTHEW Y LE ABRAZA
+                D51 = true;
+            }
+
+
+        }
+        else if (D32)
         {
-            checkedReadD4 = true;
-            //Play Cinematic "DOROTHY SE SIENTA CON MATTHEW Y LE ABRAZA
+            if (!hasEated_SC && dorothyLaunchEated.IsMet(GameManager.Instance.decManager))
+            {
+                // - Cinematica Apagar Tele
+                hasEated_SC = true;
+                D31 = true;
+                Debug.Log("Dorothy Apaga la tele");
+            }
+        }
+    }
+
+    void UpdateDay5() 
+    {
+        if (D71)
+        {
+            if (D53)
+            {
+                D72 = true;
+                D71 = false;
+            }
+            else 
+            {
+                if (D61) 
+                {
+                    dayLaunchDorothyCurrentTime += Time.deltaTime;
+
+                    if (dayLaunchDorothyCurrentTime >= dayLaunchDorothyTimer && !dorothyTalksAboutLaunch)
+                    {
+                        dorothyTalksAboutLaunch = true;
+                        ChangeDorothyDialogue((int)DialoguesRobo.DorothyLaunch, true);
+                    }
+
+                    if (!hasEated_SC && dorothyLaunch2.IsMet(GameManager.Instance.decManager))
+                    {
+                        ChangeDorothyDialogue((int)DialoguesRobo.lastBookRec, true);
+                        hasEated_SC = true;
+                        dorothyBook.SetActive(true);
+                        dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day4);
+                    }
+                }
+                if (D62) 
+                {
+
+                }
+            }
+            
+        }
+        else if (D72)
+        {
+            if (!hasEated_SC && hasEated.IsMet(GameManager.Instance.decManager)) 
+            {
+                if (!D53) 
+                {
+                    D71 = true;
+                }
+            }
         }
     }
 
@@ -411,6 +504,8 @@ public class DayManager : MonoBehaviour
             ChangeDorothyDialogue((int)DialoguesRobo.DorothyAngryDay2, true);
             dorothyAngry = true;
             angriedDay2.ActionExecuted();
+
+            D12 = true;
         }
         else if (!hasWatchedTv.IsMet(GameManager.Instance.decManager)
             && dorothyBook1Readed.IsMet(GameManager.Instance.decManager))
@@ -513,16 +608,6 @@ public class DayManager : MonoBehaviour
                 playedTvAnim = true;
             }
         }
-    }
-
-    void Day4HourSkip() 
-    {
-
-    }
-
-    void Day5HourSkip() 
-    {
-
     }
 
     void CheckPresiTerminatedDialogue()

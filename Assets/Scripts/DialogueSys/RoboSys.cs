@@ -28,7 +28,12 @@ public enum DialoguesRobo
     EncourageTV = 45,
 
     PleaseEatMyLaunch = 72,
+    VeryMad = 73,
     ILoveYou = 74,
+    MadDoro = 75,
+
+    SpecialLaunch = 104,
+    lastBookRec = 106,
 }
 
 public class RoboSys : DialogueSys

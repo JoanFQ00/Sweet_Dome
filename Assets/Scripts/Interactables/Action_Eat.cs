@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Action_Eat : BaseAction
 {
@@ -8,7 +9,7 @@ public class Action_Eat : BaseAction
     public float rotateSpeed = 10f;
 
     public enum FoodType { Dorothy, President }
-    public FoodType bookType;
+    public FoodType foodType;
 
     private Transform obj;
     private Vector3 originalPos;
@@ -18,7 +19,30 @@ public class Action_Eat : BaseAction
 
     private void Start()
     {
-        mouthTarget = GameManager.Instance.playerController.GetComponent<Interact>().mouthTarget;
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Gaming"))
+            mouthTarget = playerController.GetComponent<Interact>().mouthTarget;
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        GameManager.NewDay += CheckDay;
+    }
+
+    protected override void OnDisable() 
+    {
+        base.OnDisable();
+
+        GameManager.NewDay -= CheckDay;
+    }
+
+    void CheckDay() 
+    {
+        if (GameManager.Instance.currentDay == Day.Day4 && foodType == FoodType.President)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public override void Interact()
@@ -28,6 +52,7 @@ public class Action_Eat : BaseAction
         obj = transform;
         originalPos = obj.position;
         originalRot = obj.rotation;
+        mouthTarget = GameManager.Instance.playerController.GetComponent<Interact>().mouthTarget;
 
         GameManager.Instance.playerController.LockPlayer(true);
         GameManager.Instance.playerController.LockCamera(true);
