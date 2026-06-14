@@ -17,14 +17,11 @@ public class RadarMinigame : MonoBehaviour, IResetable
     public GameObject objectivePrefab;
 
     [Header("Ajustes de Retorno Mecánico (Polish)")]
-    [Tooltip("Velocidad de retorno de las palancas y volantes. Ahora es muy lento y pesado.")]
-    [SerializeField] private float autoResetSpeed = 1.0f;
+    [SerializeField] private float autoResetSpeed = 0.4f;
 
     [Header("Configuración de Inactividad (AFK)")]
-    [Tooltip("Tiempo en segundos que puede estar el slider sin tocarse antes de regresar solo al inicio.")]
     public float maxIdleTime = 5f;
     private float currentIdleTimer = 0f;
-    private bool isReturningFromIdle = false;
 
     [Header("Seguridad de Spawn (Anti-solapamiento)")]
     [SerializeField] private float minDistanceBetweenTargets = 0.04f;
@@ -35,7 +32,9 @@ public class RadarMinigame : MonoBehaviour, IResetable
     public static Action<bool> OnEventFinished;
 
     private bool inEvent = false;
-    private bool isResettingHardware = false; // Candado para bloquear interacciones en el fin del juego
+    private bool isSliderResetting = false;
+    private bool isRotationResetting = false;
+
     private float currentEventTime;
     private int spawnQuantity = 3;
     private RadarEventType currentEventType;
@@ -45,9 +44,8 @@ public class RadarMinigame : MonoBehaviour, IResetable
     private Quaternion initialRadarRotation;
 
     public bool IsEventActive() => inEvent;
-
-    // Si el hardware está volviendo por AFK o por fin de juego, se considera bloqueado
-    public bool IsResettingHardware() => isResettingHardware || isReturningFromIdle;
+    public bool IsSliderResetting() => isSliderResetting;
+    public bool IsRotationResetting() => isRotationResetting;
 
     void Start()
     {
@@ -81,7 +79,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
     {
         if (Input.GetKeyDown(KeyCode.Z)) StartRadarEvent(30f, RadarEventType.SpaceShip, 3);
 
-        // El temporizador general del evento corre de fondo de forma independiente
         if (inEvent)
         {
             EventTimer();
@@ -91,7 +88,7 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
     public void StartRadarEvent(float duration, RadarEventType eventType, int quantity)
     {
-        if (inEvent || isResettingHardware || isReturningFromIdle) return;
+        if (inEvent || isSliderResetting || isRotationResetting) return;
 
         inEvent = true;
         currentEventType = eventType;
@@ -109,8 +106,8 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
     private void EventTimer()
     {
-        // Si el hardware se está moviendo (por fin de juego o AFK), el tiempo se congela o termina controlado
-        if (isResettingHardware) return;
+        // CANDADO INMEDIATO: Si la lista de naves está limpia, congelamos el tiempo para que no siga bajando
+        if (objectives.Count <= 0 || isSliderResetting || isRotationResetting) return;
 
         currentEventTime -= Time.deltaTime;
         if (currentEventTime <= 0f)
@@ -126,8 +123,7 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
     private void HandleIdleCheck()
     {
-        // Si ya está regresando por inactividad o fin de juego, o si está abajo del todo, no sumamos tiempo
-        if (isResettingHardware || isReturningFromIdle || SliderCont.IsAtMinPos)
+        if (isSliderResetting || isRotationResetting || SliderCont.IsAtMinPos)
         {
             currentIdleTimer = 0f;
             return;
@@ -138,74 +134,27 @@ public class RadarMinigame : MonoBehaviour, IResetable
         if (currentIdleTimer >= maxIdleTime)
         {
             currentIdleTimer = 0f;
-            StartCoroutine(IdleHardwareOnlyResetRoutine());
+            StartSequenceEnd(false);
         }
     }
 
-    /// <summary>
-    /// REGLA AFK: Solo recoloca los mandos físicos de la mesa (Palanca y luego Volante) de forma lenta.
-    /// NO borra naves de la pantalla, NO quita el temporizador, NO acaba el evento.
-    /// </summary>
-    private IEnumerator IdleHardwareOnlyResetRoutine()
-    {
-        isReturningFromIdle = true;
-        SliderCont sceneSlider = UnityEngine.Object.FindAnyObjectByType<SliderCont>();
-
-        // 1. LERP DEL SLIDER: Regresa lentamente a la posición inicial
-        while (Vector3.Distance(radarPoint.position, radarPointZero.position) > 0.001f)
-        {
-            radarPoint.position = Vector3.MoveTowards(radarPoint.position, radarPointZero.position, autoResetSpeed * Time.deltaTime);
-            if (sceneSlider != null) sceneSlider.ApplyInstantPosition(0f);
-            yield return null;
-        }
-        radarPoint.position = radarPointZero.position;
-        onCenter = true;
-        if (sceneSlider != null) sceneSlider.ResetValues();
-
-        yield return null; // Frame de seguridad para asentar IsAtMinPos
-
-        // 2. LERP DEL VOLANTE: Gira lentamente hasta recuperar la rotación inicial
-        WheelRotator rotationWheel = null;
-        WheelRotator[] wheels = UnityEngine.Object.FindObjectsByType<WheelRotator>(FindObjectsSortMode.None);
-        for (int i = 0; i < wheels.Length; i++)
-        {
-            if (wheels[i].type == SliderType.Rotation) rotationWheel = wheels[i];
-        }
-
-        while (Quaternion.Angle(radarPoint.localRotation, initialRadarRotation) > 0.01f)
-        {
-            radarPoint.localRotation = Quaternion.Slerp(radarPoint.localRotation, initialRadarRotation, autoResetSpeed * Time.deltaTime);
-            if (rotationWheel != null) rotationWheel.ForceRotationReset(radarPoint.localRotation.eulerAngles.x);
-            yield return null;
-        }
-        radarPoint.localRotation = initialRadarRotation;
-
-        isReturningFromIdle = false;
-        currentIdleTimer = 0f;
-    }
-
-    /// <summary>
-    /// REGLA DE BAJA ÚNICA: Elimina la nave destruida y activa el rebobinado lento de mandos.
-    /// </summary>
     void ObjectiveTaken(GameObject _objective)
     {
         if (_objective == null) return;
 
         objectives.Remove(_objective);
-        Destroy(_objective); // Se muere SOLO el objetivo clicado
+        Destroy(_objective);
 
-        // Reiniciamos el temporizador de inactividad de la mesa
         currentIdleTimer = 0f;
 
-        // Si ya no quedan naves en toda la pantalla, cerramos el evento entero (Éxito)
         if (objectives.Count <= 0)
         {
+            // Victoria: Apagamos el flag inEvent en el acto para matar el temporizador
+            inEvent = false;
             StartSequenceEnd(true);
         }
         else
         {
-            // ¡NUEVO!: Si aún quedan naves vivas, congelamos temporalmente la entrada del jugador 
-            // y activamos el mismo Lerp secuencial lento para limpiar la posición física de la mesa.
             StopAllCoroutines();
             StartCoroutine(FinalHardwareResetSequenceRoutine(null));
         }
@@ -213,46 +162,50 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
     private void StartSequenceEnd(bool success)
     {
-        // DESACTIVAR TEMPORIZADOR: El reloj desaparece de la pantalla de la máquina fulminantemente
+        inEvent = false;
         if (timeTMP != null) timeTMP.text = "";
 
-        // Cortamos cualquier corrutina de AFK residual que estuviera corriendo para que no choque
         StopAllCoroutines();
-
         StartCoroutine(FinalHardwareResetSequenceRoutine(success));
     }
 
-    /// <summary>
-    /// SECUENCIA DE FIN DE EVENTO O RESET INTERMEDIO: Elimina naves si aplica y rebobina los mandos lentamente.
-    /// </summary>
-    private IEnumerator FinalHardwareResetSequenceRoutine(bool? success) // <--- ¡ASEGÚRATE DE QUE TIENE EL bool? CON EL SIGNO DE INTERROGACIÓN!
+    private IEnumerator FinalHardwareResetSequenceRoutine(bool? success)
     {
-        isResettingHardware = true;
+        isSliderResetting = true;
+        isRotationResetting = true;
 
-        // Si es el fin del evento real (tiene valor true o false), limpiamos los targets restantes inmediatamente
         if (success.HasValue)
         {
+            if (timeTMP != null) timeTMP.text = "";
             ClearAllActiveObjectivesImmediate();
         }
 
         // -------------------------------------------------------------
-        // FASE 1: El Slider de Posición hace su Lerp de vuelta LENTO hacia el inicio (MinPos)
+        // FASE 1: Retorno lento y pesado de la palanca de posición
         // -------------------------------------------------------------
         SliderCont sceneSlider = UnityEngine.Object.FindAnyObjectByType<SliderCont>();
+        SliderCont.ForceMinPosState(false);
+
         while (Vector3.Distance(radarPoint.position, radarPointZero.position) > 0.001f)
         {
             radarPoint.position = Vector3.MoveTowards(radarPoint.position, radarPointZero.position, autoResetSpeed * Time.deltaTime);
             if (sceneSlider != null) sceneSlider.ApplyInstantPosition(0f);
             yield return null;
         }
+
         radarPoint.position = radarPointZero.position;
         onCenter = true;
+
         if (sceneSlider != null) sceneSlider.ResetValues();
 
-        yield return null; // Frame de seguridad para asentar físicas
+        // BLINDAJE DIRECTO ABSOLUTO
+        SliderCont.ForceMinPosState(true);
+        isSliderResetting = false;
+
+        yield return new WaitForEndOfFrame();
 
         // -------------------------------------------------------------
-        // FASE 2: Cuando el slider ya está en MinPos, el volante de Rotación hace su Lerp lento al origen
+        // FASE 2: Retorno ULTRA RÁPIDO del Volante de Rotación (Multiplicado x8)
         // -------------------------------------------------------------
         WheelRotator rotationWheel = null;
         WheelRotator[] wheels = UnityEngine.Object.FindObjectsByType<WheelRotator>(FindObjectsSortMode.None);
@@ -261,19 +214,24 @@ public class RadarMinigame : MonoBehaviour, IResetable
             if (wheels[i].type == SliderType.Rotation) rotationWheel = wheels[i];
         }
 
+        // Se incrementa la velocidad x8 para que encaje al instante con un latigazo veloz
+        float fastResetSpeed = autoResetSpeed * 8f;
+
         while (Quaternion.Angle(radarPoint.localRotation, initialRadarRotation) > 0.01f)
         {
-            radarPoint.localRotation = Quaternion.Slerp(radarPoint.localRotation, initialRadarRotation, autoResetSpeed * Time.deltaTime);
+            radarPoint.localRotation = Quaternion.Slerp(radarPoint.localRotation, initialRadarRotation, fastResetSpeed * Time.deltaTime);
             if (rotationWheel != null) rotationWheel.ForceRotationReset(radarPoint.localRotation.eulerAngles.x);
             yield return null;
         }
-        radarPoint.localRotation = initialRadarRotation;
 
-        isResettingHardware = false;
+        radarPoint.localRotation = initialRadarRotation;
+        if (rotationWheel != null) rotationWheel.ForceRotationReset(initialRadarRotation.eulerAngles.x);
+
+        isRotationResetting = false;
         currentIdleTimer = 0f;
 
         // -------------------------------------------------------------
-        // FASE 3: Solo si es el fin real del evento (Éxito/Fracaso), procesamos resultados de la historia
+        // FASE 3: Fin del evento e Historia Lineal
         // -------------------------------------------------------------
         if (success.HasValue)
         {
@@ -303,10 +261,11 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
     void SliderMoved(float value, SliderType type)
     {
-        // Bloqueamos la entrada del jugador si los mandos están regresando automáticamente por AFK o fin de juego
-        if (isResettingHardware || isReturningFromIdle || !inEvent) return;
+        if (!inEvent) return;
 
-        // Mover los mandos rompe el estado idle y pone la cuenta atrás a cero
+        if (type == SliderType.Position && isSliderResetting) return;
+        if (type == SliderType.Rotation && isRotationResetting) return;
+
         currentIdleTimer = 0f;
 
         switch (type)
@@ -371,8 +330,8 @@ public class RadarMinigame : MonoBehaviour, IResetable
         ClearAllActiveObjectivesImmediate();
 
         inEvent = false;
-        isResettingHardware = false;
-        isReturningFromIdle = false;
+        isSliderResetting = false;
+        isRotationResetting = false;
         currentEventTime = 0f;
         currentIdleTimer = 0f;
 
@@ -383,5 +342,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
         SliderCont sceneSlider = UnityEngine.Object.FindAnyObjectByType<SliderCont>();
         if (sceneSlider != null) sceneSlider.ResetValues();
+        SliderCont.ForceMinPosState(true);
     }
 }

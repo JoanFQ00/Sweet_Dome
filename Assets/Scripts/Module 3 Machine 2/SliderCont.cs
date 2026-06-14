@@ -7,16 +7,21 @@ public class SliderCont : MonoBehaviour, IResetable
 
     [Header("Configuración del Slider")]
     [SerializeField] private SliderType sliderType = SliderType.Position;
-    [SerializeField] private Transform startPoint; // MinPos
-    [SerializeField] private Transform endPoint;   // MaxPos
+    [SerializeField] private Transform startPoint;
+    [SerializeField] private Transform endPoint;
     [SerializeField] private float centerDeadZonePixels = 25f;
 
     private bool isDragging;
     private float currentNormalizedValue = 0f;
     private RadarMinigame radarMinigame;
 
-    // Propiedad estática de control para el volante de rotación
+    // Propiedad estática controlada de forma infalible
     public static bool IsAtMinPos { get; private set; } = true;
+
+    public static void ForceMinPosState(bool state)
+    {
+        IsAtMinPos = state;
+    }
 
     void Start()
     {
@@ -39,9 +44,8 @@ public class SliderCont : MonoBehaviour, IResetable
 
     public bool IsInteractable()
     {
-        if (radarMinigame == null) return false;
-        // No interactuable si no hay evento o si el hardware se está auto-reseteando/limpiando
-        return radarMinigame.IsEventActive() && !radarMinigame.IsResettingHardware();
+        if (radarMinigame == null || !radarMinigame.IsEventActive()) return false;
+        return !radarMinigame.IsSliderResetting();
     }
 
     void Update()
@@ -51,11 +55,11 @@ public class SliderCont : MonoBehaviour, IResetable
             isDragging = false;
         }
 
-        // BUGFIX: Aunque el jugador no esté arrastrando, recalculamos de forma estricta el IsAtMinPos 
-        // frame a frame en base a la distancia física real. Así el volante detecta el Lerp al instante.
+        // MARGEN DE TOLERANCIA BLINDADO: Si el valor normalizado está en el 15% inferior,
+        // liberamos el volante de rotación de forma automática sin importar milésimas flotantes.
         if (startPoint != null)
         {
-            IsAtMinPos = Vector3.Distance(transform.position, startPoint.position) < 0.01f;
+            IsAtMinPos = currentNormalizedValue < 0.15f;
         }
 
         if (!IsInteractable())
@@ -107,13 +111,10 @@ public class SliderCont : MonoBehaviour, IResetable
     private void ApplyVisualPosition()
     {
         if (startPoint == null || endPoint == null) return;
-
         transform.position = Vector3.Lerp(startPoint.position, endPoint.position, currentNormalizedValue);
+        IsAtMinPos = currentNormalizedValue < 0.15f; // Sincronización de tolerancia
     }
 
-    /// <summary>
-    /// Permite al script del Radar inyectar la posición de retorno suave por Lerp.
-    /// </summary>
     public void ApplyInstantPosition(float normalizedValue)
     {
         currentNormalizedValue = Mathf.Clamp01(normalizedValue);

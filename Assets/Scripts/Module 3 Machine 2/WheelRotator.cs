@@ -23,44 +23,40 @@ public class WheelRotator : MonoBehaviour
         radarMinigame = UnityEngine.Object.FindAnyObjectByType<RadarMinigame>();
     }
 
-    /// <summary>
-    /// COMPUERTA ULTRA-ESTRICTA: Controla el feedback visual y físico del dial.
-    /// </summary>
     public bool IsInteractable()
     {
         if (radarMinigame == null || !radarMinigame.IsEventActive()) return false;
-        if (radarMinigame.IsResettingHardware()) return false; // Bloqueo si está auto-reseteándose
 
-        // NUEVA REGLA: Si este dial es el de Rotación, SOLO es interactuable si el Slider de Posición está en el inicio
+        // SÓLO se bloquea físicamente si este volante de giro específico está haciendo su Lerp automático
+        if (radarMinigame.IsRotationResetting()) return false;
+
         if (type == SliderType.Rotation)
         {
             return SliderCont.IsAtMinPos;
         }
 
-        // Si es el de Posición, es interactuable libremente mientras dure el evento
         return true;
     }
 
     void Update()
     {
+        if (Input.GetMouseButtonUp(0))
+        {
+            isDragging = false;
+        }
+
         if (!IsInteractable())
         {
             isDragging = false;
             return;
         }
 
-        // Si es el de rotación, la regla física del proyecto exige estar en MinPos
         if (type == SliderType.Rotation && !SliderCont.IsAtMinPos)
         {
             isDragging = false;
             return;
         }
 
-        HandleDrag();
-    }
-
-    void HandleDrag()
-    {
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -71,14 +67,14 @@ public class WheelRotator : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (isDragging)
         {
-            isDragging = false;
+            HandleDrag();
         }
+    }
 
-        if (!isDragging)
-            return;
-
+    void HandleDrag()
+    {
         Vector3 screenCenter = Camera.main.WorldToScreenPoint(transform.position);
         float distanceToCenter = Vector2.Distance(Input.mousePosition, (Vector2)screenCenter);
 
