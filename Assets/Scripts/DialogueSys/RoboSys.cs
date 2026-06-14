@@ -24,6 +24,9 @@ public enum DialoguesRobo
 
     TryToSkipMachineDay1 = 17,
 
+    EncourageRead = 43,
+    EncourageTV = 45,
+
     PleaseEatMyLaunch = 72,
     ILoveYou = 74,
 }

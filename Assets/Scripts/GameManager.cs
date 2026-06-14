@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
     public DayTime dayTime;
     public LevelManager levelManager;
 
-    // Tu variable pública estructural original
     public Day currentDay;
 
     [Header("StartPosition")]
@@ -37,7 +36,6 @@ public class GameManager : MonoBehaviour
     public enum GameState { Gameplay, Interacting, Minigame, Paused }
     public GameState currentState;
 
-    // Lista de objetos registrados con el contrato IResetable
     private List<IResetable> resetableObjects = new List<IResetable>();
 
     void Awake()
@@ -58,14 +56,6 @@ public class GameManager : MonoBehaviour
     protected virtual void Start()
     {
         StartCoroutine(DelayedStartDay());
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            ExecuteFinishAnimation(0, 3);
-        }
     }
 
     private IEnumerator DelayedStartDay()

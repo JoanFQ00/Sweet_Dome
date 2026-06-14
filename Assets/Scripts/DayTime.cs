@@ -74,9 +74,7 @@ public class DayTime : MonoBehaviour
 
     void LoadNextDay(Day c_Day)
     {
-        // Guardamos el día en PlayerPrefs usando el valor real enviado por el GameManager
         int dayIndex = (int)c_Day;
-        SaveLastDay(dayIndex);
 
         GameManager.Instance.decManager.ResetDayActions();
 
@@ -88,20 +86,12 @@ public class DayTime : MonoBehaviour
     {
         if (GameManager.Instance == null) return;
 
-        // Conseguimos el índice del día actual directamente desde la fuente real del juego
         int gameDayIndex = (int)GameManager.Instance.currentDay;
 
         for (int i = 0; i < minigames.Count; i++)
         {
-            // Sincronización absoluta: Se activan de forma acumulativa todos los anteriores y el actual
             minigames[i].SetActive(i <= gameDayIndex);
         }
-    }
-
-    void SaveLastDay(int lastDay)
-    {
-        PlayerPrefs.SetInt("lastDay", lastDay);
-        PlayerPrefs.Save();
     }
 
     public bool CanSleepInBed()

@@ -27,6 +27,9 @@ public class UIManager : MonoBehaviour
     public GameObject interactTxt;
     public GameObject stopInteractTxt;
 
+    [Header("ZoomIm")]
+    public GameObject zoomIm;
+
     [Header("Time")]
     public TextMeshProUGUI timeHour, timeMinute;
     public TextMeshProUGUI timeHourMachine, timeMinuteMachine;
@@ -45,29 +48,26 @@ public class UIManager : MonoBehaviour
         optionsMenu.SetActive(false);
 
         SetupPauseButtons();
-
-        if (GameManager.Instance != null)
-            OnDayChanged();
     }
 
     private void OnEnable()
     {
-        GameManager.NewDay += OnDayChanged;
         Interact.CanInteract += ChangeInteractVisibility;
         DecManager.OnActionsChanged += ChangeHudObjectives;
         LevelManager.OnLevelLoaded += OnSceneLoaded;
         MiniGameTest.OnMachineEntered += MachineEntered;
+        PlayerController.OnZoomActivated += ShowHideZoom;
 
         DayTime.OnTimeChanged += UpdateTimeUI;
     }
 
     private void OnDisable()
     {
-        GameManager.NewDay -= OnDayChanged;
         Interact.CanInteract -= ChangeInteractVisibility;
         DecManager.OnActionsChanged -= ChangeHudObjectives;
         LevelManager.OnLevelLoaded -= OnSceneLoaded;
         MiniGameTest.OnMachineEntered -= MachineEntered;
+        PlayerController.OnZoomActivated -= ShowHideZoom;
 
         DayTime.OnTimeChanged -= UpdateTimeUI;
     }
@@ -100,25 +100,28 @@ public class UIManager : MonoBehaviour
         ChangePauseMenuState(false);
     }
 
+    public void ShowHideZoom(bool show) 
+    {
+        zoomIm.SetActive(show);
+    }
+
     public void OnQuitButtonClicked()
     {
         Application.Quit();
 
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
     }
 
     void ChangeInteractVisibility(bool visibility, bool interacting) 
     {
         if (interacting)
         {
-            interactTxt.SetActive(false);
             stopInteractTxt.SetActive(true);
         }
-        else 
+        else
         {
-            interactTxt.SetActive(visibility);
             stopInteractTxt.SetActive(false);
         }
     }
@@ -129,10 +132,6 @@ public class UIManager : MonoBehaviour
             center.SetActive(false);
         else 
             center.SetActive(true);
-    }
-
-    void OnDayChanged()
-    {
     }
 
     private void UpdateTimeUI(int hour, int minutes)

@@ -42,7 +42,7 @@ public class BedInt : MonoBehaviour, IInteractable, ILookable
         gameObject.layer = LayerMask.NameToLayer
             (DayTime.Instance.CanSleepInBed() ? "Interactable" : "Default");
 
-        if (popUpGO != null)
+        if (popUpGO != null && DayTime.Instance.currentHour >= 21)
         {
             PopUpCheck();
         }

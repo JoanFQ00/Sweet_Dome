@@ -10,7 +10,8 @@ public class Action_Reader : BaseAction
 
     private float currentMoveTime = 0.0f;
 
-    private Transform readTransform;
+    private Vector3 readPos;
+    private Quaternion readRot;
 
     private PlayerController player;
 
@@ -36,17 +37,16 @@ public class Action_Reader : BaseAction
     void Start()
     {
         if (GameManager.Instance.playerController != null)
-        { 
+        {
             player = GameManager.Instance.playerController;
-            readTransform = player.GetComponent<Interact>().readTransform;
-           
-            if (bookRenderer == null) 
+
+            if (bookRenderer == null)
             {
                 bookRenderer = GetComponentInChildren<Renderer>();
                 if (bookType == BookType.President)
                     ChangeTexture(GameManager.Instance.currentDay);
             }
-          
+
             originalPos = transform.position;
             originalRot = transform.rotation;
         }
@@ -73,7 +73,7 @@ public class Action_Reader : BaseAction
     void LevelLoaded() 
     {
         player = GameManager.Instance.playerController;
-        readTransform = player.GetComponent<Interact>().readTransform;
+
         bookRenderer = GetComponentInChildren<Renderer>();
 
         if (bookType == BookType.President)
@@ -92,6 +92,9 @@ public class Action_Reader : BaseAction
         startPos = transform.position;
         startRot = transform.rotation;
 
+        readPos = player.GetComponent<Interact>().readTransform.position;
+        readRot = player.GetComponent<Interact>().readTransform.rotation;
+
         player.LockPlayer(true);
 
         currentMoveTime = 0f;
@@ -103,7 +106,7 @@ public class Action_Reader : BaseAction
         switch (state)
         {
             case State.MovingToRead:
-                Move(readTransform.position, readTransform.rotation, () =>
+                Move(readPos, readRot, () =>
                 {
                     state = State.Reading;
                 });

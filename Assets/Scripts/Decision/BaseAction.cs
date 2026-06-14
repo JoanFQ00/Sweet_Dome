@@ -97,7 +97,12 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
 
     private void PopUpCheck()
     {
-        if (GameManager.Instance == null || playerController == null)
+        if (playerController == null) 
+        {
+            playerController = GameManager.Instance.playerController;
+        }
+
+        if (GameManager.Instance == null)
         {
             if (popUpGO.activeSelf) popUpGO.SetActive(false);
             if (interactPopUpGO.activeSelf) interactPopUpGO.SetActive(false);

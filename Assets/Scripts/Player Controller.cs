@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using UnityEngine.InputSystem;
 using FMODUnity;
 
@@ -45,6 +46,8 @@ public class PlayerController : MonoBehaviour
     bool zoomingCamera = false;
     int zoomIndex = 0;
     float targetFov;
+
+    public static Action<bool> OnZoomActivated;
 
     [HideInInspector]
     public bool playerLocked;
@@ -148,7 +151,7 @@ public class PlayerController : MonoBehaviour
 
     public void LookAtDorothy() 
     {
-        Transform lookPoint = GameManager.Instance.robotBehaviour.speakPoint;
+        Transform lookPoint = GameManager.Instance.robotBehaviour.transform;
 
         Vector3 direction = (lookPoint.position - transform.position).normalized;
         direction.y = 0;
@@ -237,6 +240,15 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (zoomIndex == 0)
+        {
+            OnZoomActivated?.Invoke(false);
+        }
+        else 
+        {
+            OnZoomActivated?.Invoke(true);
+        }
+     
         targetFov = objectiveFov[zoomIndex];
         currentZoomTime = 0f;
         zoomingCamera = true;

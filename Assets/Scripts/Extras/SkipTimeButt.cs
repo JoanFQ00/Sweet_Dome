@@ -16,6 +16,9 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
 
     private bool canInteract = true;
 
+    bool hasTriedSkipReadDay3;
+    bool hasTriedToSkipTVDay3;
+
     private int defaultLayer;
     private int interactableLayer;
 
@@ -49,9 +52,8 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
         StartCoroutine(InteractionCooldown());
         int hour = GameManager.Instance.dayTime.currentHour;
 
-        if (GameManager.Instance.currentDay == Day.Day6)
-            onPress?.Invoke();
-        else if (GameManager.Instance.currentDay == Day.Day1)
+   
+        if (GameManager.Instance.currentDay == Day.Day1)
         {
             OnFirstDayButt?.Invoke(true);
         }
@@ -81,23 +83,30 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
             }
             else if (hour < 11)
             {
-                if (GameManager.Instance.dayManager.
-                    dorothyAngriedDay2.IsMet(GameManager.Instance.decManager) && GameManager.Instance.dayManager.
-                    dorothyAngriedDay3.IsMet(GameManager.Instance.decManager))
-                {
-                    GameManager.Instance.dayTime.AddMinutes(30);
-                }
-                else
+                bool isAngry = GameManager.Instance.dayManager
+                    .dorothyAngriedDay3.IsMet(GameManager.Instance.decManager);
+
+                if (isAngry)
                 {
                     GameManager.Instance.dayTime.SetCurrentTime(11, 30);
+                    GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.EncourageRead, true);
+                    hasTriedSkipReadDay3 = true;
+                }
+          
+            }
+            else 
+            {
+                if (hasTriedToSkipTVDay3)
+                    GameManager.Instance.dayTime.SetCurrentTime(15, 0);
+                else 
+                {
+                    GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.EncourageTV, true);
+                    hasTriedToSkipTVDay3 = true;
                 }
             }
-            else
-            {
-
-            }
         }
-        else if (GameManager.Instance.currentDay == Day.Day4) 
+
+        else if (GameManager.Instance.currentDay == Day.Day4)
         {
             if (hour < 10)
             {
@@ -105,7 +114,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 {
                     GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.PleaseEatMyLaunch, true);
                 }
-                else 
+                else
                 {
                     GameManager.Instance.dayTime.SetCurrentTime(10, 00);
                 }

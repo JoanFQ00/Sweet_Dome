@@ -144,11 +144,6 @@ public class DayManager : MonoBehaviour
             GameManager.Instance.dayTime.SetCurrentTime(15, 0);
         }
 
-        if (Input.GetKeyDown(KeyCode.P)) 
-        {
-            IniciarSecuenciaCinematica();
-        }
-
         Timers();
 
         if (cinematicStarted && !cinematicEndedTriggered && day3Timeline != null)
@@ -330,7 +325,8 @@ public class DayManager : MonoBehaviour
             dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day2);
         }
 
-        if (hasRead.IsMet(GameManager.Instance.decManager) && dorothyLaunchEated.IsMet(GameManager.Instance.decManager))
+        if ((hasRead.IsMet(GameManager.Instance.decManager) || dorothyBook2Readed.IsMet(GameManager.Instance.decManager))&& 
+            dorothyLaunchEated.IsMet(GameManager.Instance.decManager))
         {
             if (!checkedEatDay3)
             {
