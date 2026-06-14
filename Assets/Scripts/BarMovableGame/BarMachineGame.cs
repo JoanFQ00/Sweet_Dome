@@ -32,6 +32,9 @@ public class BarMachineGame : MonoBehaviour, IResetable
     // Control interno de seguridad para saber si el jugador sigue sentado
     private bool isPlayerSeated = false;
 
+    // Añade esto dentro de BarMachineGame.cs para que el validador sepa si se puede jugar
+    public bool IsGameActive => isPlayerSeated && !completed && moving;
+
     void Start()
     {
         if (bar == null || leftLimit == null || rightLimit == null)

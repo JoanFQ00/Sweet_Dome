@@ -8,6 +8,9 @@ public class Machine01 : MonoBehaviour, IResetable
     [SerializeField] private LiquidPump rawPump;
     [SerializeField] private bool isPurifiedMode;
 
+    // PROPIEDAD PÚBLICA: Permite a otros scripts leer el estado actual de forma limpia
+    public bool IsPurifiedMode => isPurifiedMode;
+
     public Action<LiquidPump> OnPumpSwapped;
 
     private void Start()
@@ -27,16 +30,13 @@ public class Machine01 : MonoBehaviour, IResetable
     }
 
     // =================================================================
-    // ACCIONES DE LA MÁQUINA (Lógica Limpia sin ifs de días)
+    // ACCIONES DE LA MÁQUINA
     // =================================================================
 
     public void SwapPump()
     {
-        // ELIMINADO: El control del Día 1 ya lo hace el ChangeZoneButtonValidator
         isPurifiedMode = !isPurifiedMode;
 
-        // Nota: Si ya tienes sonido de click en el MainButt y este pumpSwap suena igual, 
-        // podrías borrar esta línea de audio para que no se duplique.
         AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.pumpSwap, gameObject);
 
         OnPumpSwapped?.Invoke(GetActivePump());

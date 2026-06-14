@@ -32,6 +32,9 @@ public class LiquidPump : CapabilityBase, IResetable
     [SerializeField] private float moveSpeed = 5f;
     private Vector3 targetGlobalPosition;
 
+    // Añade esto dentro de LiquidPump.cs para poder leer el índice actual desde fuera
+    public int CurrentFunnelIndex => funnelIndex;
+
     protected override void Start()
     {
         initialValues = new List<float> { 0f, 0f, 0f, 0f, 0f };

@@ -23315,7 +23315,7 @@ MonoBehaviour:
   releaseClip: {fileID: 7400000, guid: a44c4a44668806c49b711d6b25f98bc1, type: 2}
   pressSpeedMultiplier: 3
   releaseSpeedMultiplier: 3
-  validator: {fileID: 0}
+  validator: {fileID: 1039698112}
 --- !u!135 &1039698104
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -23397,7 +23397,7 @@ MonoBehaviour:
   releaseClip: {fileID: 7400000, guid: 6cd2c937d2501bd48a9fc1970e05463c, type: 2}
   pressSpeedMultiplier: 3
   releaseSpeedMultiplier: 3
-  validator: {fileID: 0}
+  validator: {fileID: 1039698117}
 --- !u!135 &1039698107
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -23437,6 +23437,37 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &1039698112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039698096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 555f06c1d8cceb146958acdaca642273, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PumpMovementValidator
+  machineSource: {fileID: 1557905089817286530}
+  buttonDirection: 1
+--- !u!114 &1039698113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039698096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  invertLogic: 0
+  targetMeshes:
+  - {fileID: 1039698097}
+  emissionTexture: {fileID: 2800000, guid: f6845c8d8cb77fd45b30e5c68533db81, type: 3}
+  activeEmissionColor: {r: 119.42826, g: 0, b: 72.19146, a: 1}
 --- !u!111 &1039698116
 Animation:
   m_ObjectHideFlags: 0
@@ -23455,6 +23486,37 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &1039698117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039698100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 555f06c1d8cceb146958acdaca642273, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PumpMovementValidator
+  machineSource: {fileID: 1557905089817286530}
+  buttonDirection: 0
+--- !u!114 &1039698118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039698100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  invertLogic: 0
+  targetMeshes:
+  - {fileID: 1039698101}
+  emissionTexture: {fileID: 2800000, guid: f6845c8d8cb77fd45b30e5c68533db81, type: 3}
+  activeEmissionColor: {r: 119.42826, g: 0, b: 72.19146, a: 1}
 --- !u!1 &1043045862
 GameObject:
   m_ObjectHideFlags: 0
@@ -42095,6 +42157,12 @@ PrefabInstance:
       addedObject: {fileID: 1039698107}
     - targetCorrespondingSourceObject: {fileID: 1111839797679023507, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1039698117}
+    - targetCorrespondingSourceObject: {fileID: 1111839797679023507, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1039698118}
+    - targetCorrespondingSourceObject: {fileID: 1111839797679023507, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1039698106}
     - targetCorrespondingSourceObject: {fileID: 1111839797679023507, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
@@ -42113,6 +42181,9 @@ PrefabInstance:
       addedObject: {fileID: 1996374448}
     - targetCorrespondingSourceObject: {fileID: -6945895849411897645, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1996374452}
+    - targetCorrespondingSourceObject: {fileID: -6945895849411897645, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1996374442}
     - targetCorrespondingSourceObject: {fileID: -6945895849411897645, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
@@ -42123,6 +42194,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -2063437938121494803, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1039698104}
+    - targetCorrespondingSourceObject: {fileID: -2063437938121494803, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1039698112}
+    - targetCorrespondingSourceObject: {fileID: -2063437938121494803, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1039698113}
     - targetCorrespondingSourceObject: {fileID: -2063437938121494803, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1039698103}
@@ -43553,7 +43630,7 @@ MonoBehaviour:
   releaseClip: {fileID: 7400000, guid: 68956884b6aa00245b4e3b452d37e153, type: 2}
   pressSpeedMultiplier: 3
   releaseSpeedMultiplier: 3
-  validator: {fileID: 0}
+  validator: {fileID: 8427812220776211897}
 --- !u!1 &1932007147 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7076590467822531996, guid: abd0035cc0a9a7649a2ea41b127ffd68, type: 3}
@@ -49517,6 +49594,23 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &1996374452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039698098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e7b1c8a506420942ad291841aacb31a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PumpColorTrigger
+  targetButton: {fileID: 1996374448}
+  customHdrColor: {r: 13.928808, g: 0.50406647, b: 0, a: 1}
+  machineSource: {fileID: 1557905089817286530}
+  purifiedHdrColor: {r: 0, g: 8.574187, b: 8.574187, a: 1}
+  rawHdrColor: {r: 25.992073, g: 0, b: 0, a: 1}
 --- !u!1001 &1998745473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60366,6 +60460,7 @@ GameObject:
   - component: {fileID: 859539175}
   - component: {fileID: 7312373766383115445}
   - component: {fileID: 7312373766383115446}
+  - component: {fileID: 7312373766383115449}
   - component: {fileID: 7312373766383115447}
   - component: {fileID: 7312373766383115448}
   m_Layer: 7
@@ -68505,6 +68600,21 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &7312373766383115449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3435730279289592597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4a24469a3474854da7de292630fb70e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PriorityColorTrigger
+  targetButton: {fileID: 7312373766383115446}
+  customHdrColor: {r: 0, g: 0, b: 64, a: 1}
+  priorityButtonSource: {fileID: 7312373766383115447}
 --- !u!1 &7327692129376414453
 GameObject:
   m_ObjectHideFlags: 0
@@ -69638,6 +69748,8 @@ GameObject:
   - component: {fileID: 8427812220776211892}
   - component: {fileID: 5321237080058967872}
   - component: {fileID: 6067317108903159475}
+  - component: {fileID: 8427812220776211897}
+  - component: {fileID: 8427812220776211896}
   - component: {fileID: 1931235243}
   - component: {fileID: 1931235242}
   - component: {fileID: 8427812220776211894}
@@ -71821,6 +71933,36 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &8427812220776211896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7804543415753580560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  invertLogic: 0
+  targetMeshes:
+  - {fileID: 6067317108903159475}
+  emissionTexture: {fileID: 2800000, guid: 59173ff14f6affb46b470c43c8eb36b9, type: 3}
+  activeEmissionColor: {r: 7.122682, g: 67.793495, b: 0, a: 1}
+--- !u!114 &8427812220776211897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7804543415753580560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cf8a9a35c19bae4fa0fea1c6ddf2a54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BarGameValidator
+  barGameSource: {fileID: 574539754}
 --- !u!1001 &8467052350342205326
 PrefabInstance:
   m_ObjectHideFlags: 0

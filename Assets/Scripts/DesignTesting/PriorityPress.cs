@@ -4,36 +4,67 @@ using System;
 public class PriorityPress : MainButt
 {
     [ColorUsage(true, true)]
+    [Tooltip("El color HDR que se quedará fijo en el botón todo el día tras haber sido pulsado.")]
     public Color activeEmissionColor = Color.white;
 
     private CityPriorityManager cityPriorityManager;
+    private ButtonEmissionController emissionController;
 
-    // Acción estática global para que cualquier LED de la escena la escuche
+    private Vector3 initialLocalPosition;
+    private Quaternion initialLocalRotation;
+
+    // CAMBIO: Ya no es estático global. Ahora es un evento público de instancia para suscripción directa por referencia.
+    public event Action OnPriorityButtonPressed;
+
+    // Mantengo tu acción estática antigua por si otros scripts de tu juego (como el gestor de ciudad) la siguen necesitando
     public static Action<Color, int> OnPressedButton;
 
-    // SOLUCIÓN: Cambiado a protected override y llamamos a base.Awake()
     protected override void Awake()
     {
-        // 1. Obligamos a ejecutar primero el Awake del padre para buscar la animación y registrar los clips
         base.Awake();
 
-        // 2. Buscamos el componente específico de este botón hijo
         cityPriorityManager = GetComponent<CityPriorityManager>();
+        emissionController = GetComponent<ButtonEmissionController>();
+
+        initialLocalPosition = transform.localPosition;
+        initialLocalRotation = transform.localRotation;
     }
 
     public override void Press()
     {
-        // 1. Ejecuta el código original del padre (Animación y Raycast amigable)
         base.Press();
 
-        // 2. Comprobamos si el padre dio el visto bueno a la pulsación.
         if (!wasLastPressValid)
             return;
 
-        // 3. Si pasa el filtro, lanzamos el evento con total seguridad
+        if (emissionController != null)
+        {
+            emissionController.OverrideEmissionColor(activeEmissionColor);
+        }
+
+        // =================================================================
+        // NUEVO: Invocamos el evento público local de este botón específico
+        // =================================================================
+        OnPriorityButtonPressed?.Invoke();
+
+        // Lógica global antigua
         if (cityPriorityManager != null)
         {
             OnPressedButton?.Invoke(activeEmissionColor, cityPriorityManager.GetIdxPrioritizedZone());
         }
+    }
+
+    public override void ResetValues()
+    {
+        if (legacyAnimation != null)
+        {
+            legacyAnimation.Stop();
+        }
+
+        transform.localPosition = initialLocalPosition;
+        transform.localRotation = initialLocalRotation;
+
+        currentVisualState = VisualButtonState.Up;
+        isBeingHeld = false;
     }
 }
