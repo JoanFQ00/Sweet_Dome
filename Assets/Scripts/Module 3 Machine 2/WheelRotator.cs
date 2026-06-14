@@ -14,14 +14,34 @@ public class WheelRotator : MonoBehaviour
     private Vector3 initialRotation;
     private float lastMouseAngle;
 
+    // Referencia automática para saber el estado del minijuego
+    private RadarMinigame radarMinigame;
+
     void Start()
     {
         initialRotation = transform.localEulerAngles;
         currentAngle = transform.localEulerAngles.x;
+        radarMinigame = UnityEngine.Object.FindAnyObjectByType<RadarMinigame>();
+    }
+
+    /// <summary>
+    /// COMPUERTA CLAVE: Devuelve si la rueda es accionable en este frame del juego.
+    /// </summary>
+    public bool IsInteractable()
+    {
+        if (radarMinigame == null) return false;
+        // Solo es interactuable si el evento de radar está corriendo activamente
+        return radarMinigame.IsEventActive();
     }
 
     void Update()
     {
+        if (!IsInteractable())
+        {
+            isDragging = false;
+            return;
+        }
+
         if (!SliderCont.IsAtMinPos)
         {
             isDragging = false;
@@ -82,13 +102,12 @@ public class WheelRotator : MonoBehaviour
     {
         Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
         Vector2 direction = (Vector2)Input.mousePosition - (Vector2)screenPos;
-
         return Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
     }
 
     void ApplyRotation()
     {
-        transform.localRotation = Quaternion.Euler(currentAngle,initialRotation.y,initialRotation.z);
+        transform.localRotation = Quaternion.Euler(currentAngle, initialRotation.y, initialRotation.z);
     }
 
     void SendValue(float d)

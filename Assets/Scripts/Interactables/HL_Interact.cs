@@ -31,6 +31,14 @@ public class HL_Interact : MonoBehaviour
 
     public void LightenColor()
     {
+        // ... Añade esta comprobación dentro del método LightenColor() de tu HL_Interact.cs actual:
+
+        // CONTROL DE RUEDAS DE RADAR: Si es un dial giratorio de radar y está bloqueado, abortamos el brillo
+        if (TryGetComponent(out WheelRotator radarWheel) && !radarWheel.IsInteractable())
+        {
+            return;
+        }
+
         // 1. Control de botones normales bloqueados
         if (emissionController != null && !emissionController.IsInteractable())
         {

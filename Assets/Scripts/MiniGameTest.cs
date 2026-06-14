@@ -271,6 +271,13 @@ public class MiniGameTest : MonoBehaviour, IInteractable
                     isInteractableNow = false;
                 }
             }
+            else if (hit.collider.TryGetComponent(out WheelRotator radarWheel))
+            {
+                if (!radarWheel.IsInteractable())
+                {
+                    isInteractableNow = false;
+                }
+            }
 
             if (isInteractableNow)
             {

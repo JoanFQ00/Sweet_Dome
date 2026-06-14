@@ -49860,13 +49860,10 @@ MonoBehaviour:
   radarPointZero: {fileID: 7772822464107457161}
   radarPoint: {fileID: 5146201780633889806}
   maxDist: 0.145
-  type: 0
   innerMargin: 0.05
   outerMargin: 0.02
   timeTMP: {fileID: 9215950883886641319}
   objectivePrefab: {fileID: 6743008646071694817}
-  eventTime: 0
-  spawnQuantity: 3
   objectives: []
 --- !u!1 &1972110199
 GameObject:
@@ -74700,7 +74697,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7287497750290270442, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
@@ -75387,7 +75385,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   radarMinigame: {fileID: 1969683466}
-  rawFunnel: {fileID: 343348527635657689}
 --- !u!1 &9174769383447025227
 GameObject:
   m_ObjectHideFlags: 0

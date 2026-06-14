@@ -1,9 +1,8 @@
 using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 using System.Collections.Generic;
 
-public enum SliderType { Rotation, Position }
+public enum RadarEventType { Meteorite, SpaceShip }
 
 public class RadarMinigame : MonoBehaviour
 {
@@ -11,40 +10,32 @@ public class RadarMinigame : MonoBehaviour
     public Transform radarPointZero;
     public Transform radarPoint;
     public float maxDist = 0.25f;
-    public SliderType type;
     [SerializeField] private float innerMargin = 0.05f;
     [SerializeField] private float outerMargin = 0.02f;
-    private float rotationSensitivity = 0.5f;
 
+    [Header("UI & Prefabs")]
     public TMPro.TextMeshProUGUI timeTMP;
     public GameObject objectivePrefab;
 
-    [Header("Event")]
-    private bool inEvent;
-    private float timeToEvent;
-
-    public float eventTime;
+    [Header("Event State")]
+    private bool inEvent = false;
     private float currentEventTime;
+    private int spawnQuantity = 3;
+    private RadarEventType currentEventType;
 
-    public int spawnQuantity = 3;
-
-    private bool delay_On;
-    private float eventStart_Delay;
+    [Header("Objectives Spawn")]
+    public List<GameObject> objectives = new List<GameObject>();
 
     public static Action<bool> OnEventFinished;
 
-    [Header("Objectives Spawn")]
-    public List<GameObject> objectives;
-    private bool objectivesSpawned = false;
-
     private string baseTxt = "";
     private bool onCenter;
-    private Quaternion startLocalRot;
+
+    public bool IsEventActive() => inEvent;
 
     void Start()
     {
         timeTMP.text = baseTxt;
-        startLocalRot = radarPoint.localRotation;
         onCenter = true;
     }
 
@@ -53,7 +44,6 @@ public class RadarMinigame : MonoBehaviour
         SliderCont.OnSliderMoved += SliderMoved;
         WheelRotator.OnRotatedMoved += SliderMoved;
         RadarVision.OnObjectiveGet += ObjectiveTaken;
-        MachineManager.RadarDispatch += EventLoader;
     }
 
     private void OnDisable()
@@ -61,14 +51,15 @@ public class RadarMinigame : MonoBehaviour
         SliderCont.OnSliderMoved -= SliderMoved;
         WheelRotator.OnRotatedMoved -= SliderMoved;
         RadarVision.OnObjectiveGet -= ObjectiveTaken;
-        MachineManager.RadarDispatch -= EventLoader;
     }
 
     void Update()
     {
-        if (delay_On)
+        // Disparador manual por teclado solicitado por motivos de testeo
+        if (Input.GetKeyDown(KeyCode.Z))
         {
-            DelayTime();
+            // Ejemplo rápido: 30 segundos, tipo Nave
+            StartRadarEvent(30f, RadarEventType.SpaceShip, 3);
         }
 
         if (inEvent)
@@ -77,51 +68,24 @@ public class RadarMinigame : MonoBehaviour
         }
     }
 
-    //private void TriggerTestShortcut()
-    //{
-    //    ResetEvent();
-
-    //    inEvent = true;
-    //    delay_On = false;
-    //    currentEventTime = 99f; // Tiempo de sobra para la prueba
-    //    objectivesSpawned = true;
-
-    //    for (int i = 0; i < spawnQuantity; i++)
-    //    {
-    //        SpawnRandomObjective();
-    //    }
-    //}
-
-    public void EventLoader(float _timeToEvent, float _eventTime, int _quantity)
+    /// <summary>
+    /// FUNCIÓN PÚBLICA LINEAL: Arranca de inmediato el evento sin delays.
+    /// Solo se permite si no hay otra alarma o evento corriendo simultáneamente en la mesa.
+    /// </summary>
+    public void StartRadarEvent(float duration, RadarEventType eventType, int quantity)
     {
-        timeToEvent = _timeToEvent;
-        eventTime = _eventTime;
-        spawnQuantity = _quantity;
+        if (inEvent) return; // Candado: evita solapar dos eventos a la vez
 
-        eventStart_Delay = Time.time + timeToEvent;
-        delay_On = true;
+        inEvent = true;
+        currentEventType = eventType;
+        spawnQuantity = quantity;
+        currentEventTime = duration;
 
-        currentEventTime = eventTime;
+        ResetObjectivesList();
 
-        objectivesSpawned = false;
-    }
-
-    private void DelayTime()
-    {
-        if (Time.time >= eventStart_Delay)
+        for (int i = 0; i < spawnQuantity; i++)
         {
-            inEvent = true;
-            delay_On = false;
-
-            if (!objectivesSpawned)
-            {
-                objectivesSpawned = true;
-
-                for (int i = 0; i < spawnQuantity; i++)
-                {
-                    SpawnRandomObjective();
-                }
-            }
+            SpawnRandomObjective();
         }
     }
 
@@ -132,47 +96,63 @@ public class RadarMinigame : MonoBehaviour
         if (currentEventTime <= 0f)
         {
             currentEventTime = 0f;
-
-            foreach (var objective in objectives)
-            {
-                if (objective != null)
-                    Destroy(objective);
-            }
-
-            ResetEvent();
-
-            OnEventFinished?.Invoke(false);
+            ResolveEventFailure();
         }
 
         UpdateTimerText(currentEventTime);
     }
 
+    private void ResolveEventFailure()
+    {
+        ClearAllActiveObjectives();
+        inEvent = false;
+
+        if (currentEventType == RadarEventType.SpaceShip)
+        {
+            // LLAMAR_AQUÍ_A_LA_FUNCIÓN_DE_ATAQUE_ENEMIGO_POR_FALLO_DE_TIEMPO
+        }
+
+        OnEventFinished?.Invoke(false); // <--- IDENTIFICADOR DESDE OTRO SCRIPT: FALSO = FRACASO
+    }
+
     void ObjectiveTaken(GameObject _objective)
     {
         objectives.Remove(_objective);
-
         Destroy(_objective);
 
         if (objectives.Count <= 0)
         {
-            Debug.Log("All objectives Taken");
-
-            ResetEvent();
-
-            OnEventFinished?.Invoke(true);
+            ResolveEventSuccess();
         }
+    }
+
+    private void ResolveEventSuccess()
+    {
+        inEvent = false;
+
+        if (currentEventType == RadarEventType.SpaceShip)
+        {
+            // Si eran naves superadas con éxito, inyectamos el líquido en el depósito
+            AttackButton attackButton = UnityEngine.Object.FindAnyObjectByType<AttackButton>();
+            if (attackButton != null && attackButton.RawFunnel != null)
+            {
+                attackButton.RawFunnel.AddLiquid(20f);
+            }
+        }
+
+        OnEventFinished?.Invoke(true); // <--- IDENTIFICADOR DESDE OTRO SCRIPT: TRUE = ÉXITO
     }
 
     void UpdateTimerText(float currentTime)
     {
         int seconds = Mathf.CeilToInt(currentTime);
-
-        timeTMP.text = $"{baseTxt}{Mathf.RoundToInt(seconds)}";
+        timeTMP.text = $"{baseTxt}{seconds}";
     }
 
-    // Busca este método dentro de tu RadarMinigame.cs y reemplázalo:
     void SliderMoved(float value, SliderType type)
     {
+        if (!inEvent) return;
+
         switch (type)
         {
             case SliderType.Position:
@@ -196,41 +176,30 @@ public class RadarMinigame : MonoBehaviour
         float minRadius = innerMargin;
         float maxRadius = maxDist - outerMargin;
 
-        float randomRadius = Random.Range(minRadius, maxRadius);
-        float randomAngle = Random.Range(0f, Mathf.PI * 2f);
+        float randomRadius = UnityEngine.Random.Range(minRadius, maxRadius);
+        float randomAngle = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
 
         float x = Mathf.Cos(randomAngle);
         float y = Mathf.Sin(randomAngle);
 
-        Vector3 direction =
-            radarPointZero.right * x +
-            radarPointZero.forward * y;
-
-        Vector3 finalPosition =
-            radarPointZero.position +
-            direction.normalized * randomRadius;
+        Vector3 direction = radarPointZero.right * x + radarPointZero.forward * y;
+        Vector3 finalPosition = radarPointZero.position + direction.normalized * randomRadius;
 
         GameObject obj = Instantiate(objectivePrefab, finalPosition, Quaternion.identity);
         objectives.Add(obj);
-
-        obj.transform.position = finalPosition;
     }
 
-    void ResetEvent()
+    private void ClearAllActiveObjectives()
     {
-        inEvent = false;
-        delay_On = false;
-
-        currentEventTime = 0f;
-        timeToEvent = 0f;
-        eventStart_Delay = 0f;
-
-        objectivesSpawned = false;
-
         foreach (var obj in objectives)
         {
             if (obj != null) Destroy(obj);
         }
         objectives.Clear();
+    }
+
+    private void ResetObjectivesList()
+    {
+        ClearAllActiveObjectives();
     }
 }

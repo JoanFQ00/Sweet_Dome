@@ -6,56 +6,39 @@ public class RadarVision : MonoBehaviour
     public float maxDist = 5f;
     public float visionAngle = 65.0f;
     public LayerMask visionMask;
-
     public RadarMinigame radarMinigame;
 
-    // BORRAR
-    public FunnelBase rawFunnel;
-
     public static Action<GameObject> OnObjectiveGet;
-
     public GameObject CurrentTarget { get; private set; }
 
     void Update()
     {
-        if (radarMinigame.objectives.Count <= 0)
+        if (radarMinigame == null || radarMinigame.objectives.Count <= 0)
             return;
 
         foreach (GameObject objective in radarMinigame.objectives)
         {
-            if (objective == null)
-                continue;
+            if (objective == null) continue;
 
             MeshRenderer mesh = objective.GetComponent<MeshRenderer>();
+            if (mesh != null) mesh.enabled = true;
 
-            if (mesh != null)
-            {
-                mesh.enabled = true;
-            }
-
-            if (!objective.activeSelf)
-            {
-                objective.SetActive(true);
-            }
+            if (!objective.activeSelf) objective.SetActive(true);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!radarMinigame.objectives.Contains(other.gameObject))
+        if (radarMinigame == null || !radarMinigame.objectives.Contains(other.gameObject))
             return;
+
         CurrentTarget = other.gameObject;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(CurrentTarget == other.gameObject)
+        if (CurrentTarget == other.gameObject)
             CurrentTarget = null;
-    }
-
-    bool CheckVision(GameObject objective)
-    {
-        return true;
     }
 
     private void OnDrawGizmos()
@@ -73,11 +56,9 @@ public class RadarVision : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawLine(transform.position, transform.position + transform.forward * 2f);
 
-        if (radarMinigame == null)
-            return;
+        if (radarMinigame == null) return;
 
         Gizmos.color = Color.red;
-
         foreach (GameObject objective in radarMinigame.objectives)
         {
             if (objective != null)
