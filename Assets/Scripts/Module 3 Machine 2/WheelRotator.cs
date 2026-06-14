@@ -14,7 +14,6 @@ public class WheelRotator : MonoBehaviour
     private Vector3 initialRotation;
     private float lastMouseAngle;
 
-    // Referencia automática para saber el estado del minijuego
     private RadarMinigame radarMinigame;
 
     void Start()
@@ -25,13 +24,21 @@ public class WheelRotator : MonoBehaviour
     }
 
     /// <summary>
-    /// COMPUERTA CLAVE: Devuelve si la rueda es accionable en este frame del juego.
+    /// COMPUERTA ULTRA-ESTRICTA: Controla el feedback visual y físico del dial.
     /// </summary>
     public bool IsInteractable()
     {
-        if (radarMinigame == null) return false;
-        // Solo es interactuable si el evento de radar está corriendo activamente
-        return radarMinigame.IsEventActive();
+        if (radarMinigame == null || !radarMinigame.IsEventActive()) return false;
+        if (radarMinigame.IsResettingHardware()) return false; // Bloqueo si está auto-reseteándose
+
+        // NUEVA REGLA: Si este dial es el de Rotación, SOLO es interactuable si el Slider de Posición está en el inicio
+        if (type == SliderType.Rotation)
+        {
+            return SliderCont.IsAtMinPos;
+        }
+
+        // Si es el de Posición, es interactuable libremente mientras dure el evento
+        return true;
     }
 
     void Update()
@@ -42,11 +49,13 @@ public class WheelRotator : MonoBehaviour
             return;
         }
 
-        if (!SliderCont.IsAtMinPos)
+        // Si es el de rotación, la regla física del proyecto exige estar en MinPos
+        if (type == SliderType.Rotation && !SliderCont.IsAtMinPos)
         {
             isDragging = false;
             return;
         }
+
         HandleDrag();
     }
 
@@ -73,10 +82,7 @@ public class WheelRotator : MonoBehaviour
         Vector3 screenCenter = Camera.main.WorldToScreenPoint(transform.position);
         float distanceToCenter = Vector2.Distance(Input.mousePosition, (Vector2)screenCenter);
 
-        if (distanceToCenter < centerDeadZonePixels)
-        {
-            return;
-        }
+        if (distanceToCenter < centerDeadZonePixels) return;
 
         float currentMouseAngle = GetMouseAngle();
         float deltaAngle = Mathf.DeltaAngle(lastMouseAngle, currentMouseAngle);
@@ -96,6 +102,12 @@ public class WheelRotator : MonoBehaviour
                 lastMouseAngle = currentMouseAngle;
             }
         }
+    }
+
+    public void ForceRotationReset(float targetX)
+    {
+        currentAngle = targetX;
+        ApplyRotation();
     }
 
     float GetMouseAngle()

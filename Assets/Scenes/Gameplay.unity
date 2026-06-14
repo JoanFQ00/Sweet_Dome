@@ -49352,6 +49352,9 @@ MonoBehaviour:
   outerMargin: 0.02
   timeTMP: {fileID: 9215950883886641319}
   objectivePrefab: {fileID: 6743008646071694817}
+  autoResetSpeed: 1
+  maxIdleTime: 5
+  minDistanceBetweenTargets: 0.04
   objectives: []
 --- !u!1 &1972110199
 GameObject:
@@ -65043,7 +65046,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2296175180610289947}
-  - component: {fileID: 8324816148949994512}
   m_Layer: 0
   m_Name: SliderButtonTwo
   m_TagString: Untagged
@@ -69423,6 +69425,7 @@ GameObject:
   - component: {fileID: 3346902195000911275}
   - component: {fileID: 5531643767532205352}
   - component: {fileID: 2073368117914645207}
+  - component: {fileID: 7563133660472087321}
   - component: {fileID: 7563133660472087318}
   - component: {fileID: 7563133660472087317}
   - component: {fileID: 7563133660472087316}
@@ -69549,6 +69552,24 @@ MonoBehaviour:
   rend: {fileID: 2073368117914645207}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
+--- !u!114 &7563133660472087321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563133660472087314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  validator: {fileID: 7563133660472087317}
+  activeColor: {r: 48.060814, g: 1.1335096, b: 1.1335096, a: 1}
+  disabledColor: {r: 0, g: 0, b: 0, a: 1}
+  secondaryButtonMesh: {fileID: 0}
+  turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!33 &7599441589296645747
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -71733,22 +71754,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3154328009134633900}
   m_Mesh: {fileID: 6389386857769909100, guid: cb019bdfd3ace954fb25d5663413aff4, type: 3}
---- !u!114 &8324816148949994512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5495950729054036612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09a8522f4d50c934c94a149f3740ccf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SliderCont
-  sliderPhy: {fileID: 8687036949820978628}
-  minPos: {fileID: 758973326174222909}
-  maxPos: {fileID: 4674200069088426958}
-  type: 1
 --- !u!23 &8325988907357923530
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -72918,6 +72923,7 @@ GameObject:
   - component: {fileID: 4614401796635167508}
   - component: {fileID: 8687036949820978629}
   - component: {fileID: 8687036949820978630}
+  - component: {fileID: 8687036949820978631}
   m_Layer: 7
   m_Name: Palanca_MK3
   m_TagString: Untagged
@@ -72962,6 +72968,22 @@ MonoBehaviour:
   rend: {fileID: 4614401796635167508}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
+--- !u!114 &8687036949820978631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8687036949820978628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09a8522f4d50c934c94a149f3740ccf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SliderCont
+  sliderType: 1
+  startPoint: {fileID: 758973326174222909}
+  endPoint: {fileID: 4674200069088426958}
+  centerDeadZonePixels: 25
 --- !u!1 &8688332130914194202
 GameObject:
   m_ObjectHideFlags: 0

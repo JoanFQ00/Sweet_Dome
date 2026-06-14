@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class RadarVision : MonoBehaviour
 {
@@ -8,13 +9,28 @@ public class RadarVision : MonoBehaviour
     public LayerMask visionMask;
     public RadarMinigame radarMinigame;
 
+    // EVENTO ESTÁTICO GLOBAL: Conecta el botón de ataque con el minijuego de radar
     public static Action<GameObject> OnObjectiveGet;
-    public GameObject CurrentTarget { get; private set; }
+
+    // Lista en cola de todos los objetivos que están pisando el cono a la vez
+    private List<GameObject> targetsInCone = new List<GameObject>();
+
+    /// <summary>
+    /// Devuelve el primer objetivo válido de la cola (si hay alguno).
+    /// </summary>
+    public GameObject CurrentTarget
+    {
+        get
+        {
+            // Limpiamos de la cola naves nulas o destruidas previamente en este frame
+            targetsInCone.RemoveAll(item => item == null);
+            return targetsInCone.Count > 0 ? targetsInCone[0] : null;
+        }
+    }
 
     void Update()
     {
-        if (radarMinigame == null || radarMinigame.objectives.Count <= 0)
-            return;
+        if (radarMinigame == null || radarMinigame.objectives.Count <= 0) return;
 
         foreach (GameObject objective in radarMinigame.objectives)
         {
@@ -29,16 +45,26 @@ public class RadarVision : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (radarMinigame == null || !radarMinigame.objectives.Contains(other.gameObject))
-            return;
+        if (radarMinigame == null || !radarMinigame.objectives.Contains(other.gameObject)) return;
 
-        CurrentTarget = other.gameObject;
+        // Si la nave entra en el trigger y no estaba registrada, la metemos a la cola
+        if (!targetsInCone.Contains(other.gameObject))
+        {
+            targetsInCone.Add(other.gameObject);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (CurrentTarget == other.gameObject)
-            CurrentTarget = null;
+        if (targetsInCone.Contains(other.gameObject))
+        {
+            targetsInCone.Remove(other.gameObject);
+        }
+    }
+
+    private void OnDisable()
+    {
+        targetsInCone.Clear();
     }
 
     private void OnDrawGizmos()

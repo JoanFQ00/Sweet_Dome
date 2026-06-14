@@ -7,7 +7,7 @@ public class HL_Interact : MonoBehaviour
     private Color originalColor;
     private BaseAction baseAction;
     private ButtonEmissionController emissionController;
-    private DialRotation dialRotation; // NUEVA REFERENCIA
+    private DialRotation dialRotation;
     private Material sharedRuntimeMaterial;
 
     [Range(0f, 1f)]
@@ -20,7 +20,7 @@ public class HL_Interact : MonoBehaviour
 
         baseAction = GetComponent<BaseAction>();
         emissionController = GetComponent<ButtonEmissionController>();
-        dialRotation = GetComponent<DialRotation>(); // Buscamos si es una ruedecita
+        dialRotation = GetComponent<DialRotation>();
 
         if (rend != null)
         {
@@ -31,21 +31,25 @@ public class HL_Interact : MonoBehaviour
 
     public void LightenColor()
     {
-        // ... Añade esta comprobación dentro del método LightenColor() de tu HL_Interact.cs actual:
-
-        // CONTROL DE RUEDAS DE RADAR: Si es un dial giratorio de radar y está bloqueado, abortamos el brillo
+        // 1. CONTROL DE RUEDAS DE RADAR: Si está bloqueado el radar, abortamos el brillo
         if (TryGetComponent(out WheelRotator radarWheel) && !radarWheel.IsInteractable())
         {
             return;
         }
 
-        // 1. Control de botones normales bloqueados
+        // 2. CONTROL DEL SLIDER DE POSICIÓN: Si no hay evento activo, abortamos el brillo
+        if (TryGetComponent(out SliderCont slider) && !slider.IsInteractable())
+        {
+            return;
+        }
+
+        // 3. CONTROL DE BOTONES NORMALES DE CONSOLA: Bloqueo si no son interactuables
         if (emissionController != null && !emissionController.IsInteractable())
         {
             return;
         }
 
-        // 2. NUEVO CONTROL DE DIALES: Si es una rueda de frecuencia y está bloqueada, abortamos el brillo
+        // 4. CONTROL DE DIALES DE FRECUENCIA: Bloqueo si la onda ya se resolvió o no hay evento
         if (dialRotation != null && !dialRotation.IsInteractable())
         {
             return;
