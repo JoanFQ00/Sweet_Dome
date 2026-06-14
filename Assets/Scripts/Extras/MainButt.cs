@@ -41,6 +41,9 @@ public class MainButt : MonoBehaviour, IResetable
     protected VisualButtonState currentVisualState = VisualButtonState.Up;
     protected bool isBeingHeld = false;
 
+    // Añade esto dentro de MainButt.cs para que el cursor pueda consultar el validador
+    public ButtonValidator Validator => validator; // Cambia 'validator' por el nombre real de tu variable si es distinto
+
     protected virtual void Awake()
     {
         legacyAnimation = GetComponent<Animation>();

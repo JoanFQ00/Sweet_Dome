@@ -1,165 +1,129 @@
 using UnityEngine;
-using System.Collections.Generic;
 
-public class ButtonEmissionController : MonoBehaviour, IResetable
+public class ButtonEmissionController : MonoBehaviour
 {
-    private ButtonValidator validator;
-    private List<Material> runtimeMaterials = new List<Material>();
-    private bool canPressCached = true;
+    [Header("Configuración del Validador")]
+    [Tooltip("El validador físico asignado a este botón (como tu Day1ButtonValidator).")]
+    [SerializeField] private ButtonValidator validator;
 
-    [Header("Logic Configuration")]
-    [Tooltip("Si está marcado, la luz funcionará al revés: se ENCENDERÁ cuando NO se pueda pulsar.")]
-    [SerializeField] private bool invertLogic = false;
-
-    [Header("Configuración de Mallas")]
-    [Tooltip("Arrastra aquí todas las mallas (Mesh Renderers) de este botón que quieras que se iluminen juntas.")]
-    [SerializeField] private List<Renderer> targetMeshes = new List<Renderer>();
-
-    [Header("Configuración Visual del Inspector")]
-    [Tooltip("Arrastra aquí la textura (Emission Map) de este botón (la que tiene la rayita blanca).")]
-    [SerializeField] private Texture emissionTexture;
+    [Header("Configuración Estética de Colores")]
+    [ColorUsage(true, true)]
+    [SerializeField] private Color activeColor = Color.white;
 
     [ColorUsage(true, true)]
-    [Tooltip("El color e intensidad HDR por defecto del inspector cuando el botón está ENCENIDO.")]
-    [SerializeField] private Color activeEmissionColor = Color.yellow;
+    [SerializeField] private Color disabledColor = Color.black;
 
-    // SISTEMA DE MEMORIA PARA ACCIONES EXTERNAS
-    private bool isColorOverridden = false;
-    private Color overriddenColor;
+    [Header("Mallas / Materiales Secundarios")]
+    [Tooltip("Opcional: Arrastra aquí el Renderer de la segunda pieza del botón que deba iluminarse idénticamente.")]
+    [SerializeField] private Renderer secondaryButtonMesh;
+
+    [Header("Restricciones de Campaña (¡REGLA DÍA 1!)")]
+    [Tooltip("MARCA ESTO SÓLO EN EL BOTÓN DE PRIORIDAD. Hace que el botón amanezca completamente apagado en negro el Día 1.")]
+    [SerializeField] private bool turnOffOnDay1 = false;
+
+    // Propiedad pública para que el sistema de cursores y el Highlight lean el validador desde fuera
+    public ButtonValidator Validator => validator;
+
+    private Renderer primaryRenderer;
+    private Material runtimeMatOne;
+    private Material runtimeMatTwo;
+    private bool isOverridden = false;
 
     private void Awake()
     {
-        validator = GetComponent<ButtonValidator>();
-
-        foreach (Renderer meshRenderer in targetMeshes)
+        // 1. Capturamos e instanciamos el material principal
+        primaryRenderer = GetComponent<Renderer>();
+        if (primaryRenderer != null && primaryRenderer.materials.Length > 0)
         {
-            if (meshRenderer != null)
-            {
-                Material clonedMaterial = meshRenderer.material;
-
-                if (clonedMaterial != null)
-                {
-                    if (emissionTexture != null)
-                    {
-                        clonedMaterial.SetTexture("_EmissionMap", emissionTexture);
-                    }
-
-                    clonedMaterial.EnableKeyword("_EMISSION");
-                    clonedMaterial.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
-
-                    runtimeMaterials.Add(clonedMaterial);
-                }
-            }
-        }
-    }
-
-    private void Start()
-    {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.RegisterResetable(this);
+            runtimeMatOne = primaryRenderer.material;
+            runtimeMatOne.EnableKeyword("_EMISSION");
         }
 
-        EvaluateLightState();
-    }
-
-    private void OnDestroy()
-    {
-        if (GameManager.Instance != null)
+        // 2. Capturamos e instanciamos el material secundario si se ha asignado en el Inspector
+        if (secondaryButtonMesh != null && secondaryButtonMesh.materials.Length > 0)
         {
-            GameManager.Instance.UnregisterResetable(this);
+            runtimeMatTwo = secondaryButtonMesh.material;
+            runtimeMatTwo.EnableKeyword("_EMISSION");
         }
     }
 
     private void Update()
     {
-        EvaluateLightState();
-    }
+        // Si un trigger externo (como el Switch o la prioridad en días 2+) bloquea el color, congelamos el refresco
+        if (isOverridden) return;
 
-    // =================================================================
-    // INTERFAZ IRESETABLE (P.EJ: INICIO DE UN NUEVO DÍA)
-    // =================================================================
-    public void ResetValues()
-    {
-        // 1. Eliminamos cualquier forzado de color externo para devolver el botón a su diseño original
-        ClearOverride();
+        // Comprobamos si estamos en el Día 1
+        bool isDay1 = (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day1);
 
-        // 2. Evaluamos el estado de iluminación inicial que le toque por validador
-        EvaluateLightState();
-    }
-
-    private void EvaluateLightState()
-    {
-        // 1. Primero comprobamos de forma obligatoria la disponibilidad del validador
-        canPressCached = (validator != null) ? validator.CanPress() : true;
-
-        // 2. Determinamos si la luz debería estar encendida o apagada de forma absoluta
-        bool shouldBeOn = !invertLogic ? canPressCached : !canPressCached;
-
-        if (shouldBeOn)
+        // EXCEPCIÓN DEL BOTÓN DE PRIORIDAD: Si es el Día 1 Y tiene la casilla marcada, a negro absoluto.
+        if (isDay1 && turnOffOnDay1)
         {
-            // CASO A: El botón está disponible y debe iluminarse.
-            // Si la máquina de bombas (u otro script) ha inyectado un color forzado, usamos ese.
-            if (isColorOverridden)
+            SetEmissionColorToAll(disabledColor);
+            return;
+        }
+
+        // COMPORTAMIENTO PARA LOS DEMÁS BOTONES (Con tu Day1ButtonValidator):
+        // Si el validador dice que no se puede pulsar en este frame...
+        if (validator != null && !validator.CanPress())
+        {
+            // Si es el Día 1 pero NO es el de prioridad (la casilla está desmarcada), lo mantenemos encendido estéticamente
+            if (isDay1 && !turnOffOnDay1)
             {
-                TurnOnLight(overriddenColor);
+                SetEmissionColorToAll(activeColor);
             }
             else
             {
-                // Si nadie lo está forzando, usa su color amarillo/blanco por defecto del inspector.
-                TurnOnLight(activeEmissionColor);
+                // En cualquier otro día normal del juego, si el validador da false, se apaga (a negro)
+                SetEmissionColorToAll(disabledColor);
             }
         }
         else
         {
-            // CASO B: El botón NO está disponible. 
-            // Da igual qué color le haya mandado la máquina: se apaga fulminantemente en negro.
-            TurnOffLight();
+            // Si el validador da el visto bueno, color encendido normal
+            SetEmissionColorToAll(activeColor);
         }
     }
-
-    // Modificado para poder recibir cualquier color de forma interna o externa
-    public void TurnOnLight(Color targetColor)
-    {
-        foreach (Material mat in runtimeMaterials)
-        {
-            if (mat != null) mat.SetColor("_EmissionColor", targetColor);
-        }
-    }
-
-    public void TurnOffLight()
-    {
-        foreach (Material mat in runtimeMaterials)
-        {
-            if (mat != null) mat.SetColor("_EmissionColor", Color.black);
-        }
-    }
-
-    // =================================================================
-    // API PÚBLICA PARA LLAMAR DESDE OTROS SCRIPTS INDIVIDUALES
-    // =================================================================
 
     /// <summary>
-    /// Fuerza al botón a brillar con un color e intensidad HDR totalmente personalizados desde fuera.
+    /// Fuerza a ambos materiales a adoptar un color HDR externo (Bloqueo por Trigger).
     /// </summary>
-    public void OverrideEmissionColor(Color newHdrColor)
+    public void OverrideEmissionColor(Color customColor)
     {
-        isColorOverridden = true;
-        overriddenColor = newHdrColor;
-        TurnOnLight(overriddenColor);
+        isOverridden = true;
+        SetEmissionColorToAll(customColor);
     }
 
     /// <summary>
-    /// Cancela el forzado de color externo y devuelve el botón a su funcionamiento automático por validador.
+    /// Libera los materiales para que vuelvan a responder al flujo automático de la consola.
     /// </summary>
     public void ClearOverride()
     {
-        isColorOverridden = false;
-        EvaluateLightState();
+        isOverridden = false;
     }
 
+    /// <summary>
+    /// Comprueba si el botón se puede clicar o interactuar en este frame (Para el Highlight).
+    /// </summary>
     public bool IsInteractable()
     {
-        return canPressCached;
+        bool isDay1 = (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day1);
+
+        // El botón de prioridad en el Día 1 no da feedback de ningún tipo
+        if (isDay1 && turnOffOnDay1) return false;
+
+        if (validator == null) return true;
+        return validator.CanPress();
+    }
+
+    private void SetEmissionColorToAll(Color color)
+    {
+        if (runtimeMatOne != null)
+        {
+            runtimeMatOne.SetColor("_EmissionColor", color);
+        }
+        if (runtimeMatTwo != null)
+        {
+            runtimeMatTwo.SetColor("_EmissionColor", color);
+        }
     }
 }

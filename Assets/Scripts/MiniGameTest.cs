@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using FMODUnity;
 
 public class MiniGameTest : MonoBehaviour, IInteractable
 {
@@ -12,17 +11,28 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         Exiting
     }
 
-    [Header("Camera")]
+    [Header("Camera & Transition")]
     public Transform gameCameraPosition;
     public Camera playerCamera;
     public float timeToMove = 1.5f;
 
-    [Header("Interaction")]
+    [Header("Interaction Settings")]
     public LayerMask interactLayer;
     public float maxDist = 50f;
-    public Texture2D rotateCursor;
+
+    [Header("4 Cursores Finales (Texturas)")]
+    [Tooltip("Cursor 1: Puntero básico por defecto.")]
     public Texture2D originalCursor;
-    public Texture2D interactCursor;
+    [Tooltip("Cursor 2: Mano apuntando (Hover sobre elemento interactuable válido).")]
+    public Texture2D hoverInteractCursor;
+    [Tooltip("Cursor 3: Mano agarrando (Clic izquierdo o manteniendo pulsado).")]
+    public Texture2D grabCursor;
+    [Tooltip("Cursor 4: Ojo (Manteniendo clic derecho / Cámara libre).")]
+    public Texture2D rotateCursor;
+
+    [Header("Hotspot Offset (Opcional)")]
+    [Tooltip("Punto de pivote del cursor. Para flechas suele ser (0,0), para manos o el ojo suele ser el centro de la textura.")]
+    [SerializeField] private Vector2 cursorHotspot = Vector2.zero;
 
     public static Action<bool> OnMachineEntered;
 
@@ -37,8 +47,11 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
     public bool isClickingUI = false;
 
-    // Rastro de memoria: Guarda qué botón exacto se ha hundido al hacer Click Down
+    // Rastro de memoria del botón hundido
     private MainButt activePressedButton = null;
+
+    // Estado interno para saber qué textura tiene el cursor aplicada ahora mismo y evitar llamadas redundantes a la GPU
+    private Texture2D currentAppliedCursor;
 
     void Update()
     {
@@ -47,27 +60,17 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
         CheckHour();
 
-        if (!Input.GetMouseButton(0) && !Input.GetMouseButton(1))
+        if (state == MiniGameState.Active)
         {
-            CheckHover();
-        }
-        else
-        {
-            if (currentHighlight != null)
-            {
-                currentHighlight.ResetColor();
-                currentHighlight = null;
-            }
+            HandleActiveInput();
+            // El controlador de cursores procesa frame a frame las prioridades visuales
+            UpdateCursorAndHoverState();
         }
 
         switch (state)
         {
             case MiniGameState.Entering:
                 HandleCameraTransition(true);
-                break;
-
-            case MiniGameState.Active:
-                HandleActiveInput();
                 break;
 
             case MiniGameState.Exiting:
@@ -108,6 +111,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.chairEnter, gameObject);
 
         ShowCursor(true);
+        ChangeCursor(originalCursor); // Empezamos con el puntero base
         gameObject.layer = LayerMask.NameToLayer("Default");
     }
 
@@ -142,10 +146,16 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         {
             GameManager.Instance.playerController.ChangeGameMode(false);
             ExitMiniGame();
+            return;
         }
 
         HandleCamMove();
-        HandleClick();
+
+        // Solo permitimos clics e interacciones mecánicas si NO estamos mirando libremente con el clic derecho
+        if (!Input.GetMouseButton(1))
+        {
+            HandleClick();
+        }
     }
 
     void HandleCamMove()
@@ -154,46 +164,50 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         {
             GameManager.Instance.playerController.LockCamera(false);
             GameManager.Instance.playerController.ChangeGameMode(true);
-            ChangeCursor(rotateCursor);
+
+            // Si estábamos interactuando con un botón al hacer clic derecho, lo liberamos por seguridad
+            ReleaseActiveButton();
         }
 
         if (Input.GetMouseButtonUp(1))
         {
             GameManager.Instance.playerController.LockCamera(true);
             GameManager.Instance.playerController.ChangeGameMode(false);
-            ChangeCursor(originalCursor);
         }
     }
 
-    // =================================================================
-    // CONTROL DE CLICKS FLUIDO (DOWN -> HOLD -> UP)
-    // =================================================================
     void HandleClick()
     {
         if (playerCamera == null) return;
 
-        // 1. MOUSE DOWN: Detectamos impacto inicial y hundimos el botón
+        // MOUSE DOWN: Click inicial
         if (Input.GetMouseButtonDown(0))
         {
-            ChangeCursor(interactCursor);
             interacting = true;
 
             Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
             {
-                if (hit.collider.TryGetComponent(out SpherePoints points))
-                    points.OnClick();
-
+                // Integramos la comprobación estructural: ¿Es un botón bloqueado por un validador?
                 if (hit.collider.TryGetComponent(out MainButt button))
                 {
-                    // Guardamos la referencia física exacta del objeto impactado
+                    // Si el botón tiene un validador y este dice que NO se puede pulsar, ignoramos el clic por completo
+                    if (button.Validator != null && !button.Validator.CanPress())
+                    {
+                        return;
+                    }
+
                     activePressedButton = button;
                     activePressedButton.Press();
+                }
+                else if (hit.collider.TryGetComponent(out SpherePoints points))
+                {
+                    points.OnClick();
                 }
             }
         }
 
-        // 2. MOUSE HOLD: Mientras se mantenga apretado, refrescamos su estado continuo
+        // MOUSE HOLD: Mantener pulsado
         if (Input.GetMouseButton(0))
         {
             if (activePressedButton != null)
@@ -202,36 +216,95 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             }
         }
 
-        // 3. MOUSE UP: Al soltar el dedo, forzamos al botón guardado a regresar a su sitio
+        // MOUSE UP: Soltar clic izquierdo
         if (Input.GetMouseButtonUp(0))
         {
-            ChangeCursor(originalCursor);
             interacting = false;
-
-            if (activePressedButton != null)
-            {
-                activePressedButton.Release();
-                activePressedButton = null; // Vaciamos el rastro de la memoria
-            }
+            ReleaseActiveButton();
         }
     }
 
-    void CheckHover()
+    /// <summary>
+    /// Gestión unificada de la jerarquía de los 4 cursores y el coloreado de siluetas (Highlight).
+    /// </summary>
+    void UpdateCursorAndHoverState()
     {
         if (playerCamera == null) return;
 
+        // PRIORIDAD 1: MÁXIMO RANGO - ¿Muriendo libremente la cámara con el Clic Derecho? (Cursor 4)
+        if (Input.GetMouseButton(1))
+        {
+            ClearCurrentHighlight();
+            ChangeCursor(rotateCursor);
+            return;
+        }
+
+        // PRIORIDAD 2: ¿Manteniendo clic izquierdo sobre un elemento interactuado? (Cursor 3)
+        if (Input.GetMouseButton(0) && interacting)
+        {
+            ChangeCursor(grabCursor);
+            return;
+        }
+
+        // PRIORIDAD 3 y 4: Lanzamos el Raycast analítico para el Hover normal (Cursor 2 o Cursor 1)
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
         {
-            HL_Interact newHighlight = hit.collider.GetComponent<HL_Interact>();
-            if (currentHighlight != newHighlight)
+            bool isInteractableNow = true;
+
+            // Análisis estructural del objeto apuntado:
+            if (hit.collider.TryGetComponent(out MainButt button))
             {
-                if (currentHighlight != null) currentHighlight.ResetColor();
-                currentHighlight = newHighlight;
-                if (currentHighlight != null) currentHighlight.LightenColor();
+                // Si es un botón físico de la consola, su interactuabilidad depende de las reglas de su validador
+                if (button.Validator != null && !button.Validator.CanPress())
+                {
+                    isInteractableNow = false;
+                }
+            }
+            // NOTA: Si tienes otros objetos como el volante o ruedas con validadores propios,
+            // puedes añadir aquí su condición: else if (hit.collider.TryGetComponent(out TuScript...))
+
+            if (isInteractableNow)
+            {
+                // Pasamos el filtro: Es interactuable en este frame. Ponemos Cursor 2 (Mano señalando)
+                ChangeCursor(hoverInteractCursor);
+
+                // Activamos la silueta de luz (Highlight)
+                HL_Interact newHighlight = hit.collider.GetComponent<HL_Interact>();
+                if (currentHighlight != newHighlight)
+                {
+                    if (currentHighlight != null) currentHighlight.ResetColor();
+                    currentHighlight = newHighlight;
+                    if (currentHighlight != null) currentHighlight.LightenColor();
+                }
+            }
+            else
+            {
+                // El objeto forma parte de la máquina pero está apagado/bloqueado en este frame. Puntero básico y sin luz
+                ClearCurrentHighlight();
+                ChangeCursor(originalCursor);
             }
         }
-        else if (currentHighlight != null)
+        else
+        {
+            // Apuntando al fondo de la cabina. Cursor 1 (Normal)
+            ClearCurrentHighlight();
+            ChangeCursor(originalCursor);
+        }
+    }
+
+    private void ReleaseActiveButton()
+    {
+        if (activePressedButton != null)
+        {
+            activePressedButton.Release();
+            activePressedButton = null;
+        }
+    }
+
+    private void ClearCurrentHighlight()
+    {
+        if (currentHighlight != null)
         {
             currentHighlight.ResetColor();
             currentHighlight = null;
@@ -265,6 +338,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         GameManager.Instance.playerController.SetRotationFromCamera();
         GameManager.Instance.playerController.LockPlayer(false);
         GameManager.Instance.playerController.LockCamera(false);
+
         ChangeCursor(originalCursor);
         ShowCursor(false);
     }
@@ -283,5 +357,12 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             gameObject.layer = LayerMask.NameToLayer("Default");
     }
 
-    void ChangeCursor(Texture2D cursorTexture) => Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
+    void ChangeCursor(Texture2D cursorTexture)
+    {
+        // Optimizador: Si la textura ya está puesta, evitamos saturar de llamadas el bus gráfico de Unity
+        if (currentAppliedCursor == cursorTexture) return;
+
+        currentAppliedCursor = cursorTexture;
+        Cursor.SetCursor(cursorTexture, cursorHotspot, CursorMode.Auto);
+    }
 }
