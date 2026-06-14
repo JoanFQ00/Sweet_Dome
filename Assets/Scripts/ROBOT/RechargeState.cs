@@ -20,11 +20,17 @@ public class RechargeState : IState
         robot.agent.Warp(rechargePos);
         robot.transform.rotation = robot.waypointManager.rechargeWaypoint.rotation;
         robot.animator.SetFloat("Speed", 0);
+        robot.animator.ResetTrigger("IdleTrigger");
+        robot.animator.ResetTrigger("SitTrigger");
+        robot.animator.ResetTrigger("TurnOffTvTrigger");
+
         robot.animator.SetBool("IsRecharging", true);
     }
 
     public void OnState()
     {
+        robot.animator.SetBool("IsRecharging", true);
+        robot.animator.ResetTrigger("IdleTrigger");
     }
 
     public void OnExit()

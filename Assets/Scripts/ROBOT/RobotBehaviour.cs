@@ -98,12 +98,22 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     {
         //animator.SetFloat("Speed", agent.desiredVelocity.magnitude);
         CheckRechargeState();
+
+        if (isRecharging)
+        {
+            stateMachine.Update();
+            return;
+        }
+
         CheckDayManagerHistory();
 
         stateMachine.Update();
     }
     public void Interact()
     {
+        if (stateMachine.CurrentState == rechargeState)
+            return;
+
         if (stateMachine.CurrentState != interactionState)
         {
             stateMachine.ChangeState(interactionState);
