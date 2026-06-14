@@ -12,9 +12,12 @@ public class RadarMinigame : MonoBehaviour, IResetable
     [SerializeField] private float innerMargin = 0.05f;
     [SerializeField] private float outerMargin = 0.02f;
 
-    [Header("UI & Prefabs")]
+    [Header("UI & Prefabs Separados")]
     public TMPro.TextMeshProUGUI timeTMP;
-    public GameObject objectivePrefab;
+    [Tooltip("Prefab que se instanciará para el evento de NAVES.")]
+    public GameObject spaceShipPrefab;
+    [Tooltip("Prefab que se instanciará para el evento de METEORITOS.")]
+    public GameObject meteoritePrefab;
 
     [Header("Ajustes de Retorno Mecánico (Polish)")]
     [SerializeField] private float autoResetSpeed = 0.4f;
@@ -44,7 +47,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
     [ColorUsage(true, true)]
     [SerializeField] private Color blueAlarmOffColor = new Color(0f, 0f, 0f, 0f);
 
-    // Almacenamiento en caché de los materiales en tiempo de ejecución
     private Material redMaterial;
     private Material blueMaterial;
 
@@ -103,7 +105,7 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z)) StartRadarEvent(30f, RadarEventType.SpaceShip, 3);
+        if (Input.GetKeyDown(KeyCode.Z)) StartRadarEvent(30f, RadarEventType.Meteorite, 3);
 
         if (inEvent)
         {
@@ -140,7 +142,7 @@ public class RadarMinigame : MonoBehaviour, IResetable
         if (currentEventTime <= 0f)
         {
             currentEventTime = 0f;
-            StartSequenceEnd(false);
+            StartSequenceEnd(false); // Fin por tiempo
         }
         else
         {
@@ -161,7 +163,10 @@ public class RadarMinigame : MonoBehaviour, IResetable
         if (currentIdleTimer >= maxIdleTime)
         {
             currentIdleTimer = 0f;
-            StartSequenceEnd(false);
+
+            // FIX AFK: Recoge los mandos pero NO destruye naves ni detiene el reloj general
+            StopAllCoroutines();
+            StartCoroutine(FinalHardwareResetSequenceRoutine(null));
         }
     }
 
@@ -176,11 +181,11 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
         if (objectives.Count <= 0)
         {
-            inEvent = false;
-            StartSequenceEnd(true);
+            StartSequenceEnd(true); // Fin por victoria total
         }
         else
         {
+            // Baja intermedia: Rebobina la palanca sin tocar las naves restantes
             StopAllCoroutines();
             StartCoroutine(FinalHardwareResetSequenceRoutine(null));
         }
@@ -194,6 +199,8 @@ public class RadarMinigame : MonoBehaviour, IResetable
         StopAlarmHardwareFeedback();
 
         StopAllCoroutines();
+
+        // Al pasarle 'true' o 'false', la corrutina sabe que debe limpiar el mapa definitivamente
         StartCoroutine(FinalHardwareResetSequenceRoutine(success));
     }
 
@@ -218,6 +225,9 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
     private void PlayAlarmHardwareFeedback(RadarEventType type)
     {
+        if (redMaterial != null) redMaterial.DisableKeyword("_EMISSION");
+        if (blueMaterial != null) blueMaterial.DisableKeyword("_EMISSION");
+
         if (type == RadarEventType.Meteorite)
         {
             if (redMaterial != null) redMaterial.EnableKeyword("_EMISSION");
@@ -247,32 +257,16 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
         if (redMaterial != null)
         {
-            if (redMaterial.HasProperty("_EmissionColor"))
-            {
-                redMaterial.SetColor("_EmissionColor", redAlarmOffColor);
-            }
-
-            if (redMaterial.HasProperty("_BaseColor"))
-            {
-                redMaterial.SetColor("_BaseColor", redAlarmOffColor);
-            }
-
+            if (redMaterial.HasProperty("_EmissionColor")) redMaterial.SetColor("_EmissionColor", redAlarmOffColor);
+            if (redMaterial.HasProperty("_BaseColor")) redMaterial.SetColor("_BaseColor", redAlarmOffColor);
             redMaterial.DisableKeyword("_EMISSION");
             DynamicGI.SetEmissive(redAlarmAnimation.GetComponent<Renderer>() ?? redAlarmAnimation.GetComponentInChildren<Renderer>(), Color.black);
         }
 
         if (blueMaterial != null)
         {
-            if (blueMaterial.HasProperty("_EmissionColor"))
-            {
-                blueMaterial.SetColor("_EmissionColor", blueAlarmOffColor);
-            }
-
-            if (blueMaterial.HasProperty("_BaseColor"))
-            {
-                blueMaterial.SetColor("_BaseColor", blueAlarmOffColor);
-            }
-
+            if (blueMaterial.HasProperty("_EmissionColor")) blueMaterial.SetColor("_EmissionColor", blueAlarmOffColor);
+            if (blueMaterial.HasProperty("_BaseColor")) blueMaterial.SetColor("_BaseColor", blueAlarmOffColor);
             blueMaterial.DisableKeyword("_EMISSION");
             DynamicGI.SetEmissive(blueAlarmAnimation.GetComponent<Renderer>() ?? blueAlarmAnimation.GetComponentInChildren<Renderer>(), Color.black);
         }
@@ -283,15 +277,18 @@ public class RadarMinigame : MonoBehaviour, IResetable
         isSliderResetting = true;
         isRotationResetting = true;
 
+        // FIX EXCLUSIVO: Solo limpiamos naves si es un fin de evento definitivo (Éxito/Fracaso)
         if (success.HasValue)
         {
-            if (timeTMP != null) timeTMP.text = "";
             ClearAllActiveObjectivesImmediate();
         }
 
         SliderCont sceneSlider = UnityEngine.Object.FindAnyObjectByType<SliderCont>();
         SliderCont.ForceMinPosState(false);
 
+        // -------------------------------------------------------------
+        // FASE 1: Retorno secuencial de la palanca de posición (Slider)
+        // -------------------------------------------------------------
         while (Vector3.Distance(radarPoint.position, radarPointZero.position) > 0.001f)
         {
             radarPoint.position = Vector3.MoveTowards(radarPoint.position, radarPointZero.position, autoResetSpeed * Time.deltaTime);
@@ -309,6 +306,9 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
         yield return new WaitForEndOfFrame();
 
+        // -------------------------------------------------------------
+        // FASE 2: Retorno ULTRA RÁPIDO del Volante de Rotación
+        // -------------------------------------------------------------
         WheelRotator rotationWheel = null;
         WheelRotator[] wheels = UnityEngine.Object.FindObjectsByType<WheelRotator>(FindObjectsSortMode.None);
         for (int i = 0; i < wheels.Length; i++)
@@ -331,6 +331,9 @@ public class RadarMinigame : MonoBehaviour, IResetable
         isRotationResetting = false;
         currentIdleTimer = 0f;
 
+        // -------------------------------------------------------------
+        // FASE 3: Envíos finales del flujo lineal (Solo si acabó el evento)
+        // -------------------------------------------------------------
         if (success.HasValue)
         {
             bool finalResult = success.Value;
@@ -384,8 +387,20 @@ public class RadarMinigame : MonoBehaviour, IResetable
         }
     }
 
+    /// <summary>
+    /// SELECCIÓN DE PREFAB DINÁMICA: Instancia naves o meteoritos según el evento.
+    /// </summary>
     void SpawnRandomObjective()
     {
+        // Elegimos el prefab correcto en base al tipo de evento activo
+        GameObject prefabToSpawn = (currentEventType == RadarEventType.Meteorite) ? meteoritePrefab : spaceShipPrefab;
+
+        if (prefabToSpawn == null)
+        {
+            Debug.LogError("¡Falta asignar el prefab correspondiente en el Inspector del RadarMinigame!");
+            return;
+        }
+
         float minRadius = innerMargin;
         float maxRadius = maxDist - outerMargin;
         Vector3 finalPosition = Vector3.zero;
@@ -412,7 +427,7 @@ public class RadarMinigame : MonoBehaviour, IResetable
             }
         }
 
-        GameObject obj = Instantiate(objectivePrefab, finalPosition, Quaternion.identity);
+        GameObject obj = Instantiate(prefabToSpawn, finalPosition, Quaternion.identity);
         objectives.Add(obj);
     }
 
