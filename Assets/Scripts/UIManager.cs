@@ -44,6 +44,7 @@ public class UIManager : MonoBehaviour
     {
         interactTxt.SetActive(false);
         stopInteractTxt.SetActive(false);
+        zoomIm.SetActive(false);
         pauseMenu.SetActive(false);
         optionsMenu.SetActive(false);
 

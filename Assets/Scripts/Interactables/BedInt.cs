@@ -42,7 +42,7 @@ public class BedInt : MonoBehaviour, IInteractable, ILookable
         gameObject.layer = LayerMask.NameToLayer
             (DayTime.Instance.CanSleepInBed() ? "Interactable" : "Default");
 
-        if (popUpGO != null && DayTime.Instance.currentHour >= 21)
+        if (popUpGO != null)
         {
             PopUpCheck();
         }
@@ -62,23 +62,31 @@ public class BedInt : MonoBehaviour, IInteractable, ILookable
             return;
         }
 
-        float distanceToPlayer = Vector3.Distance(transform.position, playerController.transform.position);
-
-        if (onSight)
-        {
-            SetPopUps(false, true);
-            interactPopUpGO.transform.LookAt(playerController.transform);
-        }
-        else if (distanceToPlayer <= disanceToPop)
-        {
-            SetPopUps(true, false);
-            popUpGO.transform.LookAt(playerController.transform);
-        }
-        else
+        if (GameManager.Instance.dayTime.currentHour < 21) 
         {
             SetPopUps(false, false);
         }
-    }
+
+        float distanceToPlayer = Vector3.Distance(transform.position, playerController.transform.position);
+
+        if (GameManager.Instance.dayTime.currentHour >= 21) 
+        {
+            if (onSight)
+            {
+                SetPopUps(false, true);
+                interactPopUpGO.transform.LookAt(playerController.transform);
+            }
+            else if (distanceToPlayer <= disanceToPop)
+            {
+                SetPopUps(true, false);
+                popUpGO.transform.LookAt(playerController.transform);
+            }
+            else
+            {
+                SetPopUps(false, false);
+            }
+        }
+        }
 
     private void SetPopUps(bool showNormal, bool showInteract)
     {

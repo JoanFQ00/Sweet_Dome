@@ -12,7 +12,7 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
     [SerializeField] private GameObject interactPopUpGO;
     private bool onSight;
 
-    PlayerController playerController;
+    protected PlayerController playerController;
     protected bool actionCompleted = false;
     protected bool actionTransfered = false;
     protected bool canInteract = false;
@@ -23,7 +23,7 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
     {
         ChargePlayer();
 
-        if (popUpGO != null) 
+        if (popUpGO != null)
         {
             popUpGO.SetActive(false);
             interactPopUpGO.SetActive(false);
@@ -61,7 +61,7 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
     {
         if (actionTransfered) return;
 
-        if (act != null) 
+        if (act != null)
         {
             CheckHour();
         }
@@ -97,7 +97,10 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
 
     private void PopUpCheck()
     {
-        if (playerController == null) 
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Gameplay"))
+            return;
+
+        if (playerController == null)
         {
             playerController = GameManager.Instance.playerController;
         }
@@ -163,5 +166,5 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
         DayTime.Instance.LerpToTime(act.passTimeToHour, act.passTimeToMinute, 1.5f);
         actionCompleted = true;
         actionTransfered = true;
-    }  
+    }
 }
