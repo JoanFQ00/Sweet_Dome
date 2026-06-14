@@ -122,11 +122,13 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
         {
             SetPopUps(false, true);
             interactPopUpGO.transform.LookAt(playerController.transform);
+            interactPopUpGO.transform.Rotate(0, 180, 0);
         }
         else if (distanceToPlayer <= disanceToPop)
         {
             SetPopUps(true, false);
             popUpGO.transform.LookAt(playerController.transform);
+            interactPopUpGO.transform.Rotate(0, 180, 0);
         }
         else
         {
