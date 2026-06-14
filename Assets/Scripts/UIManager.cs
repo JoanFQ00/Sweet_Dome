@@ -11,7 +11,11 @@ public class UIManager : MonoBehaviour
     [Header("Menus")]
     public GameObject pauseMenu;
     public GameObject optionsMenu;
-    public Button menuButton;
+    //public Button menuButton;
+
+    [Header("Pause Menu Buttons")]
+    public Button resumeButton;
+    public Button quitButton;
 
     [Header("Options")]
     [SerializeField] private Slider yawSlider;
@@ -41,7 +45,9 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         optionsMenu.SetActive(false);
 
-        menuButton.onClick.AddListener(OnMenuButtonClicked);
+        SetupPauseButtons();
+
+        //menuButton.onClick.AddListener(OnMenuButtonClicked);
 
         if (GameManager.Instance != null)
             OnDayChanged();
@@ -82,6 +88,29 @@ public class UIManager : MonoBehaviour
                 ChangePauseMenuState(false);
             }
         }
+    }
+
+    private void SetupPauseButtons()
+    {
+        //if (menuButton != null) menuButton.onClick.AddListener(OnMenuButtonClicked);
+
+        if (resumeButton != null) resumeButton.onClick.AddListener(OnResumeButtonClicked);
+
+        if (quitButton != null) quitButton.onClick.AddListener(OnQuitButtonClicked);
+    }
+
+    public void OnResumeButtonClicked()
+    {
+        ChangePauseMenuState(false);
+    }
+
+    public void OnQuitButtonClicked()
+    {
+        Application.Quit();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 
     void ChangeInteractVisibility(bool visibility, bool interacting) 
@@ -189,8 +218,8 @@ public class UIManager : MonoBehaviour
         pauseMenu.SetActive(false);
         optionsMenu.SetActive(false);
 
-        menuButton.onClick.RemoveAllListeners();
-        menuButton.onClick.AddListener(OnMenuButtonClicked);
+        //menuButton.onClick.RemoveAllListeners();
+        //menuButton.onClick.AddListener(OnMenuButtonClicked);
     }
 
     private void OnMenuButtonClicked()
