@@ -1,70 +1,133 @@
-using System;
 using UnityEngine;
+using System;
 
-public class SliderCont : MonoBehaviour
+public class SliderCont : MonoBehaviour, IResetable
 {
-    public GameObject sliderPhy;
-
-    public Transform minPos;
-    public Transform maxPos;
-
-    bool isDragging;
-    public static bool IsAtMinPos { get; private set; } = true;
-
-    public SliderType type;
     public static Action<float, SliderType> OnSliderMoved;
 
-    public void Start()
+    [Header("Configuración del Slider")]
+    [SerializeField] private SliderType sliderType = SliderType.Position;
+    [SerializeField] private Transform startPoint; // MinPos
+    [SerializeField] private Transform endPoint;   // MaxPos
+    [SerializeField] private float centerDeadZonePixels = 25f;
+
+    private bool isDragging;
+    private float currentNormalizedValue = 0f;
+    private RadarMinigame radarMinigame;
+
+    // Propiedad estática de control para el volante de rotación
+    public static bool IsAtMinPos { get; private set; } = true;
+
+    void Start()
     {
-        sliderPhy.transform.position = minPos.transform.position;
+        radarMinigame = UnityEngine.Object.FindAnyObjectByType<RadarMinigame>();
+        if (GameManager.Instance != null) GameManager.Instance.RegisterResetable(this);
+
         IsAtMinPos = true;
+        currentNormalizedValue = 0f;
+
+        if (startPoint != null)
+        {
+            transform.position = startPoint.position;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null) GameManager.Instance.UnregisterResetable(this);
+    }
+
+    public bool IsInteractable()
+    {
+        if (radarMinigame == null) return false;
+        // No interactuable si no hay evento o si el hardware se está auto-reseteando/limpiando
+        return radarMinigame.IsEventActive() && !radarMinigame.IsResettingHardware();
     }
 
     void Update()
     {
-        HandleDrag();
-    }
-
-    void HandleDrag() 
-    {
-        if (Input.GetMouseButtonDown(0)) 
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out RaycastHit hit)) 
-            {
-                if (hit.transform.gameObject == sliderPhy) 
-                {
-                    isDragging = true;
-                }
-            }
-        }
-
-        if (Input.GetMouseButtonUp(0)) 
+        if (Input.GetMouseButtonUp(0))
         {
             isDragging = false;
         }
 
-        if (!isDragging) return;
-
-        Ray dragRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane planeSlide = new Plane(-Camera.main.transform.forward, minPos.position);
-
-        if (planeSlide.Raycast(dragRay, out float enter)) 
+        // BUGFIX: Aunque el jugador no esté arrastrando, recalculamos de forma estricta el IsAtMinPos 
+        // frame a frame en base a la distancia física real. Así el volante detecta el Lerp al instante.
+        if (startPoint != null)
         {
-            Vector3 hitPoint = dragRay.GetPoint(enter);
+            IsAtMinPos = Vector3.Distance(transform.position, startPoint.position) < 0.01f;
+        }
 
-            Vector3 dir = (maxPos.position - minPos.position).normalized;
-            Vector3 projected = Vector3.Project(hitPoint - minPos.position, dir);
+        if (!IsInteractable())
+        {
+            isDragging = false;
+            return;
+        }
 
-            float distance = Vector3.Dot(projected, dir);
-            float maxDistance = Vector3.Distance(minPos.position, maxPos.position);
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit) && hit.transform == transform)
+            {
+                isDragging = true;
+            }
+        }
 
-            float t = Mathf.Clamp01(distance / maxDistance);
-            IsAtMinPos = (t < 0.01f);
-            sliderPhy.transform.position = Vector3.Lerp(minPos.position, maxPos.position, t);
+        if (isDragging)
+        {
+            Calculate3DDrag();
+        }
+    }
 
-            OnSliderMoved?.Invoke(t, type);
+    void Calculate3DDrag()
+    {
+        if (startPoint == null || endPoint == null) return;
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane movementPlane = new Plane(Camera.main.transform.forward, startPoint.position);
+
+        if (movementPlane.Raycast(ray, out float enterDistance))
+        {
+            Vector3 mouseWorldPoint = ray.GetPoint(enterDistance);
+
+            Vector3 carrilVector = endPoint.position - startPoint.position;
+            Vector3 mouseDeltaVector = mouseWorldPoint - startPoint.position;
+
+            Vector3 projectedPoint = Vector3.Project(mouseDeltaVector, carrilVector.normalized);
+            float magnitudeMax = carrilVector.magnitude;
+            float dotProduct = Vector3.Dot(projectedPoint, carrilVector.normalized);
+
+            currentNormalizedValue = Mathf.Clamp01(dotProduct / magnitudeMax);
+
+            ApplyVisualPosition();
+            OnSliderMoved?.Invoke(currentNormalizedValue, sliderType);
+        }
+    }
+
+    private void ApplyVisualPosition()
+    {
+        if (startPoint == null || endPoint == null) return;
+
+        transform.position = Vector3.Lerp(startPoint.position, endPoint.position, currentNormalizedValue);
+    }
+
+    /// <summary>
+    /// Permite al script del Radar inyectar la posición de retorno suave por Lerp.
+    /// </summary>
+    public void ApplyInstantPosition(float normalizedValue)
+    {
+        currentNormalizedValue = Mathf.Clamp01(normalizedValue);
+        ApplyVisualPosition();
+    }
+
+    public void ResetValues()
+    {
+        isDragging = false;
+        IsAtMinPos = true;
+        currentNormalizedValue = 0f;
+        if (startPoint != null)
+        {
+            transform.position = startPoint.position;
         }
     }
 }
