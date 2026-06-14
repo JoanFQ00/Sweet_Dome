@@ -8,7 +8,6 @@ public class Machine01 : MonoBehaviour, IResetable
     [SerializeField] private LiquidPump rawPump;
     [SerializeField] private bool isPurifiedMode;
 
-    // PROPIEDAD PÚBLICA: Permite a otros scripts leer el estado actual de forma limpia
     public bool IsPurifiedMode => isPurifiedMode;
 
     public Action<LiquidPump> OnPumpSwapped;
@@ -46,12 +45,18 @@ public class Machine01 : MonoBehaviour, IResetable
     {
         if (isPurifiedMode) purifiedPump.ShiftRight();
         else rawPump.ShiftRight();
+
+        // ¡SOLUCIÓN! Invocamos el evento tras mover el surtidor para que los tubos actualicen sus luces
+        OnPumpSwapped?.Invoke(GetActivePump());
     }
 
     public void MovePumpToLeft()
     {
         if (isPurifiedMode) purifiedPump.ShiftLeft();
         else rawPump.ShiftLeft();
+
+        // ¡SOLUCIÓN! Invocamos el evento tras mover el surtidor para que los tubos actualicen sus luces
+        OnPumpSwapped?.Invoke(GetActivePump());
     }
 
     public LiquidPump GetActivePump()

@@ -27904,6 +27904,7 @@ GameObject:
   - component: {fileID: 1338761905}
   - component: {fileID: 1338761907}
   - component: {fileID: 1338761906}
+  - component: {fileID: 1338761908}
   m_Layer: 0
   m_Name: TubeTwo
   m_TagString: Untagged
@@ -27983,6 +27984,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1338761904}
   m_Mesh: {fileID: -666405214324713313, guid: c2f51ef1e09650a4995e632cc718ba8e, type: 3}
+--- !u!114 &1338761908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338761904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58eca57a879accf418ad77b5b19beadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PumpEmissionController
+  machineSource: {fileID: 1557905089817286530}
+  pumpType: 1
+  pumpColor: {r: 0, g: 1, b: 1, a: 1}
+  activeBrightness: 10
+  inactiveBrightness: 0.05
+  transitionDuration: 0.25
 --- !u!1 &1339599034
 GameObject:
   m_ObjectHideFlags: 0
@@ -53732,6 +53751,7 @@ GameObject:
   - component: {fileID: 2377436284956248391}
   - component: {fileID: 3814588551122634434}
   - component: {fileID: 1931847551056409029}
+  - component: {fileID: 3814588551122634435}
   m_Layer: 0
   m_Name: Lyquid.001
   m_TagString: Untagged
@@ -55911,7 +55931,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702354997010070424}
-  m_Mesh: {fileID: 2689459027322875066, guid: c03baa0f2fd5ccf40942905299405a4c, type: 3}
+  m_Mesh: {fileID: -1936708880557154627, guid: c03baa0f2fd5ccf40942905299405a4c, type: 3}
 --- !u!33 &1329587008194806697
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -59802,7 +59822,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 956303445736720032}
-  m_Mesh: {fileID: 1220211766771296229, guid: c03baa0f2fd5ccf40942905299405a4c, type: 3}
+  m_Mesh: {fileID: -1936708880557154627, guid: c03baa0f2fd5ccf40942905299405a4c, type: 3}
 --- !u!33 &3017858998565892584
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -61129,6 +61149,28 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 515398280691586823}
   m_Mesh: {fileID: 1989731871536905423, guid: c2f51ef1e09650a4995e632cc718ba8e, type: 3}
+--- !u!114 &3814588551122634435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515398280691586823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7593cf243fde6b44d9cb842fe166f78b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CompartmentEmissionController
+  machineSource: {fileID: 1557905089817286530}
+  associatedType: 1
+  compartmentIndex: 0
+  compartmentColor: {r: 0, g: 1, b: 1, a: 1}
+  standardActiveBrightness: 10
+  standardInactiveBrightness: 0.05
+  shaderActiveStrength: 10
+  shaderInactiveStrength: 0
+  transitionDuration: 0.25
+  standardEmissiveMesh: {fileID: 3186432543879289292}
 --- !u!224 &3822101977070628641
 RectTransform:
   m_ObjectHideFlags: 0
@@ -64955,6 +64997,7 @@ GameObject:
   - component: {fileID: 235992439363206463}
   - component: {fileID: 1213855618769279661}
   - component: {fileID: 1790031997997992293}
+  - component: {fileID: 5613598374525690660}
   m_Layer: 0
   m_Name: Tube
   m_TagString: Untagged
@@ -64962,6 +65005,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5613598374525690660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5613598374525690659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58eca57a879accf418ad77b5b19beadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PumpEmissionController
+  machineSource: {fileID: 1557905089817286530}
+  pumpType: 0
+  pumpColor: {r: 0, g: 1, b: 1, a: 1}
+  activeBrightness: 10
+  inactiveBrightness: 0.05
+  transitionDuration: 0.25
 --- !u!23 &5647653365319957759
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -65094,6 +65155,7 @@ GameObject:
   - component: {fileID: 7551673324865839718}
   - component: {fileID: 7968612865585758420}
   - component: {fileID: 6797061313491603221}
+  - component: {fileID: 7968612865585758421}
   m_Layer: 0
   m_Name: Liquid
   m_TagString: Untagged
@@ -66623,6 +66685,7 @@ GameObject:
   - component: {fileID: 2476038334751840066}
   - component: {fileID: 2628457105730338872}
   - component: {fileID: 3160706235576680444}
+  - component: {fileID: 6469654916763969166}
   m_Layer: 0
   m_Name: Lyquid
   m_TagString: Untagged
@@ -66630,6 +66693,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6469654916763969166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6469654916763969165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7593cf243fde6b44d9cb842fe166f78b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CompartmentEmissionController
+  machineSource: {fileID: 1557905089817286530}
+  associatedType: 0
+  compartmentIndex: 1
+  compartmentColor: {r: 0, g: 1, b: 1, a: 1}
+  standardActiveBrightness: 10
+  standardInactiveBrightness: 0.05
+  shaderActiveStrength: 10
+  shaderInactiveStrength: 0
+  transitionDuration: 0.25
+  standardEmissiveMesh: {fileID: 4726424724136530762}
 --- !u!1 &6500287493996939573
 GameObject:
   m_ObjectHideFlags: 0
@@ -69135,6 +69220,7 @@ GameObject:
   - component: {fileID: 7563133660472087317}
   - component: {fileID: 7563133660472087316}
   - component: {fileID: 7563133660472087319}
+  - component: {fileID: 7563133660472087320}
   m_Layer: 7
   m_Name: Boton_MK3
   m_TagString: Untagged
@@ -69241,6 +69327,21 @@ Animation:
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
+--- !u!114 &7563133660472087320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563133660472087314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfea59c2de1b45478f84c2022c000df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
+  rend: {fileID: 2073368117914645207}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
+  lightenAmount: 0.7
 --- !u!33 &7599441589296645747
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -69664,6 +69765,7 @@ GameObject:
   - component: {fileID: 9195272562640326536}
   - component: {fileID: 2354810577353927072}
   - component: {fileID: 802553380304557039}
+  - component: {fileID: 9195272562640326537}
   m_Layer: 0
   m_Name: Liquid.001
   m_TagString: Untagged
@@ -70339,6 +70441,28 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5665480397005386743}
   m_Mesh: {fileID: -9216810965846887918, guid: c2f51ef1e09650a4995e632cc718ba8e, type: 3}
+--- !u!114 &7968612865585758421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5665480397005386743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7593cf243fde6b44d9cb842fe166f78b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CompartmentEmissionController
+  machineSource: {fileID: 1557905089817286530}
+  associatedType: 0
+  compartmentIndex: 0
+  compartmentColor: {r: 0, g: 1, b: 1, a: 1}
+  standardActiveBrightness: 10
+  standardInactiveBrightness: 0.05
+  shaderActiveStrength: 10
+  shaderInactiveStrength: 0
+  transitionDuration: 0.25
+  standardEmissiveMesh: {fileID: 8812145886503558738}
 --- !u!222 &7969575275850558704
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -74518,6 +74642,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2929000745309644295}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9195272562640326537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7783631901088379135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7593cf243fde6b44d9cb842fe166f78b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CompartmentEmissionController
+  machineSource: {fileID: 1557905089817286530}
+  associatedType: 1
+  compartmentIndex: 1
+  compartmentColor: {r: 0, g: 1, b: 1, a: 1}
+  standardActiveBrightness: 10
+  standardInactiveBrightness: 0.05
+  shaderActiveStrength: 10
+  shaderInactiveStrength: 0
+  transitionDuration: 0.25
+  standardEmissiveMesh: {fileID: 662025281351760953}
 --- !u!114 &9201687519657638376
 MonoBehaviour:
   m_ObjectHideFlags: 0
