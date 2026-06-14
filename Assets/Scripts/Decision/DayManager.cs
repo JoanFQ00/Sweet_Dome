@@ -144,6 +144,11 @@ public class DayManager : MonoBehaviour
             GameManager.Instance.dayTime.SetCurrentTime(15, 0);
         }
 
+        if (Input.GetKeyDown(KeyCode.P)) 
+        {
+            IniciarSecuenciaCinematica();
+        }
+
         Timers();
 
         if (cinematicStarted && !cinematicEndedTriggered && day3Timeline != null)
