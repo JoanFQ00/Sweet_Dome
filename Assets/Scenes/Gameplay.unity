@@ -49409,6 +49409,8 @@ MonoBehaviour:
   redAlarmClip: {fileID: 7400000, guid: 59ce9f24adbf1a74f8ae7e630ae6b416, type: 2}
   blueAlarmAnimation: {fileID: 583865654}
   blueAlarmClip: {fileID: 7400000, guid: 158e285cdab7e5549a0dbb1e02d88b9f, type: 2}
+  redAlarmOffColor: {r: 0.0007314645, g: 0, b: 0, a: 0}
+  blueAlarmOffColor: {r: 0.0007314645, g: 0, b: 0.0007314645, a: 0}
   objectives: []
 --- !u!1 &1972110199
 GameObject:
@@ -70009,6 +70011,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   type: 0
   centerDeadZonePixels: 35
+  targetLightRenderer: {fileID: 8278226109436403949}
+  activeColor: {r: 0, g: 42.66847, b: 67.793495, a: 1}
+  disabledColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!23 &7741821064500237389
 MeshRenderer:
   m_ObjectHideFlags: 0

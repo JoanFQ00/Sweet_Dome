@@ -9,6 +9,16 @@ public class WheelRotator : MonoBehaviour
     [Header("Configuración de Control")]
     [SerializeField] private float centerDeadZonePixels = 35f;
 
+    [Header("Configuración Estética de Colores (Malla Externa URP)")]
+    [Tooltip("¡NUEVO! Arrastra aquí la OTRA mesh que debe brillar (indicador, aro, etc.). Si se deja vacío, se usará a sí mismo.")]
+    [SerializeField] private Renderer targetLightRenderer;
+
+    [Space(5)]
+    [Tooltip("Color e Intensidad HDR cuando el volante está ACTIVO.")]
+    [ColorUsage(true, true)][SerializeField] private Color activeColor = Color.white;
+    [Tooltip("Color de la bombilla cuando el volante está bloqueado.")]
+    [ColorUsage(true, true)][SerializeField] private Color disabledColor = Color.black;
+
     private bool isDragging;
     private float currentAngle;
     private Vector3 initialRotation;
@@ -16,18 +26,32 @@ public class WheelRotator : MonoBehaviour
 
     private RadarMinigame radarMinigame;
 
+    // Almacenamiento en caché del material dinámico
+    private Material runtimeMaterial;
+    private bool lastInteractableState = false;
+
     void Start()
     {
         initialRotation = transform.localEulerAngles;
         currentAngle = transform.localEulerAngles.x;
         radarMinigame = UnityEngine.Object.FindAnyObjectByType<RadarMinigame>();
+
+        // SOLUCIÓN: Si nos has dado una malla externa, pillamos su material. Si no, usamos el nuestro.
+        Renderer rend = targetLightRenderer != null ? targetLightRenderer : (GetComponent<Renderer>() ?? GetComponentInChildren<Renderer>());
+        if (rend != null)
+        {
+            runtimeMaterial = rend.material;
+        }
+
+        // Forzamos el estado de iluminación inicial (apagado por defecto)
+        lastInteractableState = IsInteractable();
+        UpdateWheelEmission(lastInteractableState);
     }
 
     public bool IsInteractable()
     {
         if (radarMinigame == null || !radarMinigame.IsEventActive()) return false;
 
-        // SÓLO se bloquea físicamente si este volante de giro específico está haciendo su Lerp automático
         if (radarMinigame.IsRotationResetting()) return false;
 
         if (type == SliderType.Rotation)
@@ -40,12 +64,19 @@ public class WheelRotator : MonoBehaviour
 
     void Update()
     {
+        bool currentInteractable = IsInteractable();
+        if (currentInteractable != lastInteractableState)
+        {
+            lastInteractableState = currentInteractable;
+            UpdateWheelEmission(lastInteractableState);
+        }
+
         if (Input.GetMouseButtonUp(0))
         {
             isDragging = false;
         }
 
-        if (!IsInteractable())
+        if (!currentInteractable)
         {
             isDragging = false;
             return;
@@ -70,6 +101,31 @@ public class WheelRotator : MonoBehaviour
         if (isDragging)
         {
             HandleDrag();
+        }
+    }
+
+    private void UpdateWheelEmission(bool canUse)
+    {
+        if (runtimeMaterial == null) return;
+
+        Color targetColor = canUse ? activeColor : disabledColor;
+
+        runtimeMaterial.EnableKeyword("_EMISSION");
+        if (runtimeMaterial.HasProperty("_EmissionColor"))
+        {
+            runtimeMaterial.SetColor("_EmissionColor", targetColor);
+        }
+
+        if (!canUse || targetColor == Color.black || targetColor.a == 0f)
+        {
+            runtimeMaterial.DisableKeyword("_EMISSION");
+        }
+
+        // Aplicamos los cambios de iluminación global sobre la malla objetivo (la externa)
+        Renderer rend = targetLightRenderer != null ? targetLightRenderer : (GetComponent<Renderer>() ?? GetComponentInChildren<Renderer>());
+        if (rend != null)
+        {
+            DynamicGI.SetEmissive(rend, canUse ? targetColor : Color.black);
         }
     }
 

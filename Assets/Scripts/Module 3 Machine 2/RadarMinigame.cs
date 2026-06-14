@@ -26,17 +26,27 @@ public class RadarMinigame : MonoBehaviour, IResetable
     [Header("Seguridad de Spawn (Anti-solapamiento)")]
     [SerializeField] private float minDistanceBetweenTargets = 0.04f;
 
-    [Header("SISTEMA DE ALARMAS SEPARADO (Visual)")]
-    [Tooltip("Componente Animation físico de la Alarma Roja.")]
+    [Header("SISTEMA DE ALARMAS (Optimizado para Transparent URP)")]
+    [Tooltip("Componente Animation de la Alarma para METEORITOS (Tu Roja).")]
     [SerializeField] private Animation redAlarmAnimation;
-    [Tooltip("Clip .anim de la alarma Roja.")]
+    [Tooltip("Clip .anim de la alarma de Meteoritos (Debe ser Legacy).")]
     [SerializeField] private AnimationClip redAlarmClip;
 
-    [Space(10)]
-    [Tooltip("Componente Animation físico de la Alarma Azul.")]
+    [Space(5)]
+    [Tooltip("Componente Animation de la Alarma para NAVES (Tu Azul/Púrpura).")]
     [SerializeField] private Animation blueAlarmAnimation;
-    [Tooltip("Clip .anim de la alarma Azul.")]
+    [Tooltip("Clip .anim de la alarma de Naves (Debe ser Legacy).")]
     [SerializeField] private AnimationClip blueAlarmClip;
+
+    [Header("Colores de Estado Apagado (¡Pon el Alfa a 0 en el Inspector!)")]
+    [ColorUsage(true, true)]
+    [SerializeField] private Color redAlarmOffColor = new Color(0f, 0f, 0f, 0f);
+    [ColorUsage(true, true)]
+    [SerializeField] private Color blueAlarmOffColor = new Color(0f, 0f, 0f, 0f);
+
+    // Almacenamiento en caché de los materiales en tiempo de ejecución
+    private Material redMaterial;
+    private Material blueMaterial;
 
     [Header("Objectives Spawn")]
     public List<GameObject> objectives = new List<GameObject>();
@@ -64,6 +74,8 @@ public class RadarMinigame : MonoBehaviour, IResetable
         if (timeTMP != null) timeTMP.text = baseTxt;
         onCenter = true;
         initialRadarRotation = radarPoint.localRotation;
+
+        CacheOriginalMaterials();
 
         if (GameManager.Instance != null) GameManager.Instance.RegisterResetable(this);
     }
@@ -112,7 +124,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
         ClearAllActiveObjectivesImmediate();
 
-        // Encendemos la alarma correspondiente al tipo de peligro
         PlayAlarmHardwareFeedback(eventType);
 
         for (int i = 0; i < spawnQuantity; i++)
@@ -180,49 +191,90 @@ public class RadarMinigame : MonoBehaviour, IResetable
         inEvent = false;
         if (timeTMP != null) timeTMP.text = "";
 
-        // Apagamos los componentes de animación de inmediato
         StopAlarmHardwareFeedback();
 
         StopAllCoroutines();
         StartCoroutine(FinalHardwareResetSequenceRoutine(success));
     }
 
-    /// <summary>
-    /// Activa el componente de animación y el clip concreto de la alarma correspondiente.
-    /// </summary>
+    private void CacheOriginalMaterials()
+    {
+        if (redAlarmAnimation != null)
+        {
+            Renderer r = redAlarmAnimation.GetComponentInChildren<Renderer>();
+            if (r == null) r = redAlarmAnimation.GetComponent<Renderer>();
+            if (r != null) redMaterial = r.material;
+        }
+
+        if (blueAlarmAnimation != null)
+        {
+            Renderer r = blueAlarmAnimation.GetComponentInChildren<Renderer>();
+            if (r == null) r = blueAlarmAnimation.GetComponent<Renderer>();
+            if (r != null) blueMaterial = r.material;
+        }
+
+        StopAlarmHardwareFeedback();
+    }
+
     private void PlayAlarmHardwareFeedback(RadarEventType type)
     {
         if (type == RadarEventType.Meteorite)
         {
-            // Dispara la alarma Roja de forma independiente
+            if (redMaterial != null) redMaterial.EnableKeyword("_EMISSION");
+
             if (redAlarmAnimation != null && redAlarmClip != null)
             {
+                redAlarmAnimation.AddClip(redAlarmClip, redAlarmClip.name);
                 redAlarmAnimation.Play(redAlarmClip.name);
             }
         }
         else if (type == RadarEventType.SpaceShip)
         {
-            // Dispara la alarma Azul de forma independiente
+            if (blueMaterial != null) blueMaterial.EnableKeyword("_EMISSION");
+
             if (blueAlarmAnimation != null && blueAlarmClip != null)
             {
+                blueAlarmAnimation.AddClip(blueAlarmClip, blueAlarmClip.name);
                 blueAlarmAnimation.Play(blueAlarmClip.name);
             }
         }
     }
 
-    /// <summary>
-    /// Detiene ambos componentes físicos de animación para apagar las luces de la cabina.
-    /// </summary>
     private void StopAlarmHardwareFeedback()
     {
-        if (redAlarmAnimation != null)
+        if (redAlarmAnimation != null) redAlarmAnimation.Stop();
+        if (blueAlarmAnimation != null) blueAlarmAnimation.Stop();
+
+        if (redMaterial != null)
         {
-            redAlarmAnimation.Stop();
+            if (redMaterial.HasProperty("_EmissionColor"))
+            {
+                redMaterial.SetColor("_EmissionColor", redAlarmOffColor);
+            }
+
+            if (redMaterial.HasProperty("_BaseColor"))
+            {
+                redMaterial.SetColor("_BaseColor", redAlarmOffColor);
+            }
+
+            redMaterial.DisableKeyword("_EMISSION");
+            DynamicGI.SetEmissive(redAlarmAnimation.GetComponent<Renderer>() ?? redAlarmAnimation.GetComponentInChildren<Renderer>(), Color.black);
         }
 
-        if (blueAlarmAnimation != null)
+        if (blueMaterial != null)
         {
-            blueAlarmAnimation.Stop();
+            if (blueMaterial.HasProperty("_EmissionColor"))
+            {
+                blueMaterial.SetColor("_EmissionColor", blueAlarmOffColor);
+            }
+
+            if (blueMaterial.HasProperty("_BaseColor"))
+            {
+                blueMaterial.SetColor("_BaseColor", blueAlarmOffColor);
+            }
+
+            blueMaterial.DisableKeyword("_EMISSION");
+            DynamicGI.SetEmissive(blueAlarmAnimation.GetComponent<Renderer>() ?? blueAlarmAnimation.GetComponentInChildren<Renderer>(), Color.black);
         }
     }
 
@@ -237,9 +289,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
             ClearAllActiveObjectivesImmediate();
         }
 
-        // -------------------------------------------------------------
-        // FASE 1: Retorno lento y pesado de la palanca de posición
-        // -------------------------------------------------------------
         SliderCont sceneSlider = UnityEngine.Object.FindAnyObjectByType<SliderCont>();
         SliderCont.ForceMinPosState(false);
 
@@ -260,9 +309,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
         yield return new WaitForEndOfFrame();
 
-        // -------------------------------------------------------------
-        // FASE 2: Retorno ULTRA RÁPIDO del Volante de Rotación
-        // -------------------------------------------------------------
         WheelRotator rotationWheel = null;
         WheelRotator[] wheels = UnityEngine.Object.FindObjectsByType<WheelRotator>(FindObjectsSortMode.None);
         for (int i = 0; i < wheels.Length; i++)
@@ -285,9 +331,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
         isRotationResetting = false;
         currentIdleTimer = 0f;
 
-        // -------------------------------------------------------------
-        // FASE 3: Fin del evento e Historia Lineal
-        // -------------------------------------------------------------
         if (success.HasValue)
         {
             bool finalResult = success.Value;
