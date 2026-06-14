@@ -3,8 +3,14 @@ using UnityEngine.Events;
 using FMODUnity;
 
 [RequireComponent(typeof(Animation))]
-public class MainButt : MonoBehaviour
+public class MainButt : MonoBehaviour, IResetable
 {
+    public enum VisualButtonState
+    {
+        Up,
+        Down
+    }
+
     [Header("Events")]
     public UnityEvent onPress;
 
@@ -31,22 +37,66 @@ public class MainButt : MonoBehaviour
     protected Animation legacyAnimation;
     protected bool wasLastPressValid { get; private set; }
 
-    // Cambiado a virtual para que los hijos puedan extenderlo sin pisarlo
+    // Rastreadores de estado físico internos
+    protected VisualButtonState currentVisualState = VisualButtonState.Up;
+    protected bool isBeingHeld = false;
+
     protected virtual void Awake()
     {
         legacyAnimation = GetComponent<Animation>();
 
-        // REGISTRO DINÁMICO: Inyectamos los clips arrastrados dentro del componente Animation
         if (legacyAnimation != null)
         {
-            if (pressClip != null)
-            {
-                legacyAnimation.AddClip(pressClip, pressClip.name);
-            }
-            if (releaseClip != null)
-            {
-                legacyAnimation.AddClip(releaseClip, releaseClip.name);
-            }
+            if (pressClip != null) legacyAnimation.AddClip(pressClip, pressClip.name);
+            if (releaseClip != null) legacyAnimation.AddClip(releaseClip, releaseClip.name);
+        }
+    }
+
+    protected virtual void Start()
+    {
+        // Registrar el botón en el GameManager al iniciar
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterResetable(this);
+        }
+    }
+
+    protected virtual void OnDestroy()
+    {
+        // Desregistrar de forma segura para evitar fallos de memoria
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.UnregisterResetable(this);
+        }
+    }
+
+    protected virtual void Update()
+    {
+        // Control automatizado si NO se está interactuando físicamente con él
+        if (!isBeingHeld)
+        {
+            EvaluateValidatorState();
+        }
+    }
+
+    /// <summary>
+    /// Comprueba frame a frame si el botón debe subir o bajarse solo según su disponibilidad.
+    /// </summary>
+    private void EvaluateValidatorState()
+    {
+        if (validator == null) return;
+
+        bool canPressNow = validator.CanPress();
+
+        // CASO A: Deja de estar disponible y está arriba -> Se hunde solo hacia adentro
+        if (!canPressNow && currentVisualState == VisualButtonState.Up)
+        {
+            AnimatePress(pressSpeedMultiplier);
+        }
+        // CASO B: Estaba bloqueado (abajo) pero ahora vuelve a estar disponible -> Sube solo
+        else if (canPressNow && currentVisualState == VisualButtonState.Down)
+        {
+            AnimateRelease(releaseSpeedMultiplier);
         }
     }
 
@@ -56,6 +106,7 @@ public class MainButt : MonoBehaviour
     public virtual void Press()
     {
         wasLastPressValid = false;
+        isBeingHeld = true; // El jugador está interactuando con él
 
         bool isPlayerSeated = true; // Reemplazar por tu lógica real de la silla
 
@@ -68,27 +119,22 @@ public class MainButt : MonoBehaviour
 
         RuntimeManager.PlayOneShotAttached(pressSound, gameObject);
 
-        // Control visual de bajada
-        if (legacyAnimation != null && pressClip != null)
+        // Si el botón ya estaba abajo visualmente por lógica del juego, no reiniciamos la animación
+        if (currentVisualState == VisualButtonState.Up)
         {
-            legacyAnimation.Stop();
-
-            // APLICAMOS EL MULTIPLICADOR DESDE EL INSPECTOR
-            if (legacyAnimation[pressClip.name] != null)
-            {
-                legacyAnimation[pressClip.name].speed = pressSpeedMultiplier;
-            }
-
-            legacyAnimation.Play(pressClip.name);
+            AnimatePress(pressSpeedMultiplier);
         }
 
-        // Acción lógica instantánea
         onPress?.Invoke();
     }
 
+    /// <summary>
+    /// Se ejecuta frame a frame mientras mantienes pulsado.
+    /// </summary>
     public virtual void HoldUpdate()
     {
-        // No requiere lógica para botones simples
+        // Mantenemos el flag activo mientras el ratón siga haciendo presión
+        isBeingHeld = true;
     }
 
     /// <summary>
@@ -96,26 +142,70 @@ public class MainButt : MonoBehaviour
     /// </summary>
     public virtual void Release()
     {
+        isBeingHeld = false; // El jugador suelta el botón
+
         if (!wasLastPressValid) return;
 
-        // Interrupción fulminante + Aceleración de subida
-        if (legacyAnimation != null && releaseClip != null)
-        {
-            legacyAnimation.Stop();
+        // REGRESIÓN INTELIGENTE: Miramos si el validador cambió a FALSE *mientras* lo manteníamos pulsado
+        bool canPressNow = (validator == null) || validator.CanPress();
 
-            if (legacyAnimation[releaseClip.name] != null)
+        if (canPressNow)
+        {
+            // Si sigue estando disponible al soltarlo, sube con normalidad
+            AnimateRelease(releaseSpeedMultiplier);
+
+            if (!releaseSound.IsNull)
             {
-                legacyAnimation[releaseClip.name].speed = releaseSpeedMultiplier;
+                RuntimeManager.PlayOneShotAttached(releaseSound, gameObject);
             }
-
-            legacyAnimation.Play(releaseClip.name);
         }
-
-        if (!releaseSound.IsNull)
+        else
         {
-            RuntimeManager.PlayOneShotAttached(releaseSound, gameObject);
+            // EXCEPCIÓN CONSEGUIDA: Si dejó de estar disponible en mitad del click,
+            // NO ejecuta la animación de subida (Release) y se queda bloqueado abajo.
+            currentVisualState = VisualButtonState.Down;
         }
 
         wasLastPressValid = false;
+    }
+
+    // =================================================================
+    // INTERFAZ IRESETABLE: CAMBIO DE DÍA
+    // =================================================================
+    public virtual void ResetValues()
+    {
+        // Al empezar un nuevo día, forzamos que ejecute la animación de Release (Subida)
+        AnimateRelease(releaseSpeedMultiplier);
+    }
+
+    // =================================================================
+    // MÉTODOS AUXILIARES DE ANIMACIÓN
+    // =================================================================
+    protected void AnimatePress(float speed)
+    {
+        if (legacyAnimation != null && pressClip != null)
+        {
+            legacyAnimation.Stop();
+            if (legacyAnimation[pressClip.name] != null)
+            {
+                legacyAnimation[pressClip.name].speed = speed;
+            }
+            legacyAnimation.Play(pressClip.name);
+            currentVisualState = VisualButtonState.Down;
+        }
+    }
+
+    protected void AnimateRelease(float speed)
+    {
+        if (legacyAnimation != null && releaseClip != null)
+        {
+            legacyAnimation.Stop();
+            if (legacyAnimation[releaseClip.name] != null)
+            {
+                legacyAnimation[releaseClip.name].speed = speed;
+            }
+            legacyAnimation.Play(releaseClip.name);
+            currentVisualState = VisualButtonState.Up;
+        }
     }
 }
