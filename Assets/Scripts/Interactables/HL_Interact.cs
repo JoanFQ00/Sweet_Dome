@@ -7,6 +7,7 @@ public class HL_Interact : MonoBehaviour
     private Color originalColor;
     private BaseAction baseAction;
     private ButtonEmissionController emissionController;
+    private DialRotation dialRotation; // NUEVA REFERENCIA
     private Material sharedRuntimeMaterial;
 
     [Range(0f, 1f)]
@@ -19,12 +20,10 @@ public class HL_Interact : MonoBehaviour
 
         baseAction = GetComponent<BaseAction>();
         emissionController = GetComponent<ButtonEmissionController>();
+        dialRotation = GetComponent<DialRotation>(); // Buscamos si es una ruedecita
 
         if (rend != null)
         {
-            // ¡LA CLAVE!: En lugar de hacer un 'new Material()', le pedimos '.material'.
-            // Si el ButtonEmissionController ya lo clonó en el Awake, usará ese mismo.
-            // Si es un objeto estático normal, lo clonará de forma limpia por primera vez.
             sharedRuntimeMaterial = rend.material;
             originalColor = sharedRuntimeMaterial.color;
         }
@@ -32,8 +31,14 @@ public class HL_Interact : MonoBehaviour
 
     public void LightenColor()
     {
-        // Si es un botón bloqueado, no permitimos el highlight para no confundir al jugador
+        // 1. Control de botones normales bloqueados
         if (emissionController != null && !emissionController.IsInteractable())
+        {
+            return;
+        }
+
+        // 2. NUEVO CONTROL DE DIALES: Si es una rueda de frecuencia y está bloqueada, abortamos el brillo
+        if (dialRotation != null && !dialRotation.IsInteractable())
         {
             return;
         }
@@ -54,7 +59,6 @@ public class HL_Interact : MonoBehaviour
 
         if (sharedRuntimeMaterial != null)
         {
-            // Sumamos el color de resaltado al color base. La rayita de emisión se queda intacta
             sharedRuntimeMaterial.color = originalColor + (highlightColor * lightenAmount);
         }
     }
@@ -63,7 +67,6 @@ public class HL_Interact : MonoBehaviour
     {
         if (sharedRuntimeMaterial != null)
         {
-            // Devolvemos el color base a su estado normal
             sharedRuntimeMaterial.color = originalColor;
         }
     }

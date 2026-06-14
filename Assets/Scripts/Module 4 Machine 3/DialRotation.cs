@@ -35,9 +35,7 @@ public class DialRotation : MonoBehaviour
     private bool isResetting = false;
     private float targetResetAngle;
 
-    // Referencia local automática para saber el estado del juego
     private WaveWinner waveWinner;
-
     private HL_Interact hlInteract;
 
     void Start()
@@ -46,7 +44,6 @@ public class DialRotation : MonoBehaviour
         targetResetAngle = (minAngle + maxAngle) / 2f;
         currentAngle = NormalizeAngle(transform.localEulerAngles.z);
 
-        // Buscamos el componente WaveWinner de forma automática en la escena
         waveWinner = Object.FindAnyObjectByType<WaveWinner>();
         hlInteract = GetComponent<HL_Interact>();
 
@@ -66,18 +63,26 @@ public class DialRotation : MonoBehaviour
         WaveWinner.OnDialsLockRequested -= LockDialInteraction;
     }
 
+    /// <summary>
+    /// COMPUERTA CLAVE: Devuelve si el dial es accionable en este frame exacto del juego.
+    /// </summary>
+    public bool IsInteractable()
+    {
+        // No es interactuable si la onda está solucionada, si se está reseteando el hardware 
+        // o si la pantalla visual de las ondas está apagada.
+        if (waveWinner != null && waveWinner.waveSolved) return false;
+        if (isResetting) return false;
+        if (waveRenderer != null && !waveRenderer.gameObject.activeInHierarchy) return false;
+
+        return true;
+    }
+
     void Update()
     {
-        bool shouldBeLocked = (waveWinner != null && waveWinner.waveSolved) || isResetting || (waveRenderer != null && !waveRenderer.gameObject.activeInHierarchy);
-        if (shouldBeLocked)
+        // Si no es interactuable en este frame, congelamos arrastres y manejamos el retorno automático
+        if (!IsInteractable())
         {
             isDragging = false;
-
-            if (hlInteract != null && hlInteract.enabled)
-            {
-                hlInteract.ResetColor();
-                hlInteract.enabled = false;
-            }
 
             if (isResetting)
             {
@@ -92,13 +97,6 @@ public class DialRotation : MonoBehaviour
                 }
             }
             return;
-        }
-        else
-        {
-            if (hlInteract != null && !hlInteract.enabled)
-            {
-                hlInteract.enabled = true;
-            }
         }
 
         if (!isDragging)
@@ -175,9 +173,7 @@ public class DialRotation : MonoBehaviour
 
     void OnMouseDown()
     {
-        // REGLA NUEVA: Si se está reseteando, la pantalla está apagada o la onda YA está solucionada, no dejes arrastrar con el ratón
-        if (isResetting || !waveRenderer.gameObject.activeInHierarchy || (waveWinner != null && waveWinner.waveSolved))
-            return;
+        if (!IsInteractable()) return;
 
         isDragging = true;
         lastMouseAngle = GetMouseAngle();

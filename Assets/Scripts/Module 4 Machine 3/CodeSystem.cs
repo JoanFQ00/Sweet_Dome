@@ -106,7 +106,6 @@ public class CodeSystem : MonoBehaviour
         inputDisplay.text = currentInput;
     }
 
-    // PASO 4: Cualquiera de los dos da por finalizado el evento y ejecuta su animación
     void CheckCode()
     {
         if (currentInput == generatedCode)
@@ -118,9 +117,8 @@ public class CodeSystem : MonoBehaviour
 
             Debug.Log("CÓDIGO CORRECTO");
 
-            // <color=green>// COMENTARIO VERDE: Activa aquí tu animación de parpadeo de ÉXITO (P.ej: miAnimator.SetTrigger("BlinkSuccess");)</color>
+            // [Parpadeo ÉXITO - Opcional]
 
-            // Esperamos un segundo y medio para que dé tiempo a ver la pantalla en verde y la animación antes de apagar todo de golpe
             Invoke(nameof(EndEventSuccess), 1.5f);
         }
         else
@@ -131,11 +129,34 @@ public class CodeSystem : MonoBehaviour
 
             Debug.Log("CÓDIGO INCORRECTO");
 
-            // <color=green>// COMENTARIO VERDE: Activa aquí tu animación de parpadeo de ERROR (P.ej: miAnimator.SetTrigger("BlinkWrong");)</color>
+            // [Parpadeo ERROR - Opcional]
 
-            // Lo mismo: se muestra el fallo en rojo, se ejecuta la animación y se corta el evento para dejar paso al siguiente
             Invoke(nameof(EndEventFail), 1.5f);
         }
+    }
+
+    /// <summary>
+    /// ¡NUEVA ORDEN DE INYECCIÓN!: Si el reloj global de la alarma llega a cero antes de meter
+    /// el código, forzamos la animación de fallo en rojo y congelamos la pantalla.
+    /// </summary>
+    public void ForceTimeoutFail()
+    {
+        if (!codeSystemActive) return;
+
+        inputLocked = true;
+        showingCode = false;
+        HideGeneratedCode();
+
+        if (inputDisplay != null)
+        {
+            inputDisplay.color = wrongColor;
+            inputDisplay.text = "ERROR";
+        }
+
+        Debug.Log("TIEMPO AGOTADO EN EL TECLADO NUMÉRICO");
+
+        // Lanzamos el fin del evento con retraso para ver el cartel rojo y reproducir la animación
+        Invoke(nameof(EndEventFail), 1.5f);
     }
 
     private void EndEventSuccess()

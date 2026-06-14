@@ -22,7 +22,6 @@ public class WaveWinner : MonoBehaviour, IResetable
     [SerializeField] private float safetyMargin = 0.3f;
     [SerializeField] private float snapDuration = 1.5f;
 
-    // Cambiado a público para que tus botones (ButtonKeyboard) puedan leerlo bien
     [HideInInspector] public bool hasWon = false;
     [HideInInspector] public bool waveSolved = false;
 
@@ -67,13 +66,15 @@ public class WaveWinner : MonoBehaviour, IResetable
     {
         if (Input.GetKeyDown(KeyCode.V))
             StartWaveEvent(40f);
-        // REGLA: El temporizador SOLO descuenta tiempo si el evento está activo 
-        // Y el jugador todavía NO ha sintonizado con éxito la onda (evita que se apague en mitad del código)
-        if (inEvent && !waveSolved && !isSnapping)
+
+        // ¡MODIFICACIÓN CLAVE!: El tiempo sigue corriendo aunque la onda esté resuelta (waveSolved),
+        // siempre y cuando estemos dentro del evento activo y no en la animación del Snap de acople.
+        if (inEvent && !isSnapping)
         {
             EventTimer();
 
-            if (IsMatching())
+            // Solo buscamos el acople si el puzzle no ha sido superado todavía
+            if (!waveSolved && IsMatching())
             {
                 StartCoroutine(SnapWaveRoutine());
             }
@@ -85,13 +86,10 @@ public class WaveWinner : MonoBehaviour, IResetable
         if (!entered) ResetValues();
     }
 
-    // =================================================================
-    // PASO 1 Y 2: CORRUTINA DE ACOPLE PERFECTO Y ENTREGA DE CÓDIGO
-    // =================================================================
     private IEnumerator SnapWaveRoutine()
     {
         isSnapping = true;
-        OnDialsLockRequested?.Invoke(); // Congelamos las ruedas del jugador
+        OnDialsLockRequested?.Invoke(); // Bloqueamos el uso de las ruedecitas
 
         float elapsedTime = 0f;
         float startAmp = playerRenderer.amplitude;
@@ -102,7 +100,7 @@ public class WaveWinner : MonoBehaviour, IResetable
         {
             elapsedTime += Time.deltaTime;
             float percent = elapsedTime / snapDuration;
-            percent = percent * percent * (3f - 2f * percent); // Suavizado matemático
+            percent = percent * percent * (3f - 2f * percent);
 
             playerRenderer.amplitude = Mathf.Lerp(startAmp, targetRenderer.amplitude, percent);
             playerRenderer.frequency = Mathf.Lerp(startFreq, targetRenderer.frequency, percent);
@@ -116,12 +114,13 @@ public class WaveWinner : MonoBehaviour, IResetable
         playerRenderer.phase = targetRenderer.phase;
 
         isSnapping = false;
-        waveSolved = true; // <-- PASO 2: ¡Aquí tus botones ButtonKeyboard ya dan "true"!
+        waveSolved = true; // Ruedecitas resueltas de forma sagrada
         hasWon = true;
 
-        RuntimeManager.PlayOneShot(AudioManager.Instance.waveSuccess);
+        if (AudioManager.Instance != null)
+            RuntimeManager.PlayOneShot(AudioManager.Instance.waveSuccess);
 
-        // PASO 3: Se permite poner el código activando el sistema
+        // Activamos el teclado del código
         if (codeSystem != null)
         {
             codeSystem.EnableCodeSystem(this);
@@ -152,22 +151,32 @@ public class WaveWinner : MonoBehaviour, IResetable
         if (currentEventTime <= 0f)
         {
             currentEventTime = 0f;
-            RuntimeManager.PlayOneShot(AudioManager.Instance.waveFail);
 
-            // Si el tiempo general del evento llega a cero antes de sintonizar, da fallo y apaga todo
-            NotifyEventResult(false);
+            if (AudioManager.Instance != null)
+                RuntimeManager.PlayOneShot(AudioManager.Instance.waveFail);
+
+            // ¡NUEVO!: Si el tiempo llega a cero, notificamos el fallo al sistema.
+            // Si el jugador estaba en mitad del teclado numérico, el CodeSystem manejará su animación de error.
+            if (codeSystem != null && codeSystem.IsCodeSystemActive())
+            {
+                codeSystem.ForceTimeoutFail(); // Invocamos el fallo por tiempo agotado
+            }
+            else
+            {
+                NotifyEventResult(false);
+            }
         }
     }
 
-    // PASO 4: El CodeSystem llama aquí para finiquitar el evento tras procesar el código
     public void NotifyEventResult(bool success)
     {
         OnEventFinished?.Invoke(success);
-        ResetValues(); // Limpieza absoluta de la pantalla al terminar el código (bien o mal)
+        ResetValues();
     }
 
     public void ResetValues()
     {
+        // Limpieza absoluta para el nuevo día o abandono de silla
         StopAllCoroutines();
         inEvent = false;
         isSnapping = false;
@@ -175,7 +184,6 @@ public class WaveWinner : MonoBehaviour, IResetable
         hasWon = false;
         currentEventTime = 0f;
 
-        // Se apaga todo (LineRenderers incluidos)
         if (waveVisualsContainer != null) waveVisualsContainer.SetActive(false);
         OnHardwareResetRequested?.Invoke();
 

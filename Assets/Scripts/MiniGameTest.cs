@@ -247,6 +247,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         }
 
         // PRIORIDAD 3 y 4: Lanzamos el Raycast analítico para el Hover normal (Cursor 2 o Cursor 1)
+        // ... Busca este fragmento exacto dentro del método UpdateCursorAndHoverState() de tu MiniGameTest.cs:
+
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
         {
@@ -255,21 +257,25 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             // Análisis estructural del objeto apuntado:
             if (hit.collider.TryGetComponent(out MainButt button))
             {
-                // Si es un botón físico de la consola, su interactuabilidad depende de las reglas de su validador
                 if (button.Validator != null && !button.Validator.CanPress())
                 {
                     isInteractableNow = false;
                 }
             }
-            // NOTA: Si tienes otros objetos como el volante o ruedas con validadores propios,
-            // puedes añadir aquí su condición: else if (hit.collider.TryGetComponent(out TuScript...))
+            // NUEVA ADAPTACIÓN PARA LAS RUEDECITAS DE LA FRECUENCIA:
+            else if (hit.collider.TryGetComponent(out DialRotation dial))
+            {
+                // Si chocamos contra un dial pero la lógica dice que no se puede mover, el cursor NO cambia a mano
+                if (!dial.IsInteractable())
+                {
+                    isInteractableNow = false;
+                }
+            }
 
             if (isInteractableNow)
             {
-                // Pasamos el filtro: Es interactuable en este frame. Ponemos Cursor 2 (Mano señalando)
                 ChangeCursor(hoverInteractCursor);
 
-                // Activamos la silueta de luz (Highlight)
                 HL_Interact newHighlight = hit.collider.GetComponent<HL_Interact>();
                 if (currentHighlight != newHighlight)
                 {
@@ -280,14 +286,12 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             }
             else
             {
-                // El objeto forma parte de la máquina pero está apagado/bloqueado en este frame. Puntero básico y sin luz
                 ClearCurrentHighlight();
-                ChangeCursor(originalCursor);
+                ChangeCursor(originalCursor); // Fuerza Cursor 1 (Flecha normal)
             }
         }
         else
         {
-            // Apuntando al fondo de la cabina. Cursor 1 (Normal)
             ClearCurrentHighlight();
             ChangeCursor(originalCursor);
         }
