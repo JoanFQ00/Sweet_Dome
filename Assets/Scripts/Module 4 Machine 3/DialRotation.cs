@@ -38,6 +38,8 @@ public class DialRotation : MonoBehaviour
     // Referencia local automática para saber el estado del juego
     private WaveWinner waveWinner;
 
+    private HL_Interact hlInteract;
+
     void Start()
     {
         initialRotation = transform.localEulerAngles;
@@ -46,6 +48,7 @@ public class DialRotation : MonoBehaviour
 
         // Buscamos el componente WaveWinner de forma automática en la escena
         waveWinner = Object.FindAnyObjectByType<WaveWinner>();
+        hlInteract = GetComponent<HL_Interact>();
 
         ApplyRotation();
         UpdateWaveValue();
@@ -65,25 +68,37 @@ public class DialRotation : MonoBehaviour
 
     void Update()
     {
-        // REGLA NUEVA: Si el mánager ya ha solucionado la sintonización, congelamos las ruedas de inmediato
-        if (waveWinner != null && waveWinner.waveSolved)
+        bool shouldBeLocked = (waveWinner != null && waveWinner.waveSolved) || isResetting || (waveRenderer != null && !waveRenderer.gameObject.activeInHierarchy);
+        if (shouldBeLocked)
         {
             isDragging = false;
-            return;
-        }
 
-        if (isResetting)
-        {
-            currentAngle = Mathf.MoveTowards(currentAngle, targetResetAngle, resetLerpSpeed * 50f * Time.deltaTime);
-            ApplyRotation();
-            UpdateWaveValue();
-
-            if (Mathf.Approximately(currentAngle, targetResetAngle))
+            if (hlInteract != null && hlInteract.enabled)
             {
-                currentAngle = targetResetAngle;
-                isResetting = false;
+                hlInteract.ResetColor();
+                hlInteract.enabled = false;
+            }
+
+            if (isResetting)
+            {
+                currentAngle = Mathf.MoveTowards(currentAngle, targetResetAngle, resetLerpSpeed * 50f * Time.deltaTime);
+                ApplyRotation();
+                UpdateWaveValue();
+
+                if (Mathf.Approximately(currentAngle, targetResetAngle))
+                {
+                    currentAngle = targetResetAngle;
+                    isResetting = false;
+                }
             }
             return;
+        }
+        else
+        {
+            if (hlInteract != null && !hlInteract.enabled)
+            {
+                hlInteract.enabled = true;
+            }
         }
 
         if (!isDragging)
