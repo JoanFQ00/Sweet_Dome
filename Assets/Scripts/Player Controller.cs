@@ -90,7 +90,12 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (!playerLocked)
-            Move();
+        {
+            if (GameManager.Instance.currentState != GameManager.GameState.Minigame)
+            { 
+                Move();
+            }
+        }
 
         if (!cameraLocked)
             Look();
