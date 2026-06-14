@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,9 +11,23 @@ public class MainMenu : MonoBehaviour
     private bool fadingOut = false;
     private bool loadScene = false;
 
+    [Header("Panels")]
     public GameObject controlPanel;
     public GameObject optionsPanel;
     public GameObject menuPanel;
+
+    [Header("Settings Sensibility")]
+    public Slider yawSlider;
+    public Slider pitchSlider;
+    public TMP_Text yawValueText;
+    public TMP_Text pitchValueText;
+    public float sliderMinimo = 1f;
+    public float sliderMaximo = 100f;
+
+    private const float MIN_LOOK_SPEED = 20f;
+    private const float MAX_LOOK_SPEED = 300f;
+
+    private const float DEFAULT_SLIDER_VAL = 10f;
 
     void Start()
     {
@@ -48,6 +63,7 @@ public class MainMenu : MonoBehaviour
     {
         optionsPanel.SetActive(true);
         menuPanel.SetActive(false);
+        InitializeSliders();
     }
     public void CloseOptions()
     {
@@ -65,6 +81,58 @@ public class MainMenu : MonoBehaviour
     {
         controlPanel.SetActive(false);
         menuPanel.SetActive(true); 
+    }
+
+    private void InitializeSliders()
+    {
+        yawSlider.minValue = sliderMinimo;
+        yawSlider.maxValue = sliderMaximo;
+        yawSlider.wholeNumbers = true;
+
+        pitchSlider.minValue = sliderMinimo;
+        pitchSlider.maxValue = sliderMaximo;
+        pitchSlider.wholeNumbers = true;
+
+        float defaultSpeed = ConvertSliderToSpeed(DEFAULT_SLIDER_VAL);
+        float savedYawSpeed = PlayerPrefs.GetFloat("YawSpeed", defaultSpeed);
+        float savedPitchSpeed = PlayerPrefs.GetFloat("PitchSpeed", defaultSpeed);
+
+        yawSlider.value = ConvertSpeedToSlider(savedYawSpeed);
+        pitchSlider.value = ConvertSpeedToSlider(savedPitchSpeed);
+
+        yawValueText.text = yawSlider.value.ToString("F0");
+        pitchValueText.text = pitchSlider.value.ToString("F0");
+
+        yawSlider.onValueChanged.RemoveAllListeners();
+        pitchSlider.onValueChanged.RemoveAllListeners();
+        yawSlider.onValueChanged.AddListener(SetYawSpeed);
+        pitchSlider.onValueChanged.AddListener(SetPitchSpeed);
+    }
+
+    private float ConvertSliderToSpeed(float sliderValue)
+    {
+        return Mathf.Lerp(MIN_LOOK_SPEED, MAX_LOOK_SPEED, (sliderValue - 1f) / 99f);
+    }
+
+    private float ConvertSpeedToSlider(float speed)
+    {
+        return Mathf.Lerp(1f, 100f, Mathf.InverseLerp(MIN_LOOK_SPEED, MAX_LOOK_SPEED, speed));
+    }
+
+    private void SetYawSpeed(float sliderValue)
+    {
+        float speed = ConvertSliderToSpeed(sliderValue);
+        yawValueText.text = sliderValue.ToString("F0");
+        PlayerPrefs.SetFloat("YawSpeed", speed);
+        PlayerPrefs.Save();
+    }
+
+    private void SetPitchSpeed(float sliderValue)
+    {
+        float speed = ConvertSliderToSpeed(sliderValue);
+        pitchValueText.text = sliderValue.ToString("F0");
+        PlayerPrefs.SetFloat("PitchSpeed", speed);
+        PlayerPrefs.Save();
     }
 
     public void ExitGame()
