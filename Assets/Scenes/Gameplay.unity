@@ -3296,8 +3296,17 @@ MonoBehaviour:
       Data3: 1730435738
       Data4: 1136904439
     Path: event:/SFX_Buttons/SFX_Buttons_Final
-  targetAnimator: {fileID: 9099485350462520428}
-  animationStateName: RightArrowClick_MK2
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: a555b1fbd60f6124c9a0a2bc2b7a72cd, type: 2}
+  releaseClip: {fileID: 7400000, guid: 977e9837567b40d4fab0cb88646fb8ea, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 9099485350462520429}
 --- !u!114 &131517780
 MonoBehaviour:
@@ -11801,6 +11810,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &364655338
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 364655339}
+  - component: {fileID: 364655340}
+  m_Layer: 0
+  m_Name: Collision (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &364655339
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364655338}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.00000008940696, y: -0.000000104308114, z: 0.40832868, w: 0.912835}
+  m_LocalPosition: {x: 0.0019316, y: 0.0009347, z: -0.00387}
+  m_LocalScale: {x: 0.62512684, y: 1.3148, z: 0.55624}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2647159934334401362}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 48.2}
+--- !u!65 &364655340
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364655338}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.017777534, y: 0.0066324333, z: 0.021950347}
+  m_Center: {x: 0.0007139322, y: 0.00081621483, z: 0.0017430617}
 --- !u!1001 &367673353
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12403,6 +12465,59 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2477511411847689622, guid: b959a5181d8689e4dafdf96b167a416c, type: 3}
+--- !u!1 &402271844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 402271845}
+  - component: {fileID: 402271846}
+  m_Layer: 0
+  m_Name: Collision
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &402271845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 402271844}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.00000008940696, y: -0.000000104308114, z: 0.40832868, w: 0.912835}
+  m_LocalPosition: {x: 0.0038, y: -0.00537, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2647159934334401362}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 48.2}
+--- !u!65 &402271846
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 402271844}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.021221077, y: 0.0066324333, z: 0.021950347}
+  m_Center: {x: -0.0010078582, y: 0.0008162149, z: 0.0017430617}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -12728,6 +12843,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1355578916}
   - {fileID: 4018851923991610275}
   - {fileID: 546344884}
   m_Father: {fileID: 1161931541}
@@ -23188,8 +23304,17 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 1039698108}
-  animationStateName: RightButtonClick_MK1
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: 2200c6a0e641a584095570d27c5be55b, type: 2}
+  releaseClip: {fileID: 7400000, guid: a44c4a44668806c49b711d6b25f98bc1, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 0}
 --- !u!135 &1039698104
 SphereCollider:
@@ -23261,8 +23386,17 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 1039698113}
-  animationStateName: LeftButtonClick_MK1
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: c50b60a03a71f02479fbee6111077910, type: 2}
+  releaseClip: {fileID: 7400000, guid: 6cd2c937d2501bd48a9fc1970e05463c, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 0}
 --- !u!135 &1039698107
 SphereCollider:
@@ -23285,50 +23419,42 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.00047234906
   m_Center: {x: -0.0000000069418578, y: 0.000020045982, z: 0.00000009626004}
---- !u!95 &1039698108
-Animator:
-  serializedVersion: 7
+--- !u!111 &1039698111
+Animation:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1039698096}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8bac328e4b868f548a5dba07ee9ea047, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 2200c6a0e641a584095570d27c5be55b, type: 2}
+  - {fileID: 7400000, guid: a44c4a44668806c49b711d6b25f98bc1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!95 &1039698113
-Animator:
-  serializedVersion: 7
+  m_UpdateMode: 0
+  m_CullingType: 0
+--- !u!111 &1039698116
+Animation:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1039698100}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8534acd640e6fbd409e6f4b384116215, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: c50b60a03a71f02479fbee6111077910, type: 2}
+  - {fileID: 7400000, guid: 6cd2c937d2501bd48a9fc1970e05463c, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &1043045862
 GameObject:
   m_ObjectHideFlags: 0
@@ -27174,6 +27300,59 @@ MonoBehaviour:
   disanceToPop: 1.6
   popUpGO: {fileID: 1699949822}
   interactPopUpGO: {fileID: 1391136410}
+--- !u!1 &1309370106
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1309370107}
+  - component: {fileID: 1309370108}
+  m_Layer: 0
+  m_Name: Collision (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1309370107
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309370106}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.00048, y: -0.00077982, z: -0.00088593}
+  m_LocalScale: {x: 0.20711, y: 0.4606641, z: 0.36164752}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6332582570943782369}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1309370108
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309370106}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.014838142, y: 0.0062183854, z: 0.021950347}
+  m_Center: {x: 0.0019975477, y: 0.0010232389, z: 0.001743061}
 --- !u!1 &1314799708 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4370111678170979691, guid: abd0035cc0a9a7649a2ea41b127ffd68, type: 3}
@@ -28270,6 +28449,59 @@ Transform:
   - {fileID: 146367962}
   m_Father: {fileID: 173343746}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1355578915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1355578916}
+  - component: {fileID: 1355578917}
+  m_Layer: 0
+  m_Name: Collision (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1355578916
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355578915}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.702143, y: 0.08363774, z: 0.0836378, w: 0.70214295}
+  m_LocalPosition: {x: 6.611721, y: 0.865, z: -6.1642756}
+  m_LocalScale: {x: 99.999985, y: 100.00059, z: 100.0001}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 435559251}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 13.586}
+--- !u!65 &1355578917
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355578915}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.014838142, y: 0.0062183854, z: 0.021950347}
+  m_Center: {x: 0.0019975477, y: 0.0010232389, z: 0.001743061}
 --- !u!1 &1355950426 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8786337056333592623, guid: abd0035cc0a9a7649a2ea41b127ffd68, type: 3}
@@ -41435,6 +41667,59 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1143459651}
   m_SourcePrefab: {fileID: 100100000, guid: b959a5181d8689e4dafdf96b167a416c, type: 3}
+--- !u!1 &1845436755
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1845436756}
+  - component: {fileID: 1845436757}
+  m_Layer: 0
+  m_Name: Collision (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1845436756
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845436755}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.21651784, y: -0.0013088286, z: -0.0020934045, w: 0.97627556}
+  m_LocalPosition: {x: -0.00032, y: -0.00216, z: 0.00247}
+  m_LocalScale: {x: 0.37849644, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1860484404}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1845436757
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845436755}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.01759145, y: 0.0062183845, z: 0.021950347}
+  m_Center: {x: 0.0006208897, y: 0.0010232389, z: 0.0017430615}
 --- !u!1 &1846699731
 GameObject:
   m_ObjectHideFlags: 0
@@ -41776,21 +42061,24 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: 0
-      addedObject: {fileID: 5040180846345713340}
+      addedObject: {fileID: 1845436756}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: 1
-      addedObject: {fileID: 378855448}
+      addedObject: {fileID: 5040180846345713340}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: 2
-      addedObject: {fileID: 1151372143}
+      addedObject: {fileID: 378855448}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: 3
-      addedObject: {fileID: 154939927527771378}
+      addedObject: {fileID: 1151372143}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: 4
-      addedObject: {fileID: 589545296}
+      addedObject: {fileID: 154939927527771378}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: 5
+      addedObject: {fileID: 589545296}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
+      insertIndex: 6
       addedObject: {fileID: 1787246542}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: -4020975705688051654, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
@@ -41813,7 +42101,7 @@ PrefabInstance:
       addedObject: {fileID: 1039698105}
     - targetCorrespondingSourceObject: {fileID: 1111839797679023507, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1039698113}
+      addedObject: {fileID: 1039698116}
     - targetCorrespondingSourceObject: {fileID: -6945895849411897645, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1996374443}
@@ -41831,7 +42119,7 @@ PrefabInstance:
       addedObject: {fileID: 1996374441}
     - targetCorrespondingSourceObject: {fileID: -6945895849411897645, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1996374446}
+      addedObject: {fileID: 1996374451}
     - targetCorrespondingSourceObject: {fileID: -2063437938121494803, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1039698104}
@@ -41843,7 +42131,7 @@ PrefabInstance:
       addedObject: {fileID: 1039698102}
     - targetCorrespondingSourceObject: {fileID: -2063437938121494803, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1039698108}
+      addedObject: {fileID: 1039698111}
   m_SourcePrefab: {fileID: 100100000, guid: c8978f5c3fd452d4887ba6a4bdf7155d, type: 3}
 --- !u!4 &1860484404 stripped
 Transform:
@@ -43254,8 +43542,17 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
-  targetAnimator: {fileID: 8427812220776211893}
-  animationStateName: ButtonCliick_MK4
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: 7a1f0a73b24aa824783b8750ba5c6dce, type: 2}
+  releaseClip: {fileID: 7400000, guid: 68956884b6aa00245b4e3b452d37e153, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 0}
 --- !u!1 &1932007147 stripped
 GameObject:
@@ -48525,8 +48822,17 @@ MonoBehaviour:
       Data3: 1730435738
       Data4: 1136904439
     Path: event:/SFX_Buttons/SFX_Buttons_Final
-  targetAnimator: {fileID: 7438186382883496111}
-  animationStateName: LeftArrowClick_MK2
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: 5e2591bb80861e445a1d889ff628b071, type: 2}
+  releaseClip: {fileID: 7400000, guid: 40678d271214397488b7bbd9841f9516, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 7438186382883496112}
 --- !u!114 &1966233615
 MonoBehaviour:
@@ -49131,8 +49437,17 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 1996374446}
-  animationStateName: MiiddleButtonClick_MK1
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: e30b734ea448e6b4f8c9a83ac40fa444, type: 2}
+  releaseClip: {fileID: 7400000, guid: bb84c0c731083b24dbd74f04e25f7571, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 1996374447}
 --- !u!135 &1996374443
 SphereCollider:
@@ -49155,28 +49470,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.00029613244
   m_Center: {x: -0.0000000015719861, y: 0.000012788219, z: 0.000000058483586}
---- !u!95 &1996374446
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1039698098}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 29d3f5ccdb00da24e8be476690df2d65, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1996374447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49206,6 +49499,24 @@ MonoBehaviour:
   - {fileID: 1039698099}
   emissionTexture: {fileID: 2800000, guid: dca5cf03cf84f7b4d96de5f0eedfac4a, type: 3}
   activeEmissionColor: {r: 29.669525, g: 145.90822, b: 0, a: 1}
+--- !u!111 &1996374451
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039698098}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: e30b734ea448e6b4f8c9a83ac40fa444, type: 2}
+  - {fileID: 7400000, guid: bb84c0c731083b24dbd74f04e25f7571, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1001 &1998745473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -53257,9 +53568,9 @@ GameObject:
   - component: {fileID: 6724418336168041671}
   - component: {fileID: 6724418336168041670}
   - component: {fileID: 6724418336168041669}
-  - component: {fileID: 6724418336168041674}
   - component: {fileID: 6724418336168041673}
   - component: {fileID: 6724418336168041675}
+  - component: {fileID: 6724418336168041676}
   m_Layer: 7
   m_Name: Mk4.014
   m_TagString: Untagged
@@ -54104,9 +54415,9 @@ GameObject:
   - component: {fileID: 9039709009316722585}
   - component: {fileID: 9039709009316722584}
   - component: {fileID: 9039709009316722583}
-  - component: {fileID: 9039709009316722588}
   - component: {fileID: 9039709009316722587}
   - component: {fileID: 9039709009316722589}
+  - component: {fileID: 9039709009316722590}
   m_Layer: 7
   m_Name: Mk4.017
   m_TagString: Untagged
@@ -55181,6 +55492,7 @@ GameObject:
   - component: {fileID: 4018851923991610275}
   - component: {fileID: 7285158450755621592}
   - component: {fileID: 577357555813706289}
+  - component: {fileID: 7285158450755621593}
   m_Layer: 0
   m_Name: Maquina2Base
   m_TagString: Untagged
@@ -55638,9 +55950,9 @@ GameObject:
   - component: {fileID: 7508707239503900686}
   - component: {fileID: 7508707239503900685}
   - component: {fileID: 7508707239503900684}
-  - component: {fileID: 7508707239503900688}
   - component: {fileID: 7508707239503900689}
   - component: {fileID: 7508707239503900690}
+  - component: {fileID: 7508707239503900691}
   m_Layer: 7
   m_Name: Mk4.008
   m_TagString: Untagged
@@ -56653,9 +56965,9 @@ GameObject:
   - component: {fileID: 1881911132639619983}
   - component: {fileID: 1881911132639619982}
   - component: {fileID: 1881911132639619981}
-  - component: {fileID: 1881911132639619985}
   - component: {fileID: 1881911132639619986}
   - component: {fileID: 1881911132639619987}
+  - component: {fileID: 1881911132639619988}
   m_Layer: 7
   m_Name: Mk4.010
   m_TagString: Untagged
@@ -56734,31 +57046,18 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 1881911132639619985}
-  animationStateName: One_Anim
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: a897d4ca0c0d1b5449ef48ea0fe3f99f, type: 2}
+  releaseClip: {fileID: 7400000, guid: e54221c19715c5c46a35b7d0661cc494, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 1881911132639619987}
---- !u!95 &1881911132639619985
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1881911132639619980}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 06495786f3197e646b6d7623be54deb2, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1881911132639619986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56788,6 +57087,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
   waveWinner: {fileID: 8690154530438501864}
   codeSystem: {fileID: 1541904294494712769}
+--- !u!111 &1881911132639619988
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881911132639619980}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: a897d4ca0c0d1b5449ef48ea0fe3f99f, type: 2}
+  - {fileID: 7400000, guid: e54221c19715c5c46a35b7d0661cc494, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!4 &1888022297629561305
 Transform:
   m_ObjectHideFlags: 0
@@ -57157,9 +57474,9 @@ GameObject:
   - component: {fileID: 8139190219771933328}
   - component: {fileID: 8139190219771933327}
   - component: {fileID: 8139190219771933326}
-  - component: {fileID: 8139190219771933331}
   - component: {fileID: 8139190219771933330}
   - component: {fileID: 8139190219771933332}
+  - component: {fileID: 8139190219771933333}
   m_Layer: 7
   m_Name: Mk4.011
   m_TagString: Untagged
@@ -58441,7 +58758,7 @@ GameObject:
   - component: {fileID: 7438186382883496112}
   - component: {fileID: 7438186382883496113}
   - component: {fileID: 1966233614}
-  - component: {fileID: 7438186382883496111}
+  - component: {fileID: 7438186382883496114}
   m_Layer: 7
   m_Name: LeftButton_MK2
   m_TagString: Untagged
@@ -58684,6 +59001,8 @@ Transform:
   - {fileID: 459634164}
   - {fileID: 2141573291}
   - {fileID: 3346902195000911275}
+  - {fileID: 402271845}
+  - {fileID: 364655339}
   m_Father: {fileID: 543450651829824627}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &2655549386025687280
@@ -59009,9 +59328,9 @@ GameObject:
   - component: {fileID: 2892166251239999842}
   - component: {fileID: 2892166251239999841}
   - component: {fileID: 2892166251239999840}
-  - component: {fileID: 2892166251239999845}
   - component: {fileID: 2892166251239999844}
   - component: {fileID: 2892166251239999846}
+  - component: {fileID: 2892166251239999847}
   m_Layer: 7
   m_Name: Mk4.015
   m_TagString: Untagged
@@ -59090,8 +59409,17 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 2892166251239999845}
-  animationStateName: Eight_Anim
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: 631e8e41542449e439692ba9e36bf208, type: 2}
+  releaseClip: {fileID: 7400000, guid: 315142897cd409c46b7460a2227e5a34, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 2892166251239999846}
 --- !u!114 &2892166251239999844
 MonoBehaviour:
@@ -59108,28 +59436,6 @@ MonoBehaviour:
   rend: {fileID: 62631581757034237}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
---- !u!95 &2892166251239999845
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2892166251239999839}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b8bd2c2ccf0c2b94cb504dbff2bfd631, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &2892166251239999846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59144,6 +59450,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
   waveWinner: {fileID: 8690154530438501864}
   codeSystem: {fileID: 1541904294494712769}
+--- !u!111 &2892166251239999847
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2892166251239999839}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 631e8e41542449e439692ba9e36bf208, type: 2}
+  - {fileID: 7400000, guid: 315142897cd409c46b7460a2227e5a34, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!223 &2900178168114938783
 Canvas:
   m_ObjectHideFlags: 0
@@ -60043,7 +60367,7 @@ GameObject:
   - component: {fileID: 7312373766383115445}
   - component: {fileID: 7312373766383115446}
   - component: {fileID: 7312373766383115447}
-  - component: {fileID: 7312373766383115444}
+  - component: {fileID: 7312373766383115448}
   m_Layer: 7
   m_Name: PowerUpButton_MK2
   m_TagString: Untagged
@@ -60067,7 +60391,7 @@ GameObject:
   - component: {fileID: 7291814254053808173}
   - component: {fileID: 7291814254053808174}
   - component: {fileID: 7291814254053808169}
-  - component: {fileID: 7291814254053808172}
+  - component: {fileID: 7291814254053808175}
   m_Layer: 7
   m_Name: Cylinder.022
   m_TagString: Untagged
@@ -61029,9 +61353,9 @@ GameObject:
   - component: {fileID: 5686226395317800615}
   - component: {fileID: 5686226395317800614}
   - component: {fileID: 5686226395317800613}
-  - component: {fileID: 5686226395317800617}
   - component: {fileID: 5686226395317800616}
   - component: {fileID: 5686226395317800618}
+  - component: {fileID: 5686226395317800619}
   m_Layer: 7
   m_Name: Mk4.002
   m_TagString: Untagged
@@ -61755,9 +62079,9 @@ GameObject:
   - component: {fileID: 9155920293560118606}
   - component: {fileID: 9155920293560118605}
   - component: {fileID: 9155920293560118604}
-  - component: {fileID: 9155920293560118609}
   - component: {fileID: 9155920293560118608}
   - component: {fileID: 9155920293560118610}
+  - component: {fileID: 9155920293560118611}
   m_Layer: 7
   m_Name: Mk4.012
   m_TagString: Untagged
@@ -62952,7 +63276,7 @@ GameObject:
   - component: {fileID: 9099485350462520429}
   - component: {fileID: 9099485350462520430}
   - component: {fileID: 131517779}
-  - component: {fileID: 9099485350462520428}
+  - component: {fileID: 9099485350462520431}
   m_Layer: 7
   m_Name: RightButton_MK2
   m_TagString: Untagged
@@ -64903,8 +65227,17 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 5686226395317800617}
-  animationStateName: Delate_Anim
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: c5e9b90f90716384596a4c03f8177eb5, type: 2}
+  releaseClip: {fileID: 7400000, guid: 907e0d3f946c34243b2d6a5e47dc58d4, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 5686226395317800618}
 --- !u!114 &5686226395317800616
 MonoBehaviour:
@@ -64921,28 +65254,6 @@ MonoBehaviour:
   rend: {fileID: 119207311801697738}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
---- !u!95 &5686226395317800617
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3979258160797402981}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dbd4d815151c5fb46b7000d5eeeea594, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &5686226395317800618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64957,6 +65268,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
   waveWinner: {fileID: 8690154530438501864}
   codeSystem: {fileID: 1541904294494712769}
+--- !u!111 &5686226395317800619
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3979258160797402981}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: c5e9b90f90716384596a4c03f8177eb5, type: 2}
+  - {fileID: 7400000, guid: 907e0d3f946c34243b2d6a5e47dc58d4, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!23 &5687787870744763563
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -66006,6 +66335,7 @@ Transform:
   m_LocalScale: {x: 1.4286882, y: 1.428688, z: 1.3086445}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1309370107}
   - {fileID: 3090140094819146502}
   - {fileID: 998060850}
   - {fileID: 1568983238}
@@ -66801,8 +67131,17 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 6724418336168041674}
-  animationStateName: Nine_Anim
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: 23af4c9470cd9994da38aa30a27ebef0, type: 2}
+  releaseClip: {fileID: 7400000, guid: 0eec4a0fa27af0f4dad4c0cab52eeab9, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 6724418336168041675}
 --- !u!114 &6724418336168041673
 MonoBehaviour:
@@ -66819,28 +67158,6 @@ MonoBehaviour:
   rend: {fileID: 5452332969699154509}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
---- !u!95 &6724418336168041674
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 481830039745924055}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 20736bdc2b1336944b533fc40bcb6133, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &6724418336168041675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66855,6 +67172,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
   waveWinner: {fileID: 8690154530438501864}
   codeSystem: {fileID: 1541904294494712769}
+--- !u!111 &6724418336168041676
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481830039745924055}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 23af4c9470cd9994da38aa30a27ebef0, type: 2}
+  - {fileID: 7400000, guid: 0eec4a0fa27af0f4dad4c0cab52eeab9, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &6743008646071694817 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5773087634823484106, guid: 03a5cecbc70026e4487a88e0e17c1a69, type: 3}
@@ -67702,9 +68037,9 @@ GameObject:
   - component: {fileID: 7826160148513828874}
   - component: {fileID: 7826160148513828873}
   - component: {fileID: 7826160148513828872}
-  - component: {fileID: 7826160148513828876}
   - component: {fileID: 7826160148513828877}
   - component: {fileID: 7826160148513828878}
+  - component: {fileID: 7826160148513828879}
   m_Layer: 7
   m_Name: Mk4.016
   m_TagString: Untagged
@@ -67826,6 +68161,27 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1123993441406330969}
   m_Mesh: {fileID: -630578190692809367, guid: 51703d7201f60f946ac46181d38e75be, type: 3}
+--- !u!65 &7285158450755621593
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123993441406330969}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.014145933, y: 0.0061291866, z: 0.012041162}
+  m_Center: {x: 2.0467641e-11, y: -0.0010118384, z: 0.0017623401}
 --- !u!23 &7291814254053808168
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -67909,8 +68265,17 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 7291814254053808172}
-  animationStateName: ConfirmationClicl
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: 2198ca32ce1b1f24ea668b10d38bec14, type: 2}
+  releaseClip: {fileID: 7400000, guid: cb8d35dc0a27dd54799f31994e79395c, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 7291814254053808173}
 --- !u!114 &7291814254053808170
 MonoBehaviour:
@@ -67948,28 +68313,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.0063091395
   m_Center: {x: 0.00055201654, y: 0.00000023844325, z: -0.000000016073564}
---- !u!95 &7291814254053808172
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3438892212730218651}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8636ea4c1b323e24cadd831963756ca4, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &7291814254053808173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68000,6 +68343,24 @@ MonoBehaviour:
   - {fileID: 2020366537009726649}
   emissionTexture: {fileID: 2800000, guid: 59173ff14f6affb46b470c43c8eb36b9, type: 3}
   activeEmissionColor: {r: 67.79352, g: 39.643047, b: 0, a: 1}
+--- !u!111 &7291814254053808175
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3438892212730218651}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 2198ca32ce1b1f24ea668b10d38bec14, type: 2}
+  - {fileID: 7400000, guid: cb8d35dc0a27dd54799f31994e79395c, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!23 &7312373766383115443
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -68049,28 +68410,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &7312373766383115444
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3435730279289592597}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 214b878ab978f0041b3ab745212b53ea, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &7312373766383115445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68135,10 +68474,37 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 7312373766383115444}
-  animationStateName: MiiddleButtonClick_MK2
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: 0f60548dd94e67c44927fd39e4d8046c, type: 2}
+  releaseClip: {fileID: 7400000, guid: 595f8e284fa8cd140bfb18d5a189d474, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 7312373766383115445}
   activeEmissionColor: {r: 105.734024, g: 6.0084467, b: 0.4987466, a: 1}
+--- !u!111 &7312373766383115448
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3435730279289592597}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 0f60548dd94e67c44927fd39e4d8046c, type: 2}
+  - {fileID: 7400000, guid: 595f8e284fa8cd140bfb18d5a189d474, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &7327692129376414453
 GameObject:
   m_ObjectHideFlags: 0
@@ -68265,28 +68631,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2542162301505413202}
   m_Mesh: {fileID: -8214988622111717174, guid: 51703d7201f60f946ac46181d38e75be, type: 3}
---- !u!95 &7438186382883496111
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2542162301505413202}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2bfd8e9920155df4ab2b7a7c7532f9c3, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &7438186382883496112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68316,6 +68660,24 @@ MonoBehaviour:
   - {fileID: 3073634779595943922}
   emissionTexture: {fileID: 2800000, guid: 0577b5cb9c89a9a4cab1cd68da457cb3, type: 3}
   activeEmissionColor: {r: 0, g: 23.798363, b: 78.79324, a: 1}
+--- !u!111 &7438186382883496114
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2542162301505413202}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 5e2591bb80861e445a1d889ff628b071, type: 2}
+  - {fileID: 7400000, guid: 40678d271214397488b7bbd9841f9516, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!4 &7461801766951650109
 Transform:
   m_ObjectHideFlags: 0
@@ -68438,31 +68800,18 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 7508707239503900688}
-  animationStateName: Three_Anim
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: 7c0f211b61df8c94fbfc8bc3a1eca444, type: 2}
+  releaseClip: {fileID: 7400000, guid: 2c8a1c455474fb94aadf6d19c3b84e13, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 7508707239503900690}
---- !u!95 &7508707239503900688
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432973919863212898}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d678b12a662dc4c4fa593e691a09aeab, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &7508707239503900689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68492,6 +68841,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
   waveWinner: {fileID: 8690154530438501864}
   codeSystem: {fileID: 1541904294494712769}
+--- !u!111 &7508707239503900691
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432973919863212898}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 7c0f211b61df8c94fbfc8bc3a1eca444, type: 2}
+  - {fileID: 7400000, guid: 2c8a1c455474fb94aadf6d19c3b84e13, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!222 &7513175881087141390
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -68654,10 +69021,10 @@ GameObject:
   - component: {fileID: 3346902195000911275}
   - component: {fileID: 5531643767532205352}
   - component: {fileID: 2073368117914645207}
-  - component: {fileID: 7563133660472087315}
   - component: {fileID: 7563133660472087318}
   - component: {fileID: 7563133660472087317}
   - component: {fileID: 7563133660472087316}
+  - component: {fileID: 7563133660472087319}
   m_Layer: 7
   m_Name: Boton_MK3
   m_TagString: Untagged
@@ -68665,28 +69032,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &7563133660472087315
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7563133660472087314}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e37cd685ea65bfa43bce8d7b41128737, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!135 &7563133660472087316
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -68756,9 +69101,36 @@ MonoBehaviour:
       Data3: 0
       Data4: 0
     Path: 
-  targetAnimator: {fileID: 0}
-  animationStateName: 
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: 124db84e0158835469b0d1a225b86192, type: 2}
+  releaseClip: {fileID: 7400000, guid: aff575dc48db69a4c990635af3f6cc93, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 7563133660472087317}
+--- !u!111 &7563133660472087319
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563133660472087314}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 124db84e0158835469b0d1a225b86192, type: 2}
+  - {fileID: 7400000, guid: aff575dc48db69a4c990635af3f6cc93, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!33 &7599441589296645747
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -69268,8 +69640,8 @@ GameObject:
   - component: {fileID: 6067317108903159475}
   - component: {fileID: 1931235243}
   - component: {fileID: 1931235242}
-  - component: {fileID: 8427812220776211893}
   - component: {fileID: 8427812220776211894}
+  - component: {fileID: 8427812220776211895}
   m_Layer: 7
   m_Name: Button_MK1.004
   m_TagString: Untagged
@@ -69414,31 +69786,18 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 7826160148513828876}
-  animationStateName: Seven_Anim
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: c3cad8d138443ad4abfa3664a3e0b3aa, type: 2}
+  releaseClip: {fileID: 7400000, guid: 5f531d57d1f573245b114dee0f8b8908, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 7826160148513828878}
---- !u!95 &7826160148513828876
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7220041739873364984}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6677bd55baa71ed498ad43d76a05bb1c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &7826160148513828877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69468,6 +69827,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
   waveWinner: {fileID: 8690154530438501864}
   codeSystem: {fileID: 1541904294494712769}
+--- !u!111 &7826160148513828879
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220041739873364984}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: c3cad8d138443ad4abfa3664a3e0b3aa, type: 2}
+  - {fileID: 7400000, guid: 5f531d57d1f573245b114dee0f8b8908, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!33 &7828214533913919010
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -70354,8 +70731,17 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 8139190219771933331}
-  animationStateName: Six_Anim
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: 1a7b865064ab7b547b1fdfcf1c1d54b0, type: 2}
+  releaseClip: {fileID: 7400000, guid: ab8dbca0661b14a4db9c0986074dd25d, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 8139190219771933332}
 --- !u!114 &8139190219771933330
 MonoBehaviour:
@@ -70372,28 +70758,6 @@ MonoBehaviour:
   rend: {fileID: 2147112418159607726}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
---- !u!95 &8139190219771933331
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1980142658670005634}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 418ed18b3e339c94fb7a56419d98e907, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &8139190219771933332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70408,6 +70772,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
   waveWinner: {fileID: 8690154530438501864}
   codeSystem: {fileID: 1541904294494712769}
+--- !u!111 &8139190219771933333
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980142658670005634}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 1a7b865064ab7b547b1fdfcf1c1d54b0, type: 2}
+  - {fileID: 7400000, guid: ab8dbca0661b14a4db9c0986074dd25d, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &8146784427593810455
 GameObject:
   m_ObjectHideFlags: 0
@@ -71046,9 +71428,9 @@ GameObject:
   - component: {fileID: 8373873888933183518}
   - component: {fileID: 8373873888933183517}
   - component: {fileID: 8373873888933183516}
-  - component: {fileID: 8373873888933183521}
   - component: {fileID: 8373873888933183520}
   - component: {fileID: 8373873888933183522}
+  - component: {fileID: 8373873888933183523}
   m_Layer: 7
   m_Name: Mk4.009
   m_TagString: Untagged
@@ -71127,8 +71509,17 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 8373873888933183521}
-  animationStateName: Two_Anim
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: bab8c2a2fafbc2943b9f1e22681c11df, type: 2}
+  releaseClip: {fileID: 7400000, guid: 52acc4332f50bda4cb3e5c9a4b859dc8, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 8373873888933183522}
 --- !u!114 &8373873888933183520
 MonoBehaviour:
@@ -71145,28 +71536,6 @@ MonoBehaviour:
   rend: {fileID: 6307007954847776448}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
---- !u!95 &8373873888933183521
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8373873888933183515}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d0564986284f47f489704c390c24e9da, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &8373873888933183522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71181,6 +71550,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
   waveWinner: {fileID: 8690154530438501864}
   codeSystem: {fileID: 1541904294494712769}
+--- !u!111 &8373873888933183523
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8373873888933183515}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: bab8c2a2fafbc2943b9f1e22681c11df, type: 2}
+  - {fileID: 7400000, guid: 52acc4332f50bda4cb3e5c9a4b859dc8, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!224 &8380856328120193841
 RectTransform:
   m_ObjectHideFlags: 0
@@ -71401,28 +71788,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3090140094819146502}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &8427812220776211893
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7804543415753580560}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d64e0da68f9971042ac743929e6be85a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &8427812220776211894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71438,6 +71803,24 @@ MonoBehaviour:
   rend: {fileID: 6067317108903159475}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
+--- !u!111 &8427812220776211895
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7804543415753580560}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 7a1f0a73b24aa824783b8750ba5c6dce, type: 2}
+  - {fileID: 7400000, guid: 68956884b6aa00245b4e3b452d37e153, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1001 &8467052350342205326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71534,8 +71917,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.07455143, y: 0.031159084, z: 0.048046846}
-  m_Center: {x: 0.00000025960478, y: 0.003083054, z: 0.02058946}
+  m_Size: {x: 0.085856274, y: 0.025129216, z: 0.048046846}
+  m_Center: {x: -0.001733253, y: 0.000068125795, z: 0.02058946}
 --- !u!33 &8515772470823397196
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -73215,8 +73598,17 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 9039709009316722588}
-  animationStateName: Zero_Anim
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: fe1e328a20b841e46812b286be540325, type: 2}
+  releaseClip: {fileID: 7400000, guid: 8c3c9967c7ecd9047bacb0504ff466ff, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 9039709009316722589}
 --- !u!114 &9039709009316722587
 MonoBehaviour:
@@ -73233,28 +73625,6 @@ MonoBehaviour:
   rend: {fileID: 2057719444647583024}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
---- !u!95 &9039709009316722588
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 668007165938582498}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b5be821d020e5ae4b96bd4f75c97ad6d, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &9039709009316722589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73269,6 +73639,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
   waveWinner: {fileID: 8690154530438501864}
   codeSystem: {fileID: 1541904294494712769}
+--- !u!111 &9039709009316722590
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668007165938582498}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: fe1e328a20b841e46812b286be540325, type: 2}
+  - {fileID: 7400000, guid: 8c3c9967c7ecd9047bacb0504ff466ff, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &9040975013199607350
 GameObject:
   m_ObjectHideFlags: 0
@@ -73478,28 +73866,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!95 &9099485350462520428
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4855874965201030836}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 182dfb0f9bb90d94a8efd76527aa2cce, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &9099485350462520429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73529,6 +73895,24 @@ MonoBehaviour:
   - {fileID: 9099485350462520427}
   emissionTexture: {fileID: 2800000, guid: 0577b5cb9c89a9a4cab1cd68da457cb3, type: 3}
   activeEmissionColor: {r: 0, g: 23.798363, b: 78.79324, a: 1}
+--- !u!111 &9099485350462520431
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4855874965201030836}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: a555b1fbd60f6124c9a0a2bc2b7a72cd, type: 2}
+  - {fileID: 7400000, guid: 977e9837567b40d4fab0cb88646fb8ea, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &9104828452919015575
 GameObject:
   m_ObjectHideFlags: 0
@@ -73704,8 +74088,17 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 9155920293560118609}
-  animationStateName: Five_Anim
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: a09482ea8f35c9445b9ea8a8cf0f4347, type: 2}
+  releaseClip: {fileID: 7400000, guid: 336fae082b0632e4088301446a4934fe, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 9155920293560118610}
 --- !u!114 &9155920293560118608
 MonoBehaviour:
@@ -73722,28 +74115,6 @@ MonoBehaviour:
   rend: {fileID: 1134271147862683729}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
---- !u!95 &9155920293560118609
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4332293202956077116}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0fc5a0fc877910a488cfc7226d17e2ee, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &9155920293560118610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73758,6 +74129,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
   waveWinner: {fileID: 8690154530438501864}
   codeSystem: {fileID: 1541904294494712769}
+--- !u!111 &9155920293560118611
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4332293202956077116}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: a09482ea8f35c9445b9ea8a8cf0f4347, type: 2}
+  - {fileID: 7400000, guid: 336fae082b0632e4088301446a4934fe, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!114 &9162283482928197706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73792,9 +74181,9 @@ GameObject:
   - component: {fileID: 9174769383447025230}
   - component: {fileID: 9174769383447025229}
   - component: {fileID: 9174769383447025228}
-  - component: {fileID: 9174769383447025233}
   - component: {fileID: 9174769383447025232}
   - component: {fileID: 9174769383447025234}
+  - component: {fileID: 9174769383447025235}
   m_Layer: 7
   m_Name: Mk4.013
   m_TagString: Untagged
@@ -73873,8 +74262,17 @@ MonoBehaviour:
       Data3: 55559088
       Data4: 46357868
     Path: event:/SFX_UI/SFX_UI_MenuButton
-  targetAnimator: {fileID: 9174769383447025233}
-  animationStateName: Four_Anim
+  releaseSound:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  pressClip: {fileID: 7400000, guid: 23bfb82b5e46f124a91e6037f99c8c42, type: 2}
+  releaseClip: {fileID: 7400000, guid: 878e284390f74364cb2f8a9339fc6460, type: 2}
+  pressSpeedMultiplier: 3
+  releaseSpeedMultiplier: 3
   validator: {fileID: 9174769383447025234}
 --- !u!114 &9174769383447025232
 MonoBehaviour:
@@ -73891,28 +74289,6 @@ MonoBehaviour:
   rend: {fileID: 8281178435774422866}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
---- !u!95 &9174769383447025233
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9174769383447025227}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7234281ece1fde74ab89a9e0e53c4f12, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &9174769383447025234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73927,6 +74303,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ButtonKeyboard
   waveWinner: {fileID: 8690154530438501864}
   codeSystem: {fileID: 1541904294494712769}
+--- !u!111 &9174769383447025235
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9174769383447025227}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 23bfb82b5e46f124a91e6037f99c8c42, type: 2}
+  - {fileID: 7400000, guid: 878e284390f74364cb2f8a9339fc6460, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!222 &9179202325097661885
 CanvasRenderer:
   m_ObjectHideFlags: 0

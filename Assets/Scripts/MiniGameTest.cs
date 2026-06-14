@@ -1,5 +1,4 @@
 using System;
-using System.Security.Cryptography;
 using UnityEngine;
 using FMODUnity;
 
@@ -38,22 +37,22 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
     public bool isClickingUI = false;
 
+    // Rastro de memoria: Guarda qué botón exacto se ha hundido al hacer Click Down
+    private MainButt activePressedButton = null;
+
     void Update()
     {
-        if (GameManager.Instance.currentState != GameManager.GameState.Minigame &&
-            state == MiniGameState.None)
+        if (GameManager.Instance.currentState != GameManager.GameState.Minigame && state == MiniGameState.None)
             return;
 
         CheckHour();
 
-        // Solo hacemos hover si no estamos clicando nada
         if (!Input.GetMouseButton(0) && !Input.GetMouseButton(1))
         {
             CheckHover();
         }
         else
         {
-            // Limpiar highlight si estamos clicando
             if (currentHighlight != null)
             {
                 currentHighlight.ResetColor();
@@ -132,7 +131,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         else
         {
             playerTransform.position = Vector3.Lerp(gameCameraPosition.position, originalPlayerPos, pct);
-            playerTransform.rotation = Quaternion.Lerp(gameCameraPosition.rotation, originalPlayerRot, pct);
+            playerTransform.rotation = Quaternion.Lerp(originalPlayerRot, originalPlayerRot, pct);
             if (pct >= 1f) FinishExit();
         }
     }
@@ -166,25 +165,19 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         }
     }
 
+    // =================================================================
+    // CONTROL DE CLICKS FLUIDO (DOWN -> HOLD -> UP)
+    // =================================================================
     void HandleClick()
     {
         if (playerCamera == null) return;
 
-        // Lógica de cambio de cursor al clicar (Input 0)
+        // 1. MOUSE DOWN: Detectamos impacto inicial y hundimos el botón
         if (Input.GetMouseButtonDown(0))
         {
             ChangeCursor(interactCursor);
             interacting = true;
-        }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            ChangeCursor(originalCursor);
-            interacting = false;
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
             Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
             {
@@ -192,7 +185,33 @@ public class MiniGameTest : MonoBehaviour, IInteractable
                     points.OnClick();
 
                 if (hit.collider.TryGetComponent(out MainButt button))
-                    button.Press();
+                {
+                    // Guardamos la referencia física exacta del objeto impactado
+                    activePressedButton = button;
+                    activePressedButton.Press();
+                }
+            }
+        }
+
+        // 2. MOUSE HOLD: Mientras se mantenga apretado, refrescamos su estado continuo
+        if (Input.GetMouseButton(0))
+        {
+            if (activePressedButton != null)
+            {
+                activePressedButton.HoldUpdate();
+            }
+        }
+
+        // 3. MOUSE UP: Al soltar el dedo, forzamos al botón guardado a regresar a su sitio
+        if (Input.GetMouseButtonUp(0))
+        {
+            ChangeCursor(originalCursor);
+            interacting = false;
+
+            if (activePressedButton != null)
+            {
+                activePressedButton.Release();
+                activePressedButton = null; // Vaciamos el rastro de la memoria
             }
         }
     }
@@ -265,6 +284,4 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     }
 
     void ChangeCursor(Texture2D cursorTexture) => Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
-
-  
 }

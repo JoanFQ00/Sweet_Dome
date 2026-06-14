@@ -11,18 +11,22 @@ public class PriorityPress : MainButt
     // Acción estática global para que cualquier LED de la escena la escuche
     public static Action<Color, int> OnPressedButton;
 
-    private void Awake()
+    // SOLUCIÓN: Cambiado a protected override y llamamos a base.Awake()
+    protected override void Awake()
     {
+        // 1. Obligamos a ejecutar primero el Awake del padre para buscar la animación y registrar los clips
+        base.Awake();
+
+        // 2. Buscamos el componente específico de este botón hijo
         cityPriorityManager = GetComponent<CityPriorityManager>();
     }
 
     public override void Press()
     {
-        // 1. Ejecuta el código original del padre (Raycast amigable)
+        // 1. Ejecuta el código original del padre (Animación y Raycast amigable)
         base.Press();
 
         // 2. Comprobamos si el padre dio el visto bueno a la pulsación.
-        // Si el flag es falso (el jugador no estaba sentado o falló el validador), detenemos el script aquí.
         if (!wasLastPressValid)
             return;
 
