@@ -10,6 +10,10 @@ public class CompartmentEmissionController : MonoBehaviour, IResetable
     [SerializeField] private LiquidPump.PumpType associatedType = LiquidPump.PumpType.Purified;
     [SerializeField] private int compartmentIndex = 0;
 
+    [Header("Configuración de Valores Iniciales por Defecto")]
+    [SerializeField] private int purifiedPumpInitialIndex = 0;
+    [SerializeField] private int rawPumpInitialIndex = 1;
+
     [Header("Configuración de Colores e Intensidades")]
     [ColorUsage(true, true)]
     [SerializeField] private Color compartmentColor = Color.cyan;
@@ -23,38 +27,38 @@ public class CompartmentEmissionController : MonoBehaviour, IResetable
     [SerializeField] private float shaderInactiveStrength = 0f;
 
     [Header("Ajustes de la Transición (Lerp)")]
-    [Tooltip("Tiempo en segundos que tarda la luz en encenderse o apagarse por completo.")]
     [SerializeField] private float transitionDuration = 0.25f;
 
     [Header("Mallas a Iluminar")]
-    [Tooltip("Arrastra aquí el objeto externo del Tubo Metálico (ej. Storage).")]
     [SerializeField] private Renderer standardEmissiveMesh;
 
     private Renderer liquidShaderMesh;
     private Material standardRuntimeMat;
     private Material liquidRuntimeMat;
 
-    // Variables de control para las corrutinas y estados actuales
     private Coroutine transitionCoroutine;
     private float currentStandardBrightness;
     private float currentShaderStrength;
     private bool isCurrentlyActive;
 
+    // Candado de seguridad temporal
+    private bool isInitialized = false;
+
     private void Awake()
     {
-        // 1. Capturamos el material nativo del líquido (donde está el script)
         liquidShaderMesh = GetComponent<Renderer>();
         if (liquidShaderMesh != null && liquidShaderMesh.materials.Length > 0)
         {
             liquidRuntimeMat = liquidShaderMesh.material;
         }
 
-        // 2. Cacheamos el material del tubo de metal externo
         if (standardEmissiveMesh != null && standardEmissiveMesh.materials.Length > 0)
         {
             standardRuntimeMat = standardEmissiveMesh.material;
             standardRuntimeMat.EnableKeyword("_EMISSION");
         }
+
+        ApplyInstantState(false);
     }
 
     private void Start()
@@ -64,12 +68,11 @@ public class CompartmentEmissionController : MonoBehaviour, IResetable
             GameManager.Instance.RegisterResetable(this);
         }
 
-        // Evaluación inicial inmediata al arrancar el juego
-        if (machineSource != null)
-        {
-            bool shouldBeActive = CheckIfShouldBeActive(machineSource.GetActivePump());
-            ApplyInstantState(shouldBeActive);
-        }
+        ExecuteInitialSetup();
+
+        // ¡CAMBIO CLAVE! No abrimos la escucha inmediatamente, esperamos 0.05 segundos
+        // para que todos los scripts de las bombas terminen de hacer ruido y parpadear
+        Invoke(nameof(EnableInitialization), 0.05f);
     }
 
     private void OnEnable()
@@ -98,9 +101,11 @@ public class CompartmentEmissionController : MonoBehaviour, IResetable
 
     private void EvaluateActivation(LiquidPump activePump)
     {
+        // Si el script está sordo (durante el parpadeo inicial del día), ignora la orden
+        if (!isInitialized) return;
+
         bool shouldBeActive = CheckIfShouldBeActive(activePump);
 
-        // Iniciamos la transición suave hacia el nuevo estado
         if (transitionCoroutine != null)
         {
             StopCoroutine(transitionCoroutine);
@@ -120,19 +125,14 @@ public class CompartmentEmissionController : MonoBehaviour, IResetable
         return typeMatches && indexMatches;
     }
 
-    /// <summary>
-    /// Corrutina que se encarga de hacer el Lerp fluido de las intensidades
-    /// </summary>
     private IEnumerator TransitionEffects(bool targetActive)
     {
         isCurrentlyActive = targetActive;
 
-        // Definimos los objetivos según si se enciende o se apaga
         float targetStandard = targetActive ? standardActiveBrightness : standardInactiveBrightness;
         float targetShader = targetActive ? shaderActiveStrength : shaderInactiveStrength;
         Color targetShaderColor = targetActive ? compartmentColor : Color.black;
 
-        // Guardamos los valores desde los que empezamos el Lerp actual
         float startStandard = currentStandardBrightness;
         float startShader = currentShaderStrength;
         Color startShaderColor = liquidRuntimeMat != null ? liquidRuntimeMat.GetColor("_EmissionColor") : Color.black;
@@ -143,16 +143,12 @@ public class CompartmentEmissionController : MonoBehaviour, IResetable
         {
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / transitionDuration;
-
-            // Suavizamos el 't' con un SmoothStep para que el frenado y arranque sea más orgánico
             float smoothT = Mathf.SmoothStep(0f, 1f, t);
 
-            // Interpolamos los valores numéricos
             currentStandardBrightness = Mathf.Lerp(startStandard, targetStandard, smoothT);
             currentShaderStrength = Mathf.Lerp(startShader, targetShader, smoothT);
             Color currentShaderColor = Color.Lerp(startShaderColor, targetShaderColor, smoothT);
 
-            // Aplicamos los valores en los materiales en este frame
             if (standardRuntimeMat != null)
             {
                 standardRuntimeMat.SetColor("_EmissionColor", compartmentColor * currentStandardBrightness);
@@ -167,7 +163,6 @@ public class CompartmentEmissionController : MonoBehaviour, IResetable
             yield return null;
         }
 
-        // Nos aseguramos de clavar los valores finales exactos al terminar
         currentStandardBrightness = targetStandard;
         currentShaderStrength = targetShader;
 
@@ -182,9 +177,6 @@ public class CompartmentEmissionController : MonoBehaviour, IResetable
         }
     }
 
-    /// <summary>
-    /// Aplica el estado de golpe (sin Lerp). Ideal para el inicio del juego o cambio de día instantáneo.
-    /// </summary>
     private void ApplyInstantState(bool active)
     {
         isCurrentlyActive = active;
@@ -203,19 +195,34 @@ public class CompartmentEmissionController : MonoBehaviour, IResetable
         }
     }
 
-    // INTERFAZ IRESETABLE: Al cambiar de día, forzamos el estado por defecto instantáneamente
+    private void ExecuteInitialSetup()
+    {
+        bool shouldBeActiveOnStart = (associatedType == LiquidPump.PumpType.Purified && compartmentIndex == purifiedPumpInitialIndex);
+        ApplyInstantState(shouldBeActiveOnStart);
+    }
+
+    private void EnableInitialization()
+    {
+        isInitialized = true;
+    }
+
+    // =================================================================
+    // INTERFAZ IRESETABLE: Bloqueo de parpadeo al cambiar de día
+    // =================================================================
     public void ResetValues()
     {
+        // Nos volvemos sordos inmediatamente para ignorar los eventos residuales del cambio de día
+        isInitialized = false;
+
         if (transitionCoroutine != null)
         {
             StopCoroutine(transitionCoroutine);
         }
 
-        if (machineSource != null)
-        {
-            // Forzamos el estado inicial en seco para evitar que el Lerp actúe durante el fundido a negro del cambio de día
-            bool shouldBeActive = CheckIfShouldBeActive(machineSource.GetActivePump());
-            ApplyInstantState(shouldBeActive);
-        }
+        ExecuteInitialSetup();
+
+        // Esperamos a que pase el tsunami de eventos del primer frame antes de volver a escuchar los botones
+        CancelInvoke(nameof(EnableInitialization));
+        Invoke(nameof(EnableInitialization), 0.05f);
     }
 }

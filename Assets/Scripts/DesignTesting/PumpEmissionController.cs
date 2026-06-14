@@ -7,7 +7,6 @@ public class PumpEmissionController : MonoBehaviour, IResetable
     [SerializeField] private Machine01 machineSource;
 
     [Header("Identificación de esta Bomba")]
-    [Tooltip("¿Este objeto físico es el surtidor Purificado o el Crudo (Raw)?")]
     [SerializeField] private LiquidPump.PumpType pumpType = LiquidPump.PumpType.Purified;
 
     [Header("Configuración de Colores e Intensidades")]
@@ -26,7 +25,6 @@ public class PumpEmissionController : MonoBehaviour, IResetable
 
     private void Awake()
     {
-        // Al estar el script en la propia bomba, cogemos su propio Renderer y clonamos su material (Element 0)
         pumpRenderer = GetComponent<Renderer>();
         if (pumpRenderer != null && pumpRenderer.materials.Length > 0)
         {
@@ -42,11 +40,9 @@ public class PumpEmissionController : MonoBehaviour, IResetable
             GameManager.Instance.RegisterResetable(this);
         }
 
-        // Evaluación inicial nada más arrancar el juego
         if (machineSource != null)
         {
-            bool shouldBeActive = CheckIfShouldBeActive(machineSource.GetActivePump());
-            ApplyInstantState(shouldBeActive);
+            ApplyInstantState(CheckIfShouldBeActive(machineSource.GetActivePump()));
         }
     }
 
@@ -89,7 +85,6 @@ public class PumpEmissionController : MonoBehaviour, IResetable
     {
         if (activePump == null) return false;
 
-        // Comprobamos únicamente el tipo basándonos en el nombre del objeto activo en el switch
         return (pumpType == LiquidPump.PumpType.Purified && activePump.name.ToLower().Contains("purified")) ||
                (pumpType == LiquidPump.PumpType.Raw && activePump.name.ToLower().Contains("raw"));
     }
@@ -133,7 +128,8 @@ public class PumpEmissionController : MonoBehaviour, IResetable
         }
     }
 
-    // INTERFAZ IRESETABLE: Coordinado con el cambio de día instantáneo
+    // ¡SOLUCIÓN! Al cambiar de día, forzamos de golpe que el pump Purified esté encendido y el Raw apagado,
+    // garantizando que se sincronicen perfectamente con el estado inicial de Machine01.
     public void ResetValues()
     {
         if (transitionCoroutine != null)
@@ -141,10 +137,9 @@ public class PumpEmissionController : MonoBehaviour, IResetable
             StopCoroutine(transitionCoroutine);
         }
 
-        if (machineSource != null)
-        {
-            bool shouldBeActive = CheckIfShouldBeActive(machineSource.GetActivePump());
-            ApplyInstantState(shouldBeActive);
-        }
+        // El nuevo día siempre arranca con la máquina en modo Purified
+        bool shouldBeActiveOnNewDay = (pumpType == LiquidPump.PumpType.Purified);
+
+        ApplyInstantState(shouldBeActiveOnNewDay);
     }
 }

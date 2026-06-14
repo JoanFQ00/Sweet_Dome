@@ -35,6 +35,9 @@ public class LiquidPump : CapabilityBase, IResetable
     // Añade esto dentro de LiquidPump.cs para poder leer el índice actual desde fuera
     public int CurrentFunnelIndex => funnelIndex;
 
+    // Añade esto dentro de LiquidPump.cs para saber dónde debe aparecer la bomba cada mañana
+    public int InitialFunnelIndex => initialIndex;
+
     protected override void Start()
     {
         initialValues = new List<float> { 0f, 0f, 0f, 0f, 0f };
