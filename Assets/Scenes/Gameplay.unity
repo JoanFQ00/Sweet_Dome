@@ -80172,6 +80172,7 @@ GameObject:
   - component: {fileID: 3346902195000911275}
   - component: {fileID: 5531643767532205352}
   - component: {fileID: 2073368117914645207}
+  - component: {fileID: 7563133660472087321}
   - component: {fileID: 7563133660472087318}
   - component: {fileID: 7563133660472087317}
   - component: {fileID: 7563133660472087316}
@@ -80298,6 +80299,24 @@ MonoBehaviour:
   rend: {fileID: 2073368117914645207}
   highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
   lightenAmount: 0.7
+--- !u!114 &7563133660472087321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563133660472087314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f596703a8bcceef429bd3d213604991e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
+  validator: {fileID: 7563133660472087317}
+  activeColor: {r: 48.060814, g: 1.1335096, b: 1.1335096, a: 1}
+  disabledColor: {r: 0, g: 0, b: 0, a: 1}
+  secondaryButtonMesh: {fileID: 0}
+  turnOffOnDay1: 0
+  strictlyFollowValidator: 0
 --- !u!33 &7599441589296645747
 MeshFilter:
   m_ObjectHideFlags: 0
