@@ -10,8 +10,8 @@ public class FadeDay : MonoBehaviour
     public TextMeshProUGUI dayTMP;
 
     [Header("Fade Settings")]
-    public float fadeInTime = 1.0f;
-    public float fadeOutTime = 0.8f;
+    public float fadeInTime = 0.8f;
+    public float fadeOutTime = 0.5f;
     public bool lockPlayer;
 
     public static FadeDay Instance;

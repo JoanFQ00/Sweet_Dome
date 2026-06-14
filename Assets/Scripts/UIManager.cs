@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
     [Header("Menus")]
     public GameObject pauseMenu;
     public GameObject optionsMenu;
-    //public Button menuButton;
 
     [Header("Pause Menu Buttons")]
     public Button resumeButton;
@@ -46,8 +45,6 @@ public class UIManager : MonoBehaviour
         optionsMenu.SetActive(false);
 
         SetupPauseButtons();
-
-        //menuButton.onClick.AddListener(OnMenuButtonClicked);
 
         if (GameManager.Instance != null)
             OnDayChanged();
@@ -92,8 +89,6 @@ public class UIManager : MonoBehaviour
 
     private void SetupPauseButtons()
     {
-        //if (menuButton != null) menuButton.onClick.AddListener(OnMenuButtonClicked);
-
         if (resumeButton != null) resumeButton.onClick.AddListener(OnResumeButtonClicked);
 
         if (quitButton != null) quitButton.onClick.AddListener(OnQuitButtonClicked);
@@ -101,6 +96,7 @@ public class UIManager : MonoBehaviour
 
     public void OnResumeButtonClicked()
     {
+        Time.timeScale = 1f;
         ChangePauseMenuState(false);
     }
 
@@ -182,6 +178,8 @@ public class UIManager : MonoBehaviour
 
         if (state)
         {
+            Time.timeScale = 0f;
+
             GameManager.Instance.currentState = GameState.Paused;
 
             GameManager.Instance.playerController.LockPlayer(true);
@@ -192,6 +190,8 @@ public class UIManager : MonoBehaviour
         }
         else
         {
+            Time.timeScale = 1f;
+
             GameManager.Instance.currentState = GameState.Gameplay;
 
             GameManager.Instance.playerController.LockPlayer(false);
@@ -213,18 +213,12 @@ public class UIManager : MonoBehaviour
 
     private void OnSceneLoaded()
     {
+        Time.timeScale = 1f;
+
         interactTxt.SetActive(false);
         stopInteractTxt.SetActive(false);
         pauseMenu.SetActive(false);
         optionsMenu.SetActive(false);
-
-        //menuButton.onClick.RemoveAllListeners();
-        //menuButton.onClick.AddListener(OnMenuButtonClicked);
-    }
-
-    private void OnMenuButtonClicked()
-    {
-        GameManager.Instance.levelManager.LoadMenu();
     }
 
     private const float MIN_LOOK_SPEED = 20f;
