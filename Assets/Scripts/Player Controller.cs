@@ -19,8 +19,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Mouse Movement")]
     public Transform pitchController;
-    public float yawSpeed = 120f;
-    public float pitchSpeed = 120f;
+    public float yawSpeed = 12f;
+    public float pitchSpeed = 12f;
     public float minPitch = -80f;
     public float maxPitch = 80f;
     float yaw;
@@ -59,8 +59,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         GameManager.Instance.SetPlayer(this);
-        yawSpeed = PlayerPrefs.GetFloat("YawSpeed", 10f);
-        pitchSpeed = PlayerPrefs.GetFloat("PitchSpeed", 10f);
+        yawSpeed = PlayerPrefs.GetFloat("YawSpeed", 12f);
+        pitchSpeed = PlayerPrefs.GetFloat("PitchSpeed", 12f);
 
         Cursor.lockState = CursorLockMode.Locked;
 

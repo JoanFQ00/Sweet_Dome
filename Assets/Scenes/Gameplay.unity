@@ -14560,8 +14560,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   fadeImage: {fileID: 1846699733}
   dayTMP: {fileID: 803549597}
-  fadeInTime: 2.4
-  fadeOutTime: 2.4
+  fadeInTime: 1.5
+  fadeOutTime: 1
   lockPlayer: 0
 --- !u!1 &520983454
 GameObject:
@@ -19136,6 +19136,8 @@ PlayableDirector:
     value: {fileID: 884576381}
   - key: {fileID: -8664758698861775720, guid: 5668db3d29ee2514e8a64623f84a9bf8, type: 2}
     value: {fileID: 1562859140}
+  - key: {fileID: 5546493208419515587, guid: 5668db3d29ee2514e8a64623f84a9bf8, type: 2}
+    value: {fileID: 1433308446}
   m_ExposedReferences:
     m_References: []
 --- !u!1 &764972951
@@ -30548,6 +30550,8 @@ GameObject:
   - component: {fileID: 1433308442}
   - component: {fileID: 1433308443}
   - component: {fileID: 1433308444}
+  - component: {fileID: 1433308445}
+  - component: {fileID: 1433308446}
   m_Layer: 3
   m_Name: IA Woman
   m_TagString: Untagged
@@ -30666,6 +30670,96 @@ CapsuleCollider:
   m_Height: 1.6
   m_Direction: 1
   m_Center: {x: 0, y: -0.10253078, z: 0}
+--- !u!114 &1433308445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433308439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e72b47d4778e6428e74fe6a87215ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RobotCinematicController
+  navMeshAgent: {fileID: 1433308440}
+  robotBehaviorScript: {fileID: 1433308442}
+  visualObject: {fileID: 1942396566}
+--- !u!114 &1433308446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433308439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.SignalReceiver
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 8f18e1733cf1ecc4191f22b0cd7b2f3d, type: 2}
+    - {fileID: 11400000, guid: 2003a0d3bb738e34cb2c04767c6ee46d, type: 2}
+    - {fileID: 11400000, guid: e4b75a72bffbb72449f3f0785da81e08, type: 2}
+    - {fileID: 11400000, guid: ef1a25baec0659146b52f817df991d15, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1433308445}
+          m_TargetAssemblyTypeName: RobotCinematicController, Assembly-CSharp
+          m_MethodName: SetVisualActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1433308445}
+          m_TargetAssemblyTypeName: RobotCinematicController, Assembly-CSharp
+          m_MethodName: SetVisualActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1433308445}
+          m_TargetAssemblyTypeName: RobotCinematicController, Assembly-CSharp
+          m_MethodName: DisableAIBehavior
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1433308445}
+          m_TargetAssemblyTypeName: RobotCinematicController, Assembly-CSharp
+          m_MethodName: EnableAIBehavior
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1433399902
 GameObject:
   m_ObjectHideFlags: 0
@@ -32166,7 +32260,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 15a96f8dede862443bed286eeb306fd9, type: 3}
       propertyPath: m_Name
-      value: LowPoly
+      value: VisualLowPolyRobot
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 15a96f8dede862443bed286eeb306fd9, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -65898,9 +65992,6 @@ MonoBehaviour:
   Opened: {fileID: 7400000, guid: 130678522e40e9d49947f57111e515c5, type: 2}
   Close: {fileID: 7400000, guid: ed28fafb23ce10547887391f7e2e4584, type: 2}
   Closed: {fileID: 7400000, guid: e22258c93c018c84f94256c9c284d06f, type: 2}
-  m_IsOpened: 0
-  m_CanOpen: 1
-  m_triggerCollision: {fileID: 0}
 --- !u!111 &5588443461152601550
 Animation:
   m_ObjectHideFlags: 0

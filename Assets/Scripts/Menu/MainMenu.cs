@@ -24,10 +24,10 @@ public class MainMenu : MonoBehaviour
     public float sliderMinimo = 1f;
     public float sliderMaximo = 100f;
 
-    private const float MIN_LOOK_SPEED = 20f;
-    private const float MAX_LOOK_SPEED = 300f;
+    private const float MIN_LOOK_SPEED = 5f;
+    private const float MAX_LOOK_SPEED = 20;
 
-    private const float DEFAULT_SLIDER_VAL = 10f;
+    private const float DEFAULT_SLIDER_VAL = 50f;
 
     void Start()
     {
