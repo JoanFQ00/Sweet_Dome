@@ -1,10 +1,16 @@
 using UnityEngine;
-using FMODUnity;
-using FMOD.Studio;
+using System.Collections;
 
-public class Lever : MonoBehaviour
+public class Lever : MonoBehaviour, IResetable
 {
+    [Header("Referencias de la Consola")]
     public Machine01 machine;
+
+    [Tooltip("Arrastra aquí el objeto con el PumpEmissionController del tanque PURIFICADO.")]
+    [SerializeField] private PumpEmissionController purifiedPumpController;
+
+    [Tooltip("Arrastra aquí el objeto con el PumpEmissionController del tanque RAW (Crudo).")]
+    [SerializeField] private PumpEmissionController rawPumpController;
 
     [Header("Lever Angles")]
     public float suckAngle = -22f;
@@ -17,41 +23,58 @@ public class Lever : MonoBehaviour
     [Header("Return Settings")]
     public float returnSpeed = 10f;
 
+    [Header("Configuración Estética de Luces (Palanca)")]
+    [ColorUsage(true, true)]
+    [SerializeField] private Color neutralColor = Color.white;
+
+    [ColorUsage(true, true)]
+    [SerializeField] private Color absorbColor = Color.blue;
+
+    [ColorUsage(true, true)]
+    [SerializeField] private Color expelColor = new Color(1f, 0.08f, 0.57f); // Rosa HDR
+
     private bool isDragging;
-
     public float currentAngle;
-
     private Vector3 initialRotation;
 
-    private EventInstance absorbAudioInstance;
-    private EventInstance expelAudioInstance;
-
-    private enum LeverState
-    {
-        Absorb,
-        Neutral,
-        Expelling
-    }
-
+    private enum LeverState { Absorb, Neutral, Expelling }
     private LeverState currentState;
+
+    private Material runtimeLeverMat;
+    private Color currentLeverColor;
+    private Coroutine leverColorCoroutine;
+
+    private void Awake()
+    {
+        Renderer rend = GetComponent<Renderer>() ?? GetComponentInChildren<Renderer>();
+        if (rend != null)
+        {
+            runtimeLeverMat = rend.material;
+            runtimeLeverMat.EnableKeyword("_EMISSION");
+        }
+        currentLeverColor = neutralColor;
+    }
 
     private void Start()
     {
         initialRotation = transform.localEulerAngles;
-
         currentAngle = NormalizeAngle(initialRotation.x);
+
+        if (GameManager.Instance != null) GameManager.Instance.RegisterResetable(this);
+
+        ApplyLeverColorDirect(neutralColor);
+        currentState = LeverState.Neutral;
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null) GameManager.Instance.UnregisterResetable(this);
     }
 
     private void Update()
     {
-        if (isDragging)
-        {
-            DragLever();
-        }
-        else
-        {
-            ReturnToNeutral();
-        }
+        if (isDragging) DragLever();
+        else ReturnToNeutral();
 
         CheckLeverState();
     }
@@ -59,38 +82,21 @@ public class Lever : MonoBehaviour
     void DragLever()
     {
         float mouseY = Input.GetAxis("Mouse Y");
-
         currentAngle += mouseY * dragSpeed;
-
         currentAngle = Mathf.Clamp(currentAngle, outAngle, suckAngle);
-
         ApplyRotation();
     }
 
     void ReturnToNeutral()
     {
-        currentAngle = Mathf.Lerp(
-            currentAngle,
-            neutralAngle,
-            Time.deltaTime * returnSpeed
-        );
-
-        // Evita vibraciones infinitas cerca del objetivo
-        if (Mathf.Abs(currentAngle - neutralAngle) < 0.01f)
-        {
-            currentAngle = neutralAngle;
-        }
-
+        currentAngle = Mathf.Lerp(currentAngle, neutralAngle, Time.deltaTime * returnSpeed);
+        if (Mathf.Abs(currentAngle - neutralAngle) < 0.01f) currentAngle = neutralAngle;
         ApplyRotation();
     }
 
     void ApplyRotation()
     {
-        transform.localRotation = Quaternion.Euler(
-            currentAngle,
-            initialRotation.y,
-            initialRotation.z
-        );
+        transform.localRotation = Quaternion.Euler(currentAngle, initialRotation.y, initialRotation.z);
     }
 
     void CheckLeverState()
@@ -99,55 +105,100 @@ public class Lever : MonoBehaviour
         float neutralDist = Mathf.Abs(currentAngle - neutralAngle);
         float outDist = Mathf.Abs(currentAngle - outAngle);
 
-        LeverState newState;
+        LeverState newState = LeverState.Neutral;
+        if (suckDist < neutralDist && suckDist < outDist) newState = LeverState.Absorb;
+        else if (neutralDist < outDist) newState = LeverState.Neutral;
+        else newState = LeverState.Expelling;
 
-        if (suckDist < neutralDist && suckDist < outDist)
+        if (newState != currentState)
         {
-            newState = LeverState.Absorb;
-        }
-        else if (neutralDist < outDist)
-        {
-            newState = LeverState.Neutral;
-        }
-        else
-        {
-            newState = LeverState.Expelling;
+            currentState = newState;
+            UpdateEcosystemColors();
         }
 
-        switch (newState)
+        // Acciones continuas mecánicas de fluidos
+        if (currentState == LeverState.Absorb) machine.GetActivePump().Absorbing();
+        else if (currentState == LeverState.Expelling) machine.GetActivePump().Expelling();
+    }
+
+    private void UpdateEcosystemColors()
+    {
+        if (machine == null) return;
+
+        // 1. Elegimos el controlador exacto e inequívoco según dictamine el Switch de la máquina
+        PumpEmissionController activeController = machine.IsPurifiedMode ? purifiedPumpController : rawPumpController;
+
+        // 2. Transición de color por estados
+        switch (currentState)
         {
             case LeverState.Absorb:
-                machine.GetActivePump().Absorbing();
+                StartLeverColorLerp(absorbColor);
+                if (activeController != null) activeController.OverridePumpColor(absorbColor);
                 break;
 
             case LeverState.Expelling:
-                machine.GetActivePump().Expelling();
+                StartLeverColorLerp(expelColor);
+                if (activeController != null) activeController.OverridePumpColor(expelColor);
                 break;
 
-            default:
-                // Neutral
+            case LeverState.Neutral:
+                StartLeverColorLerp(neutralColor);
+                // Si la palanca vuelve al centro, restauramos la iluminación nativa de AMBOS tanques
+                if (purifiedPumpController != null) purifiedPumpController.RestoreDefaultColor();
+                if (rawPumpController != null) rawPumpController.RestoreDefaultColor();
                 break;
         }
+    }
 
-        if (newState != currentState)
-            currentState = newState;
+    private void StartLeverColorLerp(Color targetColor)
+    {
+        if (leverColorCoroutine != null) StopCoroutine(leverColorCoroutine);
+        leverColorCoroutine = StartCoroutine(LerpLeverColor(targetColor));
+    }
+
+    private IEnumerator LerpLeverColor(Color targetColor)
+    {
+        Color startColor = currentLeverColor;
+        float elapsedTime = 0f;
+        float duration = 0.12f; // Transición ágil
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            currentLeverColor = Color.Lerp(startColor, targetColor, elapsedTime / duration);
+            ApplyLeverColorDirect(currentLeverColor);
+            yield return null;
+        }
+        currentLeverColor = targetColor;
+        ApplyLeverColorDirect(currentLeverColor);
+    }
+
+    private void ApplyLeverColorDirect(Color col)
+    {
+        if (runtimeLeverMat != null) runtimeLeverMat.SetColor("_EmissionColor", col);
     }
 
     float NormalizeAngle(float angle)
     {
-        while (angle > 180f)
-            angle -= 360f;
-
+        while (angle > 180f) angle -= 360f;
         return angle;
     }
 
-    private void OnMouseDown()
-    {
-        isDragging = true;
-    }
+    private void OnMouseDown() => isDragging = true;
+    private void OnMouseUp() => isDragging = false;
 
-    private void OnMouseUp()
+    public void ResetValues()
     {
         isDragging = false;
+        currentAngle = neutralAngle;
+        ApplyRotation();
+
+        if (leverColorCoroutine != null) StopCoroutine(leverColorCoroutine);
+        ApplyLeverColorDirect(neutralColor);
+        currentLeverColor = neutralColor;
+        currentState = LeverState.Neutral;
+
+        if (purifiedPumpController != null) purifiedPumpController.ResetValues();
+        if (rawPumpController != null) rawPumpController.ResetValues();
     }
 }

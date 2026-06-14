@@ -1,5 +1,5 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class PumpEmissionController : MonoBehaviour, IResetable
 {
@@ -21,7 +21,14 @@ public class PumpEmissionController : MonoBehaviour, IResetable
     private Renderer pumpRenderer;
     private Material runtimeMat;
     private Coroutine transitionCoroutine;
+    private Coroutine overrideCoroutine;
+
     private float currentBrightness;
+    private Color currentEffectColor;
+    private bool isCurrentlyActive;
+    private bool isOverridden = false;
+
+    public LiquidPump.PumpType GetPumpType() => pumpType;
 
     private void Awake()
     {
@@ -31,60 +38,56 @@ public class PumpEmissionController : MonoBehaviour, IResetable
             runtimeMat = pumpRenderer.material;
             runtimeMat.EnableKeyword("_EMISSION");
         }
+        currentEffectColor = pumpColor;
     }
 
     private void Start()
     {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.RegisterResetable(this);
-        }
+        if (GameManager.Instance != null) GameManager.Instance.RegisterResetable(this);
 
         if (machineSource != null)
         {
-            ApplyInstantState(CheckIfShouldBeActive(machineSource.GetActivePump()));
+            isCurrentlyActive = CheckIfShouldBeActive(machineSource.GetActivePump());
+            ApplyInstantState(isCurrentlyActive);
         }
     }
 
     private void OnEnable()
     {
-        if (machineSource != null)
-        {
-            machineSource.OnPumpSwapped += EvaluateActivation;
-        }
+        if (machineSource != null) machineSource.OnPumpSwapped += EvaluateActivation;
     }
 
     private void OnDisable()
     {
-        if (machineSource != null)
-        {
-            machineSource.OnPumpSwapped -= EvaluateActivation;
-        }
+        if (machineSource != null) machineSource.OnPumpSwapped -= EvaluateActivation;
     }
 
     private void OnDestroy()
     {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.UnregisterResetable(this);
-        }
+        if (GameManager.Instance != null) GameManager.Instance.UnregisterResetable(this);
     }
 
     private void EvaluateActivation(LiquidPump activePump)
     {
-        bool shouldBeActive = CheckIfShouldBeActive(activePump);
+        isCurrentlyActive = CheckIfShouldBeActive(activePump);
 
-        if (transitionCoroutine != null)
+        // REGLA DE PROTECCIÓN: Si la palanca tiene el control del color (isOverridden),
+        // recalculamos el brillo objetivo de fondo por si se ha movido el pump,
+        // pero NO dejamos que el Lerp automático pise el color Azul/Rosa actual de la palanca.
+        if (isOverridden)
         {
-            StopCoroutine(transitionCoroutine);
+            currentBrightness = isCurrentlyActive ? activeBrightness : inactiveBrightness;
+            if (runtimeMat != null) runtimeMat.SetColor("_EmissionColor", currentEffectColor * currentBrightness);
+            return;
         }
-        transitionCoroutine = StartCoroutine(TransitionEffects(shouldBeActive));
+
+        if (transitionCoroutine != null) StopCoroutine(transitionCoroutine);
+        transitionCoroutine = StartCoroutine(TransitionEffects(isCurrentlyActive));
     }
 
     private bool CheckIfShouldBeActive(LiquidPump activePump)
     {
         if (activePump == null) return false;
-
         return (pumpType == LiquidPump.PumpType.Purified && activePump.name.ToLower().Contains("purified")) ||
                (pumpType == LiquidPump.PumpType.Raw && activePump.name.ToLower().Contains("raw"));
     }
@@ -98,48 +101,82 @@ public class PumpEmissionController : MonoBehaviour, IResetable
         while (elapsedTime < transitionDuration)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / transitionDuration;
-            float smoothT = Mathf.SmoothStep(0f, 1f, t);
+            float smoothT = Mathf.SmoothStep(0f, 1f, elapsedTime / transitionDuration);
 
             currentBrightness = Mathf.Lerp(startBrightness, targetBrightness, smoothT);
 
             if (runtimeMat != null)
             {
-                runtimeMat.SetColor("_EmissionColor", pumpColor * currentBrightness);
+                runtimeMat.SetColor("_EmissionColor", currentEffectColor * currentBrightness);
             }
-
             yield return null;
         }
 
         currentBrightness = targetBrightness;
-        if (runtimeMat != null)
+        if (runtimeMat != null) runtimeMat.SetColor("_EmissionColor", currentEffectColor * currentBrightness);
+    }
+
+    // =================================================================
+    // MÉTODOS DE INYECCIÓN DE LA PALANCA
+    // =================================================================
+
+    public void OverridePumpColor(Color targetColor)
+    {
+        isOverridden = true;
+        if (overrideCoroutine != null) StopCoroutine(overrideCoroutine);
+        overrideCoroutine = StartCoroutine(LerpOverrideColor(targetColor));
+    }
+
+    public void RestoreDefaultColor()
+    {
+        if (!isOverridden) return;
+        isOverridden = false;
+
+        if (overrideCoroutine != null) StopCoroutine(overrideCoroutine);
+        overrideCoroutine = StartCoroutine(LerpOverrideColor(pumpColor));
+
+        // Forzamos la evaluación al salir para asegurar que se quede en su brillo correcto
+        if (machineSource != null) EvaluateActivation(machineSource.GetActivePump());
+    }
+
+    private IEnumerator LerpOverrideColor(Color targetColor)
+    {
+        Color startColor = currentEffectColor;
+        float elapsedTime = 0f;
+        float duration = 0.12f;
+
+        while (elapsedTime < duration)
         {
-            runtimeMat.SetColor("_EmissionColor", pumpColor * currentBrightness);
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsedTime / duration);
+
+            currentEffectColor = Color.Lerp(startColor, targetColor, t);
+
+            if (runtimeMat != null)
+            {
+                runtimeMat.SetColor("_EmissionColor", currentEffectColor * currentBrightness);
+            }
+            yield return null;
         }
+
+        currentEffectColor = targetColor;
+        if (runtimeMat != null) runtimeMat.SetColor("_EmissionColor", currentEffectColor * currentBrightness);
     }
 
     private void ApplyInstantState(bool active)
     {
         currentBrightness = active ? activeBrightness : inactiveBrightness;
-
-        if (runtimeMat != null)
-        {
-            runtimeMat.SetColor("_EmissionColor", pumpColor * currentBrightness);
-        }
+        currentEffectColor = pumpColor;
+        if (runtimeMat != null) runtimeMat.SetColor("_EmissionColor", currentEffectColor * currentBrightness);
     }
 
-    // ¡SOLUCIÓN! Al cambiar de día, forzamos de golpe que el pump Purified esté encendido y el Raw apagado,
-    // garantizando que se sincronicen perfectamente con el estado inicial de Machine01.
     public void ResetValues()
     {
-        if (transitionCoroutine != null)
-        {
-            StopCoroutine(transitionCoroutine);
-        }
+        isOverridden = false;
+        if (transitionCoroutine != null) StopCoroutine(transitionCoroutine);
+        if (overrideCoroutine != null) StopCoroutine(overrideCoroutine);
 
-        // El nuevo día siempre arranca con la máquina en modo Purified
         bool shouldBeActiveOnNewDay = (pumpType == LiquidPump.PumpType.Purified);
-
         ApplyInstantState(shouldBeActiveOnNewDay);
     }
 }
