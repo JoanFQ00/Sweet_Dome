@@ -37,8 +37,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
     public TaskMoveState taskMoveState;
     public TaskActionState taskActionState;
-    public HistoryMoveState historyMoveState;
-    public HistoryActionState historyActionState;
     public Waypoint currentTask;
     public Waypoint currentHistoryWaypoint;
 
@@ -63,8 +61,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         rechargeState = new RechargeState(this);
         taskMoveState = new TaskMoveState(this);
         taskActionState = new TaskActionState(this);
-        historyMoveState = new HistoryMoveState(this);
-        historyActionState = new HistoryActionState(this);
+
 
         dialogueSys.SysIni();
 
@@ -104,8 +101,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
             stateMachine.Update();
             return;
         }
-
-        CheckDayManagerHistory();
 
         stateMachine.Update();
     }
@@ -179,51 +174,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
             stateMachine.ChangeState(patrolState);
         }
-    }
-
-    void CheckDayManagerHistory()
-    {
-        if (isRecharging || dayManager == null)
-            return;
-
-        if (GameManager.Instance.currentDay == Day.Day3)
-        {
-            if (dayManager.hasRead.IsMet(GameManager.Instance.decManager) && dayManager.dorothyLaunchEated.IsMet(GameManager.Instance.decManager))
-            {
-                TriggerHistoryEvent("DorothySitDay3");
-                return;
-            }
-
-            if (dayManager.hasWatchedTv.IsMet(GameManager.Instance.decManager) && dayManager.dorothyBook2Readed.IsMet(GameManager.Instance.decManager))
-            {
-                TriggerHistoryEvent("DorothyTurnOffTvDay3");
-                return;
-            }
-        }
-    }
-
-    public void TriggerHistoryEvent(string eventKey)
-    {
-        activeHistoryEvent = eventKey;
-        if (waypointManager != null)
-        {
-            Waypoint targetWp = waypointManager.GetHistoryWaypointByKey(eventKey);
-
-            if (targetWp != null)
-            {
-                agent.SetDestination(targetWp.transform.position);
-                stateMachine.ChangeState(historyMoveState);
-            }
-            else
-            {
-            }
-        }
-    }
-
-    public void FinishHistoryAction()
-    {
-        currentHistoryWaypoint = null;
-        stateMachine.ChangeState(patrolState);
     }
 
     public void ExecuteWaypointAnimation(Waypoint waypoint)
