@@ -5,7 +5,7 @@ using System;
 
 public class LevelManager : MonoBehaviour
 {
-    public enum NameLevels { Gameplay, MenuScene, Final}
+    public enum NameLevels { Gameplay, MenuScene, Final, Credits}
 
     public static event Action OnLevelLoaded;
 
@@ -35,6 +35,11 @@ public class LevelManager : MonoBehaviour
     public void LoadMenu()
     {
         SceneManager.LoadScene(NameLevels.MenuScene.ToString());
+    }
+
+    public void LoadCredits() 
+    {
+        SceneManager.LoadScene(NameLevels.Credits.ToString());
     }
 
     public void LoadFinal() 

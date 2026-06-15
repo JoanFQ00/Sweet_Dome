@@ -48,6 +48,11 @@ public class DayManager : MonoBehaviour
     public NDec_Act dorothySaysWatchTv;
     public NDec_Act disconectTV;
 
+    [Header("Day Actions")]
+    public NDec_Act eatAction;
+    public NDec_Act readAction;
+    public NDec_Act watchTVAction;
+
     [Header("Branches")]
     public bool D11 = false;
     public bool D12 = false;
@@ -97,6 +102,9 @@ public class DayManager : MonoBehaviour
     public bool checkReadDay5;
     public bool makeDorothySad = false;
     public bool dorothyWaitsForInteraction = false;
+
+    [Header("Animation SafeCheck")]
+    private bool watchWindowCheck = false;
 
     [Header("Interactables")]
     public Action_Interactable[] dayInt;
@@ -150,6 +158,7 @@ public class DayManager : MonoBehaviour
         PresiSys.OnDialogueTerminated += CheckPresiTerminatedDialogue;
         GameManager.NewDay += BookLaunchActChange;
         PlayerController.OnMovedForFirstTime += StopTimer;
+        EndingController.BackToMenu += HardReset;
     }
 
     private void OnDisable()
@@ -162,6 +171,7 @@ public class DayManager : MonoBehaviour
         PresiSys.OnDialogueTerminated -= CheckPresiTerminatedDialogue;
         GameManager.NewDay -= BookLaunchActChange;
         PlayerController.OnMovedForFirstTime -= StopTimer;
+        EndingController.BackToMenu -= HardReset;
     }
 
     void StopTimer()
@@ -324,7 +334,7 @@ public class DayManager : MonoBehaviour
             OnRequestCinematic?.Invoke("Day5WatchWindow");
             watchTvTriggered = true;
             activatedBBTimer = true;
-            ChangeDorothyDialogue((int)DialoguesRobo.DontWatchThatProgram, true);
+            ChangeDorothyDialogue((int)DialoguesRobo.DontWatchThatProgram, false);
         }
 
         if (hasWatchedTv.IsMet(GameManager.Instance.decManager) && !watchTvTriggered)
@@ -550,6 +560,7 @@ public class DayManager : MonoBehaviour
         {
             ChangeDorothyDialogue((int)DialoguesRobo.DorothyCongratsotNotEat, true);
             hasEated_SC = true;
+            eatAction.ActionExecuted();
 
             dorothyBook.SetActive(true);
             dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day1);
@@ -558,33 +569,36 @@ public class DayManager : MonoBehaviour
             && !dorothyAngry)
         {
             ChangeDorothyDialogue((int)DialoguesRobo.DorothyAngryDay2, true);
+            readAction.ActionExecuted();
+
             dorothyAngry = true;
             angriedDay2.ActionExecuted();
 
             D12 = true;
         }
-        else if (!hasWatchedTv.IsMet(GameManager.Instance.decManager)
+        else if (!watchTvTriggered && !hasWatchedTv.IsMet(GameManager.Instance.decManager)
             && dorothyBook1Readed.IsMet(GameManager.Instance.decManager))
         {
-            ChangeDorothyDialogue((int)DialoguesRobo.DontWatchThatProgram, true);
+            ChangeDorothyDialogue((int)DialoguesRobo.DontWatchThatProgram, false);
             OnRequestCinematic?.Invoke("Day5WatchWindow");
+            watchTVAction.ActionExecuted();
 
             watchTvTriggered = true;
             activatedBBTimer = true;
         }
-        else if (!hasWatchedTv.IsMet(GameManager.Instance.decManager)
+        else if (!watchTvTriggered && !hasWatchedTv.IsMet(GameManager.Instance.decManager)
             && dorothyAngriedDay2.IsMet(GameManager.Instance.decManager))
         {
-            ChangeDorothyDialogue((int)DialoguesRobo.MattewSturdy, true);
+            ChangeDorothyDialogue((int)DialoguesRobo.MattewSturdy, false);
             OnRequestCinematic?.Invoke("Day5WatchWindow");
+            watchTVAction.ActionExecuted();
 
             watchTvTriggered = true;
             activatedBBTimer = true;
         }
         else if (hasWatchedTv.IsMet(GameManager.Instance.decManager) && triedToSkipMachine)
         {
-            PresidentSpeaks(PresiDialogue.MattewTraitorDay1);
-            GameManager.Instance.ExecuteFinishAnimation(0, 6);
+            GameManager.Instance.ExecuteFinishAnimation(0, 2);
         }
         else if (hasWatchedTv.IsMet(GameManager.Instance.decManager))
         {
@@ -683,6 +697,9 @@ public class DayManager : MonoBehaviour
 
     public void StartDay()
     {
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Gameplay"))
+            return;
+
         PresidentSpeaks();
     }
 
@@ -709,11 +726,63 @@ public class DayManager : MonoBehaviour
         triedToSkipMachine = false;
         dorothyTalksAboutLaunch = false;
 
+
+
         //Timers
         dayLaunchDorothyCurrentTime = 0;
     }
 
-    public void LoadInteractObjects(Day currentDay)
+    void HardReset() 
+    {
+        D11 = false;
+        D12 = false;
+        D21 = false;
+        D22 = false;
+        D31 = false;
+        notLaunchDay4 = false;
+        D32 = false;
+        D41 = false;
+        D42 = false;
+        D51 = false;
+        D52 = false;
+        D53 = false;
+        D61 = false;
+        D62 = false;
+        D71 = false;
+        D72 = false;
+        D81 = false;
+        D82 = false;
+        D83 = false;
+        D84 = false;
+        dorothyWaiting = false;
+
+       hasEated_SC = false;
+       watchTvTriggered = false;
+       machineCompletedToday = false;
+       youReadDorothyBook = false;
+       dorothyAngry = false;
+       dorothyExplainsButton = false;
+       afterTvDay2 = false;
+       dorothyTalksAboutLaunch = false;
+       finishedEatin2 = false;
+       triedToSkipMachine = false;
+
+       checkedEatDay3 = false;
+       checkedReadDay3 = false;
+       checkedTvDay3 = false;
+       hasTriedToSkipTVDay3 = false;
+
+       checkedReadD4 = false;
+       trySkipEatingD4 = false;
+
+       checkReadDay5 = false;
+       makeDorothySad = false;
+       dorothyWaitsForInteraction = false;
+
+       watchWindowCheck = false;
+}
+
+public void LoadInteractObjects(Day currentDay)
     {
         foreach (Action_Interactable obj in dayInt)
         {
@@ -750,6 +819,9 @@ public class DayManager : MonoBehaviour
 
     void GoodMorningPresi()
     {
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Gameplay"))
+            return;
+
         switch (GameManager.Instance.currentDay) 
         {
             case Day.Day2:

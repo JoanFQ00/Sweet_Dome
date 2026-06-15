@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FadeDay : MonoBehaviour
 {
@@ -62,6 +63,9 @@ public class FadeDay : MonoBehaviour
 
     private IEnumerator ShowDayTextRoutine()
     {
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Gameplay"))
+            yield break;
+
         yield return new WaitForSeconds(delayBeforeShow);
 
         switch (GameManager.Instance.currentDay)

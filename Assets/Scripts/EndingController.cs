@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class EndingController : MonoBehaviour
 {
@@ -33,6 +34,8 @@ public class EndingController : MonoBehaviour
     public float printTimePct = 0.8f;
     float lastCharTime;
     int charsPrinted;
+
+    public static Action BackToMenu;
 
     private void Start()
     {
@@ -89,7 +92,6 @@ public class EndingController : MonoBehaviour
 
     public void ActivateGoToMenu()
     {
-        Debug.Log("ActivateGoToMenu fue llamado por: " + StackTraceUtility.ExtractStackTrace());
         if (canvasToMenu != null)
         {
             canvasToMenu.SetActive(true);
@@ -100,7 +102,8 @@ public class EndingController : MonoBehaviour
 
     void GoToMenuAction()
     {
-        GameManager.Instance.levelManager.LoadMenu();
+        BackToMenu?.Invoke();
+        GameManager.Instance.levelManager.LoadCredits();
     }
 
     void UpdateTimerToMenu() 

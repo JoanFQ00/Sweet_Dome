@@ -580,6 +580,9 @@ MonoBehaviour:
   angriedDay3: {fileID: 11400000, guid: 7ce890dd6ba7b264ea11cb2a18f7a8dd, type: 2}
   dorothySaysWatchTv: {fileID: 0}
   disconectTV: {fileID: 11400000, guid: 2e84126a2aa47fe448f7722175cd9f16, type: 2}
+  eatAction: {fileID: 11400000, guid: e00c4732200b46d4fa20e845443124f0, type: 2}
+  readAction: {fileID: 11400000, guid: 9615a02adc6b17a43b27f5b81e44d203, type: 2}
+  watchTVAction: {fileID: 11400000, guid: 08b30a864fb6e3d4294d3141f38c2752, type: 2}
   D11: 0
   D12: 0
   D21: 0
@@ -619,6 +622,7 @@ MonoBehaviour:
   trySkipEatingD4: 0
   checkReadDay5: 0
   makeDorothySad: 0
+  dorothyWaitsForInteraction: 0
   dayInt:
   - {fileID: 0}
   - {fileID: 0}
@@ -666,13 +670,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   masterVolume: 1
-  footstep:
-    Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
   chairEnter:
     Guid:
       Data1: -2092507829
@@ -701,6 +698,27 @@ MonoBehaviour:
       Data3: -2139670604
       Data4: -1391420199
     Path: event:/SFX_MachineSys/SFX_MachineSys_Door/SFX_MachineSys_CloseDoor
+  purpleAlarm:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  redAlarm:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  radarEventFail:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   liquidAbsorb:
     Guid:
       Data1: 1591890259
@@ -743,6 +761,41 @@ MonoBehaviour:
       Data3: -864718200
       Data4: 1144542087
     Path: event:/SFX_MachineSys/SFX_MachineSys_Full
+  specificRedButton:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  cityChangeArrowButton:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  frequencyNumberButton:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  cityFunnelCrack:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
+  alternativeCrack:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
   cameraZoomIn:
     Guid:
       Data1: 19243610

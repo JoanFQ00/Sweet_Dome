@@ -76,6 +76,14 @@ public class GameManager : MonoBehaviour
         BedInt.OnInteract -= ChangeDay;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M)) 
+        {
+            ExecuteFinishAnimation(1, 1);
+        }
+    }
+
     private void LevelLoaded()
     {
         if (SceneManager.GetActiveScene().name == "Final")

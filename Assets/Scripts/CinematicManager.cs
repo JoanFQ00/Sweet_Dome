@@ -136,7 +136,7 @@ public class CinematicManager : MonoBehaviour
             StartCinematicSequence("Day3TurnOffTv");
             return;
         }
-        else if (activeTimeline.name == "Cin (5)")
+        else if (activeTimeline.name == "Cin (6)")
         {
             StartCinematicSequence("Day5WatchWindow");
         }

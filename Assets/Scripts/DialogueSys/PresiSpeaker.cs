@@ -61,7 +61,6 @@ public class PresiSpeaker : MonoBehaviour
             interactionBubble.SetActive(true);
 
         UpdateUI();
-
     }
 
 
