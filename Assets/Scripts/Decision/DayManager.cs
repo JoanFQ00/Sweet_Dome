@@ -149,7 +149,7 @@ public class DayManager : MonoBehaviour
         LevelManager.OnLevelLoaded += SceneLoaded;
         PresiSys.OnDialogueTerminated += CheckPresiTerminatedDialogue;
         GameManager.NewDay += BookLaunchActChange;
-        PlayerController.OnMovedForFirstTime += () => moveTimerCheck = false;
+        PlayerController.OnMovedForFirstTime += StopTimer;
     }
 
     private void OnDisable()
@@ -161,7 +161,12 @@ public class DayManager : MonoBehaviour
         LevelManager.OnLevelLoaded -= SceneLoaded;
         PresiSys.OnDialogueTerminated -= CheckPresiTerminatedDialogue;
         GameManager.NewDay -= BookLaunchActChange;
-        PlayerController.OnMovedForFirstTime -= () => moveTimerCheck = false;
+        PlayerController.OnMovedForFirstTime -= StopTimer;
+    }
+
+    void StopTimer()
+    {
+        moveTimerCheck = false;
     }
 
     private void Update()

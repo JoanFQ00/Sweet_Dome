@@ -120,13 +120,13 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        if (!hasMovedForFirstTime) 
+        Vector2 input = playerInput.actions["Move"].ReadValue<Vector2>();
+
+        if (!hasMovedForFirstTime && input.sqrMagnitude > 0.01f)
         {
             OnMovedForFirstTime?.Invoke();
             hasMovedForFirstTime = true;
         }
-
-        Vector2 input = playerInput.actions["Move"].ReadValue<Vector2>();
 
         Vector3 move = (transform.forward * input.y + transform.right * input.x).normalized;
         move *= walkSpeed;
