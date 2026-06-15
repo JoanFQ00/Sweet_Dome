@@ -7,10 +7,12 @@ public class CinematicManager : MonoBehaviour
     public static CinematicManager Instance { get; private set; }
 
     [Header("Timelines")]
-    public PlayableDirector day3Timeline;
     public PlayableDirector day3TurnOffTvTimeline;
-    public PlayableDirector day4HugTimeline;
+    public PlayableDirector day3SitAndWatchTimeline;
+    public PlayableDirector day4SitAndHugTimeline;
     public PlayableDirector day4TurnOffTvTimeline;
+    public PlayableDirector day5LongHugTimeline;
+    public PlayableDirector day5WatchWindowTimeline;
 
     private PlayableDirector activeTimeline;
     private bool cinematicStarted = false;
@@ -58,17 +60,23 @@ public class CinematicManager : MonoBehaviour
 
         switch (cinematicName)
         {
-            case "Day3":
-                activeTimeline = day3Timeline;
+            case "Day3SitAndWatch":
+                activeTimeline = day3SitAndWatchTimeline;
                 break;
             case "Day3TurnOffTv":
                 activeTimeline = day3TurnOffTvTimeline;
                 break;
             case "Day4Hug":
-                activeTimeline = day4HugTimeline;
+                activeTimeline = day4SitAndHugTimeline;
                 break;
             case "Day4TurnOffTv":
                 activeTimeline = day4TurnOffTvTimeline;
+                break;
+            case "Day5LongHug":
+                activeTimeline = day5LongHugTimeline;
+                break;
+            case "Day5WatchWindow":
+                activeTimeline = day5WatchWindowTimeline;
                 break;
             default:
                 activeTimeline = null;

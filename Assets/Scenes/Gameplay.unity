@@ -4639,6 +4639,56 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &183955662
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 183955664}
+  - component: {fileID: 183955663}
+  m_Layer: 0
+  m_Name: CinematicEvent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &183955663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183955662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5769c5322509a4441af95e1c2250479f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CinematicManager
+  day3TurnOffTvTimeline: {fileID: 7699917109723738455}
+  day3SitAndWatchTimeline: {fileID: 4902285893725014401}
+  day4SitAndHugTimeline: {fileID: 4902285893725014401}
+  day4TurnOffTvTimeline: {fileID: 7699917109723738455}
+  day5LongHugTimeline: {fileID: 5141474130979536076}
+  day5WatchWindowTimeline: {fileID: 4221665757843629039}
+--- !u!4 &183955664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183955662}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &184305993
 GameObject:
   m_ObjectHideFlags: 0
@@ -62706,7 +62756,7 @@ PlayableDirector:
   m_Enabled: 1
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: db62894a7e97ff04d9d1edd216af1697, type: 2}
-  m_InitialState: 1
+  m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
@@ -88035,6 +88085,7 @@ SceneRoots:
   - {fileID: 1001373507}
   - {fileID: 410087041}
   - {fileID: 832575519}
+  - {fileID: 183955664}
   - {fileID: 1971355890}
   - {fileID: 5070742972557601031}
   - {fileID: 958680612}

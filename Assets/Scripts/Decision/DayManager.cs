@@ -255,6 +255,7 @@ public class DayManager : MonoBehaviour
                 PresidentSpeaks(PresiDialogue.DorothySights);
 
                 // - Cinematica Dorothy va a la ventana 
+                OnRequestCinematic?.Invoke("Day5WatchWindow");
                 ChangeDorothyDialogue((int)DialoguesRobo.DorothyMissesBeBop, false);
                 activatedBBTimer = false;
             }
@@ -376,9 +377,9 @@ public class DayManager : MonoBehaviour
             {
                 checkedEatDay3 = true;
                 // - Cinematica Despres d'acabar aqueta ha de fer la cinematica d'apagar la tele
-                OnRequestCinematic?.Invoke("Day3");
+                OnRequestCinematic?.Invoke("Day3SitAndWatch");
+                //OnRequestCinematic?.Invoke("Day3TurnOffTv");
                 D31 = true;
-
             }
         }
     }
@@ -468,6 +469,8 @@ public class DayManager : MonoBehaviour
                     if (!checkReadDay5 && hasReadDorothyBook4.IsMet(GameManager.Instance.decManager)) 
                     {
                         // - Cinematica Abrazo Largo y le quiere mucho + Come To Window
+                        OnRequestCinematic?.Invoke("Day5LongHug");
+                        //OnRequestCinematic?.Invoke("Day5WatchWindow");
                         checkReadDay5 = true;
                         ChangeDorothyDialogue((int)DialoguesRobo.FinalRevelation, false);
                         dorothyWaiting = true;
