@@ -171,14 +171,24 @@ public class DialRotation : MonoBehaviour
 
         isDragging = true;
         lastMouseAngle = GetMouseAngle();
+        SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.rotateWheelSFX, true);
     }
 
-    void OnMouseUp() => isDragging = false;
+    void OnMouseUp()
+    {
+        StopDialSound();
+    }
 
     float GetMouseAngle()
     {
         Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position);
         Vector2 direction = (Vector2)Input.mousePosition - (Vector2)screenPos;
         return Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+    }
+
+    private void StopDialSound()
+    {
+        isDragging = false;
+        SoundManagerOwn.Instance.StopSFX();
     }
 }

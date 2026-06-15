@@ -60,6 +60,11 @@ public class Action_Eat : BaseAction
 
         goingToMouth = true;
         isActive = true;
+
+        if (SoundManagerOwn.Instance != null)
+        {
+            SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.drinkCoffeeSFX);
+        }
     }
 
     protected override void OnUpdateAction()

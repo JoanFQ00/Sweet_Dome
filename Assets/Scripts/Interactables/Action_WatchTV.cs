@@ -139,6 +139,7 @@ public class Action_WatchTV : BaseAction
         if (tvRenderer != null) tvRenderer.material.mainTexture = videoTexture;
         videoPlayer.enabled = true;
         videoPlayer.Play();
+        SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.tvSFX);
         GameManager.Instance.presiSpeaker.PresiSpeaks(500 + (int)GameManager.Instance.currentDay);
     }
 
@@ -146,6 +147,7 @@ public class Action_WatchTV : BaseAction
     {
         videoPlayer.Stop();
         videoPlayer.enabled = false;
+        SoundManagerOwn.Instance.StopSFX();
         if (tvRenderer != null) tvRenderer.material.mainTexture = blackTexture;
     }
 

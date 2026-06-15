@@ -51107,6 +51107,10 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: redAlarm.Path
+      value: event:/SFX_Radar/SFX_Radar_MeteorDetect
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
       propertyPath: funnelFull.Path
       value: 
       objectReference: {fileID: 0}
@@ -51119,8 +51123,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: purpleAlarm.Path
+      value: event:/SFX_Radar/SFX_Radar_FixPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
       propertyPath: liquidAbsorb.Path
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: radarEventFail.Path
+      value: event:/SFX_Radar/SFX_Radar_NaveMissed
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: redAlarm.Guid.Data1
+      value: 1544724080
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: redAlarm.Guid.Data2
+      value: 1108496008
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: redAlarm.Guid.Data3
+      value: 1865036718
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: redAlarm.Guid.Data4
+      value: 987695971
       objectReference: {fileID: 0}
     - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
       propertyPath: funnelFull.Guid.Data1
@@ -51171,6 +51199,26 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: purpleAlarm.Guid.Data1
+      value: -954986173
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: purpleAlarm.Guid.Data2
+      value: 1258210791
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: purpleAlarm.Guid.Data3
+      value: -1609720182
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: purpleAlarm.Guid.Data4
+      value: 1547927918
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: specificRedButton.Path
+      value: event:/SFX_Radar/SFX_Radar_ShootMissil
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
       propertyPath: liquidAbsorb.Guid.Data1
       value: 0
       objectReference: {fileID: 0}
@@ -51185,6 +51233,58 @@ PrefabInstance:
     - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
       propertyPath: liquidAbsorb.Guid.Data4
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: radarEventFail.Guid.Data1
+      value: -2110681486
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: radarEventFail.Guid.Data2
+      value: 1077809190
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: radarEventFail.Guid.Data3
+      value: 1882830773
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: radarEventFail.Guid.Data4
+      value: 1140429355
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: frequencyNumberButton.Path
+      value: event:/SFX_Buttons/SFX_Buttons_Code
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: specificRedButton.Guid.Data1
+      value: -1821390411
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: specificRedButton.Guid.Data2
+      value: 1309006774
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: specificRedButton.Guid.Data3
+      value: 412476566
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: specificRedButton.Guid.Data4
+      value: 1096739609
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: frequencyNumberButton.Guid.Data1
+      value: -687927414
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: frequencyNumberButton.Guid.Data2
+      value: 1215876224
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: frequencyNumberButton.Guid.Data3
+      value: 2062942344
+      objectReference: {fileID: 0}
+    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: frequencyNumberButton.Guid.Data4
+      value: -91660927
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

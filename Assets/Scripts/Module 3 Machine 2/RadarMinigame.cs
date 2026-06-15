@@ -136,6 +136,10 @@ public class RadarMinigame : MonoBehaviour, IResetable
         if (currentEventTime <= 0f)
         {
             currentEventTime = 0f;
+            if (AudioManager.Instance != null)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(AudioManager.Instance.radarEventFail, transform.position);
+            }
             StartSequenceEnd(false);
         }
         else
@@ -228,6 +232,10 @@ public class RadarMinigame : MonoBehaviour, IResetable
                 redAlarmAnimation.AddClip(redAlarmClip, redAlarmClip.name);
                 redAlarmAnimation.Play(redAlarmClip.name);
             }
+            if (AudioManager.Instance != null)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(AudioManager.Instance.redAlarm, transform.position);
+            }
         }
         else if (type == RadarEventType.SpaceShip)
         {
@@ -237,6 +245,10 @@ public class RadarMinigame : MonoBehaviour, IResetable
             {
                 blueAlarmAnimation.AddClip(blueAlarmClip, blueAlarmClip.name);
                 blueAlarmAnimation.Play(blueAlarmClip.name);
+            }
+            if (AudioManager.Instance != null)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(AudioManager.Instance.purpleAlarm, transform.position);
             }
         }
     }

@@ -49,6 +49,10 @@ public class MainMenu : MonoBehaviour
             if (c.a >= 1f && !loadScene)
             {
                 loadScene = true;
+                if (SoundManagerOwn.Instance != null)
+                {
+                    SoundManagerOwn.Instance.PlayGameplayMusic();
+                }
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
         }

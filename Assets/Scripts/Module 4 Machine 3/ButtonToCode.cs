@@ -26,6 +26,14 @@ public class ButtonToCode : MonoBehaviour
     {
         if (codeSystem == null || numberSrc == null) return;
 
+        if (codeSystem.IsCodeSystemActive())
+        {
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.frequencyNumberButton, gameObject);
+            }
+        }
+
         codeSystem.AddNumber(numberSrc.number);
     }
 }

@@ -10,13 +10,17 @@ public class AudioManager : MonoBehaviour
     private FMOD.Studio.Bus masterBus;
 
     [Header("Player Sounds")]
-    public EventReference footstep;
     public EventReference chairEnter;
     public EventReference chairExit;
 
     [Header("Environment")]
     public EventReference doorOpen;
     public EventReference doorClose;
+
+    [Header("Alarms & Radar")]
+    public EventReference purpleAlarm;
+    public EventReference redAlarm;
+    public EventReference radarEventFail;
 
     [Header("Machine & Fluid Actions")]
     public EventReference liquidAbsorb;
@@ -25,6 +29,15 @@ public class AudioManager : MonoBehaviour
     public EventReference pumpSwap;
     public EventReference funnelEmpty;
     public EventReference funnelFull;
+    public EventReference specificRedButton;
+    public EventReference cityChangeArrowButton;
+
+    [Header("Frequency Keyboard")]
+    public EventReference frequencyNumberButton;
+
+    [Header("Cracks & Damages")]
+    public EventReference cityFunnelCrack;
+    public EventReference alternativeCrack;
 
     [Header("Camera & Visuals")]
     public EventReference cameraZoomIn;

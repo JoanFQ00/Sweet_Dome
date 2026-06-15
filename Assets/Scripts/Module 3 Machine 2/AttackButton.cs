@@ -1,4 +1,5 @@
 using UnityEngine;
+using FMODUnity;
 
 public class AttackButton : ButtonValidator
 {
@@ -20,6 +21,11 @@ public class AttackButton : ButtonValidator
     public void ExecuteAttack()
     {
         if (radarVision == null || radarVision.CurrentTarget == null) return;
+
+        if (AudioManager.Instance != null)
+        {
+            RuntimeManager.PlayOneShotAttached(AudioManager.Instance.specificRedButton, gameObject);
+        }
 
         GameObject targetToDelete = radarVision.CurrentTarget;
 
