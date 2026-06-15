@@ -155,6 +155,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ForceChangeObjectives(string newObj) 
+    {
+        objectivseTMP[0].text = newObj;
+    }
+
     void ChangeHudObjectives(List<NDec_Act> actionList)
     {
         for (int i = 0; i < objectivseTMP.Count; i++)
