@@ -114,6 +114,9 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
         if (stateMachine.CurrentState == rechargeState)
             return;
 
+        if (stateMachine.CurrentState == taskActionState)
+            return;
+
         if (stateMachine.CurrentState != interactionState)
         {
             stateMachine.ChangeState(interactionState);
