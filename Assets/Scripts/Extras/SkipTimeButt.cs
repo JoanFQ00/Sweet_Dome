@@ -72,7 +72,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
             else
             {
                 GameManager.Instance.dayTime.LerpToTime(15, 0);
-                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completa la maquina");
+                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completa la máquina");
             }
 
             OnFirstDayButt?.Invoke(true);
@@ -105,7 +105,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 if (GameManager.Instance.dayManager.hasTriedToSkipTVDay3) 
                 {
                     GameManager.Instance.dayTime.LerpToTime(15, 0);
-                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completa la maquina");
+                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completa la máquina");
                 }
                 else
                 {
@@ -170,7 +170,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
             else if (hour < 12)
             {
                 GameManager.Instance.dayTime.LerpToTime(15, 0);
-                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completa la maquina");
+                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completa la máquina");
                 GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.GoToWorkDay2);
             }
             else if (hour <= 15) 

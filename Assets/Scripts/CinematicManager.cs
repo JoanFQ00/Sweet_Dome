@@ -14,6 +14,7 @@ public class CinematicManager : MonoBehaviour
     public PlayableDirector day5LongHugTimeline;
     public PlayableDirector day5WatchWindowTimeline;
     public PlayableDirector goToSleepTimeline;
+    public PlayableDirector finalCinematic;
 
     private PlayableDirector activeTimeline;
     private bool cinematicStarted = false;
@@ -91,6 +92,9 @@ public class CinematicManager : MonoBehaviour
             case "GoToSleep":
                 activeTimeline = goToSleepTimeline;
                 break;
+            case "FinalCinematic":
+                activeTimeline = finalCinematic;
+                break;
             default:
                 activeTimeline = null;
                 break;
@@ -114,6 +118,20 @@ public class CinematicManager : MonoBehaviour
         {
             GameManager.Instance.playerController.LockPlayer(false);
             GameManager.Instance.playerController.LockCamera(false);
+        }
+
+        if (activeTimeline.name == "Cin (2)")
+        {
+            StartCinematicSequence("Day3TurnOffTv");
+            return;
+        }
+        else if (activeTimeline.name == "Cin (5)") 
+        {
+            StartCinematicSequence("Day5WatchWindow");
+        }
+        else
+        {
+            activeTimeline = null;
         }
 
         cinematicStarted = false;
