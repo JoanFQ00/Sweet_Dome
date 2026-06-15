@@ -19,10 +19,15 @@ public enum PresiDialogue
     PresiSaysYouCanRead = 10,
     PresiSaysYouCanWatchTv = 11,
 
+    MattewTraitorDay1 = 50,
+
+    GoodMornDayHappy = 68,
+    GoodMorNoHappy = 69,
+
     CongratDay1Presi = 100,
 
-
-    MattewTraitorDay1 = 50,
+    GoodMorDay5 = 102,
+    BadMorDay5 = 103,
 
     DorothySights = 124,
 }

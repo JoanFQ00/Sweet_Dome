@@ -5,17 +5,15 @@ using UnityEngine.Playables;
 
 public class DayManager : MonoBehaviour
 {
-    private bool playedSitAnim = false;
-    private bool playedTvAnim = false;
-
     [Header("Day1Con")]
     public Dec_Con hasEated;
     public Dec_Con hasRead;
     public Dec_Con hasWatchedTv;
     public Dec_Con machineCompletedDay1;
 
-    public float day1FinalTimer;
+    public float day1FinalTimer = 60f;
     private float currentDay1Time;
+    bool moveTimerCheck = false;
 
     [Header("Day2Con")]
     public float day2DorothyTimer = 5f;
@@ -23,7 +21,6 @@ public class DayManager : MonoBehaviour
 
     public Dec_Con dorothyBook1Readed;
     public Dec_Con dorothyAngriedDay2;
-
 
     [Header("Day3Con")] //Podria reutilizar el timer IKIK
     public float dayLaunchDorothyTimer = 5f;
@@ -40,6 +37,9 @@ public class DayManager : MonoBehaviour
     [Header("Day4Con")]
     public Dec_Con dorothyLaunch2;
     public Dec_Con hasReadDorothyBook3;
+
+    [Header("Day5Con")]
+    public Dec_Con hasReadDorothyBook4;
 
     [Header("ActionsToRemember")]
     public NDec_Act angriedDay2;
@@ -64,7 +64,11 @@ public class DayManager : MonoBehaviour
     public bool D62 = false;
     public bool D71 = false;
     public bool D72 = false;
+    public bool D81 = false;
+    public bool D82 = false;
+    public bool D83 = false;
     public bool D84 = false;
+    public bool dorothyWaiting = false;
 
     [Header("SafeChecks")]
     public bool hasEated_SC = false;
@@ -82,10 +86,15 @@ public class DayManager : MonoBehaviour
     public bool checkedEatDay3 = false;
     public bool checkedReadDay3 = false;
     public bool checkedTvDay3 = false;
+    public bool hasTriedToSkipTVDay3;
 
     [Header("Day4 SafeChecks")]
     public bool checkedReadD4 = false;
     public bool trySkipEatingD4 = false;
+
+    [Header("Day5 SafeChecks")]
+    public bool checkReadDay5;
+    public bool makeDorothySad = false;
 
     [Header("Interactables")]
     public Action_Interactable[] dayInt;
@@ -130,7 +139,6 @@ public class DayManager : MonoBehaviour
             }
         }
     }
-
 
     private void OnEnable()
     {
@@ -230,6 +238,18 @@ public class DayManager : MonoBehaviour
 
     void Timers()
     {
+        if (GameManager.Instance.currentDay == Day.Day1 &&
+            moveTimerCheck) 
+        {
+            currentDay1Time += Time.deltaTime;
+            if (currentDay1Time >= day1FinalTimer) 
+            {
+                moveTimerCheck = false;
+                currentDay1Time = 0;
+                GameManager.Instance.ExecuteFinishAnimation(1, 3);
+            }
+        }
+
         if (activatedBBTimer)
         {
             currentBeBopTimer += Time.deltaTime;
@@ -426,7 +446,7 @@ public class DayManager : MonoBehaviour
             }
             else 
             {
-                if (D61) 
+                if (D61)
                 {
                     dayLaunchDorothyCurrentTime += Time.deltaTime;
 
@@ -438,15 +458,39 @@ public class DayManager : MonoBehaviour
 
                     if (!hasEated_SC && dorothyLaunch2.IsMet(GameManager.Instance.decManager))
                     {
-                        ChangeDorothyDialogue((int)DialoguesRobo.lastBookRec, true);
+                        ChangeDorothyDialogue((int)DialoguesRobo.LastBookRec, true);
                         hasEated_SC = true;
                         dorothyBook.SetActive(true);
                         dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day4);
                     }
+
+                    if (!checkReadDay5 && hasReadDorothyBook4.IsMet(GameManager.Instance.decManager)) 
+                    {
+                        // - Cinematica Abrazo Largo y le quiere mucho + Come To Window
+                        checkReadDay5 = true;
+                        ChangeDorothyDialogue((int)DialoguesRobo.FinalRevelation, false);
+                        dorothyWaiting = true;
+                    }
                 }
                 if (D62) 
                 {
+                    dayLaunchDorothyCurrentTime += Time.deltaTime;
 
+                    if (dayLaunchDorothyCurrentTime >= dayLaunchDorothyTimer && !dorothyTalksAboutLaunch)
+                    {
+                        dorothyTalksAboutLaunch = true;
+                        ChangeDorothyDialogue((int)DialoguesRobo.AngriedAndNoLaunch, true);
+                        dorothyLaunch.SetActive(false);
+                        //Desactivar Menjar Normal
+                    }
+
+                    if (!checkReadDay5 && hasRead.IsMet(GameManager.Instance.decManager)) 
+                    {
+                        checkReadDay5 = true;
+
+                        ChangeDorothyDialogue((int)DialoguesRobo.AngriedAndNoLaunch, true);
+                        D83 = true;
+                    }
                 }
             }
             
@@ -592,22 +636,14 @@ public class DayManager : MonoBehaviour
         else if (hasWatchedTv.IsMet(GameManager.Instance.decManager) && triedToSkipMachine)
         {
             PresidentSpeaks(PresiDialogue.MattewTraitorDay1);
-            if (!playedSitAnim)
-            {
-                GameManager.Instance.robotBehaviour.TriggerSitAnimation();
-                playedSitAnim = true;
-            }
+            GameManager.Instance.ExecuteFinishAnimation(0, 6);
         }
         else if (hasWatchedTv.IsMet(GameManager.Instance.decManager))
         {
             ChangeDorothyDialogue((int)DialoguesRobo.TryToSkipMachineDay1, true);
             triedToSkipMachine = true;
-            if (!playedTvAnim)
-            {
-                GameManager.Instance.robotBehaviour.TriggerTurnOffTvAnimation();
-                playedTvAnim = true;
-            }
         }
+
     }
 
     void CheckPresiTerminatedDialogue()
@@ -634,7 +670,7 @@ public class DayManager : MonoBehaviour
         GameManager.Instance.presiSpeaker.PresiSpeaks();
     }
 
-    void PresidentSpeaks(PresiDialogue dialogue)
+    public void PresidentSpeaks(PresiDialogue dialogue)
     {
         GameManager.Instance.presiSpeaker.PresiSpeaks((int)dialogue);
     }
@@ -704,12 +740,26 @@ public class DayManager : MonoBehaviour
             break;
 
             case Day.Day4:
-                //If branca 4/1 Com els anteriors else nou dialeg amb error 
-            break;
+                if (D41)
+                {
+                    PresidentSpeaks(PresiDialogue.GoodMornDayHappy);
+                }
+                else 
+                {
+                    PresidentSpeaks(PresiDialogue.GoodMorNoHappy);
+                }
+                break;
 
             case Day.Day5:
-
-            break;
+                if (D71)
+                {
+                    PresidentSpeaks(PresiDialogue.GoodMorDay5);
+                }
+                else 
+                {
+                    PresidentSpeaks(PresiDialogue.BadMorDay5);
+                }
+                break;
         }
     }
 
@@ -731,6 +781,11 @@ public class DayManager : MonoBehaviour
                     NDec_Act newAct2 = Resources.Load<NDec_Act>("Actions/DorothyBook3");
                     NDec_Act eatAct2 = Resources.Load<NDec_Act>("Actions/DorothyLaunchD4");
                     readerCode.act = newAct2;
+                break;
+
+                case Day.Day5:
+                    NDec_Act newAct3 = Resources.Load<NDec_Act>("Actions/DorothyBook4");
+
                 break;
             }
         }

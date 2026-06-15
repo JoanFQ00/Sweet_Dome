@@ -74,7 +74,7 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
         OnUpdateAction();
     }
 
-    public void CheckHour()
+    public virtual void CheckHour()
     {
         int hour = DayTime.Instance.GetCurrentHour();
         int newLayer;

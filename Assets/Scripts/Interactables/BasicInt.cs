@@ -49,7 +49,7 @@ public class BasicInt : MonoBehaviour, IInteractable, ILookable
             if (GameManager.Instance.dayTime.currentHour == 15)
             {
 
-                isPlaying = false; Debug.Log(isPlaying);
+                isPlaying = false; 
             }
         }
     }

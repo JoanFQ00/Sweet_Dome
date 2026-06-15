@@ -33,7 +33,15 @@ public enum DialoguesRobo
     MadDoro = 75,
 
     SpecialLaunch = 104,
-    lastBookRec = 106,
+    AngriedAndNoLaunch = 105,
+    LastBookRec = 106,
+    WorriedBout = 107,
+    YoureNotDif = 109,
+
+    DorothyGoToWindow = 110,
+    FinalRevelation = 111,
+    InsistToGo = 112,
+    DortohySad = 113,
 }
 
 public class RoboSys : DialogueSys

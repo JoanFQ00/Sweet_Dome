@@ -17,7 +17,6 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
     private bool canInteract = true;
 
     bool hasTriedSkipReadDay3;
-    bool hasTriedToSkipTVDay3;
 
     private int defaultLayer;
     private int interactableLayer;
@@ -95,15 +94,15 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 }
 
             }
-            else
+            else if (hour < 11)
             {
-                if (hasTriedToSkipTVDay3)
+                if (GameManager.Instance.dayManager.hasTriedToSkipTVDay3)
                     GameManager.Instance.dayTime.SetCurrentTime(15, 0);
                 else
                 {
                     GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.EncourageTV, true);
                     GameManager.Instance.dayManager.D32 = true;
-                    hasTriedToSkipTVDay3 = true;
+                    GameManager.Instance.dayManager.hasTriedToSkipTVDay3 = true;
                 }
             }
         }
@@ -161,6 +160,21 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 GameManager.Instance.dayTime.SetCurrentTime(15, 0);
                 GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.GoToWorkDay2);
             }
+            else if (hour <= 15) 
+            {
+                if (GameManager.Instance.dayManager.hasWatchedTv.IsMet(GameManager.Instance.decManager) 
+                    && GameManager.Instance.dayManager.triedToSkipMachine)
+                {
+                    GameManager.Instance.dayManager.PresidentSpeaks(PresiDialogue.MattewTraitorDay1);
+                    GameManager.Instance.ExecuteFinishAnimation(0, 6);
+                }
+                else if (GameManager.Instance.dayManager.hasWatchedTv.IsMet(GameManager.Instance.decManager))
+                {
+                    GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.TryToSkipMachineDay1, true);
+                    GameManager.Instance.dayManager.triedToSkipMachine = true;
+                }
+
+            }
         }
         else if (GameManager.Instance.currentDay == Day.Day5) 
         {
@@ -174,13 +188,22 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                         GameManager.Instance.dayManager.D71 = true;
                     }
                 }
-                else if (GameManager.Instance.dayManager.D71) 
+                else if (GameManager.Instance.dayManager.D71)
                 {
-                    GameManager.Instance.dayTime.SetCurrentTime(10, 00);
-                    GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.lastBookRec, true);
-                    GameManager.Instance.dayManager.hasEated_SC = true;
-                    GameManager.Instance.dayManager.dorothyBook.SetActive(true);
-                    GameManager.Instance.dayManager.dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day4);
+                    if (GameManager.Instance.dayManager.D61 && !GameManager.Instance.dayManager.D53)
+                    {
+                        GameManager.Instance.dayTime.SetCurrentTime(10, 00);
+                        GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.LastBookRec, true);
+                        GameManager.Instance.dayManager.hasEated_SC = true;
+                        GameManager.Instance.dayManager.dorothyBook.SetActive(true);
+                        GameManager.Instance.dayManager.dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day4);
+                    }
+                    else if (GameManager.Instance.dayManager.D62 && !GameManager.Instance.dayManager.D53) 
+                    {
+                        GameManager.Instance.dayTime.SetCurrentTime(10, 00);
+                        GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.LastBookRec, true);
+                        GameManager.Instance.dayManager.hasEated_SC = true;
+                    }
                 }
             }
             else if (hour < 11)
@@ -190,6 +213,21 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                     if (GameManager.Instance.dayManager.D53)
                     {
                         GameManager.Instance.dayTime.SetCurrentTime(11, 30);
+                    }
+                }
+                if (GameManager.Instance.dayManager.D71) 
+                {
+                    if (GameManager.Instance.dayManager.D61 && !GameManager.Instance.dayManager.D53)
+                    {
+                        // - Cinematica Ventana Dorothy
+                        GameManager.Instance.presiSpeaker.PresiSpeaks((int)DialoguesRobo.DorothyGoToWindow);
+                    }
+                    else if (GameManager.Instance.dayManager.D62 && !GameManager.Instance.dayManager.D53) 
+                    {
+                        GameManager.Instance.dayTime.SetCurrentTime(11, 30);
+                        GameManager.Instance.dayManager.D61 = true;
+                        GameManager.Instance.dayManager.D62 = false;
+                        // - Cinematica Ventana Dorothy
                     }
                 }
             }
@@ -203,6 +241,20 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                         GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.GoToWorkDay2);
                         GameManager.Instance.dayManager.D84 = true;
                     }
+                }
+
+                if (GameManager.Instance.dayManager.dorothyWaiting) 
+                {
+                    GameManager.Instance.presiSpeaker.PresiSpeaks((int)DialoguesRobo.InsistToGo);
+                    GameManager.Instance.dayManager.makeDorothySad = true;
+                }
+
+                if (GameManager.Instance.dayManager.makeDorothySad) 
+                {
+                    GameManager.Instance.dayManager.D82 = true;
+                    GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.DortohySad, true);
+                    GameManager.Instance.dayTime.SetCurrentTime(15, 0);
+                    GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.GoToWorkDay2);
                 }
             }
         }
