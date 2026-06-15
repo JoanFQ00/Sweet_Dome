@@ -58,17 +58,17 @@ public class MachineManager : MonoBehaviour
     public static Action<float, float> WaveDispatch;
     private bool waveEventLaunched = false;
 
-    WaveWinner waveMinigame;
     public bool waveCompleted = false;
     public static event Action<string> OnFinishedDay;
     bool radarResult = false;
 
     private MachineStoryNode currentNode = MachineStoryNode.NODE_01_D1;
 
-    DayManager dayManager;
-    CityPriorityManager priorityManager;
-    RadarMinigame radarMinigame;
-    CodeSystem codeSystem;
+    [SerializeField] WaveWinner waveMinigame;
+    [SerializeField] DayManager dayManager;
+    [SerializeField] CityPriorityManager priorityManager;
+    [SerializeField] RadarMinigame radarMinigame;
+    [SerializeField] CodeSystem codeSystem;
 
     private void Start()
     {
@@ -949,6 +949,12 @@ public class MachineManager : MonoBehaviour
             cityFunnel.TriggerCrackInZone(0, 20f, 3f);
             onCountdown = true;
         }
+        
+        //N01
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ForcesDay1Dorothy) //08
+        {
+            onCountdown = true;
+        }
 
         //N02
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.AngryFunDay1Presi) //10
@@ -1433,6 +1439,7 @@ public class MachineManager : MonoBehaviour
         else if (GameManager.Instance.currentDay == Day.Day5)
         {
             codeSystem.ForceDisable();
+            cityFunnel.SetGlobalEnergyFlowPause(true);
             onCountdown = true;
         }
     }
