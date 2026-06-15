@@ -52,7 +52,6 @@ public class PlayerController : MonoBehaviour
     public static Action OnMovedForFirstTime;
     bool hasMovedForFirstTime = false;
 
-    [HideInInspector]
     public bool playerLocked;
 
     PlayerInput playerInput;
