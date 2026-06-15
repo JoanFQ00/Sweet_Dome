@@ -8,6 +8,9 @@ public class CityPriorityManager : MonoBehaviour, IResetable
     private FunnelBase prioritizedZone;
     private bool priorityUsedToday = false;
 
+    // VARIABLE BLINDADA: Guarda el índice fijo de la zona priorizada
+    private int prioritizedZoneIndex = -1;
+
     private void Start()
     {
         if (GameManager.Instance != null)
@@ -32,6 +35,7 @@ public class CityPriorityManager : MonoBehaviour, IResetable
     {
         prioritizedZone = null;
         priorityUsedToday = false;
+        prioritizedZoneIndex = -1; // Reseteamos el índice blindado para el nuevo día
 
         OnPriorityResetVisual();
 
@@ -46,9 +50,6 @@ public class CityPriorityManager : MonoBehaviour, IResetable
 
     public void PrioritizeCurrentZone()
     {
-        // ELIMINADO: Los 'if' de control de clics repetidos ya no hacen falta aquí.
-        // El validador del MainButt se encarga de filtrar las pulsaciones falsas.
-
         if (cityFunnel == null) return;
 
         FunnelBase currentZone = cityFunnel.GetCurrentZone();
@@ -57,7 +58,10 @@ public class CityPriorityManager : MonoBehaviour, IResetable
         prioritizedZone = currentZone;
         priorityUsedToday = true;
 
-        Debug.Log($"Prioritized zone: {prioritizedZone.name}");
+        // CONGELAMOS EL ÍNDICE AQUÍ: Guardamos el índice exacto que tiene la ciudad en este frame
+        prioritizedZoneIndex = cityFunnel.GetIdxCurrentZone();
+
+        Debug.Log($"Prioritized zone: {prioritizedZone.name} with fixed Index: {prioritizedZoneIndex}");
     }
 
     // -------------------------
@@ -73,9 +77,13 @@ public class CityPriorityManager : MonoBehaviour, IResetable
         return prioritizedZone;
     }
 
+    /// <summary>
+    /// Devuelve el índice REAL y CONGELADO que se guardó al pulsar el botón de prioridad.
+    /// Devuelve -1 si aún no se ha usado la prioridad hoy.
+    /// </summary>
     public int GetIdxPrioritizedZone()
     {
-        return cityFunnel.GetIdxCurrentZone();
+        return prioritizedZoneIndex;
     }
 
     public bool IsZonePrioritized(FunnelBase zone)

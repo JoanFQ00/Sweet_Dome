@@ -238,6 +238,17 @@ public class CityFunnel : FunnelBase, IResetable
         }
     }
 
+    public void DrainLiquidFromZoneImmediate(int zoneIndex, float amountToRemove)
+    {
+        if (zoneIndex < 0 || zoneIndex >= cityZones.Count) return;
+
+        var zoneData = cityZones[zoneIndex];
+        if (zoneData != null && zoneData.funnel != null)
+        {
+            zoneData.funnel.RemoveLiquid(amountToRemove);
+        }
+    }
+
     public void ChangeLiquidInZone(int zoneIndex, float targetValue, float duration)
     {
         if (zoneIndex < 0 || zoneIndex >= cityZones.Count) return;

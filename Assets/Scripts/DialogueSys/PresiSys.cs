@@ -24,6 +24,7 @@ public enum PresiDialogue
     GoodMornDayHappy = 68,
     GoodMorNoHappy = 69,
 
+    //DAY 1
     CongratsDay1Presi = 100,
     CongratsAgainDay1Presi = 110,
     ForcesDay1Dorothy = 111,
@@ -31,6 +32,21 @@ public enum PresiDialogue
     AngryFunDay1Presi = 113,
     SemiAngryFunDay1Presi = 114,
     AngryAngryDay1Presi = 115,
+
+    //DAY 2
+    PleaseSchoolDay2Presi = 200,
+    CrackAtSchoolDay2Presi = 201,
+    GoodHappySchoolDay2Dorothy = 202,
+    GoodSadDay2Dorothy = 203,
+    CongratsDay2Presi = 204,
+    SleepDay2Presi = 205,
+    VeryAngryDay2Dorothy = 205,
+    BadFinalDay2Presi = 206,
+    SemiAngryDay2Dorothy = 207,
+    AngryDay2Dorothy = 208,
+    SemiAngryDay2Presi = 209,
+
+    //DAY 3
 
     GoodMorDay5 = 102,
     BadMorDay5 = 103,
