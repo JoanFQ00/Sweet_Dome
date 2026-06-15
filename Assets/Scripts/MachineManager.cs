@@ -17,8 +17,6 @@ public class MachineManager : MonoBehaviour
     [Header("Day 1 Goals")]
     [SerializeField] List<float> cityValuesD1;
     [SerializeField] float FirstCDDay1 = 20f;
-    bool day1CDCompleted;
-    bool day2CDCompleted;
 
     [SerializeField] private float secondCountDay1 = 20f;
 
@@ -54,14 +52,23 @@ public class MachineManager : MonoBehaviour
 
     [Header("EventDispatcher")]
     bool onCountdown = false;
-    public static Action<float,float, int> RadarDispatch; // TimeToEvent, EventTime, QuantityOfObj
+    public static Action<float,float, int> RadarDispatch;
 
     [Header("EventDispatcher")]
     public static Action<float, float> WaveDispatch;
     private bool waveEventLaunched = false;
 
-    //[Header("EventTimers")]
-    //public float timeToRadar = 7.5f;
+    WaveWinner waveMinigame;
+    public bool waveCompleted = false;
+    public static event Action<string> OnFinishedDay;
+    bool radarResult = false;
+
+    private MachineStoryNode currentNode = MachineStoryNode.NODE_01_D1;
+
+    DayManager dayManager;
+    CityPriorityManager priorityManager;
+    RadarMinigame radarMinigame;
+    CodeSystem codeSystem;
 
     private void Start()
     {
@@ -80,12 +87,6 @@ public class MachineManager : MonoBehaviour
 
         if (DayTime.Instance.currentHour >= 21)
             return;
-
-        //if (DayTime.Instance.currentHour >= 15 && !waveEventLaunched)
-        //{
-        //    waveEventLaunched = true;
-        //    WaveDispatch?.Invoke(0f, 60f);
-        //}
 
         if (onCountdown) 
         {
@@ -250,23 +251,12 @@ public class MachineManager : MonoBehaviour
         NODE_09_D4,
         NODE_10_D4,
         NODE_11_D4,
-        NODE_12_D4,
-        NODE_13_D4,
-        NODE_14_D4,
-        NODE_15_D4,
-        NODE_16_D4,
-        NODE_17_D4,
-        NODE_18_D4,
-        NODE_19_D4,
 
         //DAY5
+        NODE_01_D5,
+        NODE_02_D5,
+        NODE_03_D5,
     }
-
-    private MachineStoryNode currentNode = MachineStoryNode.NODE_01_D1;
-
-    DayManager dayManager;
-    CityPriorityManager priorityManager;
-    RadarMinigame radarMinigame;
 
     void UpdateCountdown()
     {
@@ -858,7 +848,64 @@ public class MachineManager : MonoBehaviour
                 break;
 
             case Day.Day5:
-            break;
+                currentCountdown += Time.deltaTime;
+
+                switch (currentNode)
+                {
+                    case MachineStoryNode.NODE_01_D5:
+                        if (dayManager.D84)
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D7ay5); //122
+                            ResetCountdowns();
+                            onCountdown = false;
+                        }
+                        else
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D0ay5); //115
+                            ResetCountdowns();
+                            onCountdown = false;
+                        }
+                        break;
+                    
+                    case MachineStoryNode.NODE_02_D5:
+                        if (dayManager.D81 && dayManager.hasReadDorothyBook4.IsMet(GameManager.Instance.decManager) && dayManager.hasReadDorothyBook3.IsMet(GameManager.Instance.decManager) && dayManager.dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && dayManager.dorothyBook2Readed.IsMet(GameManager.Instance.decManager))
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D1ay5); //116
+                            ResetCountdowns();
+                            onCountdown = false;
+                            currentNode = MachineStoryNode.NODE_03_D5;
+                        }
+                        else if (priorityManager.hasBeenPressedDay5)
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D3ay5); //118
+                            ResetCountdowns();
+                            onCountdown = false;
+                        }
+                        else if (currentCountdown >= 15f)
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D2ay5); //117
+                            ResetCountdowns();
+                            onCountdown = false;
+                        }
+                        break;
+
+                    case MachineStoryNode.NODE_03_D5:
+                        if (currentCountdown >= 15f)
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D5ay5); //120
+                            ResetCountdowns();
+                            onCountdown = false;
+                        }
+                        else if (codeSystem.isSecretCodeCorrectDay5)
+                        {
+                            codeSystem.ForceDisable();
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D4ay5); //119
+                            ResetCountdowns();
+                            onCountdown = false;
+                        }
+                        break;
+                }
+                break;
 
             default:
             break;
@@ -1004,7 +1051,7 @@ public class MachineManager : MonoBehaviour
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.BadFinalDay2Presi) //34
         {
             //FINAL 5
-            GameManager.Instance.ExecuteFinishAnimation(5, 0);
+            GameManager.Instance.ExecuteFinishAnimation(15, 0);
         }
 
         //FINAL DAY2
@@ -1127,7 +1174,7 @@ public class MachineManager : MonoBehaviour
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.F5Day3Presi) //62
         {
             //FINAL 5
-            GameManager.Instance.ExecuteFinishAnimation(5, 0);
+            GameManager.Instance.ExecuteFinishAnimation(15, 0);
         }
 
         //FINAL DAY3
@@ -1169,7 +1216,13 @@ public class MachineManager : MonoBehaviour
         
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D4ay4) //82
         {
-            //
+            cityValuesD4[0] = 80f;
+            TMP_text.text =
+                    "Zona Urbana: " + cityValuesD4[0] + "\n" +
+                    "Escuela: " + cityValuesD4[1] + "\n" +
+                    "Hospital: " + cityValuesD4[2] + "\n" +
+                    "Residencia Presidencial: " + cityValuesD4[3];
+
             onCountdown = true;
         }
         
@@ -1201,7 +1254,7 @@ public class MachineManager : MonoBehaviour
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D17Day4) //95
         {
             //FINAL 5
-            GameManager.Instance.ExecuteFinishAnimation(5, 0);
+            GameManager.Instance.ExecuteFinishAnimation(15, 0);
         }
 
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D12ay4) //90
@@ -1261,12 +1314,54 @@ public class MachineManager : MonoBehaviour
         }
 
         ////DAY5
-        ////N00
-        //if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay1) //06
-        //{
-        //    currentNode = MachineStoryNode.NODE_01_D1;
-        //    onCountdown = true;
-        //}
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D7ay5) //122
+        {
+            //FINAL 4
+            GameManager.Instance.ExecuteFinishAnimation(14, 0);
+        }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D0ay5) //115
+        {
+            priorityManager.isDay5CrisisActive = true;
+            currentNode = MachineStoryNode.NODE_02_D5;
+            onCountdown = true;
+        }
+        
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D1ay5) //116
+        {
+            codeSystem.EnableCodeSystem(null);
+            onCountdown = true;
+        }
+        
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D2ay5) //117
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D5ay5); //120
+        }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D3ay5) //118
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D6ay5); //121
+        }
+        
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D6ay5) //121
+        {
+            //FINAL 3
+            Shake.Instance.TriggerShake(5f);
+            GameManager.Instance.ExecuteFinishAnimation(13, 5);
+        }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D5ay5) //120
+        {
+            //FINAL 2
+            GameManager.Instance.ExecuteFinishAnimation(12, 0);
+        }
+        
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D4ay5) //119
+        {
+            //FINAL 1
+            Shake.Instance.TriggerShake(5f);
+            GameManager.Instance.ExecuteFinishAnimation(11, 5);
+        }
     }
 
     public void FinishWorkingDay()
@@ -1288,16 +1383,12 @@ public class MachineManager : MonoBehaviour
         OnFinishedDay?.Invoke("GoToSleep");
     }
 
-    public static event Action<string> OnFinishedDay;
-    bool radarResult = false;
     private void RadarFinished(bool exit)
     {
         radarResult = exit;
         onCountdown = true;
     }
 
-    WaveWinner waveMinigame;
-    public bool waveCompleted = false;
     private void WaveFinished(bool success)
     {
         waveCompleted = success;
@@ -1337,6 +1428,12 @@ public class MachineManager : MonoBehaviour
         else if (GameManager.Instance.currentDay == Day.Day4)
         {
             GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.ExplainMachineDay4); //77
+        }
+
+        else if (GameManager.Instance.currentDay == Day.Day5)
+        {
+            codeSystem.ForceDisable();
+            onCountdown = true;
         }
     }
 }

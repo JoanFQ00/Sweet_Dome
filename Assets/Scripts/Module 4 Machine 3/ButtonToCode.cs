@@ -4,7 +4,7 @@ public class ButtonToCode : MonoBehaviour
 {
     public MainButt mainButt;
     public NumberButton numberSrc;
-    public CodeSystem codeSystem; 
+    public CodeSystem codeSystem;
 
     void Awake()
     {
