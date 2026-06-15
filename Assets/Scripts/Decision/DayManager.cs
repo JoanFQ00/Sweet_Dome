@@ -386,7 +386,7 @@ public class DayManager : MonoBehaviour
             if (!checkedEatDay3)
             {
                 checkedEatDay3 = true;
-                IniciarSecuenciaCinematica(); // -Cinematica Despres d'acabar aqueta ha de fer la cinematica d'apagar la tele
+                IniciarSecuenciaCinematica(); // - Cinematica Despres d'acabar aqueta ha de fer la cinematica d'apagar la tele
                 D31 = true;
 
             }

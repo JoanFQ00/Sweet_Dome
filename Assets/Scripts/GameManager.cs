@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour
     protected virtual void Start()
     {
         StartCoroutine(DelayedStartDay());
-        cinDialogueVisual.SetActive(false);
     }
 
     private IEnumerator DelayedStartDay()
@@ -82,8 +81,6 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Final")
             return;
-
-        cinDialogueVisual.SetActive(false);
 
         currentState = GameState.Gameplay;
         Cursor.lockState = CursorLockMode.Locked;
