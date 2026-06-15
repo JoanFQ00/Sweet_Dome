@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class DayManager : MonoBehaviour
 {
@@ -103,10 +104,7 @@ public class DayManager : MonoBehaviour
     [Header("DorothyBooks")]
     public GameObject dorothyBook;
 
-    [Header("Cinematics Settings (Day 3)")]
-    public PlayableDirector day3Timeline;
-    private bool cinematicStarted = false;
-    private bool cinematicEndedTriggered = false;
+    public static event Action<string> OnRequestCinematic;
 
     private IEnumerator Start()
     {
@@ -185,15 +183,6 @@ public class DayManager : MonoBehaviour
         }
 
         Timers();
-
-        if (cinematicStarted && !cinematicEndedTriggered && day3Timeline != null)
-        {
-            if (day3Timeline.state != PlayState.Playing || day3Timeline.time >= day3Timeline.duration)
-            {
-                cinematicEndedTriggered = true;
-                TerminarCinematicaYVolverAlJuego();
-            }
-        }
 
         switch (GameManager.Instance.currentDay)
         {
@@ -386,7 +375,8 @@ public class DayManager : MonoBehaviour
             if (!checkedEatDay3)
             {
                 checkedEatDay3 = true;
-                IniciarSecuenciaCinematica(); // - Cinematica Despres d'acabar aqueta ha de fer la cinematica d'apagar la tele
+                // - Cinematica Despres d'acabar aqueta ha de fer la cinematica d'apagar la tele
+                OnRequestCinematic?.Invoke("Day3");
                 D31 = true;
 
             }
@@ -427,6 +417,7 @@ public class DayManager : MonoBehaviour
             {
                 checkedReadD4 = true;
                 //Play Cinematic "DOROTHY SE SIENTA CON MATTHEW Y LE ABRAZA
+                OnRequestCinematic?.Invoke("Day4Hug");
                 D51 = true;
             }
 
@@ -438,6 +429,7 @@ public class DayManager : MonoBehaviour
             {
                 // - Cinematica Apagar Tele
                 hasEated_SC = true;
+                OnRequestCinematic?.Invoke("Day4TurnOffTv");
                 D31 = true;
                 Debug.Log("Dorothy Apaga la tele");
             }
@@ -799,39 +791,5 @@ public class DayManager : MonoBehaviour
                 break;
             }
         }
-    }
-
-    void IniciarSecuenciaCinematica()
-    {
-        GameManager.Instance.playerController.LockPlayer(true);
-        GameManager.Instance.playerController.LockCamera(true);
-
-        if (CinematicFader.Instance != null)
-        {
-            CinematicFader.Instance.FundidoANegro();
-        }
-
-        if (day3Timeline != null)
-        {
-            day3Timeline.Play();
-            cinematicStarted = true;
-        }
-    }
-
-    void TerminarCinematicaYVolverAlJuego()
-    {
-        if (CinematicFader.Instance != null)
-        {
-            CinematicFader.Instance.FundidoATransparente();
-        }
-
-        if (GameManager.Instance != null && GameManager.Instance.playerController != null)
-        {
-            GameManager.Instance.playerController.LockPlayer(false);
-            GameManager.Instance.playerController.LockCamera(false);
-        }
-
-        cinematicStarted = false;
-        cinematicEndedTriggered = false;
     }
 }
