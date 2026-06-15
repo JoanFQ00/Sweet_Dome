@@ -4524,6 +4524,7 @@ MonoBehaviour:
   day4TurnOffTvTimeline: {fileID: 7699917109723738455}
   day5LongHugTimeline: {fileID: 5141474130979536076}
   day5WatchWindowTimeline: {fileID: 4221665757843629039}
+  goToSleepTimeline: {fileID: 0}
   cinematicDialogueUI: {fileID: 612900196}
 --- !u!4 &183955664
 Transform:
@@ -11220,6 +11221,7 @@ GameObject:
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
   - component: {fileID: 330585549}
+  - component: {fileID: 330585550}
   m_Layer: 10
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -11396,6 +11398,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!81 &330585550
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
 --- !u!1 &335484962 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3938802600002522082, guid: 70ddf7b186115084daa6ec1570353abc, type: 3}
@@ -59031,6 +59041,7 @@ MonoBehaviour:
   radarCompleted: 0
   codeCompleted: 0
   temperatureCompleted: 0
+  waveCompleted: 0
 --- !u!1 &1897386060240490679
 GameObject:
   m_ObjectHideFlags: 0
