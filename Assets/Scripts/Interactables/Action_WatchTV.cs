@@ -140,7 +140,7 @@ public class Action_WatchTV : BaseAction
         videoPlayer.enabled = true;
         videoPlayer.Play();
         SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.tvSFX);
-        GameManager.Instance.presiSpeaker.PresiSpeaks(500 + (int)GameManager.Instance.currentDay);
+        GameManager.Instance.presiSpeaker.PresiSpeaks(600 + (int)GameManager.Instance.currentDay);
     }
 
     void TurnOffTV()
