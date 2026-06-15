@@ -5,6 +5,7 @@ public class ButtonKeyboard : ButtonValidator
     [Header("Ref Control")]
     [SerializeField] private WaveWinner waveWinner;
     [SerializeField] private CodeSystem codeSystem;
+
     void Start()
     {
         if (waveWinner == null)
@@ -16,8 +17,15 @@ public class ButtonKeyboard : ButtonValidator
 
     public override bool CanPress()
     {
-        if (waveWinner == null || codeSystem == null)
-            return false;
+        if (codeSystem == null) return false;
+
+        if (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day5)
+        {
+            return codeSystem.IsCodeSystemActive();
+        }
+
+        // --- COMPORTAMIENTO HABITUAL (Días 1 a 4) ---
+        if (waveWinner == null) return false;
 
         return waveWinner.waveSolved && codeSystem.IsCodeSystemActive();
     }
