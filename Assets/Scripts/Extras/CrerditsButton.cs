@@ -22,14 +22,10 @@ public class CrerditsButton : MonoBehaviour
         menuButton.onClick.AddListener(GoToMenuAction);
     }
 
-    public void ActivateMouse()
+    void GoToMenuAction()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-    }
-
-    void GoToMenuAction()
-    {
         GameManager.Instance.levelManager.LoadMenu();
     }
 }
