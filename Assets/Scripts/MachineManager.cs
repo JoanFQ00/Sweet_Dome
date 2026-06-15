@@ -16,8 +16,10 @@ public class MachineManager : MonoBehaviour
 
     [Header("Day 1 Goals")]
     [SerializeField] List<float> cityValuesD1;
-    [SerializeField] float startCountdownDay1 = 15f;
+    [SerializeField] float FirstCDDay1 = 20f;
     bool day1CDCompleted;
+    bool day2CDCompleted;
+
     [SerializeField] private float secondCountDay1 = 20f;
 
     [Header("Day 2 Goals")]
@@ -64,7 +66,7 @@ public class MachineManager : MonoBehaviour
     private void Start()
     {
         currentCountdown = 0;
-        countdownList.Add(startCountdownDay1);
+        countdownList.Add(FirstCDDay1);
         OnNewDayReset();
     }
 
@@ -209,47 +211,109 @@ public class MachineManager : MonoBehaviour
         }
     }
 
+    public enum MachineStoryNode
+    {
+        NODE_01_D1,
+        NODE_02_D1,
+        NODE_03_D1,
+        NODE_04_D1,
+        NODE_05_D1,
+        NODE_06_D1,
+    }
+
+    private MachineStoryNode currentNode = MachineStoryNode.NODE_01_D1;
+    DayManager dayManager;
+
     void UpdateCountdown()
     {
-        if (GameManager.Instance.currentDay == Day.Day1)
+        switch (GameManager.Instance.currentDay)
         {
-            currentCountdown += Time.deltaTime;
+            case Day.Day1:
+                currentCountdown += Time.deltaTime;
 
-            if (!day1CDCompleted)
-            {
-                if (IsCityStable()) 
+                switch (currentNode)
                 {
-                    GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.CongratDay1Presi);
-                    ResetCountdowns();
-                    onCountdown = false;
-                    day1CDCompleted = true;
-                }
+                    case MachineStoryNode.NODE_01_D1:
+                        if (IsCityStable())
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.CongratsDay1Presi); //07
+                            ResetCountdowns();
+                            onCountdown = false;
+                            currentNode = MachineStoryNode.NODE_02_D1;
+                        }
+                        else if (currentCountdown >= 20f)
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.ForcesDay1Dorothy); //08
+                            ResetCountdowns();
+                            onCountdown = false;
+                            currentNode = MachineStoryNode.NODE_03_D1;
+                        }
+                    break;
 
-                if (currentCountdown >= startCountdownDay1)
-                {
-                    GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.MachineOmitedDay1);
-                    ResetCountdowns();
-                    onCountdown = false;
-                    day1CDCompleted = true;
+                    case MachineStoryNode.NODE_02_D1:
+                        if (IsCityStable())
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.CongratsAgainDay1Presi); //11
+                            ResetCountdowns();
+                            onCountdown = false;
+                        }
+                        if (currentCountdown >= 20f)
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.AngryFunDay1Presi); //10
+                            ResetCountdowns();
+                            onCountdown = false;
+                        }
+                    break;
+
+                    case MachineStoryNode.NODE_03_D1:
+                        if (IsCityStable())
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.CongratsDay1Presi); //07
+                            ResetCountdowns();
+                            onCountdown = false;
+                            currentNode = MachineStoryNode.NODE_02_D1;
+                        }
+                        if (currentCountdown >= 20f)
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.SemiAngryFunDay1Presi); //09
+                            ResetCountdowns();
+                            onCountdown = false;
+                            currentNode = MachineStoryNode.NODE_04_D1;
+                        }
+                    break;
+
+                    case MachineStoryNode.NODE_04_D1:
+                        if (IsCityStable())
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.CongratsAgainDay1Presi); //11
+                            ResetCountdowns();
+                            onCountdown = false;
+                        }
+                        if (currentCountdown >= 20f)
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.AngryAngryDay1Presi); //12
+                            ResetCountdowns();
+                            onCountdown = false;
+                        }
+                        break;
                 }
-            }
-            else if (currentCountdown >= secondCountDay1)
-            {
-                GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.MachineOmitedDay12ndTime);
-                ResetCountdowns();
-                onCountdown = false;
-            }
+                break;
+
+            case Day.Day2:
+            break;
+
+            case Day.Day3:
+            break;
+
+            case Day.Day4:
+            break;
+
+            case Day.Day5:
+            break;
+
+            default:
+            break;
         }
-
-        //if (GameManager.Instance.currentDay == Day.Day3) 
-        //{
-        //    if (currentCountdown >= startCountdownDay3) 
-        //    {
-        //        Activar Invoke y todo lo que toque, mirat tmb el de dalt
-
-        //    }
-
-        //}
     }
 
     void ResetCountdowns()
@@ -263,11 +327,10 @@ public class MachineManager : MonoBehaviour
     private void OnNewDayReset()
     {
         currentCountdown = 0f;
-        day1CDCompleted = false;
         onCountdown = false;
 
         countdownList.Clear();
-        countdownList.Add(startCountdownDay1);
+        countdownList.Add(FirstCDDay1);
 
         cityFunnel.SetGlobalEnergyFlowPause(true);
         WaveDispatch?.Invoke(0f, 60f);
@@ -275,21 +338,53 @@ public class MachineManager : MonoBehaviour
 
     void CheckTerminatedDialogue() 
     {
-        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay1) 
+        //DAY1
+        //N00
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay1) //06
         {
+            currentNode = MachineStoryNode.NODE_01_D1;
             onCountdown = true;
         }
 
-        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.CongratDay1Presi) 
+        //N01
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.CongratsDay1Presi) //07
         {
-            cityFunnel.TriggerCrackInZone(0, 20f, 3f);
             Shake.Instance.TriggerShake(1f);
+            cityFunnel.TriggerCrackInZone(0, 20f, 3f);
             onCountdown = true;
         }
 
-        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay3) 
+        //N02
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.AngryFunDay1Presi) //10
         {
-            RadarDispatch?.Invoke(5, 60, 3);
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.SleepDay1Presi); //13
+        }
+
+        //N02
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.CongratsAgainDay1Presi) //11
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.SleepDay1Presi); //13
+        }
+
+        //N03
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.SemiAngryFunDay1Presi) //09
+        {
+            Shake.Instance.TriggerShake(1f);
+            cityFunnel.TriggerCrackInZone(0, 20f, 3f);
+            onCountdown = true;
+        }
+        
+        //N04
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.AngryAngryDay1Presi) //12
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.SleepDay1Presi); //13
+        }
+
+        //FINAL DAY1
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.SleepDay1Presi) //13
+        {
+            //SE PUEDE LEVANTAR DE LA SILLA, SON LA 21:00
+            // <-------------------------------------------------------- JOAN: POSAR CINEMATICA DE RECARGA
         }
     }
 
