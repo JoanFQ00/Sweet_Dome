@@ -4524,6 +4524,7 @@ MonoBehaviour:
   day4TurnOffTvTimeline: {fileID: 7699917109723738455}
   day5LongHugTimeline: {fileID: 5141474130979536076}
   day5WatchWindowTimeline: {fileID: 4221665757843629039}
+  cinematicDialogueUI: {fileID: 612900196}
 --- !u!4 &183955664
 Transform:
   m_ObjectHideFlags: 0
@@ -4532,12 +4533,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 183955662}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.77303004, y: -5.18199, z: 10.71157}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 5412074522692647417}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &184305993
 GameObject:
@@ -14997,7 +14998,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Dorothy
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15007,7 +15008,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -21045,7 +21046,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911401938}
-  m_LocalRotation: {x: -0.008736327, y: 0.70705277, z: 0.7070529, w: -0.008736326}
+  m_LocalRotation: {x: -0.70705277, y: 0.008737386, z: -0.008737386, w: 0.70705277}
   m_LocalPosition: {x: 0, y: 0, z: 0.00133}
   m_LocalScale: {x: 0.008463425, y: 0.008463424, z: 0.008463424}
   m_ConstrainProportionsScale: 1
@@ -21053,7 +21054,7 @@ RectTransform:
   - {fileID: 1699949823}
   - {fileID: 1391136411}
   m_Father: {fileID: 1306311648}
-  m_LocalEulerAnglesHint: {x: -91.416, y: 90, z: 90}
+  m_LocalEulerAnglesHint: {x: -91.416, y: -90, z: 90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -0.00029, y: 0.01462}
@@ -33428,8 +33429,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "No hay ning\xFAn apocalipsis ah\xED fuera, todo fue una estrategia del
-    Presidente, bueno\u2026 Thomas, ese es su nombre real."
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -33439,7 +33439,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -76658,6 +76658,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 183955664}
   - {fileID: 6589131206738956135}
   - {fileID: 8390507098634380686}
   - {fileID: 6055536791060542890}
@@ -87666,8 +87667,8 @@ SceneRoots:
   - {fileID: 1001373507}
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 183955664}
   - {fileID: 1971355890}
+  - {fileID: 5412074522692647417}
   - {fileID: 5070742972557601031}
   - {fileID: 958680612}
   - {fileID: 1399328657}
@@ -87675,7 +87676,6 @@ SceneRoots:
   - {fileID: 5239600018551638944}
   - {fileID: 1346478160}
   - {fileID: 1433308441}
-  - {fileID: 5412074522692647417}
   - {fileID: 303979401}
   - {fileID: 1004737485}
   - {fileID: 623344518}

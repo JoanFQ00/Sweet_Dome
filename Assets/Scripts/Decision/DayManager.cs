@@ -319,6 +319,7 @@ public class DayManager : MonoBehaviour
         if (afterTvDay2 && ((dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && !watchTvTriggered) ||
             (dorothyAngriedDay2.IsMet(GameManager.Instance.decManager) && !watchTvTriggered)))
         {
+            OnRequestCinematic?.Invoke("Day5WatchWindow");
             watchTvTriggered = true;
             activatedBBTimer = true;
             ChangeDorothyDialogue((int)DialoguesRobo.DontWatchThatProgram, true);

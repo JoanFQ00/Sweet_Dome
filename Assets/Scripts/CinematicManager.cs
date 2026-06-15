@@ -18,6 +18,8 @@ public class CinematicManager : MonoBehaviour
     private bool cinematicStarted = false;
     private bool cinematicEndedTriggered = false;
 
+    public GameObject cinematicDialogueUI;
+
     public static event Action OnCinematicEnded;
 
     private void Awake()
@@ -26,6 +28,11 @@ public class CinematicManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        cinematicDialogueUI.SetActive(false);
     }
 
     private void OnEnable()
