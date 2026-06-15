@@ -32,7 +32,7 @@ public class TaskMoveState : IState
             robot.LookAtTarget(robot.agent.steeringTarget);
         }
 
-        if (!robot.agent.pathPending && robot.agent.remainingDistance <= 0.6f)
+        if (!robot.agent.pathPending && robot.agent.remainingDistance <= 0.3f)
         {
             robot.agent.ResetPath();
             robot.animator.SetFloat("Speed", 0f);
