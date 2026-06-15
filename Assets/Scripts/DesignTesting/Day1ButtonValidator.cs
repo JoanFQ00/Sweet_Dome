@@ -10,7 +10,7 @@ public class Day1ButtonValidator : ButtonValidator
         // Si el día actual es el Día 1, rechazamos la pulsación
         if (GameManager.Instance.currentDay == Day.Day1)
         {
-            Debug.Log($"<color=yellow><b>[Validator]</b></color> Botón de cambio de zona bloqueado: Es el Día 1.");
+            //Debug.Log($"<color=yellow><b>[Validator]</b></color> Botón de cambio de zona bloqueado: Es el Día 1.");
             return false;
         }
 

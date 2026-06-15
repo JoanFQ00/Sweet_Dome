@@ -49,6 +49,9 @@ public class PlayerController : MonoBehaviour
 
     public static Action<bool> OnZoomActivated;
 
+    public static Action OnMovedForFirstTime;
+    bool hasMovedForFirstTime = false;
+
     [HideInInspector]
     public bool playerLocked;
 
@@ -117,6 +120,12 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
+        if (!hasMovedForFirstTime) 
+        {
+            OnMovedForFirstTime?.Invoke();
+            hasMovedForFirstTime = true;
+        }
+
         Vector2 input = playerInput.actions["Move"].ReadValue<Vector2>();
 
         Vector3 move = (transform.forward * input.y + transform.right * input.x).normalized;

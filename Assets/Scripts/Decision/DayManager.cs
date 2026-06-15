@@ -13,7 +13,7 @@ public class DayManager : MonoBehaviour
 
     public float day1FinalTimer = 60f;
     private float currentDay1Time;
-    bool moveTimerCheck = false;
+    bool moveTimerCheck = true;
 
     [Header("Day2Con")]
     public float day2DorothyTimer = 5f;
@@ -149,6 +149,7 @@ public class DayManager : MonoBehaviour
         LevelManager.OnLevelLoaded += SceneLoaded;
         PresiSys.OnDialogueTerminated += CheckPresiTerminatedDialogue;
         GameManager.NewDay += BookLaunchActChange;
+        PlayerController.OnMovedForFirstTime += () => moveTimerCheck = false;
     }
 
     private void OnDisable()
@@ -160,6 +161,7 @@ public class DayManager : MonoBehaviour
         LevelManager.OnLevelLoaded -= SceneLoaded;
         PresiSys.OnDialogueTerminated -= CheckPresiTerminatedDialogue;
         GameManager.NewDay -= BookLaunchActChange;
+        PlayerController.OnMovedForFirstTime -= () => moveTimerCheck = false;
     }
 
     private void Update()
@@ -241,6 +243,7 @@ public class DayManager : MonoBehaviour
         if (GameManager.Instance.currentDay == Day.Day1 &&
             moveTimerCheck) 
         {
+            Debug.Log(currentDay1Time);
             currentDay1Time += Time.deltaTime;
             if (currentDay1Time >= day1FinalTimer) 
             {
