@@ -4,7 +4,7 @@ using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class RobotBehaviour : MonoBehaviour, IInteractable
+public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
 {
     public Transform player;
     public float interactionRadius = 3f;
@@ -93,6 +93,8 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     {
 
     }
+
+    public void OnLookStateChanged(bool isLooking) => onSight = isLooking;
 
     public void ChangeGoToPlayer(bool _GoToPlayer) 
     {
