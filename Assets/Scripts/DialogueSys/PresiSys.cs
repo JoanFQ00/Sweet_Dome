@@ -47,6 +47,28 @@ public enum PresiDialogue
     SemiAngryDay2Presi = 209,
 
     //DAY 3
+    LyingToMatthewDay3Dorothy = 300,//49
+    FirstCongratsDay3Presi = 301, //50
+    FirstAngryDay3Presi = 302, //51
+    UZPriorDay3Presi = 303, //52
+    HPriorDay3Dorothy = 304,//53
+    HDownDay3Dorothy = 305,//54
+    SecondAngryDay3Presi = 306, //55
+    All0AngryhDay3Dorothy = 307,//56
+    Two0AngryDay3Dorothy = 307,//57
+    UZ0Day3Dorothy = 308,//58
+    H0Day3Dorothy = 309,//59
+    ThxDay3Dorothy = 310,//60
+    SadDay3Dorothy = 311,//61
+    F5Day3Presi = 312, //62
+    Two0Day3Presi = 313, //63
+    UZ0Day3Presi = 314, //64
+    H0Day3Presi = 315, //65
+    FinalCongratsDay3Presi = 316, //66
+    SleepDay3Presi = 317, //67
+
+    //DAY 4
+    Day3Dorothy = 400,//49
 
     GoodMorDay5 = 102,
     BadMorDay5 = 103,
