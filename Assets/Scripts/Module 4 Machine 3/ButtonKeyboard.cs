@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ButtonKeyboard : ButtonValidator
 {
-    [Header("Control Referencies")]
+    [Header("Ref Control")]
     [SerializeField] private WaveWinner waveWinner;
     [SerializeField] private CodeSystem codeSystem;
     void Start()

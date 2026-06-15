@@ -31,31 +31,26 @@ public class HL_Interact : MonoBehaviour
 
     public void LightenColor()
     {
-        // 1. CONTROL DE RUEDAS DE RADAR: Si está bloqueado el radar, abortamos el brillo
         if (TryGetComponent(out WheelRotator radarWheel) && !radarWheel.IsInteractable())
         {
             return;
         }
 
-        // 2. CONTROL DEL SLIDER DE POSICIÓN: Si no hay evento activo, abortamos el brillo
         if (TryGetComponent(out SliderCont slider) && !slider.IsInteractable())
         {
             return;
         }
 
-        // 3. CONTROL DE BOTONES NORMALES DE CONSOLA: Bloqueo si no son interactuables
         if (emissionController != null && !emissionController.IsInteractable())
         {
             return;
         }
 
-        // 4. CONTROL DE DIALES DE FRECUENCIA: Bloqueo si la onda ya se resolvió o no hay evento
         if (dialRotation != null && !dialRotation.IsInteractable())
         {
             return;
         }
 
-        // Lógica de tiempo de tu juego
         if (baseAction != null && baseAction.act != null)
         {
             if (GameManager.Instance != null && GameManager.Instance.dayTime != null)

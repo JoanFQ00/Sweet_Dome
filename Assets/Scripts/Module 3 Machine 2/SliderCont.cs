@@ -5,7 +5,7 @@ public class SliderCont : MonoBehaviour, IResetable
 {
     public static Action<float, SliderType> OnSliderMoved;
 
-    [Header("Configuración del Slider")]
+    [Header("Slider Configuration")]
     [SerializeField] private SliderType sliderType = SliderType.Position;
     [SerializeField] private Transform startPoint;
     [SerializeField] private Transform endPoint;
@@ -14,8 +14,6 @@ public class SliderCont : MonoBehaviour, IResetable
     private bool isDragging;
     private float currentNormalizedValue = 0f;
     private RadarMinigame radarMinigame;
-
-    // Propiedad estática controlada de forma infalible
     public static bool IsAtMinPos { get; private set; } = true;
 
     public static void ForceMinPosState(bool state)
@@ -55,8 +53,6 @@ public class SliderCont : MonoBehaviour, IResetable
             isDragging = false;
         }
 
-        // MARGEN DE TOLERANCIA BLINDADO: Si el valor normalizado está en el 15% inferior,
-        // liberamos el volante de rotación de forma automática sin importar milésimas flotantes.
         if (startPoint != null)
         {
             IsAtMinPos = currentNormalizedValue < 0.15f;
@@ -112,7 +108,7 @@ public class SliderCont : MonoBehaviour, IResetable
     {
         if (startPoint == null || endPoint == null) return;
         transform.position = Vector3.Lerp(startPoint.position, endPoint.position, currentNormalizedValue);
-        IsAtMinPos = currentNormalizedValue < 0.15f; // Sincronización de tolerancia
+        IsAtMinPos = currentNormalizedValue < 0.15f;
     }
 
     public void ApplyInstantPosition(float normalizedValue)

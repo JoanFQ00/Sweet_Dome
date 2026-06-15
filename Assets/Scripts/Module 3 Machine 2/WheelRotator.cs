@@ -6,17 +6,14 @@ public class WheelRotator : MonoBehaviour
     public SliderType type;
     public static Action<float, SliderType> OnRotatedMoved;
 
-    [Header("Configuración de Control")]
+    [Header("Control Config")]
     [SerializeField] private float centerDeadZonePixels = 35f;
 
-    [Header("Configuración Estética de Colores (Malla Externa URP)")]
-    [Tooltip("¡NUEVO! Arrastra aquí la OTRA mesh que debe brillar (indicador, aro, etc.). Si se deja vacío, se usará a sí mismo.")]
+    [Header("Targe Light Renderer")]
     [SerializeField] private Renderer targetLightRenderer;
 
     [Space(5)]
-    [Tooltip("Color e Intensidad HDR cuando el volante está ACTIVO.")]
     [ColorUsage(true, true)][SerializeField] private Color activeColor = Color.white;
-    [Tooltip("Color de la bombilla cuando el volante está bloqueado.")]
     [ColorUsage(true, true)][SerializeField] private Color disabledColor = Color.black;
 
     private bool isDragging;
@@ -26,7 +23,6 @@ public class WheelRotator : MonoBehaviour
 
     private RadarMinigame radarMinigame;
 
-    // Almacenamiento en caché del material dinámico
     private Material runtimeMaterial;
     private bool lastInteractableState = false;
 
@@ -36,14 +32,12 @@ public class WheelRotator : MonoBehaviour
         currentAngle = transform.localEulerAngles.x;
         radarMinigame = UnityEngine.Object.FindAnyObjectByType<RadarMinigame>();
 
-        // SOLUCIÓN: Si nos has dado una malla externa, pillamos su material. Si no, usamos el nuestro.
         Renderer rend = targetLightRenderer != null ? targetLightRenderer : (GetComponent<Renderer>() ?? GetComponentInChildren<Renderer>());
         if (rend != null)
         {
             runtimeMaterial = rend.material;
         }
 
-        // Forzamos el estado de iluminación inicial (apagado por defecto)
         lastInteractableState = IsInteractable();
         UpdateWheelEmission(lastInteractableState);
     }
@@ -121,7 +115,6 @@ public class WheelRotator : MonoBehaviour
             runtimeMaterial.DisableKeyword("_EMISSION");
         }
 
-        // Aplicamos los cambios de iluminación global sobre la malla objetivo (la externa)
         Renderer rend = targetLightRenderer != null ? targetLightRenderer : (GetComponent<Renderer>() ?? GetComponentInChildren<Renderer>());
         if (rend != null)
         {

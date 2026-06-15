@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BasicInt : MonoBehaviour, IInteractable, ILookable
 {
-    private HL_Interact highlight;
     private PlayerController playerController;
 
     private enum Type {Lights, Radio, RecordPlayer}
@@ -20,7 +19,6 @@ public class BasicInt : MonoBehaviour, IInteractable, ILookable
 
     void Start()
     {
-        highlight = GetComponent<HL_Interact>();
         playerController = GameManager.Instance.playerController;
         StartStop();
     }
@@ -74,7 +72,7 @@ public class BasicInt : MonoBehaviour, IInteractable, ILookable
     {
         if (!isPlaying)
         {
-            switch (GameManager.Instance.currentDay)  //START MUSIC ACCORDING TO DAY
+            switch (GameManager.Instance.currentDay)  //Falta poner musicas
             {
                 case Day.Day1:
                 break;

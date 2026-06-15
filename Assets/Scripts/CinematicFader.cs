@@ -5,7 +5,7 @@ public class CinematicFader : MonoBehaviour
 {
     public Image fadeImage;
 
-    [Header("Velocidad del Fade")]
+    [Header("FadeSpeed")]
     public float fadeSpeed = 5f;
 
     private bool isFadingOut = false;

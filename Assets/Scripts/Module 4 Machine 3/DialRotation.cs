@@ -18,13 +18,13 @@ public class DialRotation : MonoBehaviour
     public float minValue = 0f;
     public float maxValue = 5f;
 
-    [Header("Seguridad de la Onda")]
+    [Header("Wave Safety")]
     [SerializeField] private float safeMinimumValue = 0.8f;
 
-    [Header("Tolerancia de Control")]
+    [Header("Tolerance Control")]
     [SerializeField] private float centerDeadZonePixels = 25f;
 
-    [Header("Retorno Automático")]
+    [Header("Automatic Return")]
     [SerializeField] private float resetLerpSpeed = 5f;
 
     private bool isDragging;
@@ -63,13 +63,8 @@ public class DialRotation : MonoBehaviour
         WaveWinner.OnDialsLockRequested -= LockDialInteraction;
     }
 
-    /// <summary>
-    /// COMPUERTA CLAVE: Devuelve si el dial es accionable en este frame exacto del juego.
-    /// </summary>
     public bool IsInteractable()
     {
-        // No es interactuable si la onda está solucionada, si se está reseteando el hardware 
-        // o si la pantalla visual de las ondas está apagada.
         if (waveWinner != null && waveWinner.waveSolved) return false;
         if (isResetting) return false;
         if (waveRenderer != null && !waveRenderer.gameObject.activeInHierarchy) return false;
@@ -79,7 +74,6 @@ public class DialRotation : MonoBehaviour
 
     void Update()
     {
-        // Si no es interactuable en este frame, congelamos arrastres y manejamos el retorno automático
         if (!IsInteractable())
         {
             isDragging = false;

@@ -37,13 +37,12 @@ public class FadeDay : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        //DontDestroyOnLoad(gameObject);
     }
 
     public void ActivarFadeOutManual()
     {
         fadeImage.gameObject.SetActive(true);
-        dayTMP.gameObject.SetActive(false); // Ocultamos el texto del día en cinemáticas
+        dayTMP.gameObject.SetActive(false); 
         fadeState = FadeState.FadingOut;
     }
 

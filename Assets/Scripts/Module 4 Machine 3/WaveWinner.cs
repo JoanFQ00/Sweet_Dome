@@ -5,20 +5,20 @@ using FMODUnity;
 
 public class WaveWinner : MonoBehaviour, IResetable
 {
-    [Header("Referencies")]
+    [Header("References")]
     public WaveRenderer playerRenderer;
     public WaveRenderer targetRenderer;
     public CodeSystem codeSystem;
 
-    [Header("Objetos a Desactivar")]
+    [Header("Deact Objs")]
     public GameObject waveVisualsContainer;
 
-    [Header("Tolerancies")]
+    [Header("Tolerances")]
     public float amplitudeTolerance = 0.18f;
     public float frequencyTolerance = 0.18f;
     public float phaseTolerance = 0.22f;
 
-    [Header("Ajustes de Seguridad del Puzzle")]
+    [Header("Puzzle safety")]
     [SerializeField] private float safetyMargin = 0.3f;
     [SerializeField] private float snapDuration = 1.5f;
 
@@ -67,13 +67,10 @@ public class WaveWinner : MonoBehaviour, IResetable
         if (Input.GetKeyDown(KeyCode.V))
             StartWaveEvent(40f);
 
-        // ¡MODIFICACIÓN CLAVE!: El tiempo sigue corriendo aunque la onda esté resuelta (waveSolved),
-        // siempre y cuando estemos dentro del evento activo y no en la animación del Snap de acople.
         if (inEvent && !isSnapping)
         {
             EventTimer();
 
-            // Solo buscamos el acople si el puzzle no ha sido superado todavía
             if (!waveSolved && IsMatching())
             {
                 StartCoroutine(SnapWaveRoutine());
@@ -155,11 +152,9 @@ public class WaveWinner : MonoBehaviour, IResetable
             if (AudioManager.Instance != null)
                 RuntimeManager.PlayOneShot(AudioManager.Instance.waveFail);
 
-            // ¡NUEVO!: Si el tiempo llega a cero, notificamos el fallo al sistema.
-            // Si el jugador estaba en mitad del teclado numérico, el CodeSystem manejará su animación de error.
             if (codeSystem != null && codeSystem.IsCodeSystemActive())
             {
-                codeSystem.ForceTimeoutFail(); // Invocamos el fallo por tiempo agotado
+                codeSystem.ForceTimeoutFail(); 
             }
             else
             {
@@ -176,7 +171,6 @@ public class WaveWinner : MonoBehaviour, IResetable
 
     public void ResetValues()
     {
-        // Limpieza absoluta para el nuevo día o abandono de silla
         StopAllCoroutines();
         inEvent = false;
         isSnapping = false;

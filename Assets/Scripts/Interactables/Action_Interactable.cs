@@ -76,23 +76,12 @@ public class Action_Interactable : BaseAction
         if (GameManager.Instance == null) return;
 
         player = GameManager.Instance.playerController;
-        if (player == null)
-        {
-            Debug.LogError($"[Action_Interactable] playerController es null en {name}");
-            return;
-        }
 
         var interactComp = player.GetComponent<Interact>();
         if (interactComp != null)
         {
             inspectTransform = interactComp.readTransform;
             farTransform = interactComp.farTransform;
-        }
-
-        if (inspectorAnchor == null)
-        {
-            Debug.LogError($"[Action_Interactable] inspectorAnchor no está asignado en {name}");
-            return;
         }
 
         originalPos = transform.position;

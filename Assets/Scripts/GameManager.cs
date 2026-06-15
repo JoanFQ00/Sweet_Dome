@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// El Enum global restaurado en la raíz del script maestro
 public enum Day { Day1 = 0, Day2, Day3, Day4, Day5, Day6 }
 
 public class GameManager : MonoBehaviour
@@ -124,7 +123,6 @@ public class GameManager : MonoBehaviour
         if (presiSpeaker != null)
             presiSpeaker.DialogueIni();
 
-        // Sincronizar líquidos al cargar escena
         ExecuteDayTransitionSequence();
     }
 
@@ -141,14 +139,9 @@ public class GameManager : MonoBehaviour
 
             OnChangeDay?.Invoke(currentDay);
 
-            // Ejecuta la secuencia secuencial limpia para evitar el lag de frames de la UI
             ExecuteDayTransitionSequence();
         }
     }
-
-    // =================================================================
-    // API DE REGISTRO DINÁMICO (PREVIENE ENTIERROS Y DUPLICADOS)
-    // =================================================================
 
     public void RegisterResetable(IResetable resetable)
     {
@@ -168,10 +161,8 @@ public class GameManager : MonoBehaviour
 
     private void ExecuteDayTransitionSequence()
     {
-        // 1. Limpiar referencias muertas de la lista
         resetableObjects.RemoveAll(item => item == null || (item is MonoBehaviour mono && mono == null));
 
-        // 2. Buscamos y actualizamos todos los componentes mecánicos (Bases, Tanques, Pumps)
         var allMonoBehaviours = FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None);
 
         for (int i = 0; i < resetableObjects.Count; i++)
@@ -182,10 +173,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // 3. Disparar el evento para los escuchas tradicionales
         NewDay?.Invoke();
 
-        // 4. Actualizar las pantallas de texto de la UI al mismo tiempo
         for (int i = 0; i < resetableObjects.Count; i++)
         {
             if (resetableObjects[i] is MonoBehaviour mono && mono.GetComponent<CapabilityUI>() != null)
@@ -195,11 +184,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // =================================================================
-    // GESTIÓN DE FINALES DEL JUEGO (RESTAURADO)
-    // =================================================================
-
-    // Numero de final i temps fins que s'executa per si has de ficar algun dialeg
     public void ExecuteFinishAnimation(int id, int waitTime)
     {
         pendingFinalId = id;

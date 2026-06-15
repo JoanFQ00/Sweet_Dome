@@ -9,20 +9,13 @@ public class RadarVision : MonoBehaviour
     public LayerMask visionMask;
     public RadarMinigame radarMinigame;
 
-    // EVENTO ESTÁTICO GLOBAL: Conecta el botón de ataque con el minijuego de radar
     public static Action<GameObject> OnObjectiveGet;
 
-    // Lista en cola de todos los objetivos que están pisando el cono a la vez
     private List<GameObject> targetsInCone = new List<GameObject>();
-
-    /// <summary>
-    /// Devuelve el primer objetivo válido de la cola (si hay alguno).
-    /// </summary>
     public GameObject CurrentTarget
     {
         get
         {
-            // Limpiamos de la cola naves nulas o destruidas previamente en este frame
             targetsInCone.RemoveAll(item => item == null);
             return targetsInCone.Count > 0 ? targetsInCone[0] : null;
         }
@@ -47,7 +40,6 @@ public class RadarVision : MonoBehaviour
     {
         if (radarMinigame == null || !radarMinigame.objectives.Contains(other.gameObject)) return;
 
-        // Si la nave entra en el trigger y no estaba registrada, la metemos a la cola
         if (!targetsInCone.Contains(other.gameObject))
         {
             targetsInCone.Add(other.gameObject);

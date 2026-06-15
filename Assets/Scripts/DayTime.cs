@@ -11,8 +11,6 @@ public class DayTime : MonoBehaviour
     public List<GameObject> minigames;
     public int maxDays = 2;
 
-    // REMOVIDO: Se elimina private int currentDay para evitar desincronizaciones con el GameManager
-
     [Header("Time")]
     public int startHourDay = 9;
     public int endHour = 21;

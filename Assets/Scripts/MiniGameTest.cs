@@ -21,17 +21,12 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     public float maxDist = 50f;
 
     [Header("4 Cursores Finales (Texturas)")]
-    [Tooltip("Cursor 1: Puntero básico por defecto.")]
     public Texture2D originalCursor;
-    [Tooltip("Cursor 2: Mano apuntando (Hover sobre elemento interactuable válido).")]
     public Texture2D hoverInteractCursor;
-    [Tooltip("Cursor 3: Mano agarrando (Clic izquierdo o manteniendo pulsado).")]
     public Texture2D grabCursor;
-    [Tooltip("Cursor 4: Ojo (Manteniendo clic derecho / Cámara libre).")]
     public Texture2D rotateCursor;
 
     [Header("Hotspot Offset (Opcional)")]
-    [Tooltip("Punto de pivote del cursor. Para flechas suele ser (0,0), para manos o el ojo suele ser el centro de la textura.")]
     [SerializeField] private Vector2 cursorHotspot = Vector2.zero;
 
     public static Action<bool> OnMachineEntered;
@@ -47,10 +42,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
     public bool isClickingUI = false;
 
-    // Rastro de memoria del botón hundido
     private MainButt activePressedButton = null;
 
-    // Estado interno para saber qué textura tiene el cursor aplicada ahora mismo
     private Texture2D currentAppliedCursor;
 
     void Update()
@@ -63,7 +56,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         if (state == MiniGameState.Active)
         {
             HandleActiveInput();
-            // El controlador de cursores procesa frame a frame las prioridades visuales
             UpdateCursorAndHoverState();
         }
 
@@ -111,7 +103,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.chairEnter, gameObject);
 
         ShowCursor(true);
-        ChangeCursor(originalCursor); // Empezamos con el puntero base
+        ChangeCursor(originalCursor); 
         gameObject.layer = LayerMask.NameToLayer("Default");
     }
 
@@ -151,7 +143,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
         HandleCamMove();
 
-        // Solo permitimos clics e interacciones mecánicas si NO estamos mirando libremente con el clic derecho
         if (!Input.GetMouseButton(1))
         {
             HandleClick();
@@ -165,7 +156,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             GameManager.Instance.playerController.LockCamera(false);
             GameManager.Instance.playerController.ChangeGameMode(true);
 
-            // Si estábamos interactuando con un botón al hacer clic derecho, lo liberamos por seguridad
             ReleaseActiveButton();
         }
 
@@ -180,7 +170,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     {
         if (playerCamera == null) return;
 
-        // MOUSE DOWN: Click inicial
         if (Input.GetMouseButtonDown(0))
         {
             interacting = true;
@@ -188,10 +177,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
             {
-                // Integramos la comprobación estructural: ¿Es un botón bloqueado por un validador?
                 if (hit.collider.TryGetComponent(out MainButt button))
                 {
-                    // Si el botón tiene un validador y este dice que NO se puede pulsar, ignoramos el clic por completo
                     if (button.Validator != null && !button.Validator.CanPress())
                     {
                         return;
@@ -207,7 +194,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             }
         }
 
-        // MOUSE HOLD: Mantener pulsado
         if (Input.GetMouseButton(0))
         {
             if (activePressedButton != null)
@@ -216,7 +202,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             }
         }
 
-        // MOUSE UP: Soltar clic izquierdo
         if (Input.GetMouseButtonUp(0))
         {
             interacting = false;
@@ -224,14 +209,10 @@ public class MiniGameTest : MonoBehaviour, IInteractable
         }
     }
 
-    /// <summary>
-    /// Gestión unificada de la jerarquía de los 4 cursores y el coloreado de siluetas (Highlight).
-    /// </summary>
     void UpdateCursorAndHoverState()
     {
         if (playerCamera == null) return;
 
-        // PRIORIDAD 1: MÁXIMO RANGO - ¿Moviendo libremente la cámara con el Clic Derecho? (Cursor 4)
         if (Input.GetMouseButton(1))
         {
             ClearCurrentHighlight();
@@ -239,23 +220,19 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             return;
         }
 
-        // PRIORIDAD 2: ¿Manteniendo clic izquierdo sobre un elemento interactuado? (Cursor 3)
         if (Input.GetMouseButton(0) && interacting)
         {
             ChangeCursor(grabCursor);
             return;
         }
 
-        // PRIORIDAD 3 y 4: Lanzamos el Raycast analítico para el Hover normal (Cursor 2 o Cursor 1)
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, maxDist, interactLayer))
         {
             bool isInteractableNow = true;
 
-            // Análisis estructural del objeto apuntado:
             if (hit.collider.TryGetComponent(out MainButt button))
             {
-                // Si es un botón físico de la consola, su interactuabilidad depende de las reglas de su validador
                 if (button.Validator != null && !button.Validator.CanPress())
                 {
                     isInteractableNow = false;
@@ -263,7 +240,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             }
             else if (hit.collider.TryGetComponent(out DialRotation dial))
             {
-                // Si chocamos contra un dial de frecuencia pero la lógica dice que no se puede mover
                 if (!dial.IsInteractable())
                 {
                     isInteractableNow = false;
@@ -271,7 +247,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             }
             else if (hit.collider.TryGetComponent(out WheelRotator radarWheel))
             {
-                // Si chocamos contra un volante del radar pero está bloqueado
                 if (!radarWheel.IsInteractable())
                 {
                     isInteractableNow = false;
@@ -279,7 +254,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             }
             else if (hit.collider.TryGetComponent(out SliderCont slider))
             {
-                // Si apuntamos al slider de posición del radar pero no hay evento activo
                 if (!slider.IsInteractable())
                 {
                     isInteractableNow = false;
@@ -288,10 +262,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
             if (isInteractableNow)
             {
-                // Pasamos el filtro: Es interactuable en este frame. Ponemos Cursor 2 (Mano señalando)
                 ChangeCursor(hoverInteractCursor);
 
-                // Activamos la silueta de luz (Highlight)
                 HL_Interact newHighlight = hit.collider.GetComponent<HL_Interact>();
                 if (currentHighlight != newHighlight)
                 {
@@ -302,14 +274,12 @@ public class MiniGameTest : MonoBehaviour, IInteractable
             }
             else
             {
-                // El objeto forma parte de la máquina pero está apagado/bloqueado. Puntero básico y sin luz
                 ClearCurrentHighlight();
                 ChangeCursor(originalCursor);
             }
         }
         else
         {
-            // Apuntando al fondo de la cabina. Cursor 1 (Normal)
             ClearCurrentHighlight();
             ChangeCursor(originalCursor);
         }

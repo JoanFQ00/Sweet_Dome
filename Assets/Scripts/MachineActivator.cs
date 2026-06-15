@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MachineActivator : MonoBehaviour
 {
-    [Header("Dias activos")]
+    [Header("ActivesDay")]
     public bool day1 = true;
     public bool day2 = true;
     public bool day3 = true;

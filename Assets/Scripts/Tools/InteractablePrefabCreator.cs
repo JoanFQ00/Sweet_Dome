@@ -8,12 +8,6 @@ public class InteractablePrefabCreator
     {
         GameObject prefabBase = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Item.prefab");
 
-        if (prefabBase == null)
-        {
-            Debug.LogError("No se encontró el prefab en: Assets/Prefabs/Item.prefab");
-            return;
-        }
-
         GameObject root = PrefabUtility.InstantiatePrefab(prefabBase) as GameObject;
 
         GameObjectUtility.SetParentAndAlign(root, menuCommand.context as GameObject);
@@ -31,11 +25,6 @@ public class InteractablePrefabCreator
                 field?.SetValue(actionComp, anchorTransform);
             }
         }
-        else
-        {
-            Debug.LogWarning("El prefab no tiene un hijo llamado 'Anchor'.");
-        }
-
         Undo.RegisterCreatedObjectUndo(root, "Create Interactable");
         Selection.activeGameObject = root;
     }

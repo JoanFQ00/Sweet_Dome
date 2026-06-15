@@ -5,43 +5,37 @@ using System.Collections.Generic;
 
 public class RadarMinigame : MonoBehaviour, IResetable
 {
-    [Header("Radar Move (Pieza Óptica)")]
+    [Header("Radar Move (Optical)")]
     public Transform radarPointZero;
     public Transform radarPoint;
     public float maxDist = 0.25f;
     [SerializeField] private float innerMargin = 0.05f;
     [SerializeField] private float outerMargin = 0.02f;
 
-    [Header("UI & Prefabs Separados")]
+    [Header("UI & Prefabs Separated")]
     public TMPro.TextMeshProUGUI timeTMP;
-    [Tooltip("Prefab que se instanciará para el evento de NAVES.")]
     public GameObject spaceShipPrefab;
-    [Tooltip("Prefab que se instanciará para el evento de METEORITOS.")]
     public GameObject meteoritePrefab;
 
-    [Header("Ajustes de Retorno Mecánico (Polish)")]
+    [Header("Settings of return")]
     [SerializeField] private float autoResetSpeed = 0.4f;
 
-    [Header("Configuración de Inactividad (AFK)")]
+    [Header("AFK Config")]
     public float maxIdleTime = 5f;
     private float currentIdleTimer = 0f;
 
-    [Header("Seguridad de Spawn (Anti-solapamiento)")]
+    [Header("AntiSpam")]
     [SerializeField] private float minDistanceBetweenTargets = 0.04f;
 
-    [Header("SISTEMA DE ALARMAS (Optimizado para Transparent URP)")]
-    [Tooltip("Componente Animation de la Alarma para METEORITOS (Tu Roja).")]
+    [Header("Alarm System")]
     [SerializeField] private Animation redAlarmAnimation;
-    [Tooltip("Clip .anim de la alarma de Meteoritos (Debe ser Legacy).")]
     [SerializeField] private AnimationClip redAlarmClip;
 
     [Space(5)]
-    [Tooltip("Componente Animation de la Alarma para NAVES (Tu Azul/Púrpura).")]
     [SerializeField] private Animation blueAlarmAnimation;
-    [Tooltip("Clip .anim de la alarma de Naves (Debe ser Legacy).")]
     [SerializeField] private AnimationClip blueAlarmClip;
 
-    [Header("Colores de Estado Apagado (¡Pon el Alfa a 0 en el Inspector!)")]
+    [Header("StateColors")]
     [ColorUsage(true, true)]
     [SerializeField] private Color redAlarmOffColor = new Color(0f, 0f, 0f, 0f);
     [ColorUsage(true, true)]
@@ -142,7 +136,7 @@ public class RadarMinigame : MonoBehaviour, IResetable
         if (currentEventTime <= 0f)
         {
             currentEventTime = 0f;
-            StartSequenceEnd(false); // Fin por tiempo
+            StartSequenceEnd(false);
         }
         else
         {
@@ -164,7 +158,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
         {
             currentIdleTimer = 0f;
 
-            // FIX AFK: Recoge los mandos pero NO destruye naves ni detiene el reloj general
             StopAllCoroutines();
             StartCoroutine(FinalHardwareResetSequenceRoutine(null));
         }
@@ -181,11 +174,10 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
         if (objectives.Count <= 0)
         {
-            StartSequenceEnd(true); // Fin por victoria total
+            StartSequenceEnd(true);
         }
         else
         {
-            // Baja intermedia: Rebobina la palanca sin tocar las naves restantes
             StopAllCoroutines();
             StartCoroutine(FinalHardwareResetSequenceRoutine(null));
         }
@@ -200,7 +192,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
         StopAllCoroutines();
 
-        // Al pasarle 'true' o 'false', la corrutina sabe que debe limpiar el mapa definitivamente
         StartCoroutine(FinalHardwareResetSequenceRoutine(success));
     }
 
@@ -277,7 +268,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
         isSliderResetting = true;
         isRotationResetting = true;
 
-        // FIX EXCLUSIVO: Solo limpiamos naves si es un fin de evento definitivo (Éxito/Fracaso)
         if (success.HasValue)
         {
             ClearAllActiveObjectivesImmediate();
@@ -286,9 +276,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
         SliderCont sceneSlider = UnityEngine.Object.FindAnyObjectByType<SliderCont>();
         SliderCont.ForceMinPosState(false);
 
-        // -------------------------------------------------------------
-        // FASE 1: Retorno secuencial de la palanca de posición (Slider)
-        // -------------------------------------------------------------
         while (Vector3.Distance(radarPoint.position, radarPointZero.position) > 0.001f)
         {
             radarPoint.position = Vector3.MoveTowards(radarPoint.position, radarPointZero.position, autoResetSpeed * Time.deltaTime);
@@ -306,9 +293,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
         yield return new WaitForEndOfFrame();
 
-        // -------------------------------------------------------------
-        // FASE 2: Retorno ULTRA RÁPIDO del Volante de Rotación
-        // -------------------------------------------------------------
         WheelRotator rotationWheel = null;
         WheelRotator[] wheels = UnityEngine.Object.FindObjectsByType<WheelRotator>(FindObjectsSortMode.None);
         for (int i = 0; i < wheels.Length; i++)
@@ -331,9 +315,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
         isRotationResetting = false;
         currentIdleTimer = 0f;
 
-        // -------------------------------------------------------------
-        // FASE 3: Envíos finales del flujo lineal (Solo si acabó el evento)
-        // -------------------------------------------------------------
         if (success.HasValue)
         {
             bool finalResult = success.Value;
@@ -387,12 +368,8 @@ public class RadarMinigame : MonoBehaviour, IResetable
         }
     }
 
-    /// <summary>
-    /// SELECCIÓN DE PREFAB DINÁMICA: Instancia naves o meteoritos según el evento.
-    /// </summary>
     void SpawnRandomObjective()
     {
-        // Elegimos el prefab correcto en base al tipo de evento activo
         GameObject prefabToSpawn = (currentEventType == RadarEventType.Meteorite) ? meteoritePrefab : spaceShipPrefab;
 
         if (prefabToSpawn == null)
