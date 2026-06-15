@@ -13,6 +13,7 @@ public class CinematicManager : MonoBehaviour
     public PlayableDirector day4TurnOffTvTimeline;
     public PlayableDirector day5LongHugTimeline;
     public PlayableDirector day5WatchWindowTimeline;
+    public PlayableDirector goToSleepTimeline;
 
     private PlayableDirector activeTimeline;
     private bool cinematicStarted = false;
@@ -38,11 +39,13 @@ public class CinematicManager : MonoBehaviour
     private void OnEnable()
     {
         DayManager.OnRequestCinematic += StartCinematicSequence;
+        MachineManager.OnFinishedDay += StartCinematicSequence;
     }
 
     private void OnDisable()
     {
         DayManager.OnRequestCinematic -= StartCinematicSequence;
+        MachineManager.OnFinishedDay -= StartCinematicSequence;
     }
 
     private void Update()
@@ -84,6 +87,9 @@ public class CinematicManager : MonoBehaviour
                 break;
             case "Day5WatchWindow":
                 activeTimeline = day5WatchWindowTimeline;
+                break;
+            case "GoToSleep":
+                activeTimeline = goToSleepTimeline;
                 break;
             default:
                 activeTimeline = null;

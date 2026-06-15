@@ -105,6 +105,7 @@ public class MachineManager : MonoBehaviour
         PresiSys.OnDialogueTerminated += CheckTerminatedDialogue;
         MiniGameTest.OnMachineEntered += MachineEntered;
         RadarMinigame.OnEventFinished += RadarFinished;
+        WaveWinner.OnEventFinished += WaveFinished;
 
         UpdateText();
     }
@@ -116,6 +117,7 @@ public class MachineManager : MonoBehaviour
         MiniGameTest.OnMachineEntered -= MachineEntered;
         PresiSys.OnDialogueTerminated -= CheckTerminatedDialogue;
         RadarMinigame.OnEventFinished -= RadarFinished;
+        WaveWinner.OnEventFinished -= WaveFinished;
     }
 
     private void UpdateText()
@@ -235,10 +237,27 @@ public class MachineManager : MonoBehaviour
         NODE_06_D3,
         NODE_07_D3,
         NODE_08_D3,
-        NODE_09_D3,
-        NODE_10_D3,
 
         //DAY4
+        NODE_01_D4,
+        NODE_02_D4,
+        NODE_03_D4,
+        NODE_04_D4,
+        NODE_05_D4,
+        NODE_06_D4,
+        NODE_07_D4,
+        NODE_08_D4,
+        NODE_09_D4,
+        NODE_10_D4,
+        NODE_11_D4,
+        NODE_12_D4,
+        NODE_13_D4,
+        NODE_14_D4,
+        NODE_15_D4,
+        NODE_16_D4,
+        NODE_17_D4,
+        NODE_18_D4,
+        NODE_19_D4,
 
         //DAY5
     }
@@ -355,7 +374,7 @@ public class MachineManager : MonoBehaviour
                                         ResetCountdowns();
                                         onCountdown = false;
                                     }
-                                    else if (priorityManager.GetIdxPrioritizedZone() == 0)
+                                    else
                                     {
                                         GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.GoodSadDay2Dorothy); //33
                                         ResetCountdowns();
@@ -397,7 +416,7 @@ public class MachineManager : MonoBehaviour
                                             ResetCountdowns();
                                             onCountdown = false;
                                         }
-                                        else if (onlyFailureZone == 1) //R3
+                                        else //R3
                                         {
                                             GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.AngryDay2Dorothy); //31
                                             ResetCountdowns();
@@ -620,7 +639,223 @@ public class MachineManager : MonoBehaviour
                 break;
 
             case Day.Day4:
-            break;
+                currentCountdown += Time.deltaTime;
+
+                switch (currentNode)
+                {
+                    case MachineStoryNode.NODE_01_D4:
+                        if (currentCountdown >= 20f)
+                        {
+                            waveMinigame.StartWaveEvent(20f);
+                            ResetCountdowns();
+                            //onCountdown = false;
+                            currentNode = MachineStoryNode.NODE_02_D4;
+                        }
+                        break;
+
+                    case MachineStoryNode.NODE_02_D4:
+                        if (currentCountdown >= 40f)
+                        {
+                            cityFunnel.TriggerCrackInZone(0, 40f, 3f);
+                            ResetCountdowns();
+                            //onCountdown = false;
+                            currentNode = MachineStoryNode.NODE_03_D4;
+                        }
+                        break;
+
+                    case MachineStoryNode.NODE_03_D4:
+                        if (currentCountdown >= 40f)
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D3ay4); //81
+                            ResetCountdowns();
+                            onCountdown = false;
+                            currentNode = MachineStoryNode.NODE_04_D4;
+                        }
+                        break;
+
+                    case MachineStoryNode.NODE_04_D4:
+                        if (currentCountdown >= 20f)
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D4ay4); //82
+                            ResetCountdowns();
+                            onCountdown = false;
+                            currentNode = MachineStoryNode.NODE_05_D4;
+                        }
+                        break;
+
+                    case MachineStoryNode.NODE_05_D4:
+                        if (currentCountdown >= 20f)
+                        {
+                            cityFunnel.DrainLiquidFromZoneImmediate(3, 40f);
+                            radarMinigame.StartRadarEvent(120f, RadarEventType.SpaceShip, 2);
+                            ResetCountdowns();
+                            onCountdown = false;
+                            currentNode = MachineStoryNode.NODE_06_D4;
+                        }
+                        break;
+                    
+                    case MachineStoryNode.NODE_06_D4:
+                        waveMinigame.StartWaveEvent(30f);
+                        ResetCountdowns();
+                        onCountdown = false;
+                        currentNode = MachineStoryNode.NODE_07_D4;
+                        break;
+                    
+                    case MachineStoryNode.NODE_07_D4:
+                        cityFunnel.TriggerCrackInZone(1, 30f, 3f);
+                        radarMinigame.StartRadarEvent(50f, RadarEventType.Meteorite, 4);
+                        ResetCountdowns();
+                        onCountdown = false;
+                        currentNode = MachineStoryNode.NODE_08_D4;
+                        break;
+                    
+                    case MachineStoryNode.NODE_08_D4:
+                        if (!radarResult)
+                        {
+                            cityFunnel.ChangeLiquidInZone(0, 0f, 2f);
+                        }
+                        //else R12
+
+                        waveMinigame.StartWaveEvent(50f); //!
+                        ResetCountdowns();
+                        onCountdown = false;
+                        currentNode = MachineStoryNode.NODE_09_D4;
+                        break;
+                    
+                    case MachineStoryNode.NODE_09_D4:
+                        if (waveCompleted) //R13
+                        {
+                            dayManager.D61 = true;
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D7ay4); //85
+                        }
+                        else
+                        {
+                            dayManager.D62 = true;
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D8ay4); //86
+                        }
+
+                        ResetCountdowns();
+                        onCountdown = false;
+                        currentNode = MachineStoryNode.NODE_10_D4;
+                        break;
+
+                    case MachineStoryNode.NODE_10_D4:
+                        if (currentCountdown >= 20f)
+                        {
+                            radarMinigame.StartRadarEvent(90f, RadarEventType.SpaceShip, 3);
+                            cityFunnel.DrainLiquidFromZoneImmediate(2, 20f);
+                            cityFunnel.TriggerCrackInZone(3, 50f, 3f);
+                            ResetCountdowns();
+                            onCountdown = false;
+                            currentNode = MachineStoryNode.NODE_11_D4;
+                        }
+                        break;
+                    
+                    case MachineStoryNode.NODE_11_D4:
+                        if (IsCityStable()) //R14 & D72
+                        {
+                            dayManager.D72 = true;
+
+                            if (priorityManager.HasUsedPriorityToday())
+                            {
+                                if (priorityManager.GetIdxPrioritizedZone() == 1)
+                                {
+                                    GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D15Day4); //93
+                                    ResetCountdowns();
+                                    onCountdown = false;
+                                }
+                                else if (priorityManager.GetIdxPrioritizedZone() == 3)
+                                {
+                                    GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D16Day4); //94
+                                    ResetCountdowns();
+                                    onCountdown = false;
+                                }
+                            }
+                            else
+                            {
+                                GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D16Day4); //94
+                                ResetCountdowns();
+                                onCountdown = false;
+                            }
+                        }
+                        else
+                        {
+                            dayManager.D71 = true;
+
+                            List<float> requiredValues = GetCurrentDayValues();
+                            var cityZones = cityFunnel.GetCityZones();
+
+                            List<int> failedZones = new List<int>();
+
+                            for (int i = 0; i < cityZones.Count; i++)
+                            {
+                                if (cityZones[i].CurrentCapacity < requiredValues[i])
+                                {
+                                    failedZones.Add(i);
+                                }
+                            }
+
+                            int totalFailures = failedZones.Count;
+
+                            switch (totalFailures)
+                            {
+                                case 1:
+                                    int onlyFailureZone = failedZones[0];
+
+                                    if (onlyFailureZone == 1) //R18
+                                    {
+                                        GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D14Day4); //92
+                                        ResetCountdowns();
+                                        onCountdown = false;
+                                    }
+                                    else if (onlyFailureZone == 3) //R17
+                                    {
+                                        GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D13Day4); //91
+                                        ResetCountdowns();
+                                        onCountdown = false;
+                                    }
+                                    else //R19
+                                    {
+                                        GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D23Day4); //101
+                                        ResetCountdowns();
+                                        onCountdown = false;
+                                    }
+                                    break;
+
+                                case 2:
+                                    if (failedZones.Contains(1) && failedZones.Contains(3)) //R16
+                                    {
+                                        GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D12ay4); //90
+                                        ResetCountdowns();
+                                        onCountdown = false;
+                                    }
+                                    else //R19
+                                    {
+                                        GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D23Day4); //101
+                                        ResetCountdowns();
+                                        onCountdown = false;
+                                    }
+                                    break;
+
+                                case 4: //R15
+                                    GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D11ay4); //89
+                                    ResetCountdowns();
+                                    onCountdown = false;
+                                    break;
+
+                                default: //R19
+                                    GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D23Day4); //101
+                                    ResetCountdowns();
+                                    onCountdown = false;
+                                    break;
+                            }
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+                break;
 
             case Day.Day5:
             break;
@@ -697,8 +932,7 @@ public class MachineManager : MonoBehaviour
         //FINAL DAY1
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.SleepDay1Presi) //13
         {
-            //SE PUEDE LEVANTAR DE LA SILLA, SON LA 21:00
-            // <-------------------------------------------------------- JOAN: POSAR CINEMATICA DE RECARGA
+            FinishWorkingDay();
         }
 
 
@@ -776,8 +1010,7 @@ public class MachineManager : MonoBehaviour
         //FINAL DAY2
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.SleepDay2Presi) //37
         {
-            //SE PUEDE LEVANTAR DE LA SILLA, SON LA 21:00
-            // <-------------------------------------------------------- JOAN: POSAR CINEMATICA DE RECARGA
+            FinishWorkingDay();
         }
 
         //DAY3
@@ -900,15 +1133,174 @@ public class MachineManager : MonoBehaviour
         //FINAL DAY3
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.SleepDay3Presi) //67
         {
-            //SE PUEDE LEVANTAR DE LA SILLA, SON LA 21:00
-            // <-------------------------------------------------------- JOAN: POSAR CINEMATICA DE RECARGA
+            FinishWorkingDay();
         }
+
+        //DAY4
+        //N00
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay4) //77
+        {
+            if (dayManager.D53 || dayManager.D52)
+            {
+                GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D0ay4); //78
+            }
+            else
+            {
+                GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D1ay4); //79
+            }
+        }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay4) //78
+        {
+            currentNode = MachineStoryNode.NODE_01_D4;
+            onCountdown = true;
+        }
+        
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay4) //79
+        {
+            currentNode = MachineStoryNode.NODE_01_D4;
+            onCountdown = true;
+        }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D3ay4) //81
+        {
+            onCountdown = true;
+        }
+        
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D4ay4) //82
+        {
+            //
+            onCountdown = true;
+        }
+        
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D7ay4) //85
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D9ay4); //87
+        }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D9ay4) //87
+        {
+            onCountdown = true;
+        }
+        
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D8ay4) //86
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D10ay4); //88
+        }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D10ay4) //88
+        {
+            onCountdown = true;
+        }
+        
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D11ay4) //89
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D17Day4); //95
+        }
+        
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D17Day4) //95
+        {
+            //FINAL 5
+            GameManager.Instance.ExecuteFinishAnimation(5, 0);
+        }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D12ay4) //90
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D18Day4); //96
+        }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D18Day4) //96
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D23Day4); //101
+        }
+        
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D13Day4) //91
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D19Day4); //97
+        }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D19Day4) //97
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D23Day4); //101
+        }
+        
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D14Day4) //92
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D20Day4); //98
+        }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D20Day4) //98
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D23Day4); //101
+        }
+        
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D15Day4) //93
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D21Day4); //99
+        }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D21Day4) //99
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D23Day4); //101
+        }
+        
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D16Day4) //94
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D22Day4); //100
+        }
+
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D22Day4) //100
+        {
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D23Day4); //101
+        }
+
+        //FINAL DAY4
+        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D23Day4) //101
+        {
+            FinishWorkingDay();
+        }
+
+        ////DAY5
+        ////N00
+        //if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay1) //06
+        //{
+        //    currentNode = MachineStoryNode.NODE_01_D1;
+        //    onCountdown = true;
+        //}
     }
 
+    public void FinishWorkingDay()
+    {
+        onCountdown = false;
+        currentCountdown = 0f;
+
+        if (cityFunnel != null)
+        {
+            cityFunnel.SetGlobalEnergyFlowPause(true);
+        }
+
+        if (DayTime.Instance != null)
+        {
+            DayTime.Instance.SetCurrentTime(21, 0);
+        }
+
+        MiniGameTest.OnMachineEntered?.Invoke(false);
+        OnFinishedDay?.Invoke("GoToSleep");
+    }
+
+    public static event Action<string> OnFinishedDay;
     bool radarResult = false;
     private void RadarFinished(bool exit)
     {
         radarResult = exit;
+        onCountdown = true;
+    }
+
+    WaveWinner waveMinigame;
+    public bool waveCompleted = false;
+    private void WaveFinished(bool success)
+    {
+        waveCompleted = success;
         onCountdown = true;
     }
 
@@ -929,7 +1321,7 @@ public class MachineManager : MonoBehaviour
     {
         if (GameManager.Instance.currentDay == Day.Day1)
         {
-            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.ExplainMachineDay1); //05
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.ExplainMachineDay1); //06
         }
 
         else if (GameManager.Instance.currentDay == Day.Day2)
@@ -939,12 +1331,12 @@ public class MachineManager : MonoBehaviour
 
         else if (GameManager.Instance.currentDay == Day.Day3)
         {
-            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.ExplainMachineDay3);
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.ExplainMachineDay3); //48
         }
 
         else if (GameManager.Instance.currentDay == Day.Day4)
         {
-            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.ExplainMachineDay4);
+            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.ExplainMachineDay4); //77
         }
     }
 }
