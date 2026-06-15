@@ -54,7 +54,7 @@ public class DayManager : MonoBehaviour
     public bool D21 = false;
     public bool D22 = false;
     public bool D31 = false;
-    public bool notLaunchDay4;
+    public bool notLaunchDay4 = false;
     public bool D32 = false;
     public bool D41 = false;
     public bool D42 = false;
@@ -96,6 +96,7 @@ public class DayManager : MonoBehaviour
     [Header("Day5 SafeChecks")]
     public bool checkReadDay5;
     public bool makeDorothySad = false;
+    public bool dorothyWaitsForInteraction = false;
 
     [Header("Interactables")]
     public Action_Interactable[] dayInt;
@@ -105,6 +106,7 @@ public class DayManager : MonoBehaviour
     public GameObject dorothyBook;
 
     public static event Action<string> OnRequestCinematic;
+    public static Action OnTurnOffTV;
 
     private IEnumerator Start()
     {
@@ -377,9 +379,9 @@ public class DayManager : MonoBehaviour
             if (!checkedEatDay3)
             {
                 checkedEatDay3 = true;
-                // - Cinematica Despres d'acabar aqueta ha de fer la cinematica d'apagar la tele
                 OnRequestCinematic?.Invoke("Day3SitAndWatch");
-                //OnRequestCinematic?.Invoke("Day3TurnOffTv");
+                OnTurnOffTV?.Invoke();
+
                 D31 = true;
             }
         }
@@ -403,6 +405,9 @@ public class DayManager : MonoBehaviour
                 hasEated_SC = true;
                 dorothyBook.SetActive(true);
                 dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day3);
+
+                OnRequestCinematic("Day4TurnOffTv");
+                OnTurnOffTV?.Invoke();
             }
 
             if (hasRead.IsMet(GameManager.Instance.decManager)
@@ -432,8 +437,8 @@ public class DayManager : MonoBehaviour
                 // - Cinematica Apagar Tele
                 hasEated_SC = true;
                 OnRequestCinematic?.Invoke("Day4TurnOffTv");
+                OnTurnOffTV?.Invoke();
                 D31 = true;
-                Debug.Log("Dorothy Apaga la tele");
             }
         }
     }
@@ -471,7 +476,8 @@ public class DayManager : MonoBehaviour
                     {
                         // - Cinematica Abrazo Largo y le quiere mucho + Come To Window
                         OnRequestCinematic?.Invoke("Day5LongHug");
-                        //OnRequestCinematic?.Invoke("Day5WatchWindow");
+                        dorothyWaitsForInteraction = true;
+
                         checkReadDay5 = true;
                         ChangeDorothyDialogue((int)DialoguesRobo.FinalRevelation, false);
                         dorothyWaiting = true;
@@ -561,6 +567,8 @@ public class DayManager : MonoBehaviour
             && dorothyBook1Readed.IsMet(GameManager.Instance.decManager))
         {
             ChangeDorothyDialogue((int)DialoguesRobo.DontWatchThatProgram, true);
+            OnRequestCinematic?.Invoke("Day5WatchWindow");
+
             watchTvTriggered = true;
             activatedBBTimer = true;
         }
@@ -568,6 +576,8 @@ public class DayManager : MonoBehaviour
             && dorothyAngriedDay2.IsMet(GameManager.Instance.decManager))
         {
             ChangeDorothyDialogue((int)DialoguesRobo.MattewSturdy, true);
+            OnRequestCinematic?.Invoke("Day5WatchWindow");
+
             watchTvTriggered = true;
             activatedBBTimer = true;
         }
@@ -664,6 +674,11 @@ public class DayManager : MonoBehaviour
     {
         GameManager.Instance.robotBehaviour.dialogueSys.ChargeDialogues(id);
         GameManager.Instance.robotBehaviour.testGoToPlayer = goToPlayer;
+    }
+
+    public void ChargeFinalAnimation() 
+    {
+        OnRequestCinematic("FinalCinematic");
     }
 
     public void StartDay()

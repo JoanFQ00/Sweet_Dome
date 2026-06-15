@@ -1,9 +1,10 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
 
-public class RobotBehaviour : MonoBehaviour, IInteractable
+public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
 {
     public Transform player;
     public float interactionRadius = 3f;
@@ -27,6 +28,13 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public int currentRandomDialogue;
     public float angleToSpeak;
 
+    [Header("Pop Up")]
+    [SerializeField] private float disanceToPop = 1.6f;
+    [SerializeField] private GameObject popUpGO;
+    [SerializeField] private GameObject interactPopUpGO;
+    private bool onSight;
+
+    [Header("State Machine")]
     public NavMeshAgent agent;
     public StateMachineChanger stateMachine;
     public IdleState idleState;
@@ -86,6 +94,8 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
     }
 
+    public void OnLookStateChanged(bool isLooking) => onSight = isLooking;
+
     public void ChangeGoToPlayer(bool _GoToPlayer) 
     {
         testGoToPlayer = _GoToPlayer;
@@ -102,6 +112,8 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
             return;
         }
 
+        PopUpCheck();
+
         stateMachine.Update();
     }
     public void Interact()
@@ -111,6 +123,12 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
 
         if (stateMachine.CurrentState == taskActionState)
             return;
+
+        if (GameManager.Instance.dayManager.dorothyWaitsForInteraction) 
+        {
+            GameManager.Instance.dayManager.ChargeFinalAnimation();
+            GameManager.Instance.dayManager.dorothyWaitsForInteraction = false;
+        }
 
         if (stateMachine.CurrentState != interactionState)
         {
@@ -193,5 +211,40 @@ public class RobotBehaviour : MonoBehaviour, IInteractable
     public void TriggerTurnOffTvAnimation()
     {
         animator.SetTrigger("TurnOffTvTrigger");
+    }
+
+    private void SetPopUps(bool showNormal, bool showInteract)
+    {
+        if (popUpGO.activeSelf != showNormal) popUpGO.SetActive(showNormal);
+        if (interactPopUpGO.activeSelf != showInteract) interactPopUpGO.SetActive(showInteract);
+    }
+
+    private void PopUpCheck()
+    {
+        if (SceneManager.GetActiveScene().name != "Gameplay") return;
+        if (GameManager.Instance == null || GameManager.Instance.currentState != GameManager.GameState.Gameplay)
+        {
+            SetPopUps(false, false);
+            return;
+        }
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
+        if (onSight)
+        {
+            SetPopUps(false, true);
+            interactPopUpGO.transform.LookAt(player.transform);
+            interactPopUpGO.transform.Rotate(0, 180, 0);
+        }
+        else if (distanceToPlayer <= disanceToPop)
+        {
+            SetPopUps(true, false);
+            popUpGO.transform.LookAt(player.transform);
+            popUpGO.transform.Rotate(0, 180, 0);
+        }
+        else
+        {
+            SetPopUps(false, false);
+        }
     }
 }

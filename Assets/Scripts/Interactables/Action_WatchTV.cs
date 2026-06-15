@@ -24,6 +24,8 @@ public class Action_WatchTV : BaseAction
     private bool actionExecuted = false;
     private float currentMoveTime = 0f;
 
+    private bool dorothyTurnedOff;
+
     private enum State { Idle, MovingToTV, WatchingPos, Watching, Returning }
     private State state = State.Idle;
 
@@ -39,12 +41,14 @@ public class Action_WatchTV : BaseAction
     {
         base.OnEnable();
         GameManager.NewDay += ResetWatchState;
+        DayManager.OnTurnOffTV += () => dorothyTurnedOff = true;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
         GameManager.NewDay -= ResetWatchState;
+        DayManager.OnTurnOffTV += () => dorothyTurnedOff = true;
     }
 
     private void ResetWatchState() => hasWatchedTV = false;
@@ -95,7 +99,7 @@ public class Action_WatchTV : BaseAction
                 if (canWatch)
                 {
                     tvClickPopUp.SetActive(isLookingAtTV);
-                    if (isLookingAtTV && Input.GetMouseButtonDown(0))
+                    if (isLookingAtTV && Input.GetMouseButtonDown(0) && !dorothyTurnedOff)
                     {
                         TurnOnTV();
                         hasWatchedTV = true;
