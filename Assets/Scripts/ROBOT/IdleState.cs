@@ -3,7 +3,6 @@ using UnityEngine;
 public class IdleState : IState
 {
     private RobotBehaviour robot;
-
     private float timer;
 
     public IdleState(RobotBehaviour robot)
@@ -24,18 +23,7 @@ public class IdleState : IState
         timer -= Time.deltaTime;
 
         if (timer <= 0)
-        {
-            if(Random.value < 0.4f)
-            {
-                robot.currentTask = robot.waypointManager.GetRandomPatrolWaypoint();
-                if(robot.currentTask != null)
-                {
-                    robot.stateMachine.ChangeState(robot.taskMoveState);
-                    return;
-                }
-            }
             robot.stateMachine.ChangeState(robot.patrolState);
-        }
     }
 
     public void OnExit()
