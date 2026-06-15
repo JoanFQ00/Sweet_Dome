@@ -61,15 +61,15 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
 
             if (hour < 10)
             {
-                GameManager.Instance.dayTime.SetCurrentTime(10, 0);
+                GameManager.Instance.dayTime.LerpToTime(10, 0, 3);
             }
             else if (hour < 11)
             {
-                GameManager.Instance.dayTime.SetCurrentTime(11, 30);
+                GameManager.Instance.dayTime.LerpToTime(11, 30);
             }
             else
             {
-                GameManager.Instance.dayTime.SetCurrentTime(15, 0);
+                GameManager.Instance.dayTime.LerpToTime(15, 0);
             }
 
             OnFirstDayButt?.Invoke(true);
@@ -78,7 +78,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
         {
             if (hour < 10)
             {
-                GameManager.Instance.dayTime.SetCurrentTime(10, 0);
+                GameManager.Instance.dayTime.LerpToTime(10, 0);
                 GameManager.Instance.dayManager.D22 = true;
             }
             else if (hour < 11)
@@ -88,7 +88,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
 
                 if (isAngry)
                 {
-                    GameManager.Instance.dayTime.SetCurrentTime(11, 30);
+                    GameManager.Instance.dayTime.LerpToTime(11, 30);
                     GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.EncourageRead, true);
                     hasTriedSkipReadDay3 = true;
                 }
@@ -97,7 +97,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
             else if (hour < 11)
             {
                 if (GameManager.Instance.dayManager.hasTriedToSkipTVDay3)
-                    GameManager.Instance.dayTime.SetCurrentTime(15, 0);
+                    GameManager.Instance.dayTime.LerpToTime(15, 0);
                 else
                 {
                     GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.EncourageTV, true);
@@ -120,14 +120,14 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                     }
                     else
                     {
-                        GameManager.Instance.dayTime.SetCurrentTime(10, 00);
+                        GameManager.Instance.dayTime.LerpToTime(10, 00);
                         GameManager.Instance.dayManager.notLaunchDay4 = true;
                     }
                 }
                 else if (GameManager.Instance.dayManager.D32)
                 {
                     GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.VeryMad, true);
-                    GameManager.Instance.dayTime.SetCurrentTime(10, 00);
+                    GameManager.Instance.dayTime.LerpToTime (10, 00);
 
                     GameManager.Instance.dayManager.D53 = true;
                 }
@@ -136,7 +136,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
             {
                 if (GameManager.Instance.dayManager.D31)
                 {
-                    GameManager.Instance.dayTime.SetCurrentTime(11, 30);
+                    GameManager.Instance.dayTime.LerpToTime(11, 30);
 
                     if (GameManager.Instance.dayManager.
                         dorothyLaunch2.IsMet(GameManager.Instance.decManager))
@@ -152,12 +152,12 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 }
                 else if (GameManager.Instance.dayManager.D32)
                 {
-                    GameManager.Instance.dayTime.SetCurrentTime(11, 30);
+                    GameManager.Instance.dayTime.LerpToTime(11, 30);
                 }
             }
             else if (hour < 12)
             {
-                GameManager.Instance.dayTime.SetCurrentTime(15, 0);
+                GameManager.Instance.dayTime.LerpToTime(15, 0);
                 GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.GoToWorkDay2);
             }
             else if (hour <= 15) 
@@ -182,7 +182,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
             {
                 if (GameManager.Instance.dayManager.D72)
                 {
-                    GameManager.Instance.dayTime.SetCurrentTime(10, 00);
+                    GameManager.Instance.dayTime.LerpToTime(10, 00);
                     if (!GameManager.Instance.dayManager.D53)
                     {
                         GameManager.Instance.dayManager.D71 = true;
@@ -192,7 +192,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 {
                     if (GameManager.Instance.dayManager.D61 && !GameManager.Instance.dayManager.D53)
                     {
-                        GameManager.Instance.dayTime.SetCurrentTime(10, 00);
+                        GameManager.Instance.dayTime.LerpToTime(10, 00);
                         GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.LastBookRec, true);
                         GameManager.Instance.dayManager.hasEated_SC = true;
                         GameManager.Instance.dayManager.dorothyBook.SetActive(true);
@@ -200,7 +200,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                     }
                     else if (GameManager.Instance.dayManager.D62 && !GameManager.Instance.dayManager.D53) 
                     {
-                        GameManager.Instance.dayTime.SetCurrentTime(10, 00);
+                        GameManager.Instance.dayTime.LerpToTime(10, 00);
                         GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.LastBookRec, true);
                         GameManager.Instance.dayManager.hasEated_SC = true;
                     }
@@ -212,7 +212,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 {
                     if (GameManager.Instance.dayManager.D53)
                     {
-                        GameManager.Instance.dayTime.SetCurrentTime(11, 30);
+                        GameManager.Instance.dayTime.LerpToTime(11, 30);
                     }
                 }
                 if (GameManager.Instance.dayManager.D71) 
@@ -224,7 +224,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                     }
                     else if (GameManager.Instance.dayManager.D62 && !GameManager.Instance.dayManager.D53) 
                     {
-                        GameManager.Instance.dayTime.SetCurrentTime(11, 30);
+                        GameManager.Instance.dayTime.LerpToTime(11, 30);
                         GameManager.Instance.dayManager.D61 = true;
                         GameManager.Instance.dayManager.D62 = false;
                         // - Cinematica Ventana Dorothy
@@ -237,7 +237,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 {
                     if (GameManager.Instance.dayManager.D53)
                     {
-                        GameManager.Instance.dayTime.SetCurrentTime(15, 0);
+                        GameManager.Instance.dayTime.LerpToTime(15, 0);
                         GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.GoToWorkDay2);
                         GameManager.Instance.dayManager.D84 = true;
                     }
@@ -253,7 +253,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 {
                     GameManager.Instance.dayManager.D82 = true;
                     GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.DortohySad, true);
-                    GameManager.Instance.dayTime.SetCurrentTime(15, 0);
+                    GameManager.Instance.dayTime.LerpToTime(15, 0);
                     GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.GoToWorkDay2);
                 }
             }

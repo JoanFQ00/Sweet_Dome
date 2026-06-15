@@ -154,7 +154,7 @@ public class DayTime : MonoBehaviour
         OnTimeChanged?.Invoke(currentHour, currentMinutes);
     }
 
-    public void LerpToTime(int targetHour, int targetMinute, float duration)
+    public void LerpToTime(int targetHour, int targetMinute, float duration = 3)
     {
         startMinutes = currentHour * 60 + currentMinutes;
         targetMinutes = targetHour * 60 + targetMinute;

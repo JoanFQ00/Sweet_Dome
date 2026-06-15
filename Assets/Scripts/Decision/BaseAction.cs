@@ -22,14 +22,13 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
     private void Start()
     {
         ChargePlayer();
-
         if (popUpGO != null)
         {
             popUpGO.SetActive(false);
             interactPopUpGO.SetActive(false);
         }
-
     }
+
     protected virtual void OnEnable()
     {
         LevelManager.OnLevelLoaded += ChargePlayer;
@@ -42,34 +41,24 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
         GameManager.OnChangeDay -= ResetActionState;
     }
 
-    public void OnLookStateChanged(bool isLooking)
-    {
-        onSight = isLooking;
-    }
+    public void OnLookStateChanged(bool isLooking) => onSight = isLooking;
 
     void ChargePlayer()
     {
         if (GameManager.Instance != null)
         {
-            playerController = GameManager.Instance.playerController;
-            if (playerController == null)
-                playerController = FindFirstObjectByType<PlayerController>();
+            playerController = GameManager.Instance.playerController ?? FindFirstObjectByType<PlayerController>();
         }
     }
 
+    protected virtual bool IsReturning() => false;
+
     protected virtual void Update()
     {
-        if (actionTransfered) return;
+        if (actionTransfered && !IsReturning()) return;
 
-        if (act != null)
-        {
-            CheckHour();
-        }
-
-        if (popUpGO != null)
-        {
-            PopUpCheck();
-        }
+        if (act != null) CheckHour();
+        if (popUpGO != null) PopUpCheck();
 
         OnUpdateAction();
     }
@@ -77,16 +66,9 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
     public virtual void CheckHour()
     {
         int hour = DayTime.Instance.GetCurrentHour();
-        int newLayer;
-
-        if (act.alwaysAccesible || hour == act.hourToInteract)
-        {
-            newLayer = LayerMask.NameToLayer("Interactable");
-        }
-        else
-        {
-            newLayer = LayerMask.NameToLayer("Default");
-        }
+        int newLayer = (act.alwaysAccesible || hour == act.hourToInteract)
+            ? LayerMask.NameToLayer("Interactable")
+            : LayerMask.NameToLayer("Default");
 
         if (currentLayer != newLayer)
         {
@@ -97,28 +79,15 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
 
     private void PopUpCheck()
     {
-        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Gameplay"))
-            return;
-
-        if (playerController == null)
-        {
-            playerController = GameManager.Instance.playerController;
-        }
-
-        if (GameManager.Instance == null)
-        {
-            if (popUpGO.activeSelf) popUpGO.SetActive(false);
-            if (interactPopUpGO.activeSelf) interactPopUpGO.SetActive(false);
-            return;
-        }
-
-        if (GameManager.Instance.currentState != GameManager.GameState.Gameplay)
+        if (SceneManager.GetActiveScene().name != "Gameplay") return;
+        if (playerController == null) playerController = GameManager.Instance.playerController;
+        if (GameManager.Instance == null || GameManager.Instance.currentState != GameManager.GameState.Gameplay)
         {
             SetPopUps(false, false);
             return;
         }
 
-        if (act != null && (!act.alwaysAccesible && DayTime.Instance.GetCurrentHour() != act.hourToInteract))
+        if (act != null && !act.alwaysAccesible && DayTime.Instance.GetCurrentHour() != act.hourToInteract)
         {
             SetPopUps(false, false);
             return;
@@ -136,7 +105,7 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
         {
             SetPopUps(true, false);
             popUpGO.transform.LookAt(playerController.transform);
-            interactPopUpGO.transform.Rotate(0, 180, 0);
+            popUpGO.transform.Rotate(0, 180, 0);
         }
         else
         {
@@ -151,7 +120,6 @@ public abstract class BaseAction : MonoBehaviour, IInteractable, ILookable
     }
 
     public abstract void Interact();
-
     protected virtual void OnUpdateAction() { }
 
     public void ResetActionState(Day c_Day)
