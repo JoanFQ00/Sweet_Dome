@@ -8,10 +8,6 @@ public class Action_WatchTV : BaseAction
     public float timeToMove = 1.0f;
     public Transform playerTarget;
 
-    [Header("Interaction Settings")]
-    public LayerMask interactionLayer;
-    public LayerMask interactionLayerAfter15;
-
     [Header("Video")]
     public VideoPlayer videoPlayer;
     public RenderTexture videoTexture;
@@ -21,12 +17,11 @@ public class Action_WatchTV : BaseAction
 
     private PlayerController player;
     private Transform playerTransform;
-    private Vector3 startPos;
-    private Quaternion startRot;
-    private Vector3 originalPos;
-    private Quaternion originalRot;
+    private Vector3 startPos, originalPos;
+    private Quaternion startRot, originalRot;
 
     private bool hasWatchedTV = false;
+    private bool actionExecuted = false;
     private float currentMoveTime = 0f;
 
     private enum State { Idle, MovingToTV, WatchingPos, Watching, Returning }
@@ -40,15 +35,19 @@ public class Action_WatchTV : BaseAction
         TurnOffTV();
     }
 
-    protected override void OnEnable() 
+    protected override void OnEnable()
     {
-        base.OnEnable(); 
-        GameManager.NewDay += () => hasWatchedTV = false; 
+        base.OnEnable();
+        GameManager.NewDay += ResetWatchState;
     }
-    protected override void OnDisable() 
-    { 
-        base.OnDisable(); 
-        GameManager.NewDay -= () => hasWatchedTV = false; }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        GameManager.NewDay -= ResetWatchState;
+    }
+
+    private void ResetWatchState() => hasWatchedTV = false;
 
     public override void Interact()
     {
@@ -68,11 +67,13 @@ public class Action_WatchTV : BaseAction
         state = State.MovingToTV;
     }
 
+    protected override bool IsReturning()
+    {
+        return state == State.Returning;
+    }
+
     protected override void OnUpdateAction()
     {
-        if (GameManager.Instance.dayTime.currentHour >= 15)
-            gameObject.layer = interactionLayerAfter15;
-
         switch (state)
         {
             case State.MovingToTV:
@@ -88,9 +89,8 @@ public class Action_WatchTV : BaseAction
                 if (Input.GetKeyDown(KeyCode.E)) StartReturn();
 
                 bool canWatch = !hasWatchedTV && act.hourToInteract == GameManager.Instance.dayTime.currentHour;
-
                 Ray ray = player.mainCamera.ScreenPointToRay(Input.mousePosition);
-                bool isLookingAtTV = Physics.Raycast(ray, out RaycastHit hit, 100f, interactionLayer) && hit.collider.CompareTag("TV");
+                bool isLookingAtTV = Physics.Raycast(ray, out RaycastHit hit, 100f) && hit.collider.CompareTag("TV");
 
                 if (canWatch)
                 {
@@ -99,6 +99,7 @@ public class Action_WatchTV : BaseAction
                     {
                         TurnOnTV();
                         hasWatchedTV = true;
+                        actionExecuted = false;
                         tvClickPopUp.SetActive(false);
                         state = State.Watching;
                     }
@@ -119,6 +120,12 @@ public class Action_WatchTV : BaseAction
                     GameManager.Instance.currentState = GameManager.GameState.Gameplay;
                     state = State.Idle;
                 });
+
+                if (hasWatchedTV && !actionExecuted)
+                {
+                    OnActionExecuted(); 
+                    actionExecuted = true;
+                }
                 break;
         }
     }
@@ -129,7 +136,6 @@ public class Action_WatchTV : BaseAction
         videoPlayer.enabled = true;
         videoPlayer.Play();
         GameManager.Instance.presiSpeaker.PresiSpeaks(500 + (int)GameManager.Instance.currentDay);
-        act.ActionExecuted();
     }
 
     void TurnOffTV()
@@ -139,12 +145,13 @@ public class Action_WatchTV : BaseAction
         if (tvRenderer != null) tvRenderer.material.mainTexture = blackTexture;
     }
 
-    void StartReturn() 
+    void StartReturn()
     {
         player.LockCamera(true);
-        startPos = playerTransform.position; 
+        startPos = playerTransform.position;
         startRot = playerTransform.rotation;
-        currentMoveTime = 0f; state = State.Returning;
+        currentMoveTime = 0f;
+        state = State.Returning;
     }
 
     void Move(Vector3 targetPos, Quaternion targetRot, Action onFinish)

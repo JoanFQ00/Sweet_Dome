@@ -248,7 +248,6 @@ public class DayManager : MonoBehaviour
         if (GameManager.Instance.currentDay == Day.Day1 &&
             moveTimerCheck) 
         {
-            Debug.Log(currentDay1Time);
             currentDay1Time += Time.deltaTime;
             if (currentDay1Time >= day1FinalTimer) 
             {
@@ -267,6 +266,7 @@ public class DayManager : MonoBehaviour
                 PresidentSpeaks(PresiDialogue.DorothySights);
 
                 // - Cinematica Dorothy va a la ventana 
+                ChangeDorothyDialogue((int)DialoguesRobo.DorothyMissesBeBop, false);
                 activatedBBTimer = false;
             }
         }
@@ -279,6 +279,7 @@ public class DayManager : MonoBehaviour
             if (hasWatchedTv.IsMet(GameManager.Instance.decManager) && !watchTvTriggered)
             {
                 PresidentSpeaks(PresiDialogue.GoToWorkDay1);
+                GameManager.Instance.dayTime.LerpToTime(15, 0, 3);
                 watchTvTriggered = true;
             }
 
@@ -325,7 +326,7 @@ public class DayManager : MonoBehaviour
             D12 = true;
         }
 
-        if ((afterTvDay2) && ((dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && !watchTvTriggered) ||
+        if (afterTvDay2 && ((dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && !watchTvTriggered) ||
             (dorothyAngriedDay2.IsMet(GameManager.Instance.decManager) && !watchTvTriggered)))
         {
             watchTvTriggered = true;
@@ -551,7 +552,8 @@ public class DayManager : MonoBehaviour
             dorothyBook.SetActive(true);
             dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day1);
         }
-        else if (!hasRead.IsMet(GameManager.Instance.decManager) && !dorothyAngry)
+        else if ((!hasRead.IsMet(GameManager.Instance.decManager) && !dorothyBook1Readed.IsMet(GameManager.Instance.decManager))
+            && !dorothyAngry)
         {
             ChangeDorothyDialogue((int)DialoguesRobo.DorothyAngryDay2, true);
             dorothyAngry = true;

@@ -13,7 +13,8 @@ public enum DialoguesRobo
     DorothyAngryDay2 = 8,
     DontWatchThatProgram = 11,
     MattewSturdy = 12,
-    DorothyMissesBeBop = 18,
+    DorothyMissesBeBop = 23,
+    DorothySings = 24,
 
     DorothyExplainsButton = 9,
     DorothyCongratsotNotEat = 10,
