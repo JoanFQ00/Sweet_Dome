@@ -4877,6 +4877,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 483c6682dd289ea4b8dd81e92183ce98, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 741aba4015cdaf84ca111e6981abc755, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -5312821651996014630, guid: 43c55c28f46632b48a232bb6d2343fc5, type: 3}
     - target: {fileID: 919132149155446097, guid: 741aba4015cdaf84ca111e6981abc755, type: 3}
       propertyPath: m_Name
       value: RelojPared (1)
@@ -14542,7 +14546,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1846699732}
   - {fileID: 803549596}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43295,6 +43298,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 483c6682dd289ea4b8dd81e92183ce98, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 741aba4015cdaf84ca111e6981abc755, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -5312821651996014630, guid: 43c55c28f46632b48a232bb6d2343fc5, type: 3}
     - target: {fileID: 919132149155446097, guid: 741aba4015cdaf84ca111e6981abc755, type: 3}
       propertyPath: m_Name
       value: RelojPared
@@ -43757,81 +43764,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.01759145, y: 0.0062183845, z: 0.021950347}
   m_Center: {x: 0.0006208897, y: 0.0010232389, z: 0.0017430615}
---- !u!1 &1846699731
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1846699732}
-  - component: {fileID: 1846699734}
-  - component: {fileID: 1846699733}
-  m_Layer: 5
-  m_Name: Black
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1846699732
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846699731}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10.597588, y: 6.3199, z: 5.9186}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 519819220}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 85.797, y: 4.38}
-  m_SizeDelta: {x: 297.511, y: 360.102}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1846699733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846699731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1846699734
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846699731}
-  m_CullTransparentMesh: 1
 --- !u!1 &1848196039
 GameObject:
   m_ObjectHideFlags: 0

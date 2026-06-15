@@ -42,9 +42,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
     public InteractionState interactionState;
     public GoToPlayerState goToPlayerState;
     public RechargeState rechargeState;
-
-    public TaskMoveState taskMoveState;
-    public TaskActionState taskActionState;
     public Waypoint currentTask;
     public Waypoint currentHistoryWaypoint;
 
@@ -67,9 +64,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
         interactionState = new InteractionState(this);
         goToPlayerState = new GoToPlayerState(this);
         rechargeState = new RechargeState(this);
-        taskMoveState = new TaskMoveState(this);
-        taskActionState = new TaskActionState(this);
-
 
         dialogueSys.SysIni();
 
@@ -119,9 +113,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
     public void Interact()
     {
         if (stateMachine.CurrentState == rechargeState)
-            return;
-
-        if (stateMachine.CurrentState == taskActionState)
             return;
 
         if (GameManager.Instance.dayManager.dorothyWaitsForInteraction) 
