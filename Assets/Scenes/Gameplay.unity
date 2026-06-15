@@ -20623,6 +20623,99 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 895210030}
   m_CullTransparentMesh: 1
+--- !u!1 &897776918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 897776919}
+  - component: {fileID: 897776920}
+  m_Layer: 0
+  m_Name: Cin (9)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &897776919
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897776918}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.0822201, y: -3.50429, z: -0.6361599}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5412074522692647417}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!320 &897776920
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 897776918}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: 952bc20372f9dd84abef6ad9fafba51b, type: 2}
+  m_InitialState: 0
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 3450586451806897708, guid: 703fe5daec365794eb22ae61d392e460, type: 2}
+    value: {fileID: 3900990295903203084}
+  - key: {fileID: -6130653017992820373, guid: 703fe5daec365794eb22ae61d392e460, type: 2}
+    value: {fileID: 3978573174255170511}
+  - key: {fileID: -2761720602367072745, guid: 703fe5daec365794eb22ae61d392e460, type: 2}
+    value: {fileID: 9019934164782268949}
+  - key: {fileID: -7634690409325147472, guid: 703fe5daec365794eb22ae61d392e460, type: 2}
+    value: {fileID: 4087513572127429846}
+  - key: {fileID: -7715064091710795789, guid: 703fe5daec365794eb22ae61d392e460, type: 2}
+    value: {fileID: 5166511068603882019}
+  - key: {fileID: 4421638545434842394, guid: 703fe5daec365794eb22ae61d392e460, type: 2}
+    value: {fileID: 5166511068603882019}
+  - key: {fileID: 3366735595903447514, guid: 703fe5daec365794eb22ae61d392e460, type: 2}
+    value: {fileID: 612900196}
+  - key: {fileID: 7957004481858769521, guid: 703fe5daec365794eb22ae61d392e460, type: 2}
+    value: {fileID: 558684021}
+  - key: {fileID: 3016408376913021846, guid: 703fe5daec365794eb22ae61d392e460, type: 2}
+    value: {fileID: 1582706352}
+  - key: {fileID: 2460141775167309084, guid: 703fe5daec365794eb22ae61d392e460, type: 2}
+    value: {fileID: 1736802200}
+  - key: {fileID: 729267686950125749, guid: 703fe5daec365794eb22ae61d392e460, type: 2}
+    value: {fileID: 1433308446}
+  - key: {fileID: 2460141775167309084, guid: 952bc20372f9dd84abef6ad9fafba51b, type: 2}
+    value: {fileID: 1736802200}
+  - key: {fileID: -2761720602367072745, guid: 952bc20372f9dd84abef6ad9fafba51b, type: 2}
+    value: {fileID: 9019934164782268949}
+  - key: {fileID: -6130653017992820373, guid: 952bc20372f9dd84abef6ad9fafba51b, type: 2}
+    value: {fileID: 3978573174255170511}
+  - key: {fileID: -7715064091710795789, guid: 952bc20372f9dd84abef6ad9fafba51b, type: 2}
+    value: {fileID: 5166511068603882019}
+  - key: {fileID: 4421638545434842394, guid: 952bc20372f9dd84abef6ad9fafba51b, type: 2}
+    value: {fileID: 5166511068603882019}
+  - key: {fileID: -7634690409325147472, guid: 952bc20372f9dd84abef6ad9fafba51b, type: 2}
+    value: {fileID: 4087513572127429846}
+  - key: {fileID: 3366735595903447514, guid: 952bc20372f9dd84abef6ad9fafba51b, type: 2}
+    value: {fileID: 612900196}
+  - key: {fileID: 7957004481858769521, guid: 952bc20372f9dd84abef6ad9fafba51b, type: 2}
+    value: {fileID: 558684021}
+  - key: {fileID: 3016408376913021846, guid: 952bc20372f9dd84abef6ad9fafba51b, type: 2}
+    value: {fileID: 1582706352}
+  - key: {fileID: 3450586451806897708, guid: 952bc20372f9dd84abef6ad9fafba51b, type: 2}
+    value: {fileID: 3900990295903203084}
+  - key: {fileID: 729267686950125749, guid: 952bc20372f9dd84abef6ad9fafba51b, type: 2}
+    value: {fileID: 1433308446}
+  m_ExposedReferences:
+    m_References: []
 --- !u!1 &898065563
 GameObject:
   m_ObjectHideFlags: 0
@@ -33429,8 +33522,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Thomas siempre fue un ni\xF1o enfermizo y sus padres lo sacaban poco a
-    la calle."
+  m_text: "Toda la energ\xEDa que sac\xE1is de las monta\xF1as est\xE1 dejando sin
+    recursos a los habitantes de fuera de la c\xFApula"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -55027,6 +55120,10 @@ PlayableDirector:
     value: {fileID: 558684021}
   - key: {fileID: 3016408376913021846, guid: 703fe5daec365794eb22ae61d392e460, type: 2}
     value: {fileID: 1582706352}
+  - key: {fileID: 2460141775167309084, guid: 703fe5daec365794eb22ae61d392e460, type: 2}
+    value: {fileID: 1736802200}
+  - key: {fileID: 729267686950125749, guid: 703fe5daec365794eb22ae61d392e460, type: 2}
+    value: {fileID: 1433308446}
   m_ExposedReferences:
     m_References: []
 --- !u!1 &515398280691586823
@@ -76695,6 +76792,7 @@ Transform:
   - {fileID: 5242556752477178769}
   - {fileID: 6441834655872143979}
   - {fileID: 4245710085880261433}
+  - {fileID: 897776919}
   - {fileID: 1983528046108143967}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
