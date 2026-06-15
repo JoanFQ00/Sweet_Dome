@@ -25,26 +25,26 @@ public enum PresiDialogue
     GoodMorNoHappy = 69,
 
     //DAY 1
-    CongratsDay1Presi = 100,
-    CongratsAgainDay1Presi = 110,
-    ForcesDay1Dorothy = 111,
-    SleepDay1Presi = 112,
-    AngryFunDay1Presi = 113,
-    SemiAngryFunDay1Presi = 114,
-    AngryAngryDay1Presi = 115,
+    CongratsDay1Presi = 100, //07
+    CongratsAgainDay1Presi = 110, //11
+    ForcesDay1Dorothy = 111, //08
+    SleepDay1Presi = 112, //13
+    AngryFunDay1Presi = 113, //10
+    SemiAngryFunDay1Presi = 114, //09
+    AngryAngryDay1Presi = 115, //12
 
     //DAY 2
-    PleaseSchoolDay2Presi = 200,
-    CrackAtSchoolDay2Presi = 201,
-    GoodHappySchoolDay2Dorothy = 202,
-    GoodSadDay2Dorothy = 203,
-    CongratsDay2Presi = 204,
-    SleepDay2Presi = 205,
-    VeryAngryDay2Dorothy = 205,
-    BadFinalDay2Presi = 206,
-    SemiAngryDay2Dorothy = 207,
-    AngryDay2Dorothy = 208,
-    SemiAngryDay2Presi = 209,
+    PleaseSchoolDay2Presi = 200, //27
+    CrackAtSchoolDay2Presi = 201, //28
+    GoodHappySchoolDay2Dorothy = 202, //32
+    GoodSadDay2Dorothy = 203, //33
+    CongratsDay2Presi = 204, //36
+    SleepDay2Presi = 205, //37
+    VeryAngryDay2Dorothy = 205, //29
+    BadFinalDay2Presi = 206, //34
+    SemiAngryDay2Dorothy = 207, //30
+    AngryDay2Dorothy = 208, //31
+    SemiAngryDay2Presi = 209, //35
 
     //DAY 3
     LyingToMatthewDay3Dorothy = 300,//49
@@ -68,7 +68,40 @@ public enum PresiDialogue
     SleepDay3Presi = 317, //67
 
     //DAY 4
-    Day3Dorothy = 400,//49
+    D0ay4 = 400,//78
+    D1ay4 = 401,//79
+    D2ay4 = 402,//80 //
+    D3ay4 = 403,//81
+    D4ay4 = 404,//82
+    D5ay4 = 405,//83 //
+    D6ay4 = 406,//84 //
+    D7ay4 = 407,//85
+    D8ay4 = 408,//86
+    D9ay4 = 409,//87
+    D10ay4 = 410,//88
+    D11ay4 = 411,//89
+    D12ay4 = 412,//90
+    D13Day4 = 413,//91
+    D14Day4 = 414,//92
+    D15Day4 = 415,//93
+    D16Day4 = 416,//94
+    D17Day4 = 417,//95
+    D18Day4 = 418,//96
+    D19Day4 = 419,//97
+    D20Day4 = 420,//98
+    D21Day4 = 421,//99
+    D22Day4 = 422,//100
+    D23Day4 = 423,//101
+
+    //DAY 5
+    D0ay5 = 500,//115
+    D1ay5 = 501,//116
+    D2ay5 = 502,//117
+    D3ay5 = 503,//118
+    D4ay5 = 504,//119
+    D5ay5 = 505,//120
+    D6ay5 = 506,//121
+    D7ay5 = 507,//122
 
     GoodMorDay5 = 102,
     BadMorDay5 = 103,

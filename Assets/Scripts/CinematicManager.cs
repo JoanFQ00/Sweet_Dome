@@ -39,13 +39,13 @@ public class CinematicManager : MonoBehaviour
     private void OnEnable()
     {
         DayManager.OnRequestCinematic += StartCinematicSequence;
-        //MachineManager.OnFinishedDay += StartCinematicSequence;
+        MachineManager.OnFinishedDay += StartCinematicSequence;
     }
 
     private void OnDisable()
     {
         DayManager.OnRequestCinematic -= StartCinematicSequence;
-        //DayManager.OnFinishedDay -= StartCinematicSequence;
+        MachineManager.OnFinishedDay -= StartCinematicSequence;
     }
 
     private void Update()
