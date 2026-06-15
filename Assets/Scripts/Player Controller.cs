@@ -119,6 +119,8 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
+        if (characterController.enabled == false) return;
+
         Vector2 input = playerInput.actions["Move"].ReadValue<Vector2>();
 
         if (!hasMovedForFirstTime && input.sqrMagnitude > 0.01f)
