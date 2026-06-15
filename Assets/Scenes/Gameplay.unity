@@ -24551,7 +24551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
   validator: {fileID: 1039698112}
-  activeColor: {r: 4.2295003, g: 6.473058, b: 0, a: 1}
+  activeColor: {r: 155.74858, g: 10.285262, b: 85.61454, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 0}
   turnOffOnDay1: 0
@@ -24601,10 +24601,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
   validator: {fileID: 1039698117}
-  activeColor: {r: 4.2295003, g: 6.473058, b: 0, a: 1}
+  activeColor: {r: 155.74858, g: 10.285262, b: 85.61454, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 0}
-  turnOffOnDay1: 0
+  turnOffOnDay1: 1
   strictlyFollowValidator: 0
 --- !u!1 &1043045862
 GameObject:
@@ -29312,7 +29312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PumpEmissionController
   machineSource: {fileID: 1557905089817286530}
   pumpType: 1
-  pumpColor: {r: 0, g: 1, b: 1, a: 1}
+  pumpColor: {r: 1, g: 0.101960786, b: 0.29803923, a: 1}
   activeBrightness: 10
   inactiveBrightness: 0.05
   transitionDuration: 0.25
@@ -42158,7 +42158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 741, y: -0}
+  m_AnchoredPosition: {x: 741, y: 0}
   m_SizeDelta: {x: 100, y: 350}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1748332370
@@ -43990,9 +43990,9 @@ MonoBehaviour:
   outAngle: -70
   dragSpeed: 2
   returnSpeed: 10
-  neutralColor: {r: 1, g: 1, b: 1, a: 1}
-  absorbColor: {r: 0, g: 0, b: 1, a: 1}
-  expelColor: {r: 1, g: 0.08, b: 0.57, a: 1}
+  neutralColor: {r: 15.933679, g: 1.0522218, b: 8.758697, a: 1}
+  absorbColor: {r: 0.98490566, g: 0.6820007, b: 0.91321224, a: 1}
+  expelColor: {r: 2.037736, g: 0.67283714, b: 1.7146832, a: 1}
   currentAngle: 0
 --- !u!1 &1863096905
 GameObject:
@@ -51796,8 +51796,8 @@ MonoBehaviour:
   targetButton: {fileID: 1996374448}
   customHdrColor: {r: 13.928808, g: 0.50406647, b: 0, a: 1}
   machineSource: {fileID: 1557905089817286530}
-  purifiedHdrColor: {r: 0, g: 8.574187, b: 8.574187, a: 1}
-  rawHdrColor: {r: 25.992073, g: 0, b: 0, a: 1}
+  purifiedHdrColor: {r: 36.329647, g: 12.252352, b: 30.630878, a: 1}
+  rawHdrColor: {r: 205.5115, g: 2.7142923, b: 169.50963, a: 1}
 --- !u!1001 &1998745473
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59729,7 +59729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
   validator: {fileID: 1881911132639619987}
-  activeColor: {r: 178.90814, g: 0, b: 0, a: 1}
+  activeColor: {r: 238.85638, g: 238.85638, b: 238.85638, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 0}
   turnOffOnDay1: 0
@@ -63996,7 +63996,7 @@ MonoBehaviour:
   compartmentIndex: 0
   purifiedPumpInitialIndex: 0
   rawPumpInitialIndex: 1
-  compartmentColor: {r: 0, g: 1, b: 1, a: 1}
+  compartmentColor: {r: 1, g: 0.101960786, b: 0.29803923, a: 1}
   standardActiveBrightness: 10
   standardInactiveBrightness: 0.05
   shaderActiveStrength: 10
@@ -77916,7 +77916,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PumpEmissionController
   machineSource: {fileID: 1557905089817286530}
   pumpType: 0
-  pumpColor: {r: 0, g: 1, b: 1, a: 1}
+  pumpColor: {r: 1, g: 0.3372549, b: 0.84313726, a: 1}
   activeBrightness: 10
   inactiveBrightness: 0.05
   transitionDuration: 0.25
@@ -79782,7 +79782,7 @@ MonoBehaviour:
   compartmentIndex: 1
   purifiedPumpInitialIndex: 0
   rawPumpInitialIndex: 1
-  compartmentColor: {r: 0, g: 1, b: 1, a: 1}
+  compartmentColor: {r: 1, g: 0.3372549, b: 0.84313726, a: 1}
   standardActiveBrightness: 10
   standardInactiveBrightness: 0.05
   shaderActiveStrength: 10
@@ -81968,7 +81968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
   validator: {fileID: 7291814254053808173}
-  activeColor: {r: 51.984146, g: 0, b: 0, a: 1}
+  activeColor: {r: 18.656813, g: 36.329647, b: 14.189125, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 2020366537009726649}
   turnOffOnDay1: 0
@@ -82148,7 +82148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PriorityColorTrigger
   targetButton: {fileID: 7312373766383115446}
-  customHdrColor: {r: 0, g: 0, b: 64, a: 1}
+  customHdrColor: {r: 85.445015, g: 2.9006076, b: 0, a: 1}
   priorityButtonSource: {fileID: 7312373766383115447}
 --- !u!1 &7327692129376414453
 GameObject:
@@ -82301,7 +82301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
   validator: {fileID: 7438186382883496112}
-  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  activeColor: {r: 155.38544, g: 60.423695, b: 178.90819, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 0}
   turnOffOnDay1: 0
@@ -82825,7 +82825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
   validator: {fileID: 7563133660472087317}
-  activeColor: {r: 48.060814, g: 1.1335096, b: 1.1335096, a: 1}
+  activeColor: {r: 41.731808, g: 0.9842406, b: 0.9842406, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 0}
   turnOffOnDay1: 0
@@ -83283,7 +83283,7 @@ MonoBehaviour:
   type: 0
   centerDeadZonePixels: 35
   targetLightRenderer: {fileID: 8278226109436403949}
-  activeColor: {r: 0, g: 42.66847, b: 67.793495, a: 1}
+  activeColor: {r: 90.509636, g: 72.04472, b: 3.2446723, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!23 &7741821064500237389
 MeshRenderer:
@@ -84257,7 +84257,7 @@ MonoBehaviour:
   compartmentIndex: 0
   purifiedPumpInitialIndex: 0
   rawPumpInitialIndex: 1
-  compartmentColor: {r: 0, g: 1, b: 1, a: 1}
+  compartmentColor: {r: 1, g: 0.3372549, b: 0.84313726, a: 1}
   standardActiveBrightness: 10
   standardInactiveBrightness: 0.05
   shaderActiveStrength: 10
@@ -85927,7 +85927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
   validator: {fileID: 8427812220776211897}
-  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  activeColor: {r: 0.50370264, g: 22.363522, b: 0, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 0}
   turnOffOnDay1: 0
@@ -87970,7 +87970,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
   validator: {fileID: 9099485350462520429}
-  activeColor: {r: 1, g: 1, b: 1, a: 1}
+  activeColor: {r: 155.38544, g: 60.423695, b: 178.90819, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 0}
   turnOffOnDay1: 0
@@ -88542,7 +88542,7 @@ MonoBehaviour:
   compartmentIndex: 1
   purifiedPumpInitialIndex: 0
   rawPumpInitialIndex: 1
-  compartmentColor: {r: 0, g: 1, b: 1, a: 1}
+  compartmentColor: {r: 1, g: 0.101960786, b: 0.29803923, a: 1}
   standardActiveBrightness: 10
   standardInactiveBrightness: 0.05
   shaderActiveStrength: 10
