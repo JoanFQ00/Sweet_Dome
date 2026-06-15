@@ -119,11 +119,9 @@ public class UIManager : MonoBehaviour
     {
         if (interacting)
         {
-            stopInteractTxt.SetActive(true);
         }
         else
         {
-            stopInteractTxt.SetActive(false);
         }
     }
 

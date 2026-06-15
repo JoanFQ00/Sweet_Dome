@@ -1,30 +1,20 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class FadeDay : MonoBehaviour
 {
-    public Image fadeImage;
     public TextMeshProUGUI dayTMP;
 
-    [Header("Fade Settings")]
-    public float fadeInTime = 0.8f;
-    public float fadeOutTime = 0.5f;
-    public bool lockPlayer;
+    [Header("Day Text Settings")]
+    public float delayBeforeShow = 15f;
+    public float textFadeInTime = 0.5f;
+    public float visibleTime = 2f;
+    public float textFadeOutTime = 1f;
 
     public static FadeDay Instance;
 
-    private enum FadeState
-    {
-        None,
-        FadingOut,
-        FadingIn,
-        FinalFade
-    }
-
-    private FadeState fadeState;
+    private Coroutine currentRoutine;
 
     private void Awake()
     {
@@ -39,27 +29,12 @@ public class FadeDay : MonoBehaviour
         }
     }
 
-    public void ActivarFadeOutManual()
-    {
-        fadeImage.gameObject.SetActive(true);
-        dayTMP.gameObject.SetActive(false); 
-        fadeState = FadeState.FadingOut;
-    }
-
-    public void ActivarFadeInManual()
-    {
-        fadeImage.gameObject.SetActive(true);
-        fadeState = FadeState.FadingIn;
-    }
-
     private void Start()
     {
-        Color imgColor = fadeImage.color;
-        imgColor.a = 1f;
-        fadeImage.color = imgColor;
+        dayTMP.gameObject.SetActive(false);
 
         Color textColor = dayTMP.color;
-        textColor.a = 1f;
+        textColor.a = 0f;
         dayTMP.color = textColor;
 
         StartFade();
@@ -68,131 +43,93 @@ public class FadeDay : MonoBehaviour
     private void OnEnable()
     {
         GameManager.NewDay += StartFade;
-        LevelManager.OnLevelLoaded += StartFadeIn;
-        GameManager.FinalFade += StartFinalFade;
+        LevelManager.OnLevelLoaded += StartFade;
     }
 
     private void OnDisable()
     {
         GameManager.NewDay -= StartFade;
-        LevelManager.OnLevelLoaded -= StartFadeIn;
-        GameManager.FinalFade -= StartFinalFade;
-    }
-
-    void StartFinalFade() 
-    {
-        fadeImage.gameObject.SetActive(true);
-        dayTMP.gameObject.SetActive(false);
-
-        fadeState = FadeState.FinalFade;
+        LevelManager.OnLevelLoaded -= StartFade;
     }
 
     public void StartFade()
     {
-        fadeImage.gameObject.SetActive(true);
-        dayTMP.gameObject.SetActive(true);
+        if (currentRoutine != null)
+            StopCoroutine(currentRoutine);
 
-        switch (GameManager.Instance.currentDay) 
+        currentRoutine = StartCoroutine(ShowDayTextRoutine());
+    }
+
+    private IEnumerator ShowDayTextRoutine()
+    {
+        yield return new WaitForSeconds(delayBeforeShow);
+
+        switch (GameManager.Instance.currentDay)
         {
             case Day.Day1:
                 dayTMP.text = "Day 1";
                 break;
+
             case Day.Day2:
                 dayTMP.text = "Day 5";
                 break;
+
             case Day.Day3:
                 dayTMP.text = "Day 13";
                 break;
+
             case Day.Day4:
                 dayTMP.text = "Day 25";
                 break;
+
             case Day.Day5:
                 dayTMP.text = "Day 67";
                 break;
-        }
 
-        if (lockPlayer) 
-        {
-            GameManager.Instance.playerController.LockPlayer(true);
-            GameManager.Instance.playerController.LockCamera(true);
-        }
-
-        fadeState = FadeState.FadingOut;
-    }
-
-    public void StartFadeIn() 
-    {
-        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Gameplay"))
-            dayTMP.gameObject.SetActive(true);
-
-        fadeImage.gameObject.SetActive(true);
-        dayTMP.text = GameManager.Instance.currentDay.ToString();
-
-        if (lockPlayer)
-        {
-            GameManager.Instance.playerController.LockPlayer(true);
-            GameManager.Instance.playerController.LockCamera(true);
-        }
-
-        fadeState = FadeState.FadingIn;
-    }
-
-    private void Update()
-    {
-        Color imgColor = fadeImage.color;
-        Color textColor = dayTMP.color;
-
-        switch (fadeState)
-        {
-            case FadeState.FadingOut:
-
-                imgColor.a += Time.unscaledDeltaTime / fadeOutTime;
-                textColor.a = imgColor.a;
-
-                fadeImage.color = imgColor;
-                dayTMP.color = textColor;
-
-                if (imgColor.a >= 1f)
-                {
-                    fadeState = FadeState.FadingIn;
-                }
-
-            break;
-
-            case FadeState.FadingIn:
-
-                imgColor.a -= Time.unscaledDeltaTime / fadeInTime;
-                textColor.a = imgColor.a;
-
-                fadeImage.color = imgColor;
-                dayTMP.color = textColor;
-
-                if (imgColor.a <= 0f)
-                {
-                    fadeState = FadeState.None;
-
-                    fadeImage.gameObject.SetActive(false);
-                    dayTMP.gameObject.SetActive(false);
-
-                    GameManager.Instance.playerController.LockPlayer(false);
-                    GameManager.Instance.playerController.LockCamera(false);
-                }
-            break;
-            case FadeState.FinalFade:
-                imgColor.a += Time.unscaledDeltaTime / fadeOutTime;
-                textColor.a = 0f; 
-
-                fadeImage.color = imgColor;
-                dayTMP.color = textColor;
-
-                if (imgColor.a >= 1f)
-                {
-                    imgColor.a = 1f;
-                    fadeImage.color = imgColor;
-
-                    fadeState = FadeState.None;
-                }
+            default:
+                dayTMP.text = GameManager.Instance.currentDay.ToString();
                 break;
         }
+
+        dayTMP.gameObject.SetActive(true);
+
+        Color textColor = dayTMP.color;
+
+        float t = 0f;
+        textColor.a = 0f;
+        dayTMP.color = textColor;
+
+        while (t < textFadeInTime)
+        {
+            t += Time.deltaTime;
+
+            textColor.a = Mathf.Lerp(0f, 1f, t / textFadeInTime);
+            dayTMP.color = textColor;
+
+            yield return null;
+        }
+
+        textColor.a = 1f;
+        dayTMP.color = textColor;
+
+        yield return new WaitForSeconds(visibleTime);
+
+        t = 0f;
+
+        while (t < textFadeOutTime)
+        {
+            t += Time.deltaTime;
+
+            textColor.a = Mathf.Lerp(1f, 0f, t / textFadeOutTime);
+            dayTMP.color = textColor;
+
+            yield return null;
+        }
+
+        textColor.a = 0f;
+        dayTMP.color = textColor;
+
+        dayTMP.gameObject.SetActive(false);
+        currentRoutine = null;
     }
 }

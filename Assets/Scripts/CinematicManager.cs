@@ -7,6 +7,7 @@ public class CinematicManager : MonoBehaviour
     public static CinematicManager Instance { get; private set; }
 
     [Header("Timelines")]
+    public PlayableDirector wakeUpTimeline;
     public PlayableDirector day3TurnOffTvTimeline;
     public PlayableDirector day3SitAndWatchTimeline;
     public PlayableDirector day4SitAndHugTimeline;
@@ -16,7 +17,7 @@ public class CinematicManager : MonoBehaviour
     public PlayableDirector goToSleepTimeline;
     public PlayableDirector finalCinematic;
 
-    private PlayableDirector activeTimeline;
+    public PlayableDirector activeTimeline;
     private bool cinematicStarted = false;
     private bool cinematicEndedTriggered = false;
 
@@ -41,12 +42,14 @@ public class CinematicManager : MonoBehaviour
     {
         DayManager.OnRequestCinematic += StartCinematicSequence;
         MachineManager.OnFinishedDay += StartCinematicSequence;
+        GameManager.NewDay += StartDayCinematic;
     }
 
     private void OnDisable()
     {
         DayManager.OnRequestCinematic -= StartCinematicSequence;
         MachineManager.OnFinishedDay -= StartCinematicSequence;
+        GameManager.NewDay -= StartDayCinematic;
     }
 
     private void Update()
@@ -59,6 +62,11 @@ public class CinematicManager : MonoBehaviour
                 EndCinematicAndReturnToGameplay();
             }
         }
+    }
+
+    void StartDayCinematic() 
+    {
+        StartCinematicSequence("WakeUpCinematic");
     }
 
     void StartCinematicSequence(string cinematicName)
@@ -95,6 +103,9 @@ public class CinematicManager : MonoBehaviour
             case "FinalCinematic":
                 activeTimeline = finalCinematic;
                 break;
+            case "WakeUpCinematic":
+                activeTimeline = wakeUpTimeline;
+                break;
             default:
                 activeTimeline = null;
                 break;
@@ -125,14 +136,12 @@ public class CinematicManager : MonoBehaviour
             StartCinematicSequence("Day3TurnOffTv");
             return;
         }
-        else if (activeTimeline.name == "Cin (5)") 
+        else if (activeTimeline.name == "Cin (5)")
         {
             StartCinematicSequence("Day5WatchWindow");
         }
         else
-        {
             activeTimeline = null;
-        }
 
         cinematicStarted = false;
         cinematicEndedTriggered = false;
