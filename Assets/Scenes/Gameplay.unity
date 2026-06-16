@@ -29558,8 +29558,6 @@ MonoBehaviour:
   zoomIm: {fileID: 2105693949}
   timeHour: {fileID: 789261749}
   timeMinute: {fileID: 933716546}
-  timeHourMachine: {fileID: 789261749}
-  timeMinuteMachine: {fileID: 1366734192}
   objectivseTMP:
   - {fileID: 547646508}
   center: {fileID: 243170087}
@@ -60171,7 +60169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonEmissionController
   validator: {fileID: 1881911132639619987}
-  activeColor: {r: 238.85638, g: 238.85638, b: 238.85638, a: 1}
+  activeColor: {r: 1, g: 1, b: 1, a: 1}
   disabledColor: {r: 0, g: 0, b: 0, a: 1}
   secondaryButtonMesh: {fileID: 0}
   turnOffOnDay1: 0
@@ -60223,27 +60221,27 @@ MonoBehaviour:
   act: {fileID: 11400000, guid: 8203da368da34214f9e47d09aa54056a, type: 2}
   cityFunnel: {fileID: 1469307825388841629}
   cityValuesD1:
-  - 40
+  - 20
   - 0
   - 0
   - 0
   FirstCDDay1: 20
   secondCountDay1: 20
   cityValuesD2:
-  - 40
-  - 60
+  - 20
+  - 15
   - 0
   - 0
   cityValuesD3:
-  - 40
-  - 55
-  - 60
-  - 75
+  - 10
+  - 20
+  - 30
+  - 30
   cityValuesD4:
-  - 70
-  - 65
-  - 70
-  - 90
+  - 20
+  - 15
+  - 20
+  - 50
   cityValuesD5:
   - 100
   - 100

@@ -171,7 +171,7 @@ public class DialRotation : MonoBehaviour
 
         isDragging = true;
         lastMouseAngle = GetMouseAngle();
-        SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.rotateWheelSFX, true);
+        //SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.rotateWheelSFX, true);
     }
 
     void OnMouseUp()
@@ -189,6 +189,6 @@ public class DialRotation : MonoBehaviour
     private void StopDialSound()
     {
         isDragging = false;
-        SoundManagerOwn.Instance.StopSFX();
+        //SoundManagerOwn.Instance.StopSFX();
     }
 }

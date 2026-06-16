@@ -32,7 +32,6 @@ public class UIManager : MonoBehaviour
 
     [Header("Time")]
     public TextMeshProUGUI timeHour, timeMinute;
-    public TextMeshProUGUI timeHourMachine, timeMinuteMachine;
 
     [Header("Objectives")]
     public List<TextMeshProUGUI> objectivseTMP;
@@ -131,17 +130,14 @@ public class UIManager : MonoBehaviour
         if (timeHour != null) 
         {
             timeHour.text = $"{hour}";
-            timeHourMachine.text = $"{hour}";
 
             if (minutes == 0)
             {
                 timeMinute.text = $"{minutes}0";
-                timeMinuteMachine.text = $"{minutes}0";
             }
             else 
             {
                  timeMinute.text = $"{minutes}";
-                 timeMinuteMachine.text = $"{minutes}";
             }
         }
     }

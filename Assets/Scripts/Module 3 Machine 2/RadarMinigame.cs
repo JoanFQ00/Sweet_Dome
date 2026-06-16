@@ -61,6 +61,9 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
     private Quaternion initialRadarRotation;
 
+    private FMOD.Studio.EventInstance redAlarmAudioInstance;
+    private FMOD.Studio.EventInstance purpleAlarmAudioInstance;
+
     public bool IsEventActive() => inEvent;
     public bool IsSliderResetting() => isSliderResetting;
     public bool IsRotationResetting() => isRotationResetting;
@@ -95,6 +98,8 @@ public class RadarMinigame : MonoBehaviour, IResetable
     private void OnDestroy()
     {
         if (GameManager.Instance != null) GameManager.Instance.UnregisterResetable(this);
+
+        CleanAudioInstancesImmediate();
     }
 
     void Update()
@@ -220,6 +225,8 @@ public class RadarMinigame : MonoBehaviour, IResetable
         if (redMaterial != null) redMaterial.DisableKeyword("_EMISSION");
         if (blueMaterial != null) blueMaterial.DisableKeyword("_EMISSION");
 
+        CleanAudioInstancesImmediate();
+
         if (type == RadarEventType.Meteorite)
         {
             if (redMaterial != null) redMaterial.EnableKeyword("_EMISSION");
@@ -229,9 +236,12 @@ public class RadarMinigame : MonoBehaviour, IResetable
                 redAlarmAnimation.AddClip(redAlarmClip, redAlarmClip.name);
                 redAlarmAnimation.Play(redAlarmClip.name);
             }
+
             if (AudioManager.Instance != null)
             {
-                FMODUnity.RuntimeManager.PlayOneShot(AudioManager.Instance.redAlarm, transform.position);
+                redAlarmAudioInstance = FMODUnity.RuntimeManager.CreateInstance(AudioManager.Instance.redAlarm);
+                redAlarmAudioInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+                redAlarmAudioInstance.start();
             }
         }
         else if (type == RadarEventType.SpaceShip)
@@ -243,9 +253,12 @@ public class RadarMinigame : MonoBehaviour, IResetable
                 blueAlarmAnimation.AddClip(blueAlarmClip, blueAlarmClip.name);
                 blueAlarmAnimation.Play(blueAlarmClip.name);
             }
+
             if (AudioManager.Instance != null)
             {
-                FMODUnity.RuntimeManager.PlayOneShot(AudioManager.Instance.purpleAlarm, transform.position);
+                purpleAlarmAudioInstance = FMODUnity.RuntimeManager.CreateInstance(AudioManager.Instance.purpleAlarm);
+                purpleAlarmAudioInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+                purpleAlarmAudioInstance.start();
             }
         }
     }
@@ -254,6 +267,8 @@ public class RadarMinigame : MonoBehaviour, IResetable
     {
         if (redAlarmAnimation != null) redAlarmAnimation.Stop();
         if (blueAlarmAnimation != null) blueAlarmAnimation.Stop();
+
+        CleanAudioInstancesImmediate();
 
         if (redMaterial != null)
         {
@@ -269,6 +284,21 @@ public class RadarMinigame : MonoBehaviour, IResetable
             if (blueMaterial.HasProperty("_BaseColor")) blueMaterial.SetColor("_BaseColor", blueAlarmOffColor);
             blueMaterial.DisableKeyword("_EMISSION");
             DynamicGI.SetEmissive(blueAlarmAnimation.GetComponent<Renderer>() ?? blueAlarmAnimation.GetComponentInChildren<Renderer>(), Color.black);
+        }
+    }
+
+    private void CleanAudioInstancesImmediate()
+    {
+        if (redAlarmAudioInstance.isValid())
+        {
+            redAlarmAudioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            redAlarmAudioInstance.release();
+        }
+
+        if (purpleAlarmAudioInstance.isValid())
+        {
+            purpleAlarmAudioInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            purpleAlarmAudioInstance.release();
         }
     }
 
@@ -380,10 +410,7 @@ public class RadarMinigame : MonoBehaviour, IResetable
     {
         GameObject prefabToSpawn = (currentEventType == RadarEventType.Meteorite) ? meteoritePrefab : spaceShipPrefab;
 
-        if (prefabToSpawn == null)
-        {
-            return;
-        }
+        if (prefabToSpawn == null) return;
 
         float minRadius = innerMargin;
         float maxRadius = maxDist - outerMargin;

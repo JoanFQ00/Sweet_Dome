@@ -35,7 +35,7 @@ public class MainButt : MonoBehaviour, IResetable
     protected VisualButtonState currentVisualState = VisualButtonState.Up;
     protected bool isBeingHeld = false;
 
-    public ButtonValidator Validator => validator; 
+    public ButtonValidator Validator => validator;
 
     protected virtual void Awake()
     {
@@ -73,28 +73,34 @@ public class MainButt : MonoBehaviour, IResetable
         bool canPressNow = validator.CanPress();
 
         if (!canPressNow && currentVisualState == VisualButtonState.Up)
-            AnimatePress(pressSpeedMultiplier);
-
+        {
+            AnimatePressVisualPure(pressSpeedMultiplier);
+        }
         else if (canPressNow && currentVisualState == VisualButtonState.Down)
-            AnimateRelease(releaseSpeedMultiplier);
+        {
+            AnimateReleaseVisualPure(releaseSpeedMultiplier);
+        }
     }
 
     public virtual void Press()
     {
         wasLastPressValid = false;
-        isBeingHeld = true; 
+        isBeingHeld = true;
 
-        bool isPlayerSeated = true; 
+        bool isPlayerSeated = true;
 
         if (!isPlayerSeated || (validator != null && !validator.CanPress()))
             return;
 
         wasLastPressValid = true;
 
-        RuntimeManager.PlayOneShotAttached(pressSound, gameObject);
+        if (!pressSound.IsNull)
+        {
+            RuntimeManager.PlayOneShotAttached(pressSound, gameObject);
+        }
 
         if (currentVisualState == VisualButtonState.Up)
-            AnimatePress(pressSpeedMultiplier);
+            AnimatePressVisualPure(pressSpeedMultiplier);
 
         onPress?.Invoke();
     }
@@ -106,7 +112,7 @@ public class MainButt : MonoBehaviour, IResetable
 
     public virtual void Release()
     {
-        isBeingHeld = false; 
+        isBeingHeld = false;
 
         if (!wasLastPressValid) return;
 
@@ -114,7 +120,7 @@ public class MainButt : MonoBehaviour, IResetable
 
         if (canPressNow)
         {
-            AnimateRelease(releaseSpeedMultiplier);
+            AnimateReleaseVisualPure(releaseSpeedMultiplier);
 
             if (!releaseSound.IsNull)
             {
@@ -131,10 +137,10 @@ public class MainButt : MonoBehaviour, IResetable
 
     public virtual void ResetValues()
     {
-        AnimateRelease(releaseSpeedMultiplier);
+        AnimateReleaseVisualPure(releaseSpeedMultiplier);
     }
 
-    protected void AnimatePress(float speed)
+    protected void AnimatePressVisualPure(float speed)
     {
         if (legacyAnimation != null && pressClip != null)
         {
@@ -148,7 +154,7 @@ public class MainButt : MonoBehaviour, IResetable
         }
     }
 
-    protected void AnimateRelease(float speed)
+    protected void AnimateReleaseVisualPure(float speed)
     {
         if (legacyAnimation != null && releaseClip != null)
         {
