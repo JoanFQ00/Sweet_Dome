@@ -122,16 +122,16 @@ public class MachineManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-            cityFunnel.SetGlobalEnergyFlowPause(false);
+        //if (Input.GetKeyDown(KeyCode.M))
+        //    cityFunnel.SetGlobalEnergyFlowPause(false);
 
-        if (Input.GetKeyDown(KeyCode.N))
-            cityFunnel.SetGlobalEnergyFlowPause(true);
+        //if (Input.GetKeyDown(KeyCode.N))
+        //    cityFunnel.SetGlobalEnergyFlowPause(true);
 
-        if (Input.GetKeyDown(KeyCode.Y))
-        {
-            FinishWorkingDay();
-        }
+        //if (Input.GetKeyDown(KeyCode.Y))
+        //{
+        //    FinishWorkingDay();
+        //}
 
         if (DayTime.Instance.currentHour >= 21)
             return;

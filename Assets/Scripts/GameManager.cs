@@ -53,17 +53,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
-    protected virtual void Start()
-    {
-        StartCoroutine(DelayedStartDay());
-    }
-
-    private IEnumerator DelayedStartDay()
-    {
-        yield return null;
-        ExecuteDayTransitionSequence();
-    }
-
     private void OnEnable()
     {
         LevelManager.OnLevelLoaded += LevelLoaded;
@@ -131,6 +120,12 @@ public class GameManager : MonoBehaviour
         if (presiSpeaker != null)
             presiSpeaker.DialogueIni();
 
+        StartCoroutine(DelayedTransitionSequence());
+    }
+
+    private IEnumerator DelayedTransitionSequence()
+    {
+        yield return null;
         ExecuteDayTransitionSequence();
     }
 
