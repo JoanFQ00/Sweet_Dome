@@ -17,9 +17,6 @@ public class CrerditsButton : MonoBehaviour
 
     void ThisLevelLoaded()
     {
-        Debug.Log("Here");
-        menuButton.onClick.RemoveAllListeners();
-        menuButton.onClick.AddListener(GoToMenuAction);
     }
 
     void GoToMenuAction()
