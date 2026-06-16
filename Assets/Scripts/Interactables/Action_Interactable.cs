@@ -206,15 +206,8 @@ public class Action_Interactable : BaseAction
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        transform.Rotate(
-            Camera.main.transform.up,
-            -mouseX * rotationSpeed * Time.deltaTime,
-            Space.World);
-
-        transform.Rotate(
-            Camera.main.transform.right,
-            mouseY * rotationSpeed * Time.deltaTime,
-            Space.World);
+        transform.Rotate(Camera.main.transform.up,-mouseX * rotationSpeed * Time.deltaTime,Space.World);
+        transform.Rotate(Camera.main.transform.right,mouseY * rotationSpeed * Time.deltaTime,Space.World);
     }
 
     void Move(Vector3 targetPos, Quaternion targetRot, System.Action onFinish)

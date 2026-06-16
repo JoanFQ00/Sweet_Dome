@@ -20,15 +20,4 @@ public class WaypointManager : MonoBehaviour
 
         return taskWaypoints[Random.Range(0, taskWaypoints.Count)];
     }
-
-    public Waypoint GetHistoryWaypointByKey(string eventKey)
-    {
-        foreach (Waypoint waypoint in historyWaypoints)
-        {
-            if (waypoint.historyEventKey == eventKey)
-                return waypoint;
-        }
-
-        return null;
-    }
 }

@@ -3,33 +3,33 @@ using UnityEngine;
 
 public class CompartmentEmissionController : MonoBehaviour, IResetable
 {
-    [Header("Suscripción a la Consola")]
+    [Header("Console Subscription")]
     [SerializeField] private Machine01 machineSource;
 
-    [Header("Identificación de este Compartimento")]
+    [Header("Behaviour identicator")]
     [SerializeField] private LiquidPump.PumpType associatedType = LiquidPump.PumpType.Purified;
     [SerializeField] private int compartmentIndex = 0;
 
-    [Header("Configuración de Valores Iniciales por Defecto")]
+    [Header("Starter values Config")]
     [SerializeField] private int purifiedPumpInitialIndex = 0;
     [SerializeField] private int rawPumpInitialIndex = 1;
 
-    [Header("Configuración de Colores e Intensidades")]
+    [Header("Color Intensities Config")]
     [ColorUsage(true, true)]
     [SerializeField] private Color compartmentColor = Color.cyan;
 
-    [Header("Configuración Estructura Metálica (Rejilla)")]
+    [Header("Metallic structure Config")]
     [SerializeField] private float standardActiveBrightness = 10f;
     [SerializeField] private float standardInactiveBrightness = 0.05f;
 
-    [Header("Configuración Shader de Líquido")]
+    [Header("Shader Liquid Config")]
     [SerializeField] private float shaderActiveStrength = 10f;
     [SerializeField] private float shaderInactiveStrength = 0f;
 
-    [Header("Ajustes de la Transición (Lerp)")]
+    [Header("Transition Lerp Settings")]
     [SerializeField] private float transitionDuration = 0.25f;
 
-    [Header("Mallas a Iluminar")]
+    [Header("Light Mesh")]
     [SerializeField] private Renderer standardEmissiveMesh;
 
     private Renderer liquidShaderMesh;
@@ -41,7 +41,6 @@ public class CompartmentEmissionController : MonoBehaviour, IResetable
     private float currentShaderStrength;
     private bool isCurrentlyActive;
 
-    // Candado de seguridad temporal
     private bool isInitialized = false;
 
     private void Awake()
@@ -69,9 +68,6 @@ public class CompartmentEmissionController : MonoBehaviour, IResetable
         }
 
         ExecuteInitialSetup();
-
-        // ¡CAMBIO CLAVE! No abrimos la escucha inmediatamente, esperamos 0.05 segundos
-        // para que todos los scripts de las bombas terminen de hacer ruido y parpadear
         Invoke(nameof(EnableInitialization), 0.05f);
     }
 
@@ -101,7 +97,6 @@ public class CompartmentEmissionController : MonoBehaviour, IResetable
 
     private void EvaluateActivation(LiquidPump activePump)
     {
-        // Si el script está sordo (durante el parpadeo inicial del día), ignora la orden
         if (!isInitialized) return;
 
         bool shouldBeActive = CheckIfShouldBeActive(activePump);
@@ -206,12 +201,8 @@ public class CompartmentEmissionController : MonoBehaviour, IResetable
         isInitialized = true;
     }
 
-    // =================================================================
-    // INTERFAZ IRESETABLE: Bloqueo de parpadeo al cambiar de día
-    // =================================================================
     public void ResetValues()
     {
-        // Nos volvemos sordos inmediatamente para ignorar los eventos residuales del cambio de día
         isInitialized = false;
 
         if (transitionCoroutine != null)
@@ -221,7 +212,6 @@ public class CompartmentEmissionController : MonoBehaviour, IResetable
 
         ExecuteInitialSetup();
 
-        // Esperamos a que pase el tsunami de eventos del primer frame antes de volver a escuchar los botones
         CancelInvoke(nameof(EnableInitialization));
         Invoke(nameof(EnableInitialization), 0.05f);
     }

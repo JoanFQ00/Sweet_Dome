@@ -3,19 +3,19 @@ using System.Collections;
 
 public class PumpEmissionController : MonoBehaviour, IResetable
 {
-    [Header("Suscripción a la Consola")]
+    [Header("Console Subscription")]
     [SerializeField] private Machine01 machineSource;
 
-    [Header("Identificación de esta Bomba")]
+    [Header("Pump Identificator")]
     [SerializeField] private LiquidPump.PumpType pumpType = LiquidPump.PumpType.Purified;
 
-    [Header("Configuración de Colores e Intensidades")]
+    [Header("Intensities and colors Settings")]
     [ColorUsage(true, true)]
     [SerializeField] private Color pumpColor = Color.cyan;
     [SerializeField] private float activeBrightness = 10f;
     [SerializeField] private float inactiveBrightness = 0.05f;
 
-    [Header("Ajustes de la Transición (Lerp)")]
+    [Header("Transition Lerp Settings")]
     [SerializeField] private float transitionDuration = 0.25f;
 
     private Renderer pumpRenderer;
@@ -70,10 +70,6 @@ public class PumpEmissionController : MonoBehaviour, IResetable
     private void EvaluateActivation(LiquidPump activePump)
     {
         isCurrentlyActive = CheckIfShouldBeActive(activePump);
-
-        // REGLA DE PROTECCIÓN: Si la palanca tiene el control del color (isOverridden),
-        // recalculamos el brillo objetivo de fondo por si se ha movido el pump,
-        // pero NO dejamos que el Lerp automático pise el color Azul/Rosa actual de la palanca.
         if (isOverridden)
         {
             currentBrightness = isCurrentlyActive ? activeBrightness : inactiveBrightness;
@@ -116,10 +112,6 @@ public class PumpEmissionController : MonoBehaviour, IResetable
         if (runtimeMat != null) runtimeMat.SetColor("_EmissionColor", currentEffectColor * currentBrightness);
     }
 
-    // =================================================================
-    // MÉTODOS DE INYECCIÓN DE LA PALANCA
-    // =================================================================
-
     public void OverridePumpColor(Color targetColor)
     {
         isOverridden = true;
@@ -135,7 +127,6 @@ public class PumpEmissionController : MonoBehaviour, IResetable
         if (overrideCoroutine != null) StopCoroutine(overrideCoroutine);
         overrideCoroutine = StartCoroutine(LerpOverrideColor(pumpColor));
 
-        // Forzamos la evaluación al salir para asegurar que se quede en su brillo correcto
         if (machineSource != null) EvaluateActivation(machineSource.GetActivePump());
     }
 

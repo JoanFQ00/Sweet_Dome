@@ -6,6 +6,5 @@ public class SpherePoints : MonoBehaviour
 
     public void OnClick()
     {
-        Debug.Log("INFO: " + information);
     }
 }

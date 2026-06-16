@@ -217,14 +217,12 @@ public class MachineManager : MonoBehaviour
         if (entered)
         {
             BeginDayInstructions();
-            // Despausamos el flujo para que empiece la simulación
             cityFunnel.SetGlobalEnergyFlowPause(false);
         }
         else
         {
             currentCountdown = 0f;
             onCountdown = false;
-            // Pausamos el flujo de energía porque el jugador se ha levantado de la silla
             cityFunnel.SetGlobalEnergyFlowPause(true);
         }
     }
@@ -650,7 +648,6 @@ public class MachineManager : MonoBehaviour
                         {
                             waveMinigame.StartWaveEvent(20f);
                             ResetCountdowns();
-                            //onCountdown = false;
                             currentNode = MachineStoryNode.NODE_02_D4;
                         }
                         break;
@@ -660,7 +657,6 @@ public class MachineManager : MonoBehaviour
                         {
                             cityFunnel.TriggerCrackInZone(0, 40f, 3f);
                             ResetCountdowns();
-                            //onCountdown = false;
                             currentNode = MachineStoryNode.NODE_03_D4;
                         }
                         break;
@@ -718,7 +714,7 @@ public class MachineManager : MonoBehaviour
                         }
                         //else R12
 
-                        waveMinigame.StartWaveEvent(50f); //!
+                        waveMinigame.StartWaveEvent(50f);
                         ResetCountdowns();
                         onCountdown = false;
                         currentNode = MachineStoryNode.NODE_09_D4;

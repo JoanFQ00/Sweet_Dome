@@ -35,10 +35,8 @@ public class PresiSpeaker : MonoBehaviour
 
         dialogueSys.SysIni();
 
-        if (dialogueSys.loadedDialogues == null ||
-            dialogueSys.loadedDialogues.Length == 0)
+        if (dialogueSys.loadedDialogues == null || dialogueSys.loadedDialogues.Length == 0)
         {
-            Debug.LogError("No dialogues loaded");
             return;
         }
 
@@ -47,13 +45,8 @@ public class PresiSpeaker : MonoBehaviour
 
     public void PresiSpeaks()
     {
-        if (dialogueSys == null ||
-            dialogueSys.loadedDialogues == null ||
-            dialogueSys.loadedDialogues.Length == 0)
-        {
-            Debug.Log("Dialogue not initialized");
+        if (dialogueSys == null || dialogueSys.loadedDialogues == null || dialogueSys.loadedDialogues.Length == 0)
             return;
-        }
 
         dialogueSys.StartStopDialogue(true);
 
@@ -71,12 +64,8 @@ public class PresiSpeaker : MonoBehaviour
 
         dialogueSys.ChargeDialogues(dialogueID);
 
-        if (dialogueSys.loadedDialogues == null ||
-            dialogueSys.loadedDialogues.Length == 0)
-        {
-            Debug.LogError("No dialogues loaded");
+        if (dialogueSys.loadedDialogues == null || dialogueSys.loadedDialogues.Length == 0)
             return;
-        }
 
         dialogueSys.StartStopDialogue(true);
 
@@ -87,12 +76,10 @@ public class PresiSpeaker : MonoBehaviour
     }
     void UpdateUI()
     {
-        if (dialogueSys.loadedDialogues == null ||
-            dialogueSys.loadedDialogues.Length == 0)
+        if (dialogueSys.loadedDialogues == null || dialogueSys.loadedDialogues.Length == 0)
             return;
 
-        if (dialogueSys.dialogueIdx < 0 ||
-            dialogueSys.dialogueIdx >= dialogueSys.loadedDialogues.Length)
+        if (dialogueSys.dialogueIdx < 0 || dialogueSys.dialogueIdx >= dialogueSys.loadedDialogues.Length)
             return;
 
         var current = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx];

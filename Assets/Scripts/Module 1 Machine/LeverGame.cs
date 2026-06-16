@@ -15,17 +15,14 @@ public class LeverGame : MonoBehaviour
     {
         isUp = !isUp;
 
-        Debug.Log("Palanca:" + isUp);
 
         if (isUp)
         {
             transform.localPosition = startPos + new Vector3(0, movement, 0);
-            Debug.Log("Palanca subida");
         }
         else
         {
             transform.localPosition = startPos;
-            Debug.Log("Palanca bajada");
         }
     }
 }

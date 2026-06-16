@@ -24,9 +24,9 @@ public class SoundManagerOwn : MonoBehaviour
     public AudioClip presidentNormalSFX;
 
     [Header("Environment & Interactivity")]
-    public AudioClip drinkCoffeeSFX; // 1 cop
-    public AudioClip rotateWheelSFX; //mientras utilizemos la frecuencia diales
-    public AudioClip tvSFX; //abrir la tv sin loop
+    public AudioClip drinkCoffeeSFX;
+    public AudioClip rotateWheelSFX;
+    public AudioClip tvSFX;
 
     [Range(0f, 1f)] public float musicVolume = 0.07f;
     private float sfxVolume = 0.5f;

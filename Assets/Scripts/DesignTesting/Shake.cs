@@ -9,7 +9,6 @@ public class Shake : MonoBehaviour
 
     public static Shake Instance;
 
-    // Guardamos la posición local inicial por si acaso
     private Vector3 originalLocalPosition;
 
     private void Awake()

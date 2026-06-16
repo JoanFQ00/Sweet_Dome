@@ -183,7 +183,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable
                     {
                         return;
                     }
-
                     activePressedButton = button;
                     activePressedButton.Press();
                 }

@@ -47,7 +47,6 @@ public class UIManager : MonoBehaviour
         zoomIm.SetActive(false);
         pauseMenu.SetActive(false);
         optionsMenu.SetActive(false);
-
         SetupPauseButtons();
     }
 
@@ -58,7 +57,6 @@ public class UIManager : MonoBehaviour
         LevelManager.OnLevelLoaded += OnSceneLoaded;
         MiniGameTest.OnMachineEntered += MachineEntered;
         PlayerController.OnZoomActivated += ShowHideZoom;
-
         DayTime.OnTimeChanged += UpdateTimeUI;
     }
 
@@ -69,7 +67,6 @@ public class UIManager : MonoBehaviour
         LevelManager.OnLevelLoaded -= OnSceneLoaded;
         MiniGameTest.OnMachineEntered -= MachineEntered;
         PlayerController.OnZoomActivated -= ShowHideZoom;
-
         DayTime.OnTimeChanged -= UpdateTimeUI;
     }
 
@@ -109,10 +106,6 @@ public class UIManager : MonoBehaviour
     public void OnQuitButtonClicked()
     {
         Application.Quit();
-
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #endif
     }
 
     void ChangeInteractVisibility(bool visibility, bool interacting) 
@@ -254,20 +247,12 @@ public class UIManager : MonoBehaviour
 
     private float ConvertSliderToSpeed(float sliderValue)
     {
-        return Mathf.Lerp(
-            MIN_LOOK_SPEED,
-            MAX_LOOK_SPEED,
-            (sliderValue - 1f) / 99f
-        );
+        return Mathf.Lerp(MIN_LOOK_SPEED,MAX_LOOK_SPEED,(sliderValue - 1f) / 99f);
     }
 
     private float ConvertSpeedToSlider(float speed)
     {
-        return Mathf.Lerp(
-            1f,
-            100f,
-            Mathf.InverseLerp(MIN_LOOK_SPEED, MAX_LOOK_SPEED, speed)
-        );
+        return Mathf.Lerp(1f,100f,Mathf.InverseLerp(MIN_LOOK_SPEED, MAX_LOOK_SPEED, speed));
     }
 
     private void SetYawSpeed(float sliderValue)

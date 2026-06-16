@@ -7,11 +7,8 @@ public class InteractablePrefabCreator
     public static void CreateInteractable(MenuCommand menuCommand)
     {
         GameObject prefabBase = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Item.prefab");
-
         GameObject root = PrefabUtility.InstantiatePrefab(prefabBase) as GameObject;
-
         GameObjectUtility.SetParentAndAlign(root, menuCommand.context as GameObject);
-
         Transform anchorTransform = root.transform.Find("Anchor");
 
         if (anchorTransform != null)

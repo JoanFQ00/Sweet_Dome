@@ -3,13 +3,10 @@ using System.Collections;
 
 public class Lever : MonoBehaviour, IResetable
 {
-    [Header("Referencias de la Consola")]
+    [Header("Referencies")]
     public Machine01 machine;
 
-    [Tooltip("Arrastra aquí el objeto con el PumpEmissionController del tanque PURIFICADO.")]
     [SerializeField] private PumpEmissionController purifiedPumpController;
-
-    [Tooltip("Arrastra aquí el objeto con el PumpEmissionController del tanque RAW (Crudo).")]
     [SerializeField] private PumpEmissionController rawPumpController;
 
     [Header("Lever Angles")]
@@ -116,7 +113,6 @@ public class Lever : MonoBehaviour, IResetable
             UpdateEcosystemColors();
         }
 
-        // Acciones continuas mecánicas de fluidos
         if (currentState == LeverState.Absorb) machine.GetActivePump().Absorbing();
         else if (currentState == LeverState.Expelling) machine.GetActivePump().Expelling();
     }
@@ -125,10 +121,8 @@ public class Lever : MonoBehaviour, IResetable
     {
         if (machine == null) return;
 
-        // 1. Elegimos el controlador exacto e inequívoco según dictamine el Switch de la máquina
         PumpEmissionController activeController = machine.IsPurifiedMode ? purifiedPumpController : rawPumpController;
 
-        // 2. Transición de color por estados
         switch (currentState)
         {
             case LeverState.Absorb:
@@ -143,7 +137,6 @@ public class Lever : MonoBehaviour, IResetable
 
             case LeverState.Neutral:
                 StartLeverColorLerp(neutralColor);
-                // Si la palanca vuelve al centro, restauramos la iluminación nativa de AMBOS tanques
                 if (purifiedPumpController != null) purifiedPumpController.RestoreDefaultColor();
                 if (rawPumpController != null) rawPumpController.RestoreDefaultColor();
                 break;
@@ -160,7 +153,7 @@ public class Lever : MonoBehaviour, IResetable
     {
         Color startColor = currentLeverColor;
         float elapsedTime = 0f;
-        float duration = 0.12f; // Transición ágil
+        float duration = 0.12f;
 
         while (elapsedTime < duration)
         {

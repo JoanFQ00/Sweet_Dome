@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class PriorityColorTrigger : CustomButtonColorTrigger
 {
-    [Header("Suscripción por Referencia de Escena")]
-    [Tooltip("Arrastra aquí el script o botón PriorityPress que disparará la señal.")]
+    [Header("Scene Referencies")]
     [SerializeField] private PriorityPress priorityButtonSource;
 
     private void OnEnable()
@@ -30,14 +29,12 @@ public class PriorityColorTrigger : CustomButtonColorTrigger
 
     private void HandlePriorityPressed()
     {
-        // Si es el Día 1, el botón está muerto. Abortamos cualquier cambio de color o pulsación estética
         if (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day1)
         {
             base.RestoreOriginalBehavior();
             return;
         }
 
-        // Si estamos en el Día 2 o posteriores, inyectamos el color HDR en el sistema de doble material
         if (targetButton != null)
         {
             targetButton.OverrideEmissionColor(customHdrColor);

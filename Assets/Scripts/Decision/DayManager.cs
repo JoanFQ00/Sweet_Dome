@@ -23,7 +23,7 @@ public class DayManager : MonoBehaviour
     public Dec_Con dorothyBook1Readed;
     public Dec_Con dorothyAngriedDay2;
 
-    [Header("Day3Con")] //Podria reutilizar el timer IKIK
+    [Header("Day3Con")]
     public float dayLaunchDorothyTimer = 5f;
     private float dayLaunchDorothyCurrentTime;
 
@@ -265,8 +265,6 @@ public class DayManager : MonoBehaviour
             if (currentBeBopTimer >= timerToBeBop)
             {
                 PresidentSpeaks(PresiDialogue.DorothySights);
-
-                // - Cinematica Dorothy va a la ventana 
                 OnRequestCinematic?.Invoke("Day5WatchWindow");
                 ChangeDorothyDialogue((int)DialoguesRobo.DorothyMissesBeBop, false);
                 activatedBBTimer = false;
@@ -433,7 +431,6 @@ public class DayManager : MonoBehaviour
                 && !checkedReadD4)
             {
                 checkedReadD4 = true;
-                //Play Cinematic "DOROTHY SE SIENTA CON MATTHEW Y LE ABRAZA
                 OnRequestCinematic?.Invoke("Day4Hug");
                 D51 = true;
             }
@@ -444,7 +441,6 @@ public class DayManager : MonoBehaviour
         {
             if (!hasEated_SC && dorothyLaunchEated.IsMet(GameManager.Instance.decManager))
             {
-                // - Cinematica Apagar Tele
                 hasEated_SC = true;
                 OnRequestCinematic?.Invoke("Day4TurnOffTv");
                 OnTurnOffTV?.Invoke();
@@ -484,7 +480,6 @@ public class DayManager : MonoBehaviour
 
                     if (!checkReadDay5 && hasReadDorothyBook4.IsMet(GameManager.Instance.decManager)) 
                     {
-                        // - Cinematica Abrazo Largo y le quiere mucho + Come To Window
                         OnRequestCinematic?.Invoke("Day5LongHug");
                         dorothyWaitsForInteraction = true;
 
@@ -502,7 +497,6 @@ public class DayManager : MonoBehaviour
                         dorothyTalksAboutLaunch = true;
                         ChangeDorothyDialogue((int)DialoguesRobo.AngriedAndNoLaunch, true);
                         dorothyLaunch.SetActive(false);
-                        //Desactivar Menjar Normal
                     }
 
                     if (!checkReadDay5 && hasRead.IsMet(GameManager.Instance.decManager)) 
@@ -545,7 +539,6 @@ public class DayManager : MonoBehaviour
 
         else if (hasWatchedTv.IsMet(GameManager.Instance.decManager) && triedToSkipMachine)
         {
-            // Numero de final i temps fins que s'executa per si has de ficar algun dialeg
             GameManager.Instance.ExecuteFinishAnimation(0, 2);
         }
         else if (hasWatchedTv.IsMet(GameManager.Instance.decManager))
@@ -726,9 +719,6 @@ public class DayManager : MonoBehaviour
         triedToSkipMachine = false;
         dorothyTalksAboutLaunch = false;
 
-
-
-        //Timers
         dayLaunchDorothyCurrentTime = 0;
     }
 

@@ -51,25 +51,19 @@ public class MainButt : MonoBehaviour, IResetable
     protected virtual void Start()
     {
         if (GameManager.Instance != null)
-        {
             GameManager.Instance.RegisterResetable(this);
-        }
     }
 
     protected virtual void OnDestroy()
     {
         if (GameManager.Instance != null)
-        {
             GameManager.Instance.UnregisterResetable(this);
-        }
     }
 
     protected virtual void Update()
     {
         if (!isBeingHeld)
-        {
             EvaluateValidatorState();
-        }
     }
 
     private void EvaluateValidatorState()
@@ -79,13 +73,10 @@ public class MainButt : MonoBehaviour, IResetable
         bool canPressNow = validator.CanPress();
 
         if (!canPressNow && currentVisualState == VisualButtonState.Up)
-        {
             AnimatePress(pressSpeedMultiplier);
-        }
+
         else if (canPressNow && currentVisualState == VisualButtonState.Down)
-        {
             AnimateRelease(releaseSpeedMultiplier);
-        }
     }
 
     public virtual void Press()
@@ -96,18 +87,14 @@ public class MainButt : MonoBehaviour, IResetable
         bool isPlayerSeated = true; 
 
         if (!isPlayerSeated || (validator != null && !validator.CanPress()))
-        {
             return;
-        }
 
         wasLastPressValid = true;
 
         RuntimeManager.PlayOneShotAttached(pressSound, gameObject);
 
         if (currentVisualState == VisualButtonState.Up)
-        {
             AnimatePress(pressSpeedMultiplier);
-        }
 
         onPress?.Invoke();
     }

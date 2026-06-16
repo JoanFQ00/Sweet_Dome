@@ -119,7 +119,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
         currentIdleTimer = 0f;
 
         ClearAllActiveObjectivesImmediate();
-
         PlayAlarmHardwareFeedback(eventType);
 
         for (int i = 0; i < spawnQuantity; i++)
@@ -193,9 +192,7 @@ public class RadarMinigame : MonoBehaviour, IResetable
         if (timeTMP != null) timeTMP.text = "";
 
         StopAlarmHardwareFeedback();
-
         StopAllCoroutines();
-
         StartCoroutine(FinalHardwareResetSequenceRoutine(success));
     }
 
@@ -333,7 +330,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
             if (!finalResult && currentEventType == RadarEventType.SpaceShip)
             {
-                // LLAMAR_AQUÍ_A_LA_FUNCIÓN_DE_ATAQUE_ENEMIGO_POR_FALLO_DE_TIEMPO
             }
             else if (finalResult && currentEventType == RadarEventType.SpaceShip)
             {
@@ -386,7 +382,6 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
         if (prefabToSpawn == null)
         {
-            Debug.LogError("¡Falta asignar el prefab correspondiente en el Inspector del RadarMinigame!");
             return;
         }
 

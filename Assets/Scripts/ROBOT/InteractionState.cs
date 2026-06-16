@@ -77,17 +77,6 @@ public class InteractionState : IState
             canExit = true;
         }
 
-        //if (canExit)
-        //{
-        //    float distance = Vector3.Distance(robot.transform.position,robot.player.position);
-
-        //    if (distance > robot.interactionRadius)
-        //    {
-        //        ExitDialogue();
-        //        return;
-        //    }
-        //}
-
         if (canAdvanceDialogue && Input.GetKeyDown(KeyCode.E))
         {
             var currentDialogue = robot.dialogueSys.loadedDialogues[robot.dialogueSys.dialogueIdx];

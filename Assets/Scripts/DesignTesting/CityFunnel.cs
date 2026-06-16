@@ -30,7 +30,6 @@ public class CityFunnel : FunnelBase, IResetable
         indexZone = 0;
         base.Start();
 
-        // Registrar este objeto en el GameManager central para el reinicio limpio de días
         if (GameManager.Instance != null)
         {
             GameManager.Instance.RegisterResetable(this);
@@ -39,16 +38,10 @@ public class CityFunnel : FunnelBase, IResetable
         UpdateSelectedZoneUI();
     }
 
-    // =================================================================
-    // IMPLEMENTACIÓN DE INTERFAZ (RESET DE ÍNDICES DE CIUDAD)
-    // =================================================================
-
     public new void ResetValues()
     {
-        // 1. NUEVO: Forzamos la selección de la primera zona de la lista (Índice 0) al iniciar la mañana
         indexZone = 0;
 
-        // 2. Forzamos a que cada zona de la ciudad resetee su líquido al del nuevo día
         for (int i = 0; i < cityZones.Count; i++)
         {
             if (cityZones[i] != null && cityZones[i].funnel != null)
@@ -57,12 +50,10 @@ public class CityFunnel : FunnelBase, IResetable
             }
         }
 
-        // 3. También nos reseteamos a nosotros mismos (como FunnelBase)
         currentCapacity = PutInitialCapacity(GameManager.Instance.currentDay);
         CapacityUpdated();
         OnStartDayFinished();
 
-        // 4. Refrescamos la UI seleccionada para que se entere del salto al índice 0
         UpdateSelectedZoneUI();
     }
 
@@ -144,7 +135,6 @@ public class CityFunnel : FunnelBase, IResetable
 
     public bool HasLiquid()
     {
-        // Optimizador complementario local: evalúa también en base al redondeo visual
         return Mathf.RoundToInt(CurrentCapacity) >= 1;
     }
 
@@ -160,21 +150,10 @@ public class CityFunnel : FunnelBase, IResetable
 
         if (energy != null)
         {
-            // 1. Calculamos la cantidad entera real visible que se va a enviar
-            // (Si tu UI trunca hacia abajo, recuerda cambiar aquí también a Mathf.FloorToInt)
             float visualAmountToSend = Mathf.RoundToInt(CurrentCapacity);
-
-            // Control de seguridad: Si por un desfase de frames el valor visual bajó de 1, abortamos
             if (visualAmountToSend < 1f) return;
-
-            // 2. Pasamos la cantidad entera por el modificador de la zona (multiplicadores de eficiencia/grietas)
             float modifiedAmount = energy.GetModifiedAmount(visualAmountToSend);
-
-            // 3. Inyectamos la cantidad neta exacta calculada en el depósito de la ciudad
             zone.funnel.AddLiquid(modifiedAmount);
-
-            // 4. Restamos ÚNICAMENTE la cantidad entera del total de la máquina.
-            // Los decimales sobrantes (ej: el 0.3f de un 1.3f) se quedan retenidos en el tanque original
             UpdateCapacity(-visualAmountToSend);
         }
     }
@@ -266,7 +245,6 @@ public class CityFunnel : FunnelBase, IResetable
 
     public void SetGlobalEnergyFlowPause(bool pause)
     {
-        Debug.Log($"<color=#FFFF00><b>[CONTROL MÁQUINA]</b></color> Pausa global de fluidos cambiada a: PAUSADO = {pause}");
         CapabilityBase.IsGlobalFlowPaused = pause;
     }
 }

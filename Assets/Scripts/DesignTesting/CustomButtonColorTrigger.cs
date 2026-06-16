@@ -2,14 +2,11 @@ using UnityEngine;
 
 public class CustomButtonColorTrigger : MonoBehaviour, IResetable
 {
-    [Header("Referencias Base")]
-    [Tooltip("El botón al que le quieres cambiar el color.")]
+    [Header("Base Referencies")]
     [SerializeField] protected ButtonEmissionController targetButton;
 
-    [Header("Configuración de Colores Base")]
-    // AÑADIDO: Esto transforma la casilla normal en la casilla HDR que ves en tu imagen
+    [Header("Color Base Config")]
     [ColorUsage(true, true)]
-    [Tooltip("El color e intensidad HDR que quieres inyectarle al botón.")]
     [SerializeField] protected Color customHdrColor = Color.blue;
 
     protected virtual void Start()
@@ -28,9 +25,6 @@ public class CustomButtonColorTrigger : MonoBehaviour, IResetable
         }
     }
 
-    /// <summary>
-    /// Cambia el botón al color HDR personalizado.
-    /// </summary>
     public virtual void ChangeToCustomColor()
     {
         if (targetButton != null)
@@ -39,9 +33,6 @@ public class CustomButtonColorTrigger : MonoBehaviour, IResetable
         }
     }
 
-    /// <summary>
-    /// Devuelve el botón a su comportamiento original por validador.
-    /// </summary>
     public virtual void RestoreOriginalBehavior()
     {
         if (targetButton != null)

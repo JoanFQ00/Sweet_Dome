@@ -46,11 +46,8 @@ public class MK01PumpUI : MonoBehaviour
         if (shouldLerp && currentTrackedPump != null)
         {
             visualCapacityValue = Mathf.MoveTowards(visualCapacityValue, currentTrackedPump.CurrentCapacity, lerpSpeed * 10f * Time.deltaTime);
-
-            // ¡CAMBIO AQUÍ! Redondeamos al entero más cercano para eliminar decimales
             textDisplay.text = Mathf.RoundToInt(visualCapacityValue).ToString();
 
-            // Ajustamos la tolerancia de frenado a 0.5f para que se clave mejor al no haber decimales
             if (Mathf.Abs(visualCapacityValue - currentTrackedPump.CurrentCapacity) < 0.5f)
             {
                 visualCapacityValue = currentTrackedPump.CurrentCapacity;

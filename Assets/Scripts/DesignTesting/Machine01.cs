@@ -28,10 +28,6 @@ public class Machine01 : MonoBehaviour, IResetable
         InvokeInitialSwap();
     }
 
-    // =================================================================
-    // ACCIONES DE LA MÁQUINA
-    // =================================================================
-
     public void SwapPump()
     {
         isPurifiedMode = !isPurifiedMode;
@@ -46,7 +42,6 @@ public class Machine01 : MonoBehaviour, IResetable
         if (isPurifiedMode) purifiedPump.ShiftRight();
         else rawPump.ShiftRight();
 
-        // ¡SOLUCIÓN! Invocamos el evento tras mover el surtidor para que los tubos actualicen sus luces
         OnPumpSwapped?.Invoke(GetActivePump());
     }
 
@@ -55,7 +50,6 @@ public class Machine01 : MonoBehaviour, IResetable
         if (isPurifiedMode) purifiedPump.ShiftLeft();
         else rawPump.ShiftLeft();
 
-        // ¡SOLUCIÓN! Invocamos el evento tras mover el surtidor para que los tubos actualicen sus luces
         OnPumpSwapped?.Invoke(GetActivePump());
     }
 

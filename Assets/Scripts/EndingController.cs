@@ -110,7 +110,6 @@ public class EndingController : MonoBehaviour
     {
         if (startTimer) 
         {
-            Debug.Log("Here");
             currentTimer += Time.deltaTime;
 
             if (currentTimer >= timeToMenu) 
@@ -142,9 +141,7 @@ public class EndingController : MonoBehaviour
         currentDialogueTime += Time.deltaTime;
 
         if (currentDialogueTime >= currentDialogue.timeOnScreen)
-        {
             LoadNextIdx();
-        }
     }
 
     void ChargeDialogueFinale(int id)
@@ -172,7 +169,6 @@ public class EndingController : MonoBehaviour
         {
             dialogueStarted = false;
             dialogueUI.SetActive(false);
-
             startTimer = true;
             currentTimer = 0;
             return;
@@ -191,13 +187,9 @@ public class EndingController : MonoBehaviour
         int textLenght = currentDialogue.text.Length;
 
         if (textLenght > 0)
-        {
             printSpeed = targetTime / textLenght;
-        }
         else 
-        {
             printSpeed = 0.05f;
-        }
 
         charsPrinted = 0;
         dialogueTMP.text = "";

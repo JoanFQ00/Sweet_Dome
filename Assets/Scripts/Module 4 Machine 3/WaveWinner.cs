@@ -86,7 +86,7 @@ public class WaveWinner : MonoBehaviour, IResetable
     private IEnumerator SnapWaveRoutine()
     {
         isSnapping = true;
-        OnDialsLockRequested?.Invoke(); // Bloqueamos el uso de las ruedecitas
+        OnDialsLockRequested?.Invoke();
 
         float elapsedTime = 0f;
         float startAmp = playerRenderer.amplitude;
@@ -111,13 +111,12 @@ public class WaveWinner : MonoBehaviour, IResetable
         playerRenderer.phase = targetRenderer.phase;
 
         isSnapping = false;
-        waveSolved = true; // Ruedecitas resueltas de forma sagrada
+        waveSolved = true;
         hasWon = true;
 
         if (AudioManager.Instance != null)
             RuntimeManager.PlayOneShot(AudioManager.Instance.waveSuccess);
 
-        // Activamos el teclado del código
         if (codeSystem != null)
         {
             codeSystem.EnableCodeSystem(this);

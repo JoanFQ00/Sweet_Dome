@@ -72,7 +72,7 @@ public class BasicInt : MonoBehaviour, IInteractable, ILookable
     {
         if (!isPlaying)
         {
-            switch (GameManager.Instance.currentDay)  //Falta poner musicas
+            switch (GameManager.Instance.currentDay)
             {
                 case Day.Day1:
                 break;
@@ -94,7 +94,6 @@ public class BasicInt : MonoBehaviour, IInteractable, ILookable
         }
         else 
         {
-            // STOP Music
             isPlaying = false;
         }
     }

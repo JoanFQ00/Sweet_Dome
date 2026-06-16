@@ -18,7 +18,6 @@ public class FrameCityMachine : MonoBehaviour, IResetable
 
     void Start()
     {
-        // Registro síncrono y directo en la lista del GameManager central
         if (GameManager.Instance != null)
         {
             GameManager.Instance.RegisterResetable(this);
@@ -29,16 +28,11 @@ public class FrameCityMachine : MonoBehaviour, IResetable
 
     private void OnDestroy()
     {
-        // Limpieza automática al destruir la escena
         if (GameManager.Instance != null)
         {
             GameManager.Instance.UnregisterResetable(this);
         }
     }
-
-    // =================================================================
-    // IMPLEMENTACIÓN DE INTERFAZ (RESET DE MARCO VISUAL)
-    // =================================================================
 
     public void ResetValues()
     {
@@ -46,7 +40,6 @@ public class FrameCityMachine : MonoBehaviour, IResetable
 
         if (cityWayPoints != null && cityWayPoints.Count > 0 && cityWayPoints[0] != null)
         {
-            // Forzamos la posición física global e interna de golpe para evitar el Lerp fantasma por la mañana
             transform.localPosition = cityWayPoints[0].localPosition;
             targetPosition = cityWayPoints[0].localPosition;
         }
@@ -65,9 +58,6 @@ public class FrameCityMachine : MonoBehaviour, IResetable
         );
     }
 
-    // -------------------------
-    // CORE
-    // -------------------------
     private int GetUnlockedCount()
     {
         if (GameManager.Instance == null || cityFunnel == null) return 0;
@@ -87,9 +77,6 @@ public class FrameCityMachine : MonoBehaviour, IResetable
         return count;
     }
 
-    // -------------------------
-    // INPUT
-    // -------------------------
     public void GoRight()
     {
         int max = Mathf.Min(GetUnlockedCount(), cityWayPoints.Count);
@@ -108,9 +95,6 @@ public class FrameCityMachine : MonoBehaviour, IResetable
         ApplyTarget(max);
     }
 
-    // -------------------------
-    // APPLY POSITION
-    // -------------------------
     private void ApplyTarget(int max)
     {
         indexZone = Mathf.Clamp(indexZone, 0, max - 1);

@@ -4,7 +4,6 @@ using System;
 public class PriorityPress : MainButt
 {
     [ColorUsage(true, true)]
-    [Tooltip("El color HDR que se quedará fijo en el botón todo el día tras haber sido pulsado.")]
     public Color activeEmissionColor = Color.white;
 
     private CityPriorityManager cityPriorityManager;
@@ -13,10 +12,8 @@ public class PriorityPress : MainButt
     private Vector3 initialLocalPosition;
     private Quaternion initialLocalRotation;
 
-    // CAMBIO: Ya no es estático global. Ahora es un evento público de instancia para suscripción directa por referencia.
     public event Action OnPriorityButtonPressed;
 
-    // Mantengo tu acción estática antigua por si otros scripts de tu juego (como el gestor de ciudad) la siguen necesitando
     public static Action<Color, int> OnPressedButton;
 
     protected override void Awake()
@@ -42,12 +39,8 @@ public class PriorityPress : MainButt
             emissionController.OverrideEmissionColor(activeEmissionColor);
         }
 
-        // =================================================================
-        // NUEVO: Invocamos el evento público local de este botón específico
-        // =================================================================
         OnPriorityButtonPressed?.Invoke();
 
-        // Lógica global antigua
         if (cityPriorityManager != null)
         {
             OnPressedButton?.Invoke(activeEmissionColor, cityPriorityManager.GetIdxPrioritizedZone());

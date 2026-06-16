@@ -32,8 +32,7 @@ public class CodeSystem : MonoBehaviour
 
     private WaveWinner currentWaveManager;
 
-    [Header("Configuración Especial Día 5")]
-    // Flag que el MachineManager leerá en su IF para saber si el código 3729 se puso bien
+    [Header("Special Day 5")]
     public bool isSecretCodeCorrectDay5 = false;
     private readonly string secretCodeDay5 = "3729";
 
@@ -120,33 +119,24 @@ public class CodeSystem : MonoBehaviour
             {
                 inputDisplay.color = correctColor;
                 inputLocked = true;
-                isSecretCodeCorrectDay5 = true; // El MachineManager detectará esto en su IF
-
-                Debug.Log("<color=#00FF00><b>[CÓDIGO SECRETO]</b></color> ¡Código 3729 correcto!");
+                isSecretCodeCorrectDay5 = true;
             }
             else
             {
                 inputLocked = true;
                 inputDisplay.color = wrongColor;
                 inputDisplay.text = "ERROR";
-
-                Debug.Log("<color=#FF0000><b>[CÓDIGO SECRETO]</b></color> Código incorrecto. Reiniciando teclado...");
-
-                // Iniciamos la rutina para limpiar el error y permitir reintentar sin romper el bucle
                 StartCoroutine(ResetKeyboardForRetryRoutine());
             }
             return;
         }
 
-        // --- COMPORTAMIENTO HABITUAL (Días 1 a 4) ---
         if (currentInput == generatedCode)
         {
             inputDisplay.color = correctColor;
             inputLocked = true;
 
             if (rawFunnel != null) rawFunnel.AddLiquid(20f);
-            Debug.Log("CÓDIGO CORRECTO");
-
             Invoke(nameof(EndEventSuccess), 1.5f);
         }
         else
@@ -154,15 +144,10 @@ public class CodeSystem : MonoBehaviour
             inputLocked = true;
             inputDisplay.color = wrongColor;
             inputDisplay.text = "ERROR";
-            Debug.Log("CÓDIGO INCORRECTO");
-
             Invoke(nameof(EndEventFail), 1.5f);
         }
     }
 
-    /// <summary>
-    /// limpia la pantalla y vuelve a dejar el teclado desbloqueado para reintentar.
-    /// </summary>
     private IEnumerator ResetKeyboardForRetryRoutine()
     {
         yield return new WaitForSeconds(1.2f);
@@ -188,8 +173,6 @@ public class CodeSystem : MonoBehaviour
             inputDisplay.color = wrongColor;
             inputDisplay.text = "ERROR";
         }
-
-        Debug.Log("TIEMPO AGOTADO EN EL TECLADO NUMÉRICO");
         Invoke(nameof(EndEventFail), 1.5f);
     }
 
@@ -212,7 +195,6 @@ public class CodeSystem : MonoBehaviour
         currentWaveManager = manager;
         codeSystemActive = true;
 
-        // Si es el día 5, no generamos código aleatorio ni mostramos el canvas de ayuda
         if (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day5)
         {
             currentInput = "";
@@ -244,6 +226,5 @@ public class CodeSystem : MonoBehaviour
         inputDisplay.color = defaultColor;
         inputLocked = false;
     }
-
     public bool IsCodeSystemActive() => codeSystemActive;
 }

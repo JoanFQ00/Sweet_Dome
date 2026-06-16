@@ -10,8 +10,6 @@ public class StateMachineChanger
 
     public void ChangeState(IState newState)
     {
-        Debug.Log(currentRobotState + " -> " + newState);
-
         currentRobotState?.OnExit();
         currentRobotState = newState;
         currentRobotState?.OnEnter();

@@ -35,14 +35,10 @@ public class CentifugeMachine : MonoBehaviour
     {
         if (buttonActivated)
         {
-            float availableSpace =
-                purifiedStorage.MaxCapacity - purifiedStorage.CurrentCapacity;
-
-            float amountToTransfer =
-                Mathf.Min(blenderFunnel.CurrentCapacity, availableSpace);
+            float availableSpace = purifiedStorage.MaxCapacity - purifiedStorage.CurrentCapacity;
+            float amountToTransfer = Mathf.Min(blenderFunnel.CurrentCapacity, availableSpace);
 
             purifiedStorage.AddLiquid(amountToTransfer);
-
             blenderFunnel.RemoveLiquid(amountToTransfer);
 
             buttonActivated = false;

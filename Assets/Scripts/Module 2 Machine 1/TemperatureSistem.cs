@@ -37,13 +37,11 @@ public class TemperatureSistem : MonoBehaviour
 
     public void TemperatureUp()
     {
-        //Posar o utilitzar INVOKE
         targetTemperature += 1f;
     }
 
     public void TemperatureDown()
     {
-        //Posar o utilitzar INVOKE
         targetTemperature -= 1f;
     }
 

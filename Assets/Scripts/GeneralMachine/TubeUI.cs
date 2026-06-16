@@ -10,8 +10,6 @@ public class TubeUI : MonoBehaviour
 
     void Update()
     {
-        //if (this == null) return;
-        //UpdateBar(cityFill, tubeController.cityFunnel);
     }
 
     void UpdateBar(Image image, Funnel funnel)

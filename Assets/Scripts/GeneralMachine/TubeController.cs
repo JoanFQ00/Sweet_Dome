@@ -146,43 +146,33 @@ public class TubeController : MonoBehaviour
         {
             LowerMagentaTube();
         }
-
-        Debug.Log("Lever: Expelling");
     }
 
     void LowerPinkTube()
     {
         Vector3 pos = pinkTube.position;
-
         pos.y = pinkPositions[pinkIndex].position.y - verticalOffset;
-
         pinkTube.position = pos;
     }
 
     void RaisePinkTube()
     {
         Vector3 pos = pinkTube.position;
-
         pos.y = pinkPositions[pinkIndex].position.y;
-
         pinkTube.position = pos;
     }
 
     void LowerMagentaTube()
     {
         Vector3 pos = magentaTube.position;
-
         pos.y = magentaPositions[magentaIndex].position.y - verticalOffset;
-
         magentaTube.position = pos;
     }
 
     void RaiseMagentaTube()
     {
         Vector3 pos = magentaTube.position;
-
         pos.y = magentaPositions[magentaIndex].position.y;
-
         magentaTube.position = pos;
     }
 

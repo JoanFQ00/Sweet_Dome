@@ -8,10 +8,8 @@ public class BarGameValidator : ButtonValidator
 
     public override bool CanPress()
     {
-        // Seguridad por si la referencia no está asignada en el inspector
         if (barGameSource == null) return false;
 
-        // Devuelve true solo si el jugador está sentado, el juego no ha terminado y la barra está activa
         return barGameSource.IsGameActive;
     }
 }

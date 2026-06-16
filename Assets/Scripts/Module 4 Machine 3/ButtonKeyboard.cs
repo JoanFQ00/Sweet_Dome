@@ -24,7 +24,6 @@ public class ButtonKeyboard : ButtonValidator
             return codeSystem.IsCodeSystemActive();
         }
 
-        // --- COMPORTAMIENTO HABITUAL (Días 1 a 4) ---
         if (waveWinner == null) return false;
 
         return waveWinner.waveSolved && codeSystem.IsCodeSystemActive();

@@ -35,7 +35,6 @@ public class BarMachineGame : MonoBehaviour, IResetable
     {
         if (bar == null || leftLimit == null || rightLimit == null)
         {
-            Debug.LogError("Faltan referencias");
             enabled = false;
             return;
         }
@@ -119,7 +118,6 @@ public class BarMachineGame : MonoBehaviour, IResetable
         float direction = toRight ? 1f : -1f;
         bar.position += moveDirection * direction * speed * Time.deltaTime;
 
-        // Sistema de waypoints controlado para evitar fugas definitivas
         float distanceToRight = Vector3.Distance(bar.position, rightLimit.position);
         float distanceToLeft = Vector3.Distance(bar.position, leftLimit.position);
 
@@ -188,7 +186,6 @@ public class BarMachineGame : MonoBehaviour, IResetable
         if (zoneRenderer == null) return;
 
         bool success = zoneRenderer.bounds.Contains(bar.position);
-        Debug.Log("Acierto: " + success);
 
         if (success) Correct();
         else Fail();
@@ -209,7 +206,6 @@ public class BarMachineGame : MonoBehaviour, IResetable
     {
         if (phase == 0)
         {
-            Debug.Log("FASE 1 SUPERADA");
             if (phase1Zone != null) phase1Zone.SetActive(false);
             if (phase2Zone != null) phase2Zone.SetActive(true);
             phase = 1;
@@ -219,7 +215,6 @@ public class BarMachineGame : MonoBehaviour, IResetable
 
         if (phase == 1)
         {
-            Debug.Log("FASE 2 SUPERADA");
             if (phase2Zone != null) phase2Zone.SetActive(false);
             if (phase3Zone != null) phase3Zone.SetActive(true);
             phase = 2;
@@ -235,7 +230,6 @@ public class BarMachineGame : MonoBehaviour, IResetable
 
     void Fail()
     {
-        Debug.Log("FALLO");
         if (sourceFunnel != null)
         {
             sourceFunnel.RemoveLiquid(sourceFunnel.CurrentCapacity);
@@ -275,8 +269,6 @@ public class BarMachineGame : MonoBehaviour, IResetable
                 sourceFunnel.RemoveLiquid(amountToTransferRounded);
             }
         }
-
-        Debug.Log($"JUEGO COMPLETADO - Transferidos {amountToTransferRounded}L enteros.");
     }
 
     public void ResetValues()

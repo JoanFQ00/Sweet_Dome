@@ -16,36 +16,28 @@ public class LiquidPump : CapabilityBase, IResetable
     [SerializeField] private PumpType pumpType = PumpType.Purified;
 
     [Header("Funnels & Mapping")]
-    [Tooltip("Coloca los tubos DE IZQUIERDA A DERECHA (Elemento 0 = Izquierda, Elemento 1 = Derecha)")]
     [SerializeField] private FunnelBase[] funnelArray;
 
-    [Tooltip("El índice por defecto al arrancar el día (0 para el tubo izquierdo de su zona, 1 para el derecho)")]
     [SerializeField] private int initialIndex = 0;
     private int funnelIndex;
 
     [Header("Other")]
     [SerializeField] private float transferSpeed = 10f;
-    [Tooltip("Coloca los Waypoints DE IZQUIERDA A DERECHA (Elemento 0 = Izquierda, Elemento 1 = Derecha)")]
     [SerializeField] private Transform[] pumpPositions;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
     private Vector3 targetGlobalPosition;
 
-    // Añade esto dentro de LiquidPump.cs para poder leer el índice actual desde fuera
     public int CurrentFunnelIndex => funnelIndex;
 
-    // Añade esto dentro de LiquidPump.cs para saber dónde debe aparecer la bomba cada mañana
     public int InitialFunnelIndex => initialIndex;
 
     protected override void Start()
     {
         initialValues = new List<float> { 0f, 0f, 0f, 0f, 0f };
 
-        // Inicializamos los waypoints en el frame 1
         InitializePositions();
-
-        // Ejecuta el Start de CapabilityBase que lo registra en el manager de forma segura
         base.Start();
     }
 

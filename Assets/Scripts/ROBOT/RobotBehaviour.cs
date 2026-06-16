@@ -85,7 +85,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
 
     void LevelLoaded() 
     {
-
     }
 
     public void OnLookStateChanged(bool isLooking) => onSight = isLooking;
@@ -97,7 +96,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
 
     void Update()
     {
-        //animator.SetFloat("Speed", agent.desiredVelocity.magnitude);
         CheckRechargeState();
 
         if (isRecharging)
@@ -107,7 +105,6 @@ public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
         }
 
         PopUpCheck();
-
         stateMachine.Update();
     }
     public void Interact()
@@ -122,19 +119,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
         }
 
         if (stateMachine.CurrentState != interactionState)
-        {
             stateMachine.ChangeState(interactionState);
-        }
-    }
-
-    void LookAtPlayer()
-    {
-        Vector3 direction = (player.position - transform.position).normalized;
-        direction.y = 0;
-
-        //Quaternion rotationRobot = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.LookRotation(direction);
-        //transform.rotation = Quaternion.Slerp(transform.rotation, rotationRobot, Time.deltaTime * 5f);
     }
 
     public void LookAtTarget(Vector3 target)
@@ -173,14 +158,12 @@ public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
         if (!isRecharging && currentHour >= 21)
         {
             isRecharging = true;
-
             stateMachine.ChangeState(rechargeState);
         }
 
         if (isRecharging && currentHour < 21)
         {
             isRecharging = false;
-
             stateMachine.ChangeState(patrolState);
         }
     }

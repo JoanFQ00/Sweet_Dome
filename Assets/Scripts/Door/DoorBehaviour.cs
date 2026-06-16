@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DoorBehaviour : MonoBehaviour, IResetable
 {
-    [Header("Referencias de Animación")]
+    [Header("Animation References")]
     public Animation m_Animation;
     public AnimationClip Open;
     public AnimationClip Opened;
@@ -59,7 +59,7 @@ public class DoorBehaviour : MonoBehaviour, IResetable
         if (!m_IsOpened && currentHour >= 15 && currentHour < 21 && !hasOpenedAt15Today)
         {
             OpenDoor();
-            hasOpenedAt15Today = true; // Bloqueamos el re-encendido automático
+            hasOpenedAt15Today = true;
         }
 
         if (!m_IsOpened && currentHour >= 21)

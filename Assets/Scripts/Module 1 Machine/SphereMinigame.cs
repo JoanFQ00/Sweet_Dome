@@ -43,9 +43,7 @@ public class SphereMinigame : MonoBehaviour
 
         if (Mouse.current.leftButton.isPressed && !miniGame.isClickingUI)
         {
-            Debug.Log("Arrastrando");
             Vector2 mouse = lookAction.ReadValue<Vector2>();
-            Debug.Log("Mouse: " + mouse);
 
             yaw -= mouse.x * rotationSpeed;
             pitch += mouse.y * rotationSpeed;

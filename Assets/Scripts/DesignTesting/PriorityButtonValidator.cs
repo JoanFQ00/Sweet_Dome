@@ -17,12 +17,9 @@ public class PriorityButtonValidator : ButtonValidator
         {
             if (priorityManager == null) return false;
 
-            // El botón SOLO será pulsable si tú activas la crisis desde el MachineManager
-            // y si el jugador no lo ha pulsado ya.
             return priorityManager.isDay5CrisisActive && !priorityManager.hasBeenPressedDay5;
         }
 
-        // --- COMPORTAMIENTO HABITUAL (Días 1 a 4) ---
         if (GameManager.Instance.currentDay == Day.Day1)
         {
             return false;

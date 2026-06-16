@@ -11,7 +11,6 @@ public class CapabilityUI : MonoBehaviour, IResetable
 
     private void Start()
     {
-        // REGISTRO DE UI: Las pantallas se apuntan al manager síncronamente
         if (GameManager.Instance != null)
         {
             GameManager.Instance.RegisterResetable(this);

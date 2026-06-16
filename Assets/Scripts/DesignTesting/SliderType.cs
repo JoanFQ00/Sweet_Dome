@@ -1,5 +1,3 @@
-// --- ENUMS GLOBALES DEL PROYECTO ---
-
 public enum SliderType
 {
     Rotation,

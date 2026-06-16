@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class PriorizedLedCity : MonoBehaviour, IResetable
 {
-    [Header("Identificación")]
-    [Tooltip("Asigna un índice único a este LED en el inspector (0, 1, 2 o 3) para identificarlo.")]
+    [Header("Identificator")]
     public int myLedIndex = 0;
 
     private Renderer targetRenderer;
@@ -49,7 +48,6 @@ public class PriorizedLedCity : MonoBehaviour, IResetable
 
     private void EvaluateLedSignal(Color incomingHdrColor, int targetIndex)
     {
-        // Comprobamos si el botón pulsado va dirigido a nuestro índice
         if (myLedIndex == targetIndex)
         {
             TurnOnLed(incomingHdrColor);
@@ -60,17 +58,13 @@ public class PriorizedLedCity : MonoBehaviour, IResetable
         }
     }
 
-    // Simplificado: ahora solo recibe el color HDR que ya contiene su propia intensidad de brillo
     public void TurnOnLed(Color hdrColor)
     {
         if (ledMaterial == null) return;
 
         ledMaterial.EnableKeyword("_EMISSION");
-
-        // Aplicamos el color directamente, Unity ya interpreta la intensidad HDR integrada
         ledMaterial.SetColor(EmissionColorKeyword, hdrColor);
 
-        // Actualizamos la iluminación global en tiempo real
         DynamicGI.SetEmissive(targetRenderer, hdrColor);
     }
 

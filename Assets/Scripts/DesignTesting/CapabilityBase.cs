@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class CapabilityBase : MonoBehaviour, IResetable
 {
-    // INTERRUPTOR GLOBAL: Si es true, congela el volumen de líquido de todo el juego
     public static bool IsGlobalFlowPaused = false;
 
     [Header("Capability")]
@@ -21,7 +20,6 @@ public abstract class CapabilityBase : MonoBehaviour, IResetable
 
     protected virtual void Start()
     {
-        // REGISTRO AUTOMÁTICO: Le dice al GameManager "Aquí estoy, apúntame"
         if (GameManager.Instance != null)
         {
             GameManager.Instance.RegisterResetable(this);
@@ -32,7 +30,6 @@ public abstract class CapabilityBase : MonoBehaviour, IResetable
 
     protected virtual void OnDestroy()
     {
-        // LIMPIEZA AUTOMÁTICA: Si el objeto se destruye, se borra de la lista
         if (GameManager.Instance != null)
         {
             GameManager.Instance.UnregisterResetable(this);
@@ -41,7 +38,6 @@ public abstract class CapabilityBase : MonoBehaviour, IResetable
 
     protected virtual void OnDisable()
     {
-        // Limpieza de seguridad secundaria
     }
 
     public void ResetValues()
