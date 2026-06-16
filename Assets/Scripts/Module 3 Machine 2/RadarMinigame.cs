@@ -104,7 +104,7 @@ public class RadarMinigame : MonoBehaviour, IResetable
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z)) StartRadarEvent(30f, RadarEventType.Meteorite, 3);
+        //if (Input.GetKeyDown(KeyCode.Z)) StartRadarEvent(30f, RadarEventType.Meteorite, 3);
 
         if (inEvent)
         {

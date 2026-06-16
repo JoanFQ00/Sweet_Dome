@@ -64,8 +64,8 @@ public class WaveWinner : MonoBehaviour, IResetable
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V))
-            StartWaveEvent(40f);
+        //if (Input.GetKeyDown(KeyCode.V))
+        //    StartWaveEvent(40f);
 
         if (inEvent && !isSnapping)
         {

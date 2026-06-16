@@ -184,15 +184,15 @@ public class DayManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "Gameplay")
             return;
 
-        if (Input.GetKeyDown(KeyCode.P)) 
-        {
-            D32 = true;
-        }
+        //if (Input.GetKeyDown(KeyCode.P)) 
+        //{
+        //    D32 = true;
+        //}
 
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            GameManager.Instance.dayTime.SetCurrentTime(15, 0);
-        }
+        //if (Input.GetKeyDown(KeyCode.K))
+        //{
+        //    GameManager.Instance.dayTime.SetCurrentTime(15, 0);
+        //}
 
         Timers();
 

@@ -907,7 +907,7 @@ public class MachineManager : MonoBehaviour
 
     void ResetCountdowns()
     {
-        currentCountdown = 0f; // FIX PROTECCIÓN: Seteamos a cero la variable que lee el switch explícitamente
+        currentCountdown = 0f;
         for (int i = 0; i < countdownList.Count; i++)
         {
             countdownList[i] = 0f;
@@ -929,10 +929,6 @@ public class MachineManager : MonoBehaviour
 
     void CheckTerminatedDialogue()
     {
-        // CADA VEZ QUE UN DIÁLOGO TERMINA Y CAMBIAMOS DE NODO:
-        // Activamos 'justChangedNode' para obligar al Update a ignorar un único frame.
-        // Esto le da tiempo al reloj para arrancar en 0 limpios.
-
         //DAY1
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay1)
         {

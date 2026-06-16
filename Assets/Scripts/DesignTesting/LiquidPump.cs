@@ -127,7 +127,6 @@ public class LiquidPump : CapabilityBase, IResetable
         float extracted = funnelArray[funnelIndex].RemoveLiquid(amount);
 
         UpdateCapacity(extracted);
-        AudioManager.Instance.PlayOneShot(AudioManager.Instance.liquidAbsorb, transform.position);
     }
 
     public void Expelling()
@@ -139,6 +138,5 @@ public class LiquidPump : CapabilityBase, IResetable
         float inserted = funnelArray[funnelIndex].AddLiquid(amount);
 
         UpdateCapacity(-inserted);
-        AudioManager.Instance.PlayOneShot(AudioManager.Instance.liquidExpel, transform.position);
     }
 }

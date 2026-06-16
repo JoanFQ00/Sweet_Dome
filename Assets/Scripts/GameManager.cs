@@ -78,10 +78,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M)) 
-        {
-            ExecuteFinishAnimation(1, 1);
-        }
+        //if (Input.GetKeyDown(KeyCode.M)) 
+        //{
+        //    ExecuteFinishAnimation(1, 1);
+        //}
     }
 
     private void LevelLoaded()

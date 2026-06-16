@@ -23,12 +23,8 @@ public class AudioManager : MonoBehaviour
     public EventReference radarEventFail;
 
     [Header("Machine & Fluid Actions")]
-    public EventReference liquidAbsorb;
-    public EventReference liquidExpel;
     public EventReference pumpMove;
     public EventReference pumpSwap;
-    public EventReference funnelEmpty;
-    public EventReference funnelFull;
     public EventReference specificRedButton;
     public EventReference cityChangeArrowButton;
 
