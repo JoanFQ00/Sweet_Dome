@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e11a616cdaa0834d8b4ba4c5847cafb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  menuButton: {fileID: 1217580328}
+  menuButton: {fileID: 0}
 --- !u!1001 &1217580326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -195,7 +195,7 @@ PrefabInstance:
       objectReference: {fileID: -1799093305546426996, guid: a6cdce917c8589941b56c1684920b718, type: 2}
     - target: {fileID: 7334667886375264601, guid: ec882b8a38c88d842a8e96a3c26082b6, type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 3774873599
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 7838220827741038780, guid: ec882b8a38c88d842a8e96a3c26082b6, type: 3}
       propertyPath: m_text
@@ -324,24 +324,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4227110556721480902, guid: ec882b8a38c88d842a8e96a3c26082b6, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7501872585831503734, guid: ec882b8a38c88d842a8e96a3c26082b6, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3305624021366537922, guid: ec882b8a38c88d842a8e96a3c26082b6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 522237759}
   m_SourcePrefab: {fileID: 100100000, guid: ec882b8a38c88d842a8e96a3c26082b6, type: 3}
---- !u!114 &1217580328 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8168823727634338313, guid: ec882b8a38c88d842a8e96a3c26082b6, type: 3}
-  m_PrefabInstance: {fileID: 1217580326}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!1 &1523467199
 GameObject:
   m_ObjectHideFlags: 0
