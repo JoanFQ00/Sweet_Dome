@@ -147,7 +147,7 @@ public class Action_WatchTV : BaseAction
     {
         videoPlayer.Stop();
         videoPlayer.enabled = false;
-        SoundManagerOwn.Instance.StopSFX();
+        //SoundManagerOwn.Instance.StopSFX();
         if (tvRenderer != null) tvRenderer.material.mainTexture = blackTexture;
     }
 
