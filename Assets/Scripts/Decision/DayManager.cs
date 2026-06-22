@@ -331,7 +331,6 @@ public class DayManager : MonoBehaviour
         {
             OnRequestCinematic?.Invoke("Day5WatchWindow");
             watchTvTriggered = true;
-            activatedBBTimer = true;
             ChangeDorothyDialogue((int)DialoguesRobo.DontWatchThatProgram, false);
         }
 

@@ -88,7 +88,12 @@ public class PresiSpeaker : MonoBehaviour
         dialogueTxt.text = current.text;
     }
 
-    void EndDialogue()
+    public void EmptyLoadedDialogues() 
+    {
+        dialogueSys.EmptyLoadedDialogues();
+    }
+
+    public void EndDialogue()
     {
         if (interactionBubble != null)
             interactionBubble.SetActive(false);

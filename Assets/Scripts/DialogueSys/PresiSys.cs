@@ -154,6 +154,11 @@ public class PresiSys : DialogueSys
         dialogueStarted = started;
     }
 
+    public void EmptyLoadedDialogues() 
+    {
+        loadedDialogues = new SO_Dialogue[0];
+    }
+
     public override void ChargeDialogues(int _id)
     {
         id = _id;

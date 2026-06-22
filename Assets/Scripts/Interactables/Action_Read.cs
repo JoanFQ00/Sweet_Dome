@@ -136,6 +136,7 @@ public class Action_Reader : BaseAction
                     if (isAction) 
                     {
                         GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.PresiSaysYouCanWatchTv);
+                        GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mira la tele");
                         OnActionExecuted();
                     }
                 });
