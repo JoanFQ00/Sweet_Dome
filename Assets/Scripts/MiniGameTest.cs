@@ -118,6 +118,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
         originalPlayerPos = playerTransform.position;
         originalPlayerRot = playerTransform.rotation;
 
+        playerController.enabled = false;
+
         currentMoveTime = 0f;
         state = MiniGameState.Entering;
 
@@ -137,12 +139,18 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
 
         if (entering)
         {
+            GameManager.Instance.playerController.LockCamera(true);
+            GameManager.Instance.playerController.ChangeGameMode(false);
+
             playerTransform.position = Vector3.Lerp(originalPlayerPos, gameCameraPosition.position, pct);
             playerTransform.rotation = Quaternion.Lerp(originalPlayerRot, gameCameraPosition.rotation, pct);
             if (pct >= 1f)
             {
                 currentMoveTime = 0f;
                 state = MiniGameState.Active;
+
+                GameManager.Instance.playerController.LockCamera(true);
+                GameManager.Instance.playerController.ChangeGameMode(false);
             }
         }
         else
@@ -174,16 +182,18 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
     {
         if (Input.GetMouseButtonDown(1))
         {
-            GameManager.Instance.playerController.LockCamera(false);
-            GameManager.Instance.playerController.ChangeGameMode(true);
+            playerController.enabled = true;
+            playerController.LockCamera(false);
+            playerController.ChangeGameMode(true);
 
             ReleaseActiveButton();
         }
 
         if (Input.GetMouseButtonUp(1))
         {
-            GameManager.Instance.playerController.LockCamera(true);
-            GameManager.Instance.playerController.ChangeGameMode(false);
+            playerController.LockCamera(true);
+            playerController.ChangeGameMode(false);
+            playerController.enabled = false;
         }
     }
 
@@ -346,6 +356,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
             playerTransform.rotation = originalPlayerRot;
         }
 
+        playerController.enabled = true;
         GameManager.Instance.playerController.ChangeGameMode(false);
         GameManager.Instance.playerController.SetRotationFromCamera();
         GameManager.Instance.playerController.LockPlayer(false);
