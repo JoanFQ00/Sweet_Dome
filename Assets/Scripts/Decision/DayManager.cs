@@ -189,10 +189,10 @@ public class DayManager : MonoBehaviour
         //    D32 = true;
         //}
 
-        //if (Input.GetKeyDown(KeyCode.K))
-        //{
-        //    GameManager.Instance.dayTime.SetCurrentTime(15, 0);
-        //}
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            GameManager.Instance.dayTime.SetCurrentTime(15, 0);
+        }
 
         Timers();
 

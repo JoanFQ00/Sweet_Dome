@@ -62,10 +62,10 @@ public class DayTime : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.L))
-        //{
-        //    SetCurrentTime(21, 00);
-        //}
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            SetCurrentTime(21, 00);
+        }
 
         UpdateTimeLerp();
     }

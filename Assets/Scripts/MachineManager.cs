@@ -282,6 +282,7 @@ public class MachineManager : MonoBehaviour
                             ResetCountdowns();
                             onCountdown = false;
                             currentNode = MachineStoryNode.NODE_02_D1;
+                            cityFunnel.SetGlobalEnergyFlowPause(true);
                         }
                         else if (currentCountdown >= 20f)
                         {
@@ -314,6 +315,7 @@ public class MachineManager : MonoBehaviour
                             ResetCountdowns();
                             onCountdown = false;
                             currentNode = MachineStoryNode.NODE_02_D1;
+                            cityFunnel.SetGlobalEnergyFlowPause(true);
                         }
                         else if (currentCountdown >= 20f)
                         {
@@ -954,8 +956,10 @@ public class MachineManager : MonoBehaviour
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.CongratsDay1Presi) //07
         {
             Shake.Instance.TriggerShake(1f);
+            cityFunnel.ChangeLiquidInZone(0, cityValuesD1[0], 2f);
             cityFunnel.TriggerCrackInZone(0, 20f, 3f);
             onCountdown = true;
+            cityFunnel.SetGlobalEnergyFlowPause(false);
         }
 
         //N01
