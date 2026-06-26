@@ -11,6 +11,7 @@ public class SoundManagerOwn : MonoBehaviour
     [Header("Music Tracks")]
     public AudioClip mainMenuMusic;
     public AudioClip gameplayMusic;
+    public AudioClip creditsMusic;
 
     [Header("Character Dialogue SFX")]
     public AudioClip talkAngrySFX;
@@ -75,6 +76,11 @@ public class SoundManagerOwn : MonoBehaviour
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 0.07f);
         sfxVolume = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
         musicSource.volume = musicVolume; 
+    }
+
+    public void PlayCreditsMusic()
+    {
+        PlayMusic(creditsMusic, true);
     }
 
     public void PlayMusic(AudioClip musicClip, bool loop = true)

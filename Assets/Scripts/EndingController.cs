@@ -103,6 +103,12 @@ public class EndingController : MonoBehaviour
     void GoToMenuAction()
     {
         BackToMenu?.Invoke();
+
+        if (SoundManagerOwn.Instance != null)
+        {
+            SoundManagerOwn.Instance.PlayCreditsMusic();
+        }
+
         GameManager.Instance.levelManager.LoadCredits();
     }
 
