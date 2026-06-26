@@ -56,37 +56,47 @@ public class BedInt : MonoBehaviour, IInteractable, ILookable
 
     private void PopUpCheck()
     {
+        if (playerController == null)
+        {
+            playerController = GameManager.Instance.playerController;
+            return;
+        }
+
         if (GameManager.Instance.currentState != GameManager.GameState.Gameplay)
         {
             SetPopUps(false, false);
             return;
         }
 
-        if (GameManager.Instance.dayTime.currentHour < 21) 
+        if (GameManager.Instance.dayTime.currentHour < 21)
         {
             SetPopUps(false, false);
         }
 
         float distanceToPlayer = Vector3.Distance(transform.position, playerController.transform.position);
 
-        if (GameManager.Instance.dayTime.currentHour >= 21) 
+        if (GameManager.Instance.dayTime.currentHour >= 21)
         {
             if (onSight)
             {
                 SetPopUps(false, true);
-                interactPopUpGO.transform.LookAt(playerController.transform);
+
+                if (playerController.mainCamera != null)
+                    interactPopUpGO.transform.rotation = playerController.mainCamera.transform.rotation;
             }
             else if (distanceToPlayer <= disanceToPop)
             {
                 SetPopUps(true, false);
-                popUpGO.transform.LookAt(playerController.transform);
+
+                if (playerController.mainCamera != null)
+                    popUpGO.transform.rotation = playerController.mainCamera.transform.rotation;
             }
             else
             {
                 SetPopUps(false, false);
             }
         }
-        }
+    }
 
     private void SetPopUps(bool showNormal, bool showInteract)
     {

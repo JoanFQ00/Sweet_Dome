@@ -409,12 +409,18 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
             if (onSight)
             {
                 SetPopUps(false, true);
-                interactPopUpGO.transform.LookAt(playerController.transform);
+
+                // SOLUCIÓN: Copia la rotación de la cámara para que el Canvas siempre esté paralelo a la pantalla
+                if (playerCamera != null)
+                    interactPopUpGO.transform.rotation = playerCamera.transform.rotation;
             }
             else if (distanceToPlayer <= distanceToPop)
             {
                 SetPopUps(true, false);
-                popUpGO.transform.LookAt(playerController.transform);
+
+                // SOLUCIÓN: Copia la rotación de la cámara aquí también
+                if (playerCamera != null)
+                    popUpGO.transform.rotation = playerCamera.transform.rotation;
             }
             else
             {
