@@ -458,7 +458,7 @@ public class MachineManager : MonoBehaviour
                 switch (currentNode)
                 {
                     case MachineStoryNode.NODE_01_D3:
-                        if (currentCountdown >= 10f)
+                        if (currentCountdown >= 20f)
                         {
                             radarMinigame.StartRadarEvent(30f, RadarEventType.SpaceShip, 1);
                             ResetCountdowns();
@@ -485,7 +485,7 @@ public class MachineManager : MonoBehaviour
                         break;
 
                     case MachineStoryNode.NODE_03_D3:
-                        if (currentCountdown >= 10f)
+                        if (currentCountdown >= 20f)
                         {
                             Shake.Instance.TriggerShake(1f);
                             cityFunnel.TriggerCrackInZone(0, 20f, 3f);
@@ -497,7 +497,7 @@ public class MachineManager : MonoBehaviour
                         break;
 
                     case MachineStoryNode.NODE_04_D3:
-                        if (currentCountdown >= 10f)
+                        if (currentCountdown >= 20f)
                         {
                             radarMinigame.StartRadarEvent(30f, RadarEventType.SpaceShip, 2);
                             ResetCountdowns();
@@ -508,7 +508,7 @@ public class MachineManager : MonoBehaviour
 
                     case MachineStoryNode.NODE_05_D3:
                         Shake.Instance.TriggerShake(2f);
-                        cityFunnel.DrainLiquidFromZoneImmediate(2, 40f);
+                        cityFunnel.DrainLiquidFromZoneImmediate(2, 20f);
                         GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.HDownDay3Dorothy); //54
                         ResetCountdowns();
                         onCountdown = false;
@@ -529,7 +529,6 @@ public class MachineManager : MonoBehaviour
                         if (radarResult)
                         {
                             ResetCountdowns();
-                            onCountdown = false;
                             currentNode = MachineStoryNode.NODE_08_D3;
                         }
                         else //R5
@@ -543,7 +542,7 @@ public class MachineManager : MonoBehaviour
                         break;
 
                     case MachineStoryNode.NODE_08_D3:
-                        if (currentCountdown >= 30f)
+                        if (currentCountdown >= 50f)
                         {
                             cityFunnel.SetGlobalEnergyFlowPause(true);
 
