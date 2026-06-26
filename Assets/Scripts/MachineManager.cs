@@ -305,12 +305,14 @@ public class MachineManager : MonoBehaviour
                             GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.CongratsAgainDay1Presi); //11
                             ResetCountdowns();
                             onCountdown = false;
+                            cityFunnel.SetGlobalEnergyFlowPause(true);
                         }
                         else if (currentCountdown >= 20f)
                         {
                             GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.AngryFunDay1Presi); //10
                             ResetCountdowns();
                             onCountdown = false;
+                            cityFunnel.SetGlobalEnergyFlowPause(true);
                         }
                         break;
 
@@ -329,6 +331,7 @@ public class MachineManager : MonoBehaviour
                             ResetCountdowns();
                             onCountdown = false;
                             currentNode = MachineStoryNode.NODE_04_D1;
+                            cityFunnel.SetGlobalEnergyFlowPause(true);
                         }
                         break;
 
@@ -338,12 +341,14 @@ public class MachineManager : MonoBehaviour
                             GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.CongratsAgainDay1Presi); //11
                             ResetCountdowns();
                             onCountdown = false;
+                            cityFunnel.SetGlobalEnergyFlowPause(true);
                         }
                         else if (currentCountdown >= 20f)
                         {
                             GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.AngryAngryDay1Presi); //12
                             ResetCountdowns();
                             onCountdown = false;
+                            cityFunnel.SetGlobalEnergyFlowPause(true);
                         }
                         break;
 
@@ -370,6 +375,8 @@ public class MachineManager : MonoBehaviour
                     case MachineStoryNode.NODE_02_D1:
                         if (currentCountdown >= 90f)
                         {
+                            cityFunnel.SetGlobalEnergyFlowPause(true);
+
                             if (IsCityStable())
                             {
                                 if (priorityManager.HasUsedPriorityToday())
@@ -538,6 +545,8 @@ public class MachineManager : MonoBehaviour
                     case MachineStoryNode.NODE_08_D3:
                         if (currentCountdown >= 30f)
                         {
+                            cityFunnel.SetGlobalEnergyFlowPause(true);
+
                             if (IsCityStable()) //R11 & D42
                             {
                                 dayManager.D42 = true;
@@ -993,7 +1002,9 @@ public class MachineManager : MonoBehaviour
         {
             Shake.Instance.TriggerShake(1f);
             cityFunnel.TriggerCrackInZone(0, 20f, 3f);
-            onCountdown = true;
+            cityFunnel.SetGlobalEnergyFlowPause(false);
+            cityFunnel.ChangeLiquidInZone(0, cityValuesD1[0] - 10f, 1f);
+            StartCoroutine(CountdownRoutine(1.1f));
         }
 
         //N04
@@ -1026,7 +1037,7 @@ public class MachineManager : MonoBehaviour
         //N01
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.CrackAtSchoolDay2Presi) //28
         {
-            Shake.Instance.TriggerShake(2f);
+            Shake.Instance.TriggerShake(1f);
             cityFunnel.DrainLiquidFromZoneImmediate(1, 30f);
             onCountdown = true;
         }

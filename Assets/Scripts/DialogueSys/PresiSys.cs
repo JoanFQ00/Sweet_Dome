@@ -40,11 +40,11 @@ public enum PresiDialogue
     GoodSadDay2Dorothy = 203, //33
     CongratsDay2Presi = 204, //36
     SleepDay2Presi = 205, //37
-    VeryAngryDay2Dorothy = 205, //29
-    BadFinalDay2Presi = 206, //34
-    SemiAngryDay2Dorothy = 207, //30
-    AngryDay2Dorothy = 208, //31
-    SemiAngryDay2Presi = 209, //35
+    VeryAngryDay2Dorothy = 206, //29
+    BadFinalDay2Presi = 207, //34
+    SemiAngryDay2Dorothy = 208, //30
+    AngryDay2Dorothy = 209, //31
+    SemiAngryDay2Presi = 210, //35
 
     //DAY 3
     LyingToMatthewDay3Dorothy = 300,//49
@@ -55,17 +55,17 @@ public enum PresiDialogue
     HDownDay3Dorothy = 305,//54
     SecondAngryDay3Presi = 306, //55
     All0AngryhDay3Dorothy = 307,//56
-    Two0AngryDay3Dorothy = 307,//57
-    UZ0Day3Dorothy = 308,//58
-    H0Day3Dorothy = 309,//59
-    ThxDay3Dorothy = 310,//60
-    SadDay3Dorothy = 311,//61
-    F5Day3Presi = 312, //62
-    Two0Day3Presi = 313, //63
-    UZ0Day3Presi = 314, //64
-    H0Day3Presi = 315, //65
-    FinalCongratsDay3Presi = 316, //66
-    SleepDay3Presi = 317, //67
+    Two0AngryDay3Dorothy = 308,//57
+    UZ0Day3Dorothy = 309,//58
+    H0Day3Dorothy = 310,//59
+    ThxDay3Dorothy = 311,//60
+    SadDay3Dorothy = 312,//61
+    F5Day3Presi = 313, //62
+    Two0Day3Presi = 314, //63
+    UZ0Day3Presi = 315, //64
+    H0Day3Presi = 316, //65
+    FinalCongratsDay3Presi = 317, //66
+    SleepDay3Presi = 318, //67
 
     //DAY 4
     D0ay4 = 400,//78
