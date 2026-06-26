@@ -39,9 +39,13 @@ public class GoToPlayerState : IState
             {
                 waitingForGameplay = false;
                 robot.agent.isStopped = false;
+                waitingForGameplay = false;
+                robot.agent.isStopped = false;
+                robot.animator.SetBool("IsMoving", true);
             }
             else
             {
+                robot.animator.SetBool("IsMoving", false);
                 robot.animator.SetFloat("Speed", 0f);
                 return;
             }
@@ -50,6 +54,7 @@ public class GoToPlayerState : IState
         if (GameManager.Instance.currentState == GameManager.GameState.Interacting)
         {
             robot.agent.isStopped = true;
+            robot.animator.SetBool("IsMoving", false);
             robot.animator.SetFloat("Speed", 0f);
             waitingForGameplay = true;
             return;
