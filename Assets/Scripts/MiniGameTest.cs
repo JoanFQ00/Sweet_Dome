@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class MiniGameTest : MonoBehaviour, IInteractable
+public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
 {
     public enum MiniGameState
     {
@@ -29,6 +29,14 @@ public class MiniGameTest : MonoBehaviour, IInteractable
     [Header("Hotspot Offset (Opcional)")]
     [SerializeField] private Vector2 cursorHotspot = Vector2.zero;
 
+    [Header("Pop Up")]
+    [SerializeField] private float distanceToPop = 1.6f;
+    [SerializeField] private GameObject popUpGO;
+    [SerializeField] private GameObject interactPopUpGO;
+
+    private PlayerController playerController;
+    private bool onSight;
+
     public static Action<bool> OnMachineEntered;
 
     private MiniGameState state = MiniGameState.None;
@@ -46,8 +54,21 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
     private Texture2D currentAppliedCursor;
 
+    private void Start()
+    {
+        if (popUpGO != null)
+        {
+            popUpGO.SetActive(false);
+            interactPopUpGO.SetActive(false);
+            playerController = GameManager.Instance.playerController;
+        }
+    }
+
     void Update()
     {
+        if (popUpGO != null)
+            PopUpCheck();
+
         if (GameManager.Instance.currentState != GameManager.GameState.Minigame && state == MiniGameState.None)
             return;
 
@@ -354,5 +375,58 @@ public class MiniGameTest : MonoBehaviour, IInteractable
 
         currentAppliedCursor = cursorTexture;
         Cursor.SetCursor(cursorTexture, cursorHotspot, CursorMode.Auto);
+    }
+
+    private void PopUpCheck()
+    {
+        if (playerController == null)
+        {
+            playerController = GameManager.Instance.playerController;
+            return;
+        }
+
+        if (GameManager.Instance.currentState != GameManager.GameState.Gameplay)
+        {
+            SetPopUps(false, false);
+            return;
+        }
+
+        if (DayTime.Instance.GetCurrentHour() < 21)
+        {
+            float distanceToPlayer = Vector3.Distance(transform.position, playerController.transform.position);
+
+            if (onSight)
+            {
+                SetPopUps(false, true);
+                interactPopUpGO.transform.LookAt(playerController.transform);
+            }
+            else if (distanceToPlayer <= distanceToPop)
+            {
+                SetPopUps(true, false);
+                popUpGO.transform.LookAt(playerController.transform);
+            }
+            else
+            {
+                SetPopUps(false, false);
+            }
+        }
+        else
+        {
+            SetPopUps(false, false);
+        }
+    }
+
+    private void SetPopUps(bool showNormal, bool showInteract)
+    {
+        if (popUpGO.activeSelf != showNormal)
+            popUpGO.SetActive(showNormal);
+
+        if (interactPopUpGO.activeSelf != showInteract)
+            interactPopUpGO.SetActive(showInteract);
+    }
+
+    public void OnLookStateChanged(bool isLooking)
+    {
+        onSight = isLooking;
     }
 }
