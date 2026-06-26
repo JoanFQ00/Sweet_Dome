@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent (typeof(LineRenderer))]
+[RequireComponent(typeof(LineRenderer))]
 public class WaveRenderer : MonoBehaviour
 {
     public int resolutionRenderer = 100;
@@ -21,14 +21,37 @@ public class WaveRenderer : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day5)
+        {
+            if (lineRenderer.positionCount != 0)
+            {
+                lineRenderer.positionCount = 0;
+            }
+            return;
+        }
+
+        if (amplitude <= 0f || frequency <= 0f)
+        {
+            if (lineRenderer.positionCount != 0)
+            {
+                lineRenderer.positionCount = 0;
+            }
+            return;
+        }
+
+        if (lineRenderer.positionCount != resolutionRenderer)
+        {
+            lineRenderer.positionCount = resolutionRenderer;
+        }
+
         DrawWave();
     }
 
     void DrawWave()
     {
-        for (int i = 0;i < resolutionRenderer; i++)
+        for (int i = 0; i < resolutionRenderer; i++)
         {
-            float x = (i / (float)(resolutionRenderer - 1)) * length - length / 2; ;
+            float x = (i / (float)(resolutionRenderer - 1)) * length - length / 2;
 
             float y = amplitude * Mathf.Sin(frequency * x + phase);
 

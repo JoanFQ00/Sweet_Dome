@@ -46,13 +46,21 @@ public class CityPriorityManager : MonoBehaviour, IResetable
             if (isDay5CrisisActive && !lightSet && buttonMaterial != null)
             {
                 lightSet = true;
-                Color rojoHDR = new Color(3f, 0f, 0f, 1f); // Rojo intenso URP
+
+                Color colorBase = new Color(191f / 255f, 7f / 255f, 0f, 1f);
+                Color rojoHDR = colorBase * 7.0f;
+
                 buttonMaterial.EnableKeyword("_EMISSION");
                 if (buttonMaterial.HasProperty("_EmissionColor"))
                 {
                     buttonMaterial.SetColor("_EmissionColor", rojoHDR);
                 }
                 DynamicGI.SetEmissive(GetComponent<Renderer>() ?? GetComponentInChildren<Renderer>(), rojoHDR);
+
+                if (TryGetComponent(out ButtonEmissionController emissionController))
+                {
+                    emissionController.OverrideEmissionColor(rojoHDR);
+                }
             }
         }
     }
@@ -66,6 +74,11 @@ public class CityPriorityManager : MonoBehaviour, IResetable
         isDay5CrisisActive = false;
         hasBeenPressedDay5 = false;
         lightSet = false;
+
+        if (TryGetComponent(out ButtonEmissionController emissionController))
+        {
+            emissionController.ClearOverride();
+        }
 
         OnPriorityResetVisual();
     }

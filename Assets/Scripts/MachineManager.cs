@@ -86,6 +86,20 @@ public class MachineManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.N))
             cityFunnel.SetGlobalEnergyFlowPause(true);
 
+        //DEBUG DAY 4
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //    dayManager.D53 = true;
+        //if (Input.GetKeyDown(KeyCode.R))
+        //    dayManager.D52 = true;
+        //if (Input.GetKeyDown(KeyCode.J))
+        //    dayManager.D51 = true;
+
+        //DEBUG DAY 5
+        if (Input.GetKeyDown(KeyCode.Q))
+            dayManager.D84 = true;
+        if (Input.GetKeyDown(KeyCode.R))
+            dayManager.D81 = true;
+
         if (DayTime.Instance.currentHour >= 21)
             return;
 
@@ -766,6 +780,8 @@ public class MachineManager : MonoBehaviour
                         break;
 
                     case MachineStoryNode.NODE_11_D4:
+                        cityFunnel.SetGlobalEnergyFlowPause(true);
+
                         if (IsCityStable()) //R14 & D72
                         {
                             dayManager.D72 = true;
@@ -873,6 +889,7 @@ public class MachineManager : MonoBehaviour
 
             case Day.Day5:
                 currentCountdown += Time.deltaTime;
+                cityFunnel.SetGlobalEnergyFlowPause(true); //!
 
                 switch (currentNode)
                 {
@@ -1087,7 +1104,7 @@ public class MachineManager : MonoBehaviour
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.BadFinalDay2Presi) //34
         {
             //FINAL 5
-            GameManager.Instance.ExecuteFinishAnimation(15, 0);
+            GameManager.Instance.ExecuteFinishAnimation(15, 2);
         }
 
         //FINAL DAY2
@@ -1210,7 +1227,7 @@ public class MachineManager : MonoBehaviour
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.F5Day3Presi) //62
         {
             //FINAL 5
-            GameManager.Instance.ExecuteFinishAnimation(15, 0);
+            GameManager.Instance.ExecuteFinishAnimation(15, 2);
         }
 
         //FINAL DAY3
@@ -1231,19 +1248,22 @@ public class MachineManager : MonoBehaviour
             {
                 GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D1ay4); //79
             }
-        }
 
-        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay4) //78
-        {
             currentNode = MachineStoryNode.NODE_01_D4;
             onCountdown = true;
         }
 
-        if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay4) //79
-        {
-            currentNode = MachineStoryNode.NODE_01_D4;
-            onCountdown = true;
-        }
+        //if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay4) //78
+        //{
+        //    currentNode = MachineStoryNode.NODE_01_D4;
+        //    onCountdown = true;
+        //}
+
+        //if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.ExplainMachineDay4) //79
+        //{
+        //    currentNode = MachineStoryNode.NODE_01_D4;
+        //    onCountdown = true;
+        //}
 
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D3ay4) //81
         {
@@ -1290,7 +1310,7 @@ public class MachineManager : MonoBehaviour
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D17Day4) //95
         {
             //FINAL 5
-            GameManager.Instance.ExecuteFinishAnimation(15, 0);
+            GameManager.Instance.ExecuteFinishAnimation(15, 2);
         }
 
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D12ay4) //90
@@ -1353,7 +1373,7 @@ public class MachineManager : MonoBehaviour
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D7ay5) //122
         {
             //FINAL 4
-            GameManager.Instance.ExecuteFinishAnimation(14, 0);
+            GameManager.Instance.ExecuteFinishAnimation(14, 3);
         }
 
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D0ay5) //115
@@ -1382,20 +1402,20 @@ public class MachineManager : MonoBehaviour
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D6ay5) //121
         {
             //FINAL 3
-            Shake.Instance.TriggerShake(5f);
+            Shake.Instance.TriggerShake(3f);
             GameManager.Instance.ExecuteFinishAnimation(13, 5);
         }
 
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D5ay5) //120
         {
             //FINAL 2
-            GameManager.Instance.ExecuteFinishAnimation(12, 0);
+            GameManager.Instance.ExecuteFinishAnimation(12, 3);
         }
 
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.D4ay5) //119
         {
             //FINAL 1
-            Shake.Instance.TriggerShake(5f);
+            Shake.Instance.TriggerShake(3f);
             GameManager.Instance.ExecuteFinishAnimation(11, 5);
         }
     }
@@ -1473,6 +1493,7 @@ public class MachineManager : MonoBehaviour
 
         else if (GameManager.Instance.currentDay == Day.Day5)
         {
+            currentNode = MachineStoryNode.NODE_01_D5;
             codeSystem.ForceDisable();
             cityFunnel.SetGlobalEnergyFlowPause(true);
             onCountdown = true;

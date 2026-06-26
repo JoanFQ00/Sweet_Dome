@@ -27,38 +27,43 @@ public class PumpColorTrigger : CustomButtonColorTrigger
             machineSource.OnPumpSwapped -= HandlePumpSwapped;
         }
     }
+    private void Update()
+    {
+        RefreshButtonVisualState();
+    }
 
     private void HandlePumpSwapped(LiquidPump activePump)
     {
-        if (targetButton == null || machineSource == null) return;
+        RefreshButtonVisualState();
+    }
 
-        if (targetButton.Validator != null && !targetButton.Validator.CanPress())
+    private void RefreshButtonVisualState()
+    {
+        if (targetButton == null) return;
+
+        if (targetButton.Validator != null && targetButton.Validator.CanPress())
+        {
+            if (machineSource != null)
+            {
+                Color selectedColor = machineSource.IsPurifiedMode ? purifiedHdrColor : rawHdrColor;
+                targetButton.OverrideEmissionColor(selectedColor);
+            }
+        }
+        else
         {
             targetButton.OverrideEmissionColor(Color.black);
-            return;
         }
-
-        Color selectedColor = machineSource.IsPurifiedMode ? purifiedHdrColor : rawHdrColor;
-
-        targetButton.OverrideEmissionColor(selectedColor);
     }
 
     protected override void Start()
     {
         base.Start();
-
-        if (machineSource != null)
-        {
-            HandlePumpSwapped(null);
-        }
+        RefreshButtonVisualState();
     }
 
     public override void ResetValues()
     {
         base.ResetValues();
-        if (machineSource != null)
-        {
-            HandlePumpSwapped(null);
-        }
+        RefreshButtonVisualState();
     }
 }

@@ -43,6 +43,8 @@ public class WaveWinner : MonoBehaviour, IResetable
     {
         if (GameManager.Instance != null) GameManager.Instance.RegisterResetable(this);
         ResetValues();
+
+        CheckAndForceDisableDay5();
     }
 
     private void OnEnable()
@@ -64,6 +66,8 @@ public class WaveWinner : MonoBehaviour, IResetable
 
     void Update()
     {
+        if (CheckAndForceDisableDay5()) return;
+
         if (Input.GetKeyDown(KeyCode.V))
             StartWaveEvent(40f);
 
@@ -78,9 +82,31 @@ public class WaveWinner : MonoBehaviour, IResetable
         }
     }
 
+    private bool CheckAndForceDisableDay5()
+    {
+        if (GameManager.Instance != null && GameManager.Instance.presiSpeaker != null &&
+            GameManager.Instance.presiSpeaker.dialogueSys != null &&
+            GameManager.Instance.presiSpeaker.dialogueSys.id == 116)
+        {
+            if (waveVisualsContainer != null && waveVisualsContainer.activeSelf)
+                waveVisualsContainer.SetActive(false);
+
+            if (playerRenderer != null && playerRenderer.gameObject.activeSelf)
+                playerRenderer.gameObject.SetActive(false);
+
+            if (targetRenderer != null && targetRenderer.gameObject.activeSelf)
+                targetRenderer.gameObject.SetActive(false);
+
+            inEvent = false;
+            return true;
+        }
+        return false;
+    }
+
     private void HandleChairInteraction(bool entered)
     {
         if (!entered) ResetValues();
+        else CheckAndForceDisableDay5();
     }
 
     private IEnumerator SnapWaveRoutine()
@@ -125,6 +151,8 @@ public class WaveWinner : MonoBehaviour, IResetable
 
     public void StartWaveEvent(float duration)
     {
+        if (CheckAndForceDisableDay5()) return;
+
         if (inEvent) return;
 
         inEvent = true;
@@ -133,6 +161,8 @@ public class WaveWinner : MonoBehaviour, IResetable
         isSnapping = false;
         currentEventTime = duration;
 
+        if (playerRenderer != null) playerRenderer.gameObject.SetActive(true);
+        if (targetRenderer != null) targetRenderer.gameObject.SetActive(true);
         if (waveVisualsContainer != null) waveVisualsContainer.SetActive(true);
 
         OnHardwareResetRequested?.Invoke();
@@ -143,6 +173,8 @@ public class WaveWinner : MonoBehaviour, IResetable
 
     private void EventTimer()
     {
+        if (waveSolved) return;
+
         currentEventTime -= Time.deltaTime;
         if (currentEventTime <= 0f)
         {
@@ -153,7 +185,7 @@ public class WaveWinner : MonoBehaviour, IResetable
 
             if (codeSystem != null && codeSystem.IsCodeSystemActive())
             {
-                codeSystem.ForceTimeoutFail(); 
+                codeSystem.ForceTimeoutFail();
             }
             else
             {
@@ -165,7 +197,18 @@ public class WaveWinner : MonoBehaviour, IResetable
     public void NotifyEventResult(bool success)
     {
         OnEventFinished?.Invoke(success);
-        ResetValues();
+
+        StopAllCoroutines();
+        inEvent = false;
+        isSnapping = false;
+        waveSolved = false;
+        hasWon = false;
+        currentEventTime = 0f;
+
+        if (waveVisualsContainer != null) waveVisualsContainer.SetActive(false);
+        OnHardwareResetRequested?.Invoke();
+
+        CheckAndForceDisableDay5();
     }
 
     public void ResetValues()
@@ -184,6 +227,8 @@ public class WaveWinner : MonoBehaviour, IResetable
         {
             codeSystem.ForceDisable();
         }
+
+        CheckAndForceDisableDay5();
     }
 
     bool IsMatching()

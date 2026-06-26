@@ -149,7 +149,7 @@ public class Action_WatchTV : BaseAction
         videoPlayer.enabled = false;
         GameManager.Instance.presiSpeaker.EmptyLoadedDialogues();
         GameManager.Instance.presiSpeaker.EndDialogue();
-        //SoundManagerOwn.Instance.StopSFX();
+        SoundManagerOwn.Instance.StopSFX();
         if (tvRenderer != null) tvRenderer.material.mainTexture = blackTexture;
     }
 

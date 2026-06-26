@@ -47,7 +47,7 @@ public class ButtonEmissionController : MonoBehaviour
     {
         if (isOverridden) return;
 
-        if (strictlyFollowValidator)
+        if (strictlyFollowValidator || (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day1))
         {
             if (validator != null && validator.CanPress())
             {
