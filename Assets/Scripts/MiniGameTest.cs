@@ -126,7 +126,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
         AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.chairEnter, gameObject);
 
         ShowCursor(true);
-        ChangeCursor(originalCursor); 
+        ChangeCursor(originalCursor);
         gameObject.layer = LayerMask.NameToLayer("Default");
     }
 
@@ -345,6 +345,16 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
         gameObject.layer = LayerMask.NameToLayer("Interactable");
     }
 
+    public void ForceExitMiniGameFromSystem()
+    {
+        if (state != MiniGameState.Active) return;
+        OnMachineEntered?.Invoke(false);
+        state = MiniGameState.Exiting;
+        currentMoveTime = 0f;
+        AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.chairExit, gameObject);
+        gameObject.layer = LayerMask.NameToLayer("Interactable");
+    }
+
     void FinishExit()
     {
         state = MiniGameState.None;
@@ -410,7 +420,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
             {
                 SetPopUps(false, true);
 
-                // SOLUCIÓN: Copia la rotación de la cámara para que el Canvas siempre esté paralelo a la pantalla
                 if (playerCamera != null)
                     interactPopUpGO.transform.rotation = playerCamera.transform.rotation;
             }
@@ -418,7 +427,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
             {
                 SetPopUps(true, false);
 
-                // SOLUCIÓN: Copia la rotación de la cámara aquí también
                 if (playerCamera != null)
                     popUpGO.transform.rotation = playerCamera.transform.rotation;
             }

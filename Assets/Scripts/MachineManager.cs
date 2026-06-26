@@ -5,6 +5,7 @@ using UnityEngine;
 using System;
 using TMPro;
 using Unity.VisualScripting;
+using System.Collections;
 
 public class MachineManager : MonoBehaviour
 {
@@ -198,6 +199,7 @@ public class MachineManager : MonoBehaviour
                 return false;
             }
         }
+        Debug.LogWarning("HOLA");
         return true;
     }
 
@@ -212,14 +214,12 @@ public class MachineManager : MonoBehaviour
         if (entered)
         {
             BeginDayInstructions();
-            // Despausamos el flujo para que empiece la simulación
             cityFunnel.SetGlobalEnergyFlowPause(false);
         }
         else
         {
             currentCountdown = 0f;
             onCountdown = false;
-            // Pausamos el flujo de energía porque el jugador se ha levantado de la silla
             cityFunnel.SetGlobalEnergyFlowPause(true);
         }
     }
@@ -263,6 +263,12 @@ public class MachineManager : MonoBehaviour
         NODE_01_D5,
         NODE_02_D5,
         NODE_03_D5,
+    }
+
+    IEnumerator CountdownRoutine(float time)
+    {
+        yield return new WaitForSeconds(time);
+        onCountdown = true;
     }
 
     void UpdateCountdown()
@@ -958,10 +964,10 @@ public class MachineManager : MonoBehaviour
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.CongratsDay1Presi) //07
         {
             Shake.Instance.TriggerShake(1f);
-            cityFunnel.ChangeLiquidInZone(0, cityValuesD1[0] - 10f, 0f);
             cityFunnel.TriggerCrackInZone(0, 20f, 3f);
             cityFunnel.SetGlobalEnergyFlowPause(false);
-            onCountdown = true;
+            cityFunnel.ChangeLiquidInZone(0, cityValuesD1[0] - 10f, 1f);
+            StartCoroutine(CountdownRoutine(1.1f));
         }
 
         //N01
@@ -1399,7 +1405,12 @@ public class MachineManager : MonoBehaviour
             DayTime.Instance.SetCurrentTime(21, 0);
         }
 
-        MiniGameTest.OnMachineEntered?.Invoke(false);
+        MiniGameTest sceneChair = UnityEngine.Object.FindAnyObjectByType<MiniGameTest>();
+        if (sceneChair != null)
+        {
+            sceneChair.ForceExitMiniGameFromSystem();
+        }
+
         OnFinishedDay?.Invoke("GoToSleep");
     }
 
