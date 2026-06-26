@@ -2331,7 +2331,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e79dd72875c0ed947b3f032bd01ed66f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 60767601ca5f9d44b839a16b9abeb5a8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -54421,7 +54421,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 54acd48be364e3941b3bbfadbf644fb7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1d89c7f9b90749c448d9b3fe749b9b6e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -75973,6 +75973,7 @@ GameObject:
   - component: {fileID: 8722571867339272632}
   - component: {fileID: 1150741794}
   - component: {fileID: 1150741795}
+  - component: {fileID: 8722571867339272633}
   m_Layer: 3
   m_Name: Chair
   m_TagString: Untagged
@@ -87614,6 +87615,21 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8722571867339272633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4562651973068658187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dfea59c2de1b45478f84c2022c000df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HL_Interact
+  rend: {fileID: 8722571867339272632}
+  highlightColor: {r: 1, g: 1, b: 1, a: 0.5}
+  lightenAmount: 0.7
 --- !u!4 &8730479447450389246
 Transform:
   m_ObjectHideFlags: 0
