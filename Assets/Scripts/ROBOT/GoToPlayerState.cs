@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 public class GoToPlayerState : IState
 {
@@ -40,9 +39,19 @@ public class GoToPlayerState : IState
             {
                 waitingForGameplay = false;
                 robot.agent.isStopped = false;
-                robot.stateMachine.ChangeState(robot.interactionState);
             }
+            else
+            {
+                robot.animator.SetFloat("Speed", 0f);
+                return;
+            }
+        }
 
+        if (GameManager.Instance.currentState == GameManager.GameState.Interacting)
+        {
+            robot.agent.isStopped = true;
+            robot.animator.SetFloat("Speed", 0f);
+            waitingForGameplay = true;
             return;
         }
 
