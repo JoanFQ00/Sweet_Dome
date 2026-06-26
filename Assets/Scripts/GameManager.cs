@@ -72,10 +72,10 @@ public class GameManager : MonoBehaviour
         //    ExecuteFinishAnimation(1, 1);
         //}
 
-        if (Input.GetKeyDown(KeyCode.L)) 
-        {
-            dayTime.SetCurrentTime(21, 0);
-        }
+        //if (Input.GetKeyDown(KeyCode.L)) 
+        //{
+        //    dayTime.SetCurrentTime(21, 0);
+        //}
     }
 
     private void LevelLoaded()

@@ -92,7 +92,7 @@ public class CityPriorityManager : MonoBehaviour, IResetable
             if (!isDay5CrisisActive) return;
 
             hasBeenPressedDay5 = true;
-            Debug.Log("<color=#FF0000><b>[BOTÓN APOCALIPSIS]</b></color> El jugador ha activado el botón en el Día 5.");
+            //Debug.Log("<color=#FF0000><b>[BOTÓN APOCALIPSIS]</b></color> El jugador ha activado el botón en el Día 5.");
             return;
         }
 

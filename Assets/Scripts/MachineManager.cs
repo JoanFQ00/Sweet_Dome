@@ -80,11 +80,11 @@ public class MachineManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-            cityFunnel.SetGlobalEnergyFlowPause(false);
+        //if (Input.GetKeyDown(KeyCode.M))
+        //    cityFunnel.SetGlobalEnergyFlowPause(false);
 
-        if (Input.GetKeyDown(KeyCode.N))
-            cityFunnel.SetGlobalEnergyFlowPause(true);
+        //if (Input.GetKeyDown(KeyCode.N))
+        //    cityFunnel.SetGlobalEnergyFlowPause(true);
 
         //DEBUG DAY 4
         //if (Input.GetKeyDown(KeyCode.Q))
@@ -95,10 +95,10 @@ public class MachineManager : MonoBehaviour
         //    dayManager.D51 = true;
 
         //DEBUG DAY 5
-        if (Input.GetKeyDown(KeyCode.Q))
-            dayManager.D84 = true;
-        if (Input.GetKeyDown(KeyCode.R))
-            dayManager.D81 = true;
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //    dayManager.D84 = true;
+        //if (Input.GetKeyDown(KeyCode.R))
+        //    dayManager.D81 = true;
 
         if (DayTime.Instance.currentHour >= 21)
             return;
@@ -108,10 +108,10 @@ public class MachineManager : MonoBehaviour
             UpdateCountdown();
         }
 
-        if (DayTime.Instance.currentHour >= 15)
-        {
-            CheckCompletedToday();
-        }
+        //if (DayTime.Instance.currentHour >= 15)
+        //{
+        //    CheckCompletedToday();
+        //}
     }
 
     private void OnEnable()
@@ -194,13 +194,13 @@ public class MachineManager : MonoBehaviour
         waveEventLaunched = false;
     }
 
-    void CheckCompletedToday()
-    {
-        if (GameManager.Instance.currentDay == Day.Day1)
-        {
+    //void CheckCompletedToday()
+    //{
+    //    if (GameManager.Instance.currentDay == Day.Day1)
+    //    {
 
-        }
-    }
+    //    }
+    //}
 
     bool IsCityStable()
     {
@@ -213,7 +213,7 @@ public class MachineManager : MonoBehaviour
                 return false;
             }
         }
-        Debug.LogWarning("HOLA");
+        //Debug.LogWarning("HOLA");
         return true;
     }
 
@@ -287,7 +287,7 @@ public class MachineManager : MonoBehaviour
 
     void UpdateCountdown()
     {
-        Debug.Log(IsCityStable());
+        //Debug.Log(IsCityStable());
         switch (GameManager.Instance.currentDay)
         {
             case Day.Day1:

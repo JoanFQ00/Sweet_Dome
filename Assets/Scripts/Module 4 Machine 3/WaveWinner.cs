@@ -68,8 +68,8 @@ public class WaveWinner : MonoBehaviour, IResetable
     {
         if (CheckAndForceDisableDay5()) return;
 
-        if (Input.GetKeyDown(KeyCode.V))
-            StartWaveEvent(40f);
+        //if (Input.GetKeyDown(KeyCode.V))
+        //    StartWaveEvent(40f);
 
         if (inEvent && !isSnapping)
         {
