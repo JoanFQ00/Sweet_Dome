@@ -2818,7 +2818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.066037714, g: 0.066037714, b: 0.066037714, a: 0.9019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -60436,7 +60436,7 @@ MonoBehaviour:
   act: {fileID: 11400000, guid: 8203da368da34214f9e47d09aa54056a, type: 2}
   cityFunnel: {fileID: 1469307825388841629}
   cityValuesD1:
-  - 20
+  - 40
   - 0
   - 0
   - 0
@@ -80032,7 +80032,7 @@ MonoBehaviour:
   minCapacity: 0
   currentCapacity: 0
   initialValues:
-  - 10
+  - 35
   - 10
   - 10
   - 10
@@ -88571,8 +88571,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CityZoneEnergy
   funnel: {fileID: 0}
   priorityManager: {fileID: 859539175}
-  drainPerSecond: 0.25
-  prioritizedLiquidMultiplier: 5
+  drainPerSecond: 0.15
+  prioritizedLiquidMultiplier: 2
   prioritizedDrainMultiplier: 0.25
   isCrackActive: 0
   crackDrainMultiplier: 3
