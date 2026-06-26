@@ -924,6 +924,8 @@ public class MachineManager : MonoBehaviour
 
     void ResetCountdowns()
     {
+        currentCountdown = 0f;
+
         for (int i = 0; i < countdownList.Count; i++)
         {
             countdownList[i] = 0f;
@@ -956,10 +958,10 @@ public class MachineManager : MonoBehaviour
         if (GameManager.Instance.presiSpeaker.dialogueSys.id == (int)PresiDialogue.CongratsDay1Presi) //07
         {
             Shake.Instance.TriggerShake(1f);
-            cityFunnel.ChangeLiquidInZone(0, cityValuesD1[0], 2f);
+            cityFunnel.ChangeLiquidInZone(0, cityValuesD1[0] - 10f, 0f);
             cityFunnel.TriggerCrackInZone(0, 20f, 3f);
-            onCountdown = true;
             cityFunnel.SetGlobalEnergyFlowPause(false);
+            onCountdown = true;
         }
 
         //N01
