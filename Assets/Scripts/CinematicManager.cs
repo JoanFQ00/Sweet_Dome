@@ -131,7 +131,7 @@ public class CinematicManager : MonoBehaviour
             GameManager.Instance.playerController.LockCamera(false);
         }
 
-        if (activeTimeline.name == "Cin (2)")
+        if (activeTimeline.name == "Cin (4)")
         {
             StartCinematicSequence("Day3TurnOffTv");
             return;

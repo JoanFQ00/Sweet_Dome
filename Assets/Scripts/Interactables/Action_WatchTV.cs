@@ -99,6 +99,13 @@ public class Action_WatchTV : BaseAction
                 if (canWatch)
                 {
                     tvClickPopUp.SetActive(isLookingAtTV);
+
+                    if (dorothyTurnedOff) 
+                    {
+                        hasWatchedTV = true;
+                        actionExecuted = false;
+                    }
+
                     if (isLookingAtTV && Input.GetMouseButtonDown(0) && !dorothyTurnedOff)
                     {
                         TurnOnTV();

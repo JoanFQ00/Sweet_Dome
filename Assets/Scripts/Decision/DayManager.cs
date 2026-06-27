@@ -628,30 +628,46 @@ public class DayManager : MonoBehaviour
         {
             checkedReadDay3 = true;
 
+
             if (!hasRead.IsMet(GameManager.Instance.decManager)
+              && dorothyAngriedDay2.IsMet(GameManager.Instance.decManager)
+              && dorothyAngriedDay3.IsMet(GameManager.Instance.decManager))
+            {
+                ChangeDorothyDialogue((int)DialoguesRobo.HasNotReaded, true);
+            }
+            else if (!hasRead.IsMet(GameManager.Instance.decManager)
                 && dorothyBook.activeSelf)
             {
                 ChangeDorothyDialogue((int)DialoguesRobo.HasNotReaded, true);
+                OnRequestCinematic("Day4TurnOffTv");
+                OnTurnOffTV?.Invoke();
                 return;
             }
-            else if (!hasRead.IsMet(GameManager.Instance.decManager)
-                && dorothyAngriedDay2.IsMet(GameManager.Instance.decManager)
-                && dorothyAngriedDay3.IsMet(GameManager.Instance.decManager))
-            {
-                ChangeDorothyDialogue((int)DialoguesRobo.HasNotReaded, true);
-            }
+          
         }
 
         if (!checkedTvDay3)
         {
             checkedTvDay3 = true;
 
-            if (!hasWatchedTv.IsMet(GameManager.Instance.decManager)
-                && dorothyAngriedDay2.IsMet(GameManager.Instance.decManager)
-                && dorothyAngriedDay3.IsMet(GameManager.Instance.decManager))
+            if (!hasTriedToSkipTVDay3)
             {
-                dorothySaysWatchTv.ActionExecuted();
-                return;
+                hasTriedToSkipTVDay3 = true;
+
+                if (!hasWatchedTv.IsMet(GameManager.Instance.decManager)
+                    && dorothyAngriedDay2.IsMet(GameManager.Instance.decManager)
+                    && dorothyAngriedDay3.IsMet(GameManager.Instance.decManager))
+                {
+                    ChangeDorothyDialogue((int)DialoguesRobo.EncourageTV, true);
+                    dorothySaysWatchTv.ActionExecuted();
+                    return;
+                }
+            }
+            else 
+            {
+                GameManager.Instance.dayTime.LerpToTime(15, 0);
+                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completa la máquina");
+                GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.GoToWorkDay2);
             }
         }
 
