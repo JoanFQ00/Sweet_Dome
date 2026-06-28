@@ -113,7 +113,12 @@ public class CinematicManager : MonoBehaviour
 
         if (activeTimeline != null)
         {
+            activeTimeline.time = 0;
+
+            activeTimeline.Evaluate();
+
             activeTimeline.Play();
+
             cinematicStarted = true;
             cinematicEndedTriggered = false;
         }
