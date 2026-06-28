@@ -64,6 +64,7 @@ public class SoundManagerOwn : MonoBehaviour
     {
         PlayMusic(gameplayMusic, true);
     }
+
     public void SetMusicVolume(float volume)
     {
         musicVolume = Mathf.Clamp01(volume);
