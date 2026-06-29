@@ -133,10 +133,10 @@ public class Action_Reader : BaseAction
                     GameManager.Instance.currentState = GameManager.GameState.Gameplay;
                     state = State.Idle;
 
+                    GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.PresiSaysYouCanWatchTv);
+                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mira la tele");
                     if (isAction) 
                     {
-                        GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.PresiSaysYouCanWatchTv);
-                        GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mira la tele");
                         OnActionExecuted();
                     }
                 });

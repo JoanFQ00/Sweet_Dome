@@ -359,6 +359,7 @@ public class DayManager : MonoBehaviour
             ChangeDorothyDialogue((int)DialoguesRobo.Angry3AndNoBook, true);
             angriedDay3.ActionExecuted();
 
+            checkedEatDay3 = true;
             D22 = true;
         }
         else if (!hasEated_SC && hasEated.IsMet(GameManager.Instance.decManager) && !hasEated_SC)
@@ -368,6 +369,7 @@ public class DayManager : MonoBehaviour
             dorothyBook.SetActive(true);
             dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day2);
 
+            checkedEatDay3 = true;
             D22 = true;
         }
         else if (!hasEated_SC && dorothyLaunchEated.IsMet(GameManager.Instance.decManager))
@@ -377,6 +379,7 @@ public class DayManager : MonoBehaviour
             dorothyBook.SetActive(true);
             dorothyBook.GetComponent<Action_Reader>().ChangeTexture(Day.Day2);
 
+            checkedEatDay3 = true;
             D21 = true;
         }
 
@@ -601,8 +604,10 @@ public class DayManager : MonoBehaviour
 
     void Day3HourSkip()
     {
+        Debug.Log("Here");
         if (!checkedEatDay3)
         {
+            Debug.Log("Here2");
             checkedEatDay3 = true;
 
             if (!hasEated.IsMet(GameManager.Instance.decManager)
@@ -627,7 +632,7 @@ public class DayManager : MonoBehaviour
         if (!checkedReadDay3)
         {
             checkedReadDay3 = true;
-
+            Debug.Log("Here3");
 
             if (!hasRead.IsMet(GameManager.Instance.decManager)
               && dorothyAngriedDay2.IsMet(GameManager.Instance.decManager)

@@ -51,7 +51,11 @@ public class Action_WatchTV : BaseAction
         DayManager.OnTurnOffTV += () => dorothyTurnedOff = true;
     }
 
-    private void ResetWatchState() => hasWatchedTV = false;
+    private void ResetWatchState() 
+    {
+        actionExecuted = false;
+        hasWatchedTV = false;
+    }
 
     public override void Interact()
     {
@@ -78,6 +82,8 @@ public class Action_WatchTV : BaseAction
 
     protected override void OnUpdateAction()
     {
+        SetInteractableLayer();
+
         switch (state)
         {
             case State.MovingToTV:
@@ -135,10 +141,19 @@ public class Action_WatchTV : BaseAction
                 if (hasWatchedTV && !actionExecuted)
                 {
                     OnActionExecuted(); 
+                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completa la máquina");
                     actionExecuted = true;
                 }
                 break;
         }
+    }
+
+    void SetInteractableLayer() 
+    {
+        if (actionExecuted)
+            gameObject.layer = LayerMask.NameToLayer("Default");
+        else
+            gameObject.layer = LayerMask.NameToLayer("Interactable");
     }
 
     void TurnOnTV()

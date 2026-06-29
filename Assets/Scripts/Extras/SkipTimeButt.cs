@@ -114,6 +114,9 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                     GameManager.Instance.dayManager.hasTriedToSkipTVDay3 = true;
                 }
             }
+
+            OnFirstDayButt?.Invoke(true);
+
         }
 
         else if (GameManager.Instance.currentDay == Day.Day4)
