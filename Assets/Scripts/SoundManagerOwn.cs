@@ -133,4 +133,52 @@ public class SoundManagerOwn : MonoBehaviour
             musicSource.volume = musicVolume;
         }
     }
+
+    // --- PARA LA MÚSICA ---
+    public void PauseMusic()
+    {
+        musicSource.Pause(); // Congela el tiempo actual de la canción
+    }
+
+    public void ResumeMusic()
+    {
+        musicSource.UnPause(); // Reanuda desde el segundo exacto en el que se pausó
+    }
+
+    // --- PARA LOS EFECTOS (RADIO/TOCADISCOS si usas SFXSource) ---
+    public void PauseSFX()
+    {
+        SFXSource.Pause();
+    }
+
+    public void ResumeSFX()
+    {
+        SFXSource.UnPause();
+    }
+
+    public AudioSource Create3DAudioSource(AudioClip clip, Vector3 position, bool loop = true)
+    {
+        if (clip == null) return null;
+
+        // 1. Creamos un GameObject temporal vacío en la posición del objeto (ej. Tocadiscos)
+        GameObject audioObj = new GameObject("3D_Audio_" + clip.name);
+        audioObj.transform.position = position;
+
+        // 2. Le añadimos un componente AudioSource y lo configuramos
+        AudioSource newSource = audioObj.AddComponent<AudioSource>();
+        newSource.clip = clip;
+        newSource.loop = loop;
+        newSource.volume = sfxVolume;
+
+        // 3. ¡EL TRUCO TRIDIMENSIONAL! Cambiamos el Spatial Blend a 1.0f para que sea 3D puro
+        newSource.spatialBlend = 1.0f;
+        newSource.rolloffMode = AudioRolloffMode.Logarithmic;
+        newSource.minDistance = 1.5f;  // Distancia a la que se escucha al máximo volumen
+        newSource.maxDistance = 15.0f; // Distancia máxima a la que se deja de escuchar
+
+        // Hacemos que este objeto sea hijo del SoundManager para mantener la jerarquía limpia
+        audioObj.transform.SetParent(this.transform);
+
+        return newSource;
+    }
 }
