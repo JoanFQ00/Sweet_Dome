@@ -11552,13 +11552,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338433330}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00000010322109, y: 0.7879651, z: 1.8955856e-10, w: 0.6157199}
+  m_LocalRotation: {x: -0.00000010322112, y: 0.7879651, z: 1.8954793e-10, w: 0.6157199}
   m_LocalPosition: {x: 0.090862334, y: -0.27902165, z: -0.42342186}
-  m_LocalScale: {x: 0.49546447, y: 0.4934905, z: 0.49546438}
+  m_LocalScale: {x: 0.49546453, y: 0.4934905, z: 0.4954644}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9048344869893142751}
-  m_Father: {fileID: 6528477895267109563}
+  m_Father: {fileID: 235992439363206463}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &338433332
 MeshRenderer:
@@ -14815,38 +14815,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4.493395, y: 3.0314121, z: 1}
   m_Center: {x: 1.746692, y: 1.015707, z: -0.000008533391}
---- !u!1 &523771258
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 523771259}
-  m_Layer: 0
-  m_Name: TubeAbsorber.001
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &523771259
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 523771258}
-  serializedVersion: 2
-  m_LocalRotation: {x: 1.3552509e-22, y: -0, z: -2.130791e-24, w: 1}
-  m_LocalPosition: {x: -0.000000079249865, y: -2.2168933e-14, z: -5.6848304e-10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1142960608}
-  m_Father: {fileID: 1675971783}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &525047830
 GameObject:
   m_ObjectHideFlags: 0
@@ -27557,13 +27525,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1142960607}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00000012903863, y: 0.85407317, z: -0.000000014684971, w: 0.5201528}
-  m_LocalPosition: {x: -0.009159713, y: -0.27902177, z: -0.43296462}
-  m_LocalScale: {x: 0.4954645, y: 0.49349043, z: 0.49546435}
+  m_LocalRotation: {x: -0.000000118437356, y: 0.9706895, z: 0.00000006129758, w: 0.2403374}
+  m_LocalPosition: {x: -0.25506058, y: -0.2790218, z: -0.34997982}
+  m_LocalScale: {x: 0.49546438, y: 0.4934905, z: 0.49546415}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3678655186617115787}
-  m_Father: {fileID: 523771259}
+  m_Father: {fileID: 1338761905}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1142960609
 MeshRenderer:
@@ -29781,6 +29749,7 @@ GameObject:
   - component: {fileID: 1338761907}
   - component: {fileID: 1338761906}
   - component: {fileID: 1338761908}
+  - component: {fileID: 1338761909}
   m_Layer: 0
   m_Name: TubeTwo
   m_TagString: Untagged
@@ -29796,13 +29765,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1338761904}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -2.130791e-24, w: 1}
+  m_LocalRotation: {x: 0, y: 0.03053854, z: 0, w: 0.9995337}
   m_LocalPosition: {x: -0.000000114440915, y: 0.00000006650765, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1142960608}
   m_Father: {fileID: 864541544}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 3.5, z: 0}
 --- !u!23 &1338761906
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29878,6 +29848,28 @@ MonoBehaviour:
   activeBrightness: 10
   inactiveBrightness: 0.05
   transitionDuration: 0.25
+--- !u!95 &1338761909
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338761904}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 44f4bdf2b32cffc45aa6071ad12a6b72, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1339599034
 GameObject:
   m_ObjectHideFlags: 0
@@ -42287,7 +42279,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 864541544}
-  - {fileID: 523771259}
   m_Father: {fileID: 480513282697273320}
   m_LocalEulerAnglesHint: {x: 0, y: 31.773, z: 0}
 --- !u!1 &1677289113
@@ -56536,13 +56527,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5613598374525690659}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -2.130791e-24, w: 1}
+  m_LocalRotation: {x: 0, y: -0.1391731, z: 0, w: 0.9902681}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 338433331}
   m_Father: {fileID: 6528477895267109563}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -16, z: 0}
 --- !u!1 &242381484550095829
 GameObject:
   m_ObjectHideFlags: 0
@@ -79258,6 +79250,7 @@ GameObject:
   - component: {fileID: 1213855618769279661}
   - component: {fileID: 1790031997997992293}
   - component: {fileID: 5613598374525690660}
+  - component: {fileID: 5613598374525690661}
   m_Layer: 0
   m_Name: Tube
   m_TagString: Untagged
@@ -79283,6 +79276,28 @@ MonoBehaviour:
   activeBrightness: 10
   inactiveBrightness: 0.05
   transitionDuration: 0.25
+--- !u!95 &5613598374525690661
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5613598374525690659}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a355e4c9d1a866f4d9afecd64af2bc6b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!23 &5647653365319957759
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -81307,7 +81322,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 235992439363206463}
-  - {fileID: 338433331}
   m_Father: {fileID: 6528477893684183064}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6532865899066454825
