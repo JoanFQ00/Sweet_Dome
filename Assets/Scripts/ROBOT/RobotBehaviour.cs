@@ -65,7 +65,7 @@ public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
         goToPlayerState = new GoToPlayerState(this);
         rechargeState = new RechargeState(this);
 
-        dialogueSys.SysIni();
+        //dialogueSys.SysIni();
 
         stateMachine.ChangeState(patrolState);
     }
@@ -121,7 +121,10 @@ public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
         }
 
         if (stateMachine.CurrentState != interactionState)
+        {
+            dialogueSys.ChargeDialogues(1);
             stateMachine.ChangeState(interactionState);
+        }
     }
 
     public void LookAtTarget(Vector3 target)
@@ -230,9 +233,10 @@ public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
 
         var current = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx];
 
-        // Si el Scriptable Object tiene audio, el SoundManager lo reproduce
         if (current.audio != null && SoundManagerOwn.Instance != null)
         {
+            SoundManagerOwn.Instance.StopDialogueVoice();
+
             SoundManagerOwn.Instance.PlayDialogueVoice(current.audio);
         }
     }

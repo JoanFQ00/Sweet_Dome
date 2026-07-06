@@ -183,4 +183,12 @@ public class SoundManagerOwn : MonoBehaviour
 
         SFXSource.PlayOneShot(voiceClip, sfxVolume);
     }
+
+    public void StopDialogueVoice()
+    {
+        if (SFXSource != null)
+        {
+            SFXSource.Stop();
+        }
+    }
 }
