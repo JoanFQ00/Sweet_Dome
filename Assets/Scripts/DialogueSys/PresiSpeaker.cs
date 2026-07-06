@@ -86,6 +86,11 @@ public class PresiSpeaker : MonoBehaviour
 
         interlocutor.text = current.speaker;
         dialogueTxt.text = current.text;
+
+        if (current.audio != null && SoundManagerOwn.Instance != null)
+        {
+            SoundManagerOwn.Instance.PlayDialogueVoice(current.audio);
+        }
     }
 
     public void EmptyLoadedDialogues() 

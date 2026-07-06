@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InteractionState : IState
 {
@@ -11,6 +12,8 @@ public class InteractionState : IState
     private bool canAdvanceDialogue;
 
     private float enterTimer;
+
+    private InputAction interactAction;
 
     public InteractionState(RobotBehaviour robot)
     {
@@ -47,6 +50,16 @@ public class InteractionState : IState
         canExit = false;
 
         enterTimer = 0.25f;
+
+        PlayerInput pInput = GameManager.Instance.playerController.GetComponent<PlayerInput>();
+        if (pInput != null)
+        {
+            interactAction = pInput.actions["Interact"];
+            // Nos suscribimos al evento para detectar la pulsación de avanzar diálogo
+            interactAction.started += OnDialogueAdvanceInput;
+        }
+
+        robot.UpdateUI();
     }
 
     public void OnState()
@@ -77,24 +90,29 @@ public class InteractionState : IState
             canExit = true;
         }
 
-        if (canAdvanceDialogue && Input.GetKeyDown(KeyCode.E))
-        {
-            var currentDialogue = robot.dialogueSys.loadedDialogues[robot.dialogueSys.dialogueIdx];
-            if (currentDialogue.next == null)
-            {
-                robot.dialogueSys.ChargeDialogues(robot.dialogueSys.id);
+        //if (canAdvanceDialogue && Input.GetKeyDown(KeyCode.E))
+        //{
+        //    var currentDialogue = robot.dialogueSys.loadedDialogues[robot.dialogueSys.dialogueIdx];
+        //    if (currentDialogue.next == null)
+        //    {
+        //        robot.dialogueSys.ChargeDialogues(robot.dialogueSys.id);
 
-                ExitDialogue();
-            }
-            else
-            {
-                robot.LoadNextDialogue();
-            }
-        }
+        //        ExitDialogue();
+        //    }
+        //    else
+        //    {
+        //        robot.LoadNextDialogue();
+        //    }
+        //}
     }
 
     public void OnExit()
     {
+        if (interactAction != null)
+        {
+            interactAction.started -= OnDialogueAdvanceInput;
+        }
+
         GameManager.Instance.currentState = GameManager.GameState.Gameplay;
         robot.animator.SetBool("IsTalking", false);
 
@@ -112,6 +130,23 @@ public class InteractionState : IState
     private void ExitDialogue()
     {
         robot.stateMachine.ChangeState(robot.patrolState);
+    }
+
+    private void OnDialogueAdvanceInput(InputAction.CallbackContext ctx)
+    {
+        if (!canAdvanceDialogue) return;
+
+        var currentDialogue = robot.dialogueSys.loadedDialogues[robot.dialogueSys.dialogueIdx];
+
+        if (currentDialogue.next == null)
+        {
+            robot.dialogueSys.ChargeDialogues(robot.dialogueSys.id);
+            ExitDialogue();
+        }
+        else
+        {
+            robot.LoadNextDialogue();
+        }
     }
 
     void LookAtPlayer()

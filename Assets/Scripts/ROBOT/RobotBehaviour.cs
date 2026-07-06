@@ -75,12 +75,14 @@ public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
         GameManager.Instance.robotBehaviour = this;
         LevelManager.OnLevelLoaded += LevelLoaded;
         DayTime.OnTimeSkiped += HandleTimeSkip;
+        RoboSys.OnDialogueChanged += PlayDialogueAudio;
     }
 
     void OnDisable()
     {
         LevelManager.OnLevelLoaded -= LevelLoaded;
         DayTime.OnTimeSkiped -= HandleTimeSkip;
+        RoboSys.OnDialogueChanged -= PlayDialogueAudio;
     }
 
     void LevelLoaded() 
@@ -219,6 +221,19 @@ public class RobotBehaviour : MonoBehaviour, IInteractable, ILookable
         else
         {
             SetPopUps(false, false);
+        }
+    }
+
+    private void PlayDialogueAudio()
+    {
+        if (dialogueSys == null || dialogueSys.loadedDialogues == null) return;
+
+        var current = dialogueSys.loadedDialogues[dialogueSys.dialogueIdx];
+
+        // Si el Scriptable Object tiene audio, el SoundManager lo reproduce
+        if (current.audio != null && SoundManagerOwn.Instance != null)
+        {
+            SoundManagerOwn.Instance.PlayDialogueVoice(current.audio);
         }
     }
 }

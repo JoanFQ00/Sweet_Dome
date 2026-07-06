@@ -13,10 +13,6 @@ public class EndingController : MonoBehaviour
     bool startTimer;
     Animation an;
 
-    [Header("Canvas")]
-    public GameObject canvasToMenu;
-    public Button menuButton;
-
     [Header("Dialogue")]
     public GameObject dialogueUI;
     public TextMeshProUGUI interlocutorTMP;
@@ -52,13 +48,11 @@ public class EndingController : MonoBehaviour
     private void OnEnable()
     {
         GameManager.ActivateFinalAnimation += ActivateFinalAnimation;
-        LevelManager.OnLevelLoaded += ThisLevelLoaded;
     }
 
     private void OnDisable()
     {
         GameManager.ActivateFinalAnimation -= ActivateFinalAnimation;
-        LevelManager.OnLevelLoaded -= ThisLevelLoaded;
     }
 
     private void Update()
@@ -68,36 +62,11 @@ public class EndingController : MonoBehaviour
         UpdateTimerToMenu();
     }
 
-    void ThisLevelLoaded()
-    {
-        if (menuButton == null && canvasToMenu != null)
-        {
-            menuButton = canvasToMenu.GetComponentInChildren<Button>();
-        }
-
-        if (menuButton != null)
-        {
-            menuButton.onClick.RemoveAllListeners();
-
-            menuButton.onClick.AddListener(GoToMenuAction);
-        }
-    }
-
     void ActivateFinalAnimation(int id)
     {
         startTimer = false;
         ChargeDialogueFinale(id);
         an.Play();
-    }
-
-    public void ActivateGoToMenu()
-    {
-        if (canvasToMenu != null)
-        {
-            canvasToMenu.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
     }
 
     void GoToMenuAction()
@@ -120,9 +89,10 @@ public class EndingController : MonoBehaviour
 
             if (currentTimer >= timeToMenu) 
             {
-                ActivateGoToMenu();
                 dialogueUI.SetActive(false);
                 startTimer = false;
+
+                GoToMenuAction();
             }
         }
     }

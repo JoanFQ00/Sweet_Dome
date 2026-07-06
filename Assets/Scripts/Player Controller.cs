@@ -188,6 +188,24 @@ public class PlayerController : MonoBehaviour
         pitchController.localRotation = Quaternion.Euler(pitch, 0f, 0f);
     }
 
+    public void ForceRotation(Quaternion targetRotation)
+    {
+        Vector3 euler = targetRotation.eulerAngles;
+
+        yaw = euler.y;
+        pitch = euler.x;
+
+        // Normalizar el pitch para evitar saltos extraños (pasar de 0-360 a -180 a 180)
+        if (pitch > 180f)
+            pitch -= 360f;
+
+        pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+
+        // Aplicar inmediatamente la rotación al transform y al pitchController
+        transform.rotation = Quaternion.Euler(0f, yaw, 0f);
+        pitchController.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+    }
+
     public void SyncRotationFromCurrentTransform()
     {
         yaw = transform.rotation.eulerAngles.y;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public enum DialoguesRobo
 {
@@ -55,6 +56,9 @@ public class RoboSys : DialogueSys
 
     public SO_Dialogue currentDialogue;
 
+    public static event Action OnDialogueChanged;
+    public static event Action OnDialogueTerminated;
+
     public void SysIni() 
     {
         dialogueIdx = 0;
@@ -67,6 +71,12 @@ public class RoboSys : DialogueSys
         dialogueIdx = 0;
         loadedDialogues = Resources.LoadAll<SO_Dialogue>("Dialogues/" + robo + "/" + id);
         currentDialogue = loadedDialogues[dialogueIdx];
+
+        if (loadedDialogues != null && loadedDialogues.Length > 0)
+        {
+            currentDialogue = loadedDialogues[dialogueIdx];
+            OnDialogueChanged?.Invoke();
+        }
     }
 
     public override void LoadNextIdx()
@@ -75,5 +85,7 @@ public class RoboSys : DialogueSys
 
         dialogueIdx++;
         currentDialogue = loadedDialogues[dialogueIdx];
+
+        OnDialogueChanged?.Invoke();
     }
 }

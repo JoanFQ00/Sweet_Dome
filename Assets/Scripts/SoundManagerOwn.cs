@@ -134,18 +134,16 @@ public class SoundManagerOwn : MonoBehaviour
         }
     }
 
-    // --- PARA LA MÚSICA ---
     public void PauseMusic()
     {
-        musicSource.Pause(); // Congela el tiempo actual de la canción
+        musicSource.Pause();
     }
 
     public void ResumeMusic()
     {
-        musicSource.UnPause(); // Reanuda desde el segundo exacto en el que se pausó
+        musicSource.UnPause();
     }
 
-    // --- PARA LOS EFECTOS (RADIO/TOCADISCOS si usas SFXSource) ---
     public void PauseSFX()
     {
         SFXSource.Pause();
@@ -160,11 +158,9 @@ public class SoundManagerOwn : MonoBehaviour
     {
         if (clip == null) return null;
 
-        // 1. Creamos un GameObject temporal vacío en la posición del objeto (ej. Tocadiscos)
         GameObject audioObj = new GameObject("3D_Audio_" + clip.name);
         audioObj.transform.position = position;
 
-        // 2. Le añadimos un componente AudioSource y lo configuramos
         AudioSource newSource = audioObj.AddComponent<AudioSource>();
         newSource.clip = clip;
         newSource.loop = loop;
@@ -176,9 +172,15 @@ public class SoundManagerOwn : MonoBehaviour
         newSource.minDistance = 1.5f;  // Distancia a la que se escucha al máximo volumen
         newSource.maxDistance = 15.0f; // Distancia máxima a la que se deja de escuchar
 
-        // Hacemos que este objeto sea hijo del SoundManager para mantener la jerarquía limpia
         audioObj.transform.SetParent(this.transform);
 
         return newSource;
+    }
+
+    public void PlayDialogueVoice(AudioClip voiceClip)
+    {
+        if (voiceClip == null) return;
+
+        SFXSource.PlayOneShot(voiceClip, sfxVolume);
     }
 }

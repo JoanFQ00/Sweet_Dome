@@ -149,6 +149,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
                 currentMoveTime = 0f;
                 state = MiniGameState.Active;
 
+                playerController.ForceRotation(gameCameraPosition.rotation);
+
                 GameManager.Instance.playerController.LockCamera(true);
                 GameManager.Instance.playerController.ChangeGameMode(false);
             }
