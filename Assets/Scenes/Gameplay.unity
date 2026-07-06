@@ -4688,6 +4688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5769c5322509a4441af95e1c2250479f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CinematicManager
+  skipKey: 32
   wakeUpTimeline: {fileID: 497633410822684714}
   day3TurnOffTvTimeline: {fileID: 7699917109723738455}
   day3SitAndWatchTimeline: {fileID: 7703769494420866009}
@@ -12310,6 +12311,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92d09a4f96fbfb14d900fbdb13fb705d, type: 3}
+--- !u!23 &367885761 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3323026928995811330, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+  m_PrefabInstance: {fileID: 1971355890}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &376997808
 GameObject:
   m_ObjectHideFlags: 0
@@ -45390,9 +45396,9 @@ MonoBehaviour:
   outAngle: -70
   dragSpeed: 2
   returnSpeed: 10
-  neutralColor: {r: 15.933679, g: 1.0522218, b: 8.758697, a: 1}
-  absorbColor: {r: 0.98490566, g: 0.6820007, b: 0.91321224, a: 1}
-  expelColor: {r: 2.037736, g: 0.67283714, b: 1.7146832, a: 1}
+  neutralColor: {r: 0.70710677, g: 0.70710677, b: 0.70710677, a: 1}
+  absorbColor: {r: 19.468575, g: 2.8468199, b: 13.373929, a: 1}
+  expelColor: {r: 19.46857, g: 4.13248, b: 13.794935, a: 1}
   currentAngle: 0
 --- !u!1 &1863096905
 GameObject:
@@ -52543,6 +52549,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8392811254399879739, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+      propertyPath: rend
+      value: 
+      objectReference: {fileID: 367885761}
     - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
       propertyPath: redAlarm.Path
       value: event:/SFX_Radar/SFX_Radar_MeteorDetect
@@ -60093,6 +60103,10 @@ MonoBehaviour:
   purifiedPump: {fileID: 5094593324287399473}
   rawPump: {fileID: 2523779765977867892}
   isPurifiedMode: 1
+  purifiedAnimator: {fileID: 5613598374525690661}
+  rawAnimator: {fileID: 1338761909}
+  triggerRight: TurnRight
+  triggerLeft: TurnLeft
 --- !u!1 &1568732060595836900
 GameObject:
   m_ObjectHideFlags: 0

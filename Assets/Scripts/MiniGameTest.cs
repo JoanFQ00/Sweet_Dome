@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
@@ -34,6 +35,13 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
     [SerializeField] private GameObject popUpGO;
     [SerializeField] private GameObject interactPopUpGO;
 
+    [Header("Chair Rotation Settings")]
+    [SerializeField] private float billboardSmoothSpeed = 5f;
+    [SerializeField] private float returnRotationSpeed = 3f;
+
+    private Quaternion originalChairRotation;
+    private Coroutine centerChairCoroutine;
+
     private PlayerController playerController;
     private bool onSight;
 
@@ -51,11 +59,12 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
     public bool isClickingUI = false;
 
     private MainButt activePressedButton = null;
-
     private Texture2D currentAppliedCursor;
 
     private void Start()
     {
+        originalChairRotation = transform.rotation;
+
         if (popUpGO != null)
         {
             popUpGO.SetActive(false);
@@ -68,6 +77,11 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
     {
         if (popUpGO != null)
             PopUpCheck();
+
+        if (state == MiniGameState.None && DayTime.Instance.GetCurrentHour() < 21)
+        {
+            HandleChairBillboard();
+        }
 
         if (GameManager.Instance.currentState != GameManager.GameState.Minigame && state == MiniGameState.None)
             return;
@@ -100,6 +114,20 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
     private void OnDisable()
     {
         GameManager.OnChangeDay -= ActivateChairLayer;
+    }
+
+    void HandleChairBillboard()
+    {
+        if (playerController == null) return;
+
+        Vector3 directionToPlayer = playerController.transform.position - transform.position;
+        directionToPlayer.y = 0;
+
+        if (directionToPlayer.sqrMagnitude > 0.01f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer) * Quaternion.Euler(0, 90f, 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * billboardSmoothSpeed);
+        }
     }
 
     public void Interact()
@@ -142,8 +170,10 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
             GameManager.Instance.playerController.LockCamera(true);
             GameManager.Instance.playerController.ChangeGameMode(false);
 
+            // Desplazamos al jugador a la posición de la silla, manteniendo la rotación de la silla en ese instante
             playerTransform.position = Vector3.Lerp(originalPlayerPos, gameCameraPosition.position, pct);
-            playerTransform.rotation = Quaternion.Lerp(originalPlayerRot, gameCameraPosition.rotation, pct);
+            playerTransform.rotation = Quaternion.Slerp(originalPlayerRot, gameCameraPosition.rotation, pct);
+
             if (pct >= 1f)
             {
                 currentMoveTime = 0f;
@@ -153,13 +183,48 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
 
                 GameManager.Instance.playerController.LockCamera(true);
                 GameManager.Instance.playerController.ChangeGameMode(false);
+
+                // NUEVO: Ya se ha sentado. Iniciamos la corrutina que espera 1s y luego rota silla + cámara
+                if (centerChairCoroutine != null) StopCoroutine(centerChairCoroutine);
+                centerChairCoroutine = StartCoroutine(WaitAndRotateTogether());
             }
         }
         else
         {
             playerTransform.position = Vector3.Lerp(gameCameraPosition.position, originalPlayerPos, pct);
-            playerTransform.rotation = Quaternion.Lerp(originalPlayerRot, originalPlayerRot, pct);
+            playerTransform.rotation = Quaternion.Lerp(playerTransform.rotation, originalPlayerRot, pct);
             if (pct >= 1f) FinishExit();
+        }
+    }
+
+    // Corrutina que gestiona la espera de 1 segundo y el posterior Lerp de Silla + Cámara del jugador
+    IEnumerator WaitAndRotateTogether()
+    {
+        // 1. Esperamos el segundo con el jugador ya sentado inmóvil
+        yield return new WaitForSeconds(1f);
+
+        // 2. Hacemos el Slerp conjunto hasta volver a la rotación por defecto de la escena
+        while (Quaternion.Angle(transform.rotation, originalChairRotation) > 0.1f)
+        {
+            // Rotamos la silla hacia su origen
+            transform.rotation = Quaternion.Slerp(transform.rotation, originalChairRotation, Time.deltaTime * returnRotationSpeed);
+
+            // Forzamos a que el transform del player imite al frame la rotación del nodo de la cámara
+            if (playerTransform != null && gameCameraPosition != null)
+            {
+                playerTransform.rotation = gameCameraPosition.rotation;
+                playerController.ForceRotation(gameCameraPosition.rotation);
+            }
+
+            yield return null;
+        }
+
+        // 3. Aseguramos valores exactos al finalizar
+        transform.rotation = originalChairRotation;
+        if (playerTransform != null && gameCameraPosition != null)
+        {
+            playerTransform.rotation = gameCameraPosition.rotation;
+            playerController.ForceRotation(gameCameraPosition.rotation);
         }
     }
 
@@ -272,24 +337,15 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
             }
             else if (hit.collider.TryGetComponent(out DialRotation dial))
             {
-                if (!dial.IsInteractable())
-                {
-                    isInteractableNow = false;
-                }
+                if (!dial.IsInteractable()) isInteractableNow = false;
             }
             else if (hit.collider.TryGetComponent(out WheelRotator radarWheel))
             {
-                if (!radarWheel.IsInteractable())
-                {
-                    isInteractableNow = false;
-                }
+                if (!radarWheel.IsInteractable()) isInteractableNow = false;
             }
             else if (hit.collider.TryGetComponent(out SliderCont slider))
             {
-                if (!slider.IsInteractable())
-                {
-                    isInteractableNow = false;
-                }
+                if (!slider.IsInteractable()) isInteractableNow = false;
             }
 
             if (isInteractableNow)
@@ -338,6 +394,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
     void ExitMiniGame()
     {
         if (state != MiniGameState.Active) return;
+        if (centerChairCoroutine != null) StopCoroutine(centerChairCoroutine);
+
         OnMachineEntered?.Invoke(false);
         state = MiniGameState.Exiting;
         currentMoveTime = 0f;
@@ -350,6 +408,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
     public void ForceExitMiniGameFromSystem()
     {
         if (state != MiniGameState.Active) return;
+        if (centerChairCoroutine != null) StopCoroutine(centerChairCoroutine);
+
         OnMachineEntered?.Invoke(false);
         state = MiniGameState.Exiting;
         currentMoveTime = 0f;
