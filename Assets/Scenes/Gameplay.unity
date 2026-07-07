@@ -12311,11 +12311,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92d09a4f96fbfb14d900fbdb13fb705d, type: 3}
---- !u!23 &367885761 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 3323026928995811330, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-  m_PrefabInstance: {fileID: 1971355890}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &376997808
 GameObject:
   m_ObjectHideFlags: 0
@@ -14667,7 +14662,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &519819217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30293,7 +30288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1346478156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52784,30 +52779,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2277421979110919720, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2277421979110919720, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2277421979110919720, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2321936615784346691, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: f69cf58f4b7381948ac23888eeb72d38, type: 2}
-    - target: {fileID: 3026356436813257143, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3323026928995811330, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: f69cf58f4b7381948ac23888eeb72d38, type: 2}
     - target: {fileID: 4173522306524679104, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
       propertyPath: presiSpeaker
       value: 
@@ -52820,14 +52791,6 @@ PrefabInstance:
       propertyPath: playerController
       value: 
       objectReference: {fileID: 1736802196}
-    - target: {fileID: 4456930426903659648, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: maxDays
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4456930426903659648, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: minigames.Array.size
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 4456930426903659648, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
       propertyPath: 'minigames.Array.data[0]'
       value: 
@@ -52844,253 +52807,15 @@ PrefabInstance:
       propertyPath: 'minigames.Array.data[3]'
       value: 
       objectReference: {fileID: 774785200}
-    - target: {fileID: 4564664279789346745, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: disanceToPop
-      value: 2.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718843626715731344, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: b5c591ce67c29bb45b2e5fcaa4998875, type: 3}
-    - target: {fileID: 6821810648353979450, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: dorothyLaunch
-      value: 
-      objectReference: {fileID: 1971355891}
-    - target: {fileID: 6821810648353979450, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: day1FinalTimer
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821810648353979450, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: dayInt.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7098610603668139731, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 96c30853a50829f499f4924450277981, type: 3}
-    - target: {fileID: 7098610603668139731, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7098610603668139731, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7098610603668139731, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7786896871964724053, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7786896871964724053, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7786896871964724053, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8142599467856121575, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 8392811254399879739, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: rend
-      value: 
-      objectReference: {fileID: 367885761}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: redAlarm.Path
-      value: event:/SFX_Radar/SFX_Radar_MeteorDetect
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: funnelFull.Path
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: funnelEmpty.Path
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: liquidExpel.Path
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: purpleAlarm.Path
-      value: event:/SFX_Radar/SFX_Radar_FixPoint
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: liquidAbsorb.Path
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: radarEventFail.Path
-      value: event:/SFX_Radar/SFX_Radar_NaveMissed
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: redAlarm.Guid.Data1
-      value: 1544724080
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: redAlarm.Guid.Data2
-      value: 1108496008
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: redAlarm.Guid.Data3
-      value: 1865036718
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: redAlarm.Guid.Data4
-      value: 987695971
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: funnelFull.Guid.Data1
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: funnelFull.Guid.Data2
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: funnelFull.Guid.Data3
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: funnelFull.Guid.Data4
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: funnelEmpty.Guid.Data1
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: funnelEmpty.Guid.Data2
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: funnelEmpty.Guid.Data3
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: funnelEmpty.Guid.Data4
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: liquidExpel.Guid.Data1
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: liquidExpel.Guid.Data2
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: liquidExpel.Guid.Data3
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: liquidExpel.Guid.Data4
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: purpleAlarm.Guid.Data1
-      value: -954986173
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: purpleAlarm.Guid.Data2
-      value: 1258210791
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: purpleAlarm.Guid.Data3
-      value: -1609720182
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: purpleAlarm.Guid.Data4
-      value: 1547927918
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: specificRedButton.Path
-      value: event:/SFX_Radar/SFX_Radar_ShootMissil
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: liquidAbsorb.Guid.Data1
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: liquidAbsorb.Guid.Data2
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: liquidAbsorb.Guid.Data3
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: liquidAbsorb.Guid.Data4
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: radarEventFail.Guid.Data1
-      value: -2110681486
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: radarEventFail.Guid.Data2
-      value: 1077809190
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: radarEventFail.Guid.Data3
-      value: 1882830773
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: radarEventFail.Guid.Data4
-      value: 1140429355
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: frequencyNumberButton.Path
-      value: event:/SFX_Buttons/SFX_Buttons_Code
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: specificRedButton.Guid.Data1
-      value: -1821390411
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: specificRedButton.Guid.Data2
-      value: 1309006774
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: specificRedButton.Guid.Data3
-      value: 412476566
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: specificRedButton.Guid.Data4
-      value: 1096739609
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: frequencyNumberButton.Guid.Data1
-      value: -687927414
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: frequencyNumberButton.Guid.Data2
-      value: 1215876224
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: frequencyNumberButton.Guid.Data3
-      value: 2062942344
-      objectReference: {fileID: 0}
-    - target: {fileID: 8867187944809213797, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-      propertyPath: frequencyNumberButton.Guid.Data4
-      value: -91660927
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 506402169360503906, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
---- !u!1 &1971355891 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7287497750290270442, guid: b947eb1aee1ae9e4b9e63cae2ffde51f, type: 3}
-  m_PrefabInstance: {fileID: 1971355890}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1972110199
 GameObject:
   m_ObjectHideFlags: 0
@@ -88943,7 +88668,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &8812145886503558738
 MeshRenderer:
   m_ObjectHideFlags: 0
