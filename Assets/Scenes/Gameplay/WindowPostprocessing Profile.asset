@@ -71,7 +71,7 @@ MonoBehaviour:
     m_Value: 1
   gaussianStart:
     m_OverrideState: 1
-    m_Value: 250
+    m_Value: 300
   gaussianEnd:
     m_OverrideState: 0
     m_Value: 30
@@ -133,13 +133,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06437c1ff663d574d9447842ba0a72e4, type: 3}
   m_Name: ScreenSpaceLensFlare
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.ScreenSpaceLensFlare
-  active: 0
+  active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 5.5
   tintColor:
-    m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 0.8867924, g: 0.6148985, b: 0.86587745, a: 1}
   bloomMip:
     m_OverrideState: 0
     m_Value: 1
@@ -150,8 +150,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1
   warpedFlareIntensity:
-    m_OverrideState: 0
-    m_Value: 1
+    m_OverrideState: 1
+    m_Value: 1.7
   warpedFlareScale:
     m_OverrideState: 0
     m_Value: {x: 1, y: 1}
@@ -168,17 +168,17 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1.25
   scale:
-    m_OverrideState: 0
-    m_Value: 1.5
+    m_OverrideState: 1
+    m_Value: 1.2
   streaksIntensity:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 0.02
   streaksLength:
-    m_OverrideState: 0
-    m_Value: 0.5
+    m_OverrideState: 1
+    m_Value: 0.8
   streaksOrientation:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 5
   streaksThreshold:
     m_OverrideState: 0
     m_Value: 0.25
@@ -186,8 +186,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 4
   chromaticAbberationIntensity:
-    m_OverrideState: 0
-    m_Value: 0.5
+    m_OverrideState: 1
+    m_Value: 0.8
 --- !u!114 &-2087606518604407917
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -587,10 +587,10 @@ MonoBehaviour:
     m_Value: 0
   threshold:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.85
   intensity:
     m_OverrideState: 1
-    m_Value: 0.25
+    m_Value: 0.3
   scatter:
     m_OverrideState: 1
     m_Value: 0.5
