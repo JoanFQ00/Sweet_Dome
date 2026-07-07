@@ -29,6 +29,10 @@ public class SoundManagerOwn : MonoBehaviour
     public AudioClip rotateWheelSFX;
     public AudioClip tvSFX;
 
+    [Header("Pumps")]
+    public AudioClip absorbSFX;
+    public AudioClip expelSFX;
+
     [Range(0f, 1f)] public float musicVolume = 0.07f;
     private float sfxVolume = 0.5f;
 

@@ -9,6 +9,13 @@ public class LiquidPump : CapabilityBase, IResetable
         Raw
     }
 
+    private enum ActionState
+    {
+        Idle,
+        Absorbing,
+        Expelling
+    }
+
     [Header("Initial Values")]
     [SerializeField] private List<float> initialValues;
 
@@ -29,8 +36,20 @@ public class LiquidPump : CapabilityBase, IResetable
     [SerializeField] private float moveSpeed = 5f;
     private Vector3 targetGlobalPosition;
 
-    public int CurrentFunnelIndex => funnelIndex;
+    [Header("Visual Effects (Particles)")]
+    [SerializeField] private ParticleSystem absorbParticles;
+    [SerializeField] private ParticleSystem expelParticles;
 
+    private ActionState currentActionState = ActionState.Idle;
+    private bool wasActionCalledThisFrame = false;
+
+    private int framesWithoutAction = 0;
+    private const int FRAMES_TO_STOP = 2;
+
+    private AudioSource activeAbsorbSource;
+    private AudioSource activeExpelSource;
+
+    public int CurrentFunnelIndex => funnelIndex;
     public int InitialFunnelIndex => initialIndex;
 
     protected override void Start()
@@ -62,6 +81,10 @@ public class LiquidPump : CapabilityBase, IResetable
         CapacityUpdated();
         OnStartDayFinished();
 
+        StopAllEffects();
+        currentActionState = ActionState.Idle;
+        framesWithoutAction = 0;
+
         InitializePositions();
     }
 
@@ -84,17 +107,37 @@ public class LiquidPump : CapabilityBase, IResetable
             targetGlobalPosition,
             moveSpeed * Time.deltaTime
         );
+
+        if (activeAbsorbSource != null) activeAbsorbSource.transform.position = transform.position;
+        if (activeExpelSource != null) activeExpelSource.transform.position = transform.position;
     }
 
-    public void ShiftRight()
+    void LateUpdate()
     {
-        MoveTowardsIndexIncreasing();
+        // Si no se llama a la acción en este frame, aumentamos el contador de frames vacíos.
+        if (!wasActionCalledThisFrame)
+        {
+            framesWithoutAction++;
+
+            // Solo si pasan 2 frames seguidos sin recibir input de la palanca, apagamos los efectos.
+            // Esto absorbe el "ruido" o los saltos de 1 frame de la palanca al moverla sutilmente.
+            if (framesWithoutAction >= FRAMES_TO_STOP && currentActionState != ActionState.Idle)
+            {
+                StopAllEffects();
+                currentActionState = ActionState.Idle;
+            }
+        }
+        else
+        {
+            // Si la acción sigue activa, el contador se mantiene a cero.
+            framesWithoutAction = 0;
+        }
+
+        wasActionCalledThisFrame = false;
     }
 
-    public void ShiftLeft()
-    {
-        MoveTowardsIndexDecreasing();
-    }
+    public void ShiftRight() => MoveTowardsIndexIncreasing();
+    public void ShiftLeft() => MoveTowardsIndexDecreasing();
 
     private void MoveTowardsIndexIncreasing()
     {
@@ -102,7 +145,11 @@ public class LiquidPump : CapabilityBase, IResetable
         {
             funnelIndex++;
             targetGlobalPosition = pumpPositions[funnelIndex].position;
-            AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.pumpMove, gameObject);
+
+            if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.rotateWheelSFX != null)
+            {
+                SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.rotateWheelSFX, false);
+            }
         }
     }
 
@@ -112,7 +159,11 @@ public class LiquidPump : CapabilityBase, IResetable
         {
             funnelIndex--;
             targetGlobalPosition = pumpPositions[funnelIndex].position;
-            AudioManager.Instance.PlayOneShotAttached(AudioManager.Instance.pumpMove, gameObject);
+
+            if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.rotateWheelSFX != null)
+            {
+                SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.rotateWheelSFX, false);
+            }
         }
     }
 
@@ -120,12 +171,36 @@ public class LiquidPump : CapabilityBase, IResetable
     {
         if (funnelArray == null || funnelIndex >= funnelArray.Length || funnelArray[funnelIndex] == null) return;
 
+        if (currentCapacity >= maxCapacity)
+        {
+            return;
+        }
+
+        wasActionCalledThisFrame = true;
+
+        if (currentActionState != ActionState.Absorbing)
+        {
+            StopAllEffects();
+            currentActionState = ActionState.Absorbing;
+
+            if (absorbParticles != null && !absorbParticles.isPlaying) absorbParticles.Play();
+
+            if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.absorbSFX != null)
+            {
+                activeAbsorbSource = SoundManagerOwn.Instance.Create3DAudioSource(
+                    SoundManagerOwn.Instance.absorbSFX,
+                    transform.position,
+                    true
+                );
+                if (activeAbsorbSource != null) activeAbsorbSource.Play();
+            }
+        }
+
         float amount = transferSpeed * Time.deltaTime;
         float freeSpace = maxCapacity - currentCapacity;
         amount = Mathf.Min(amount, freeSpace);
 
         float extracted = funnelArray[funnelIndex].RemoveLiquid(amount);
-
         UpdateCapacity(extracted);
     }
 
@@ -133,10 +208,61 @@ public class LiquidPump : CapabilityBase, IResetable
     {
         if (funnelArray == null || funnelIndex >= funnelArray.Length || funnelArray[funnelIndex] == null) return;
 
+        if (currentCapacity <= 0f)
+        {
+            return;
+        }
+
+        wasActionCalledThisFrame = true;
+
+        if (currentActionState != ActionState.Expelling)
+        {
+            StopAllEffects();
+            currentActionState = ActionState.Expelling;
+
+            if (expelParticles != null && !expelParticles.isPlaying) expelParticles.Play();
+
+            if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.expelSFX != null)
+            {
+                activeExpelSource = SoundManagerOwn.Instance.Create3DAudioSource(
+                    SoundManagerOwn.Instance.expelSFX,
+                    transform.position,
+                    true
+                );
+                if (activeExpelSource != null) activeExpelSource.Play();
+            }
+        }
+
         float amount = transferSpeed * Time.deltaTime;
         amount = Mathf.Min(amount, currentCapacity);
         float inserted = funnelArray[funnelIndex].AddLiquid(amount);
 
         UpdateCapacity(-inserted);
+    }
+
+    private void StopAllEffects()
+    {
+        if (absorbParticles != null && absorbParticles.isPlaying) absorbParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        if (expelParticles != null && expelParticles.isPlaying) expelParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+
+        if (activeAbsorbSource != null)
+        {
+            activeAbsorbSource.Stop();
+            Destroy(activeAbsorbSource.gameObject);
+            activeAbsorbSource = null;
+        }
+
+        if (activeExpelSource != null)
+        {
+            activeExpelSource.Stop();
+            Destroy(activeExpelSource.gameObject);
+            activeExpelSource = null;
+        }
+    }
+
+    protected override void OnDestroy()
+    {
+        StopAllEffects();
+        base.OnDestroy();
     }
 }
