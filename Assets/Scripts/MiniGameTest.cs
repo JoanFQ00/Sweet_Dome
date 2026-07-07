@@ -61,6 +61,8 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
     private MainButt activePressedButton = null;
     private Texture2D currentAppliedCursor;
 
+    private bool isChairRotatingProcess = false;
+
     private void Start()
     {
         originalChairRotation = transform.rotation;
@@ -170,7 +172,6 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
             GameManager.Instance.playerController.LockCamera(true);
             GameManager.Instance.playerController.ChangeGameMode(false);
 
-            // Desplazamos al jugador a la posición de la silla, manteniendo la rotación de la silla en ese instante
             playerTransform.position = Vector3.Lerp(originalPlayerPos, gameCameraPosition.position, pct);
             playerTransform.rotation = Quaternion.Slerp(originalPlayerRot, gameCameraPosition.rotation, pct);
 
@@ -184,7 +185,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
                 GameManager.Instance.playerController.LockCamera(true);
                 GameManager.Instance.playerController.ChangeGameMode(false);
 
-                // NUEVO: Ya se ha sentado. Iniciamos la corrutina que espera 1s y luego rota silla + cámara
+                // Iniciamos la nueva secuencia de rotación controlada por tiempo continuo
                 if (centerChairCoroutine != null) StopCoroutine(centerChairCoroutine);
                 centerChairCoroutine = StartCoroutine(WaitAndRotateTogether());
             }
@@ -197,39 +198,63 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
         }
     }
 
-    // Corrutina que gestiona la espera de 1 segundo y el posterior Lerp de Silla + Cámara del jugador
     IEnumerator WaitAndRotateTogether()
     {
-        // 1. Esperamos el segundo con el jugador ya sentado inmóvil
-        yield return new WaitForSeconds(1f);
+        isChairRotatingProcess = true;
 
-        // 2. Hacemos el Slerp conjunto hasta volver a la rotación por defecto de la escena
-        while (Quaternion.Angle(transform.rotation, originalChairRotation) > 0.1f)
+        // Forzamos candado a la cámara durante los 0.7 segundos iniciales de espera
+        GameManager.Instance.playerController.LockCamera(true);
+        playerController.enabled = false;
+
+        yield return new WaitForSeconds(0.7f);
+
+        // Guardamos los puntos de inicio exactos antes de arrancar los 2 segundos de rotación
+        Quaternion startChairRot = transform.rotation;
+        float elapsedRotationTime = 0f;
+        float rotationDuration = 2.0f; // 2 segundos exactos girando sin poder mover la cámara
+
+        while (elapsedRotationTime < rotationDuration)
         {
-            // Rotamos la silla hacia su origen
-            transform.rotation = Quaternion.Slerp(transform.rotation, originalChairRotation, Time.deltaTime * returnRotationSpeed);
+            elapsedRotationTime += Time.deltaTime;
+            float pct = Mathf.Clamp01(elapsedRotationTime / rotationDuration);
 
-            // Forzamos a que el transform del player imite al frame la rotación del nodo de la cámara
+            // Suavizado smoothstep para que la aceleración y frenada del giro se sientan orgánicas
+            pct = pct * pct * (3f - 2f * pct);
+
+            // Rotamos la silla hacia su origen geométrico
+            transform.rotation = Quaternion.Slerp(startChairRot, originalChairRotation, pct);
+
+            // Bloqueamos la cámara frame a frame obligando al player a imitar el nodo gameCameraPosition
             if (playerTransform != null && gameCameraPosition != null)
             {
                 playerTransform.rotation = gameCameraPosition.rotation;
                 playerController.ForceRotation(gameCameraPosition.rotation);
+                GameManager.Instance.playerController.LockCamera(true);
             }
 
             yield return null;
         }
 
-        // 3. Aseguramos valores exactos al finalizar
+        // Aseguramos el final perfecto del eje de rotación
         transform.rotation = originalChairRotation;
         if (playerTransform != null && gameCameraPosition != null)
         {
             playerTransform.rotation = gameCameraPosition.rotation;
             playerController.ForceRotation(gameCameraPosition.rotation);
         }
+
+        // Liberamos el proceso de la silla
+        isChairRotatingProcess = false;
+
+        // Mantenemos el bloqueo de cámara por defecto para interactuar con los botones de la cabina
+        GameManager.Instance.playerController.LockCamera(true);
     }
 
     void HandleActiveInput()
     {
+        // Bloqueamos la salida rápida o cualquier acción si la silla está en medio del proceso inicial de giro
+        if (isChairRotatingProcess) return;
+
         if (Input.GetKeyDown(KeyCode.E) && GameManager.Instance.dayTime.currentHour >= 21)
         {
             GameManager.Instance.playerController.ChangeGameMode(false);
@@ -247,6 +272,13 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
 
     void HandleCamMove()
     {
+        // Bloqueamos la posibilidad de mover la cámara con Click Derecho si la silla aún no ha terminado de colocarse
+        if (isChairRotatingProcess)
+        {
+            GameManager.Instance.playerController.LockCamera(true);
+            return;
+        }
+
         if (Input.GetMouseButtonDown(1))
         {
             playerController.enabled = true;
@@ -266,7 +298,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
 
     void HandleClick()
     {
-        if (playerCamera == null) return;
+        if (playerCamera == null || isChairRotatingProcess) return;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -308,7 +340,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
 
     void UpdateCursorAndHoverState()
     {
-        if (playerCamera == null) return;
+        if (playerCamera == null || isChairRotatingProcess) return;
 
         if (Input.GetMouseButton(1))
         {
@@ -393,7 +425,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
 
     void ExitMiniGame()
     {
-        if (state != MiniGameState.Active) return;
+        if (state != MiniGameState.Active || isChairRotatingProcess) return;
         if (centerChairCoroutine != null) StopCoroutine(centerChairCoroutine);
 
         OnMachineEntered?.Invoke(false);
@@ -436,6 +468,7 @@ public class MiniGameTest : MonoBehaviour, IInteractable, ILookable
 
         ChangeCursor(originalCursor);
         ShowCursor(false);
+        isChairRotatingProcess = false;
     }
 
     void ShowCursor(bool show)

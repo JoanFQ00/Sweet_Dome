@@ -30,6 +30,11 @@ public class Lever : MonoBehaviour, IResetable
     [ColorUsage(true, true)]
     [SerializeField] private Color expelColor = new Color(1f, 0.08f, 0.57f); // Rosa HDR
 
+    public bool IsAbsorbing => currentState == LeverState.Absorb;
+    public bool IsExpelling => currentState == LeverState.Expelling;
+    public bool IsActualNeutral => currentState == LeverState.Neutral;
+    public bool IsNeutral => currentState == LeverState.Neutral;
+
     private bool isDragging;
     public float currentAngle;
     private Vector3 initialRotation;
