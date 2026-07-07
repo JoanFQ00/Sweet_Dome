@@ -1,10 +1,18 @@
 using UnityEngine;
+using TMPro; // Importante para usar TextMeshPro
 
-public class CityZoneEnergy : MonoBehaviour
+public class CityZoneEnergy : MonoBehaviour, IResetable
 {
     [Header("References")]
     [SerializeField] private FunnelBase funnel;
     [SerializeField] private CityPriorityManager priorityManager;
+
+    [Header("UI Feedback Config")]
+    [SerializeField] private TextMeshProUGUI[] zoneTexts;
+
+    // Configuración de colores
+    [SerializeField] private Color defaultColor = Color.white;
+    [SerializeField] private Color prioritizedColor = new Color(1f, 0.5f, 0f); // Naranja puro
 
     [Header("Drain")]
     [SerializeField] private float drainPerSecond = 1f;
@@ -32,6 +40,21 @@ public class CityZoneEnergy : MonoBehaviour
     {
         if (funnel == null)
             funnel = GetComponent<FunnelBase>();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterResetable(this);
+        }
+
+        UpdateTextFeedback();
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.UnregisterResetable(this);
+        }
     }
 
     private void Update()
@@ -40,6 +63,9 @@ public class CityZoneEnergy : MonoBehaviour
         {
             ProcessLiquidTransition();
         }
+
+        // Actualizamos el color de toda la lista de textos en cada frame
+        UpdateTextFeedback();
 
         if (funnel == null || DayTime.Instance.currentHour < 15)
             return;
@@ -65,6 +91,39 @@ public class CityZoneEnergy : MonoBehaviour
         }
 
         funnel.RemoveLiquid(finalDrain * Time.deltaTime);
+    }
+
+    private void UpdateTextFeedback()
+    {
+        if (zoneTexts == null || zoneTexts.Length == 0) return;
+
+        bool isPrioritized = priorityManager != null && priorityManager.IsZonePrioritized(funnel);
+        Color targetColor = isPrioritized ? prioritizedColor : defaultColor;
+
+        foreach (TextMeshProUGUI txt in zoneTexts)
+        {
+            if (txt != null)
+            {
+                txt.color = targetColor;
+            }
+        }
+    }
+
+    public void ResetValues()
+    {
+        if (zoneTexts != null)
+        {
+            foreach (TextMeshProUGUI txt in zoneTexts)
+            {
+                if (txt != null)
+                {
+                    txt.color = defaultColor;
+                }
+            }
+        }
+
+        isCrackActive = false;
+        isTransitioningLiquid = false;
     }
 
     public void TriggerCrackEvent(float duration, float severityMultiplier)
