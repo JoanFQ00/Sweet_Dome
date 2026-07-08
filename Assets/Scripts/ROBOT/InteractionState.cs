@@ -140,7 +140,7 @@ public class InteractionState : IState
 
         if (currentDialogue.next == null)
         {
-            robot.dialogueSys.ChargeDialogues(robot.dialogueSys.id);
+            //robot.dialogueSys.ChargeDialogues(robot.dialogueSys.id);
             ExitDialogue();
         }
         else
