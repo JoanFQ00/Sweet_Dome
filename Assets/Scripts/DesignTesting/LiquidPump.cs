@@ -115,6 +115,15 @@ public class LiquidPump : CapabilityBase, IResetable
 
         if (activeAbsorbSource != null) activeAbsorbSource.transform.position = transform.position;
         if (activeExpelSource != null) activeExpelSource.transform.position = transform.position;
+
+        // 1. CORTACIRCUITOS GLOBAL: Si el flujo global se pausa a mitad de una transferencia, 
+        // apagamos inmediatamente los sonidos, las partículas y restauramos la velocidad del shader.
+        if (IsGlobalFlowPaused && currentActionState != ActionState.Idle)
+        {
+            ResetActiveFunnelSpeed();
+            StopAllEffects();
+            currentActionState = ActionState.Idle;
+        }
     }
 
     void LateUpdate()
@@ -124,7 +133,6 @@ public class LiquidPump : CapabilityBase, IResetable
             wasLiquidExchangedThisFrame = true;
         }
 
-        // Si el líquido no cambia o la palanca se suelta, pasamos a Idle y limpiamos
         if ((!wasLiquidExchangedThisFrame || !isActionActiveThisFrame) && currentActionState != ActionState.Idle)
         {
             ResetActiveFunnelSpeed();
@@ -166,6 +174,9 @@ public class LiquidPump : CapabilityBase, IResetable
 
     public void Absorbing()
     {
+        // 2. BLOQUEO DE ENTRADA: Si el flujo global está pausado, impedimos que se ejecute la lógica de absorber
+        if (IsGlobalFlowPaused) return;
+
         if (funnelArray == null || funnelIndex >= funnelArray.Length || funnelArray[funnelIndex] == null) return;
 
         if (funnelArray[funnelIndex].CurrentCapacity <= 0f || currentCapacity >= maxCapacity)
@@ -179,8 +190,6 @@ public class LiquidPump : CapabilityBase, IResetable
 
         if (currentActionState != ActionState.Absorbing)
         {
-            // En transiciones rápidas milimétricas, no llamamos a StopAllEffects completo para no romper el AudioSource,
-            // simplemente cambiamos el estado y forzamos el Play limpio del sistema de partículas.
             currentActionState = ActionState.Absorbing;
 
             if (absorbParticlesArray != null && funnelIndex < absorbParticlesArray.Length)
@@ -227,6 +236,9 @@ public class LiquidPump : CapabilityBase, IResetable
 
     public void Expelling()
     {
+        // 2. BLOQUEO DE ENTRADA: Si el flujo global está pausado, impedimos que se ejecute la lógica de expulsar
+        if (IsGlobalFlowPaused) return;
+
         if (funnelArray == null || funnelIndex >= funnelArray.Length || funnelArray[funnelIndex] == null) return;
 
         if (currentCapacity <= 0f || funnelArray[funnelIndex].CurrentCapacity >= funnelArray[funnelIndex].MaxCapacity)

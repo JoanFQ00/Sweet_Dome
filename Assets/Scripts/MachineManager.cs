@@ -80,11 +80,11 @@ public class MachineManager : MonoBehaviour
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.M))
-        //    cityFunnel.SetGlobalEnergyFlowPause(false);
+        if (Input.GetKeyDown(KeyCode.M))
+            cityFunnel.SetGlobalEnergyFlowPause(false);
 
-        //if (Input.GetKeyDown(KeyCode.N))
-        //    cityFunnel.SetGlobalEnergyFlowPause(true);
+        if (Input.GetKeyDown(KeyCode.N))
+            cityFunnel.SetGlobalEnergyFlowPause(true);
 
         //DEBUG DAY 4
         //if (Input.GetKeyDown(KeyCode.Q))
