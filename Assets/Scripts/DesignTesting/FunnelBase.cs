@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class FunnelBase : CapabilityBase
 {
@@ -25,6 +26,10 @@ public class FunnelBase : CapabilityBase
     [SerializeField] private string waveSpeedPropertyName = "_WaveSpeed";
 
     private Material liquidMat;
+    private Coroutine visualLerpCoroutine;
+
+    // Propiedad pública que lee CapabilityUI en su Update
+    public float CurrentVisualCapacity { get; private set; }
 
     protected override void Start()
     {
@@ -39,7 +44,8 @@ public class FunnelBase : CapabilityBase
             }
         }
 
-        UpdateLiquidVisual();
+        CurrentVisualCapacity = currentCapacity;
+        UpdateLiquidVisual(currentCapacity);
     }
 
     public void SetWaveSpeed(float speed)
@@ -69,31 +75,96 @@ public class FunnelBase : CapabilityBase
 
     protected override void OnStartDayFinished()
     {
-        UpdateLiquidVisual();
+        CurrentVisualCapacity = currentCapacity;
+        UpdateLiquidVisual(currentCapacity);
     }
 
     public virtual float AddLiquid(float amount)
     {
+        float startCapacity = currentCapacity;
         float spaceLeft = maxCapacity - currentCapacity;
         float added = Mathf.Min(amount, spaceLeft);
 
         UpdateCapacity(added);
-        UpdateLiquidVisual();
+
+        // Si la palanca está activa (IsAbsorbing o IsExpelling), el flujo es frame a frame.
+        // Sincronizamos el valor visual directamente con el real para evitar retrasos y desincronizaciones.
+        if (leverSource != null && (leverSource.IsAbsorbing || leverSource.IsExpelling))
+        {
+            if (visualLerpCoroutine != null)
+            {
+                StopCoroutine(visualLerpCoroutine);
+                visualLerpCoroutine = null;
+            }
+            CurrentVisualCapacity = currentCapacity;
+            UpdateLiquidVisual(currentCapacity);
+        }
+        else
+        {
+            // Si el cambio viene de un script externo de golpe (como el puzzle de la barra), 
+            // calculamos la duración exacta simulando la velocidad de la bomba (10f) e iniciamos la animación.
+            float duration = added / 10f;
+            if (visualLerpCoroutine != null) StopCoroutine(visualLerpCoroutine);
+            visualLerpCoroutine = StartCoroutine(AnimateLiquidVolume(startCapacity, currentCapacity, duration));
+        }
 
         return added;
     }
 
     public virtual float RemoveLiquid(float amount)
     {
+        float startCapacity = currentCapacity;
         float removable = Mathf.Min(amount, currentCapacity);
 
         UpdateCapacity(-removable);
-        UpdateLiquidVisual();
+
+        // Si la palanca está activa, seguimos el flujo en tiempo real de forma instantánea y síncrona.
+        if (leverSource != null && (leverSource.IsAbsorbing || leverSource.IsExpelling))
+        {
+            if (visualLerpCoroutine != null)
+            {
+                StopCoroutine(visualLerpCoroutine);
+                visualLerpCoroutine = null;
+            }
+            CurrentVisualCapacity = currentCapacity;
+            UpdateLiquidVisual(currentCapacity);
+        }
+        else
+        {
+            // Si viene del minijuego de la barra, forzamos el vaciado a velocidad de simulación de bomba.
+            float duration = removable / 10f;
+            if (visualLerpCoroutine != null) StopCoroutine(visualLerpCoroutine);
+            visualLerpCoroutine = StartCoroutine(AnimateLiquidVolume(startCapacity, currentCapacity, duration));
+        }
 
         return removable;
     }
 
-    private void UpdateLiquidVisual()
+    private IEnumerator AnimateLiquidVolume(float fromCapacity, float toCapacity, float duration)
+    {
+        if (duration <= 0f)
+        {
+            CurrentVisualCapacity = toCapacity;
+            UpdateLiquidVisual(toCapacity);
+            yield break;
+        }
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            CurrentVisualCapacity = Mathf.Lerp(fromCapacity, toCapacity, elapsedTime / duration);
+            UpdateLiquidVisual(CurrentVisualCapacity);
+            yield return null;
+        }
+
+        CurrentVisualCapacity = toCapacity;
+        UpdateLiquidVisual(toCapacity);
+        visualLerpCoroutine = null;
+    }
+
+    private void UpdateLiquidVisual(float capacityValue)
     {
         if (liquidRenderer == null)
             return;
@@ -105,12 +176,12 @@ public class FunnelBase : CapabilityBase
 
         if (funnelType == FunnelType.Big)
         {
-            float offsetValue = Mathf.Lerp(15f, maxCapacity, currentCapacity / maxCapacity);
+            float offsetValue = Mathf.Lerp(15f, maxCapacity, capacityValue / maxCapacity);
             normalized = Mathf.Clamp01(offsetValue / maxCapacity);
         }
         else
         {
-            normalized = Mathf.Clamp01(currentCapacity / maxCapacity);
+            normalized = Mathf.Clamp01(capacityValue / maxCapacity);
         }
 
         float minShaderValue = -0.4f;
@@ -121,6 +192,10 @@ public class FunnelBase : CapabilityBase
 
     protected override void OnCapacityChanged()
     {
-        UpdateLiquidVisual();
+        if (visualLerpCoroutine == null)
+        {
+            CurrentVisualCapacity = currentCapacity;
+            UpdateLiquidVisual(currentCapacity);
+        }
     }
 }
