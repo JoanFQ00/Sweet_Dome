@@ -36,9 +36,9 @@ public class LiquidPump : CapabilityBase, IResetable
     [SerializeField] private float moveSpeed = 5f;
     private Vector3 targetGlobalPosition;
 
-    [Header("Visual Effects (Particles)")]
-    [SerializeField] private ParticleSystem absorbParticles;
-    [SerializeField] private ParticleSystem expelParticles;
+    [Header("Visual Effects Mapped (2 Tubos por Surtidor)")]
+    [SerializeField] private ParticleSystem[] absorbParticlesArray;
+    [SerializeField] private ParticleSystem[] expelParticlesArray;
 
     private ActionState currentActionState = ActionState.Idle;
     private bool wasActionCalledThisFrame = false;
@@ -140,6 +140,7 @@ public class LiquidPump : CapabilityBase, IResetable
     private void MoveTowardsIndexIncreasing()
     {
         ResetActiveFunnelSpeed();
+        StopAllEffects();
 
         if (funnelIndex + 1 < funnelArray.Length && funnelIndex + 1 < pumpPositions.Length)
         {
@@ -151,6 +152,7 @@ public class LiquidPump : CapabilityBase, IResetable
     private void MoveTowardsIndexDecreasing()
     {
         ResetActiveFunnelSpeed();
+        StopAllEffects();
 
         if (funnelIndex - 1 >= 0)
         {
@@ -166,6 +168,7 @@ public class LiquidPump : CapabilityBase, IResetable
         if (currentCapacity >= maxCapacity)
         {
             ResetActiveFunnelSpeed();
+            StopAllEffects(); // Apagamos partículas si el tanque se llena por completo
             return;
         }
 
@@ -176,7 +179,11 @@ public class LiquidPump : CapabilityBase, IResetable
             StopAllEffects();
             currentActionState = ActionState.Absorbing;
 
-            if (absorbParticles != null && !absorbParticles.isPlaying) absorbParticles.Play();
+            if (absorbParticlesArray != null && funnelIndex < absorbParticlesArray.Length)
+            {
+                ParticleSystem activeAbsorbPs = absorbParticlesArray[funnelIndex];
+                if (activeAbsorbPs != null && !activeAbsorbPs.isPlaying) activeAbsorbPs.Play();
+            }
 
             if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.absorbSFX != null)
             {
@@ -206,6 +213,7 @@ public class LiquidPump : CapabilityBase, IResetable
         if (currentCapacity <= 0f)
         {
             ResetActiveFunnelSpeed();
+            StopAllEffects(); // Apagamos partículas si el tanque se vacía por completo
             return;
         }
 
@@ -216,7 +224,11 @@ public class LiquidPump : CapabilityBase, IResetable
             StopAllEffects();
             currentActionState = ActionState.Expelling;
 
-            if (expelParticles != null && !expelParticles.isPlaying) expelParticles.Play();
+            if (expelParticlesArray != null && funnelIndex < expelParticlesArray.Length)
+            {
+                ParticleSystem activeExpelPs = expelParticlesArray[funnelIndex];
+                if (activeExpelPs != null && !activeExpelPs.isPlaying) activeExpelPs.Play();
+            }
 
             if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.expelSFX != null)
             {
@@ -248,8 +260,21 @@ public class LiquidPump : CapabilityBase, IResetable
 
     private void StopAllEffects()
     {
-        if (absorbParticles != null && absorbParticles.isPlaying) absorbParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-        if (expelParticles != null && expelParticles.isPlaying) expelParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        if (absorbParticlesArray != null)
+        {
+            foreach (ParticleSystem ps in absorbParticlesArray)
+            {
+                if (ps != null && ps.isPlaying) ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            }
+        }
+
+        if (expelParticlesArray != null)
+        {
+            foreach (ParticleSystem ps in expelParticlesArray)
+            {
+                if (ps != null && ps.isPlaying) ps.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            }
+        }
 
         if (activeAbsorbSource != null)
         {
