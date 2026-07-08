@@ -165,10 +165,10 @@ public class LiquidPump : CapabilityBase, IResetable
     {
         if (funnelArray == null || funnelIndex >= funnelArray.Length || funnelArray[funnelIndex] == null) return;
 
-        if (currentCapacity >= maxCapacity)
+        if (funnelArray[funnelIndex].CurrentCapacity <= 0f || currentCapacity >= maxCapacity)
         {
             ResetActiveFunnelSpeed();
-            StopAllEffects(); // Apagamos partículas si el tanque se llena por completo
+            StopAllEffects();
             return;
         }
 
@@ -210,10 +210,10 @@ public class LiquidPump : CapabilityBase, IResetable
     {
         if (funnelArray == null || funnelIndex >= funnelArray.Length || funnelArray[funnelIndex] == null) return;
 
-        if (currentCapacity <= 0f)
+        if (currentCapacity <= 0f || funnelArray[funnelIndex].CurrentCapacity >= funnelArray[funnelIndex].MaxCapacity)
         {
             ResetActiveFunnelSpeed();
-            StopAllEffects(); // Apagamos partículas si el tanque se vacía por completo
+            StopAllEffects();
             return;
         }
 
