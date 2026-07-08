@@ -41,10 +41,10 @@ public class LiquidPump : CapabilityBase, IResetable
     [SerializeField] private ParticleSystem[] expelParticlesArray;
 
     private ActionState currentActionState = ActionState.Idle;
-    private bool wasActionCalledThisFrame = false;
 
-    private int framesWithoutAction = 0;
-    private const int FRAMES_TO_STOP = 2;
+    private float lastFrameCapacity;
+    private bool wasLiquidExchangedThisFrame = false;
+    private bool isActionActiveThisFrame = false;
 
     private AudioSource activeAbsorbSource;
     private AudioSource activeExpelSource;
@@ -57,6 +57,7 @@ public class LiquidPump : CapabilityBase, IResetable
         initialValues = new List<float> { 0f, 0f, 0f, 0f, 0f };
 
         InitializePositions();
+        lastFrameCapacity = currentCapacity;
         base.Start();
     }
 
@@ -84,7 +85,10 @@ public class LiquidPump : CapabilityBase, IResetable
         ResetActiveFunnelSpeed();
         StopAllEffects();
         currentActionState = ActionState.Idle;
-        framesWithoutAction = 0;
+
+        lastFrameCapacity = currentCapacity;
+        wasLiquidExchangedThisFrame = false;
+        isActionActiveThisFrame = false;
 
         InitializePositions();
     }
@@ -115,23 +119,22 @@ public class LiquidPump : CapabilityBase, IResetable
 
     void LateUpdate()
     {
-        if (!wasActionCalledThisFrame)
+        if (Mathf.Abs(currentCapacity - lastFrameCapacity) > 0.0001f)
         {
-            framesWithoutAction++;
-
-            if (framesWithoutAction >= FRAMES_TO_STOP && currentActionState != ActionState.Idle)
-            {
-                ResetActiveFunnelSpeed();
-                StopAllEffects();
-                currentActionState = ActionState.Idle;
-            }
-        }
-        else
-        {
-            framesWithoutAction = 0;
+            wasLiquidExchangedThisFrame = true;
         }
 
-        wasActionCalledThisFrame = false;
+        // Si el líquido no cambia o la palanca se suelta, pasamos a Idle y limpiamos
+        if ((!wasLiquidExchangedThisFrame || !isActionActiveThisFrame) && currentActionState != ActionState.Idle)
+        {
+            ResetActiveFunnelSpeed();
+            StopAllEffects();
+            currentActionState = ActionState.Idle;
+        }
+
+        lastFrameCapacity = currentCapacity;
+        wasLiquidExchangedThisFrame = false;
+        isActionActiveThisFrame = false;
     }
 
     public void ShiftRight() => MoveTowardsIndexIncreasing();
@@ -172,30 +175,46 @@ public class LiquidPump : CapabilityBase, IResetable
             return;
         }
 
-        wasActionCalledThisFrame = true;
+        isActionActiveThisFrame = true;
 
         if (currentActionState != ActionState.Absorbing)
         {
-            StopAllEffects();
+            // En transiciones rápidas milimétricas, no llamamos a StopAllEffects completo para no romper el AudioSource,
+            // simplemente cambiamos el estado y forzamos el Play limpio del sistema de partículas.
             currentActionState = ActionState.Absorbing;
 
             if (absorbParticlesArray != null && funnelIndex < absorbParticlesArray.Length)
             {
                 ParticleSystem activeAbsorbPs = absorbParticlesArray[funnelIndex];
-                if (activeAbsorbPs != null && !activeAbsorbPs.isPlaying) activeAbsorbPs.Play();
+                if (activeAbsorbPs != null)
+                {
+                    activeAbsorbPs.Clear();
+                    if (!activeAbsorbPs.isPlaying) activeAbsorbPs.Play();
+                }
             }
 
             if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.absorbSFX != null)
             {
-                activeAbsorbSource = SoundManagerOwn.Instance.Create3DAudioSource(
-                    SoundManagerOwn.Instance.absorbSFX,
-                    transform.position,
-                    true
-                );
-                if (activeAbsorbSource != null) activeAbsorbSource.Play();
+                if (activeAbsorbSource == null)
+                {
+                    activeAbsorbSource = SoundManagerOwn.Instance.Create3DAudioSource(
+                        SoundManagerOwn.Instance.absorbSFX,
+                        transform.position,
+                        true
+                    );
+                    if (activeAbsorbSource != null) activeAbsorbSource.Play();
+                }
             }
 
             funnelArray[funnelIndex].SetWaveSpeed(6.0f);
+        }
+        else
+        {
+            if (absorbParticlesArray != null && funnelIndex < absorbParticlesArray.Length)
+            {
+                ParticleSystem activeAbsorbPs = absorbParticlesArray[funnelIndex];
+                if (activeAbsorbPs != null && !activeAbsorbPs.isPlaying) activeAbsorbPs.Play();
+            }
         }
 
         float amount = transferSpeed * Time.deltaTime;
@@ -217,30 +236,44 @@ public class LiquidPump : CapabilityBase, IResetable
             return;
         }
 
-        wasActionCalledThisFrame = true;
+        isActionActiveThisFrame = true;
 
         if (currentActionState != ActionState.Expelling)
         {
-            StopAllEffects();
             currentActionState = ActionState.Expelling;
 
             if (expelParticlesArray != null && funnelIndex < expelParticlesArray.Length)
             {
                 ParticleSystem activeExpelPs = expelParticlesArray[funnelIndex];
-                if (activeExpelPs != null && !activeExpelPs.isPlaying) activeExpelPs.Play();
+                if (activeExpelPs != null)
+                {
+                    activeExpelPs.Clear();
+                    if (!activeExpelPs.isPlaying) activeExpelPs.Play();
+                }
             }
 
             if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.expelSFX != null)
             {
-                activeExpelSource = SoundManagerOwn.Instance.Create3DAudioSource(
-                    SoundManagerOwn.Instance.expelSFX,
-                    transform.position,
-                    true
-                );
-                if (activeExpelSource != null) activeExpelSource.Play();
+                if (activeExpelSource == null)
+                {
+                    activeExpelSource = SoundManagerOwn.Instance.Create3DAudioSource(
+                        SoundManagerOwn.Instance.expelSFX,
+                        transform.position,
+                        true
+                    );
+                    if (activeExpelSource != null) activeExpelSource.Play();
+                }
             }
 
             funnelArray[funnelIndex].SetWaveSpeed(6.0f);
+        }
+        else
+        {
+            if (expelParticlesArray != null && funnelIndex < expelParticlesArray.Length)
+            {
+                ParticleSystem activeExpelPs = expelParticlesArray[funnelIndex];
+                if (activeExpelPs != null && !activeExpelPs.isPlaying) activeExpelPs.Play();
+            }
         }
 
         float amount = transferSpeed * Time.deltaTime;
