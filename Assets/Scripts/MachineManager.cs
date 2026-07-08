@@ -95,10 +95,13 @@ public class MachineManager : MonoBehaviour
         //    dayManager.D51 = true;
 
         //DEBUG DAY 5
-        //if (Input.GetKeyDown(KeyCode.Q))
-        //    dayManager.D84 = true;
-        //if (Input.GetKeyDown(KeyCode.R))
-        //    dayManager.D81 = true;
+        if (Input.GetKeyDown(KeyCode.Q))
+            dayManager.D84 = true;
+        if (Input.GetKeyDown(KeyCode.R))
+            dayManager.D81 = true;
+
+        if (Input.GetKeyDown(KeyCode.V))
+            waveMinigame.StartWaveEvent(20f);
 
         if (DayTime.Instance.currentHour >= 21)
             return;
@@ -909,7 +912,7 @@ public class MachineManager : MonoBehaviour
                         break;
 
                     case MachineStoryNode.NODE_02_D5:
-                        if (dayManager.D81 && dayManager.hasReadDorothyBook4.IsMet(GameManager.Instance.decManager) && dayManager.hasReadDorothyBook3.IsMet(GameManager.Instance.decManager) && dayManager.dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && dayManager.dorothyBook2Readed.IsMet(GameManager.Instance.decManager))
+                        if (dayManager.D81 /*&& dayManager.hasReadDorothyBook4.IsMet(GameManager.Instance.decManager) && dayManager.hasReadDorothyBook3.IsMet(GameManager.Instance.decManager) && dayManager.dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && dayManager.dorothyBook2Readed.IsMet(GameManager.Instance.decManager) */)
                         {
                             GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D1ay5); //116
                             ResetCountdowns();
@@ -931,7 +934,7 @@ public class MachineManager : MonoBehaviour
                         break;
 
                     case MachineStoryNode.NODE_03_D5:
-                        if (currentCountdown >= 15f)
+                        if (currentCountdown >= 40f)
                         {
                             GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D5ay5); //120
                             ResetCountdowns();

@@ -10,7 +10,7 @@ public class WaveWinner : MonoBehaviour, IResetable
     public WaveRenderer targetRenderer;
     public CodeSystem codeSystem;
 
-    [Header("Deact Objs")]
+    [Header("Wave Visual Container")]
     public GameObject waveVisualsContainer;
 
     [Header("Tolerances")]
@@ -67,9 +67,6 @@ public class WaveWinner : MonoBehaviour, IResetable
     void Update()
     {
         if (CheckAndForceDisableDay5()) return;
-
-        //if (Input.GetKeyDown(KeyCode.V))
-        //    StartWaveEvent(40f);
 
         if (inEvent && !isSnapping)
         {
@@ -152,7 +149,6 @@ public class WaveWinner : MonoBehaviour, IResetable
     public void StartWaveEvent(float duration)
     {
         if (CheckAndForceDisableDay5()) return;
-
         if (inEvent) return;
 
         inEvent = true;
@@ -173,7 +169,7 @@ public class WaveWinner : MonoBehaviour, IResetable
 
     private void EventTimer()
     {
-        if (waveSolved) return;
+        // El tiempo de la onda no se detiene, sigue drenando segundos mientras se introduce el teclado.
 
         currentEventTime -= Time.deltaTime;
         if (currentEventTime <= 0f)

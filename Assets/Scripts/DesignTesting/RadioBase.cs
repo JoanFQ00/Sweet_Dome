@@ -47,7 +47,7 @@ public class RadioBase : MonoBehaviour, IInteractable, IResetable
             }
         }
 
-        myAudioSource.UnPause();
+        if (myAudioSource != null) myAudioSource.UnPause();
     }
 
     private void TurnOff()
@@ -60,7 +60,7 @@ public class RadioBase : MonoBehaviour, IInteractable, IResetable
             }
         }
 
-        myAudioSource.Pause();
+        if (myAudioSource != null) myAudioSource.Pause();
     }
 
     private void PlayMusicByDay()
@@ -74,17 +74,9 @@ public class RadioBase : MonoBehaviour, IInteractable, IResetable
             switch (currentDay)
             {
                 case Day.Day1:
-                    PlaySound(SoundManagerOwn.Instance.tvSFX, true);
-                    break;
                 case Day.Day2:
-                    PlaySound(SoundManagerOwn.Instance.tvSFX, true);
-                    break;
                 case Day.Day3:
-                    PlaySound(SoundManagerOwn.Instance.tvSFX, true);
-                    break;
                 case Day.Day4:
-                    PlaySound(SoundManagerOwn.Instance.tvSFX, true);
-                    break;
                 case Day.Day5:
                     PlaySound(SoundManagerOwn.Instance.tvSFX, true);
                     break;
@@ -95,17 +87,9 @@ public class RadioBase : MonoBehaviour, IInteractable, IResetable
             switch (currentDay)
             {
                 case Day.Day1:
-                    PlaySound(SoundManagerOwn.Instance.gameplayMusic, true);
-                    break;
                 case Day.Day2:
-                    PlaySound(SoundManagerOwn.Instance.gameplayMusic, true);
-                    break;
                 case Day.Day3:
-                    PlaySound(SoundManagerOwn.Instance.gameplayMusic, true);
-                    break;
                 case Day.Day4:
-                    PlaySound(SoundManagerOwn.Instance.gameplayMusic, true);
-                    break;
                 case Day.Day5:
                     PlaySound(SoundManagerOwn.Instance.gameplayMusic, true);
                     break;
@@ -115,6 +99,14 @@ public class RadioBase : MonoBehaviour, IInteractable, IResetable
 
     void PlaySound(AudioClip audio, bool inLoop)
     {
+        // detenemos su reproducción y destruimos su GameObject antes de crear el nuevo.
+        if (myAudioSource != null)
+        {
+            myAudioSource.Stop();
+            Destroy(myAudioSource.gameObject);
+            myAudioSource = null;
+        }
+
         if (musicType == MusicType.TURNTABLE)
         {
             foreach (Animator vinylAnimator in vinylAnimatorList)
@@ -128,12 +120,31 @@ public class RadioBase : MonoBehaviour, IInteractable, IResetable
             myAudioSource = SoundManagerOwn.Instance.Create3DAudioSource(audio, pivotSound.transform.position, inLoop);
         }
 
-        myAudioSource.Play();
+        if (myAudioSource != null)
+        {
+            myAudioSource.Play();
+
+            // Si por un casual al iniciar el día la radio debiera estar apagada por defecto,
+            // pausamos el audio inmediatamente para respetar el booleano 'isTurnedOn'
+            if (!isTurnedOn)
+            {
+                myAudioSource.Pause();
+            }
+        }
     }
 
     public void ResetValues()
     {
         isTurnedOn = true;
         PlayMusicByDay();
+    }
+
+    private void OnDestroy()
+    {
+        // Limpieza preventiva al salir de la escena
+        if (myAudioSource != null)
+        {
+            Destroy(myAudioSource.gameObject);
+        }
     }
 }

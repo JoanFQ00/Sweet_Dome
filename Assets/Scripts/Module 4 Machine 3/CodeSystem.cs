@@ -35,16 +35,24 @@ public class CodeSystem : MonoBehaviour
     [Header("Special Day 5")]
     public bool isSecretCodeCorrectDay5 = false;
     private readonly string secretCodeDay5 = "3729";
+    private Coroutine day5HardcodedTimerCoroutine;
 
     void Start()
     {
         if (generatedCodeCanvas != null) generatedCodeCanvas.SetActive(false);
         if (inputDisplay != null) inputDisplay.text = "";
         codeSystemActive = false;
+        showingCode = false;
     }
 
     void Update()
     {
+        if (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day5)
+        {
+            showingCode = false;
+            return;
+        }
+
         if (showingCode)
         {
             codeTimer += Time.deltaTime;
@@ -66,7 +74,6 @@ public class CodeSystem : MonoBehaviour
             generatedCode += Random.Range(0, 10).ToString();
         }
 
-        //Debug.Log("<color=#FFFF00><b>[CODE SYSTEM]</b></color> Codigo Aleatorio Generado: " + generatedCode);
         ShowGeneratedCode();
     }
 
@@ -96,8 +103,6 @@ public class CodeSystem : MonoBehaviour
         currentInput += number.ToString();
         inputDisplay.text = currentInput;
 
-        //Debug.Log("<color=#80CAFF><b>[CODE INPUT]</b></color> Digito introducido: " + number + " | Entrada actual: " + currentInput);
-
         if (currentInput.Length == codeLength)
         {
             CheckCode();
@@ -111,26 +116,26 @@ public class CodeSystem : MonoBehaviour
 
         currentInput = currentInput.Substring(0, currentInput.Length - 1);
         inputDisplay.text = currentInput;
-
-        //Debug.Log("<color=#80CAFF><b>[CODE INPUT]</b></color> Borrado ultimo digito. Entrada actual: " + currentInput);
     }
 
     void CheckCode()
     {
         if (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day5)
         {
-            //Debug.Log("<color=#FF80FF><b>[CODE VALIDATION]</b></color> Validando Dia 5. Entrada: " + currentInput + " | Requerido: " + secretCodeDay5);
-
             if (currentInput == secretCodeDay5)
             {
-                //Debug.Log("<color=#00FF00><b>[CODE SUCCESS]</b></color> ¡Codigo Secreto Dia 5 Correcto!");
                 inputDisplay.color = correctColor;
                 inputLocked = true;
                 isSecretCodeCorrectDay5 = true;
+
+                if (day5HardcodedTimerCoroutine != null)
+                {
+                    StopCoroutine(day5HardcodedTimerCoroutine);
+                    day5HardcodedTimerCoroutine = null;
+                }
             }
             else
             {
-                //Debug.Log("<color=#FF0000><b>[CODE ERROR]</b></color> Codigo Secreto Dia 5 Incorrecto.");
                 inputLocked = true;
                 inputDisplay.color = wrongColor;
                 inputDisplay.text = "ERROR";
@@ -139,11 +144,8 @@ public class CodeSystem : MonoBehaviour
             return;
         }
 
-        //Debug.Log("<color=#FF80FF><b>[CODE VALIDATION]</b></color> Validando Dia Normal. Entrada: " + currentInput + " | Requerido: " + generatedCode);
-
         if (currentInput == generatedCode)
         {
-            //Debug.Log("<color=#00FF00><b>[CODE SUCCESS]</b></color> ¡Codigo Normal Correcto!");
             inputDisplay.color = correctColor;
             inputLocked = true;
 
@@ -152,7 +154,6 @@ public class CodeSystem : MonoBehaviour
         }
         else
         {
-            //Debug.Log("<color=#FF0000><b>[CODE ERROR]</b></color> Codigo Normal Incorrecto.");
             inputLocked = true;
             inputDisplay.color = wrongColor;
             inputDisplay.text = "ERROR";
@@ -170,11 +171,15 @@ public class CodeSystem : MonoBehaviour
             inputDisplay.color = defaultColor;
         }
         inputLocked = false;
-        //Debug.Log("<color=#80CAFF><b>[CODE SYSTEM]</b></color> Teclado restablecido para reintento.");
     }
 
     public void ForceTimeoutFail()
     {
+        if (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day5 && day5HardcodedTimerCoroutine != null)
+        {
+            return;
+        }
+
         if (!codeSystemActive) return;
 
         inputLocked = true;
@@ -187,7 +192,6 @@ public class CodeSystem : MonoBehaviour
             inputDisplay.text = "ERROR";
         }
 
-        //Debug.Log("<color=#FF0000><b>[CODE TIMEOUT]</b></color> Tiempo agotado. Forzando fallo.");
         Invoke(nameof(EndEventFail), 1.5f);
     }
 
@@ -200,36 +204,82 @@ public class CodeSystem : MonoBehaviour
 
     private void EndEventFail()
     {
+        if (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day5 && day5HardcodedTimerCoroutine != null)
+        {
+            return;
+        }
+
         codeSystemActive = false;
         ResetInput();
-        if (currentWaveManager != null) currentWaveManager.NotifyEventResult(false);
+
+        if (currentWaveManager != null)
+        {
+            currentWaveManager.NotifyEventResult(false);
+        }
+        else
+        {
+            WaveWinner.OnEventFinished?.Invoke(false);
+        }
     }
 
     public void EnableCodeSystem(WaveWinner manager)
     {
         currentWaveManager = manager;
         codeSystemActive = true;
+        showingCode = false;
 
         if (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day5)
         {
-            //Debug.Log("<color=#00FFFF><b>[CODE SYSTEM]</b></color> Teclado Inicializado en Dia 5. Esperando codigo secreto: " + secretCodeDay5);
             currentInput = "";
             inputLocked = false;
+            isSecretCodeCorrectDay5 = false;
+
             if (inputDisplay != null)
             {
                 inputDisplay.text = "";
                 inputDisplay.color = defaultColor;
             }
+
+            if (day5HardcodedTimerCoroutine != null) StopCoroutine(day5HardcodedTimerCoroutine);
+            day5HardcodedTimerCoroutine = StartCoroutine(Day5HardcodedTimerSequence());
+
             return;
         }
 
-        //Debug.Log("<color=#00FFFF><b>[CODE SYSTEM]</b></color> Teclado Inicializado en Dia Normal. Generando clave aleatoria.");
         GenerateCode();
+    }
+
+    private IEnumerator Day5HardcodedTimerSequence()
+    {
+        yield return new WaitForSeconds(40f);
+
+        day5HardcodedTimerCoroutine = null;
+
+        inputLocked = true;
+        if (inputDisplay != null)
+        {
+            inputDisplay.color = wrongColor;
+            inputDisplay.text = "ERROR";
+        }
+
+        codeSystemActive = false;
+        ResetInput();
+        WaveWinner.OnEventFinished?.Invoke(false);
     }
 
     public void ForceDisable()
     {
-        //Debug.Log("<color=#FF8000><b>[CODE SYSTEM]</b></color> Forzando apagado y desactivacion del teclado.");
+        if (GameManager.Instance != null && GameManager.Instance.currentDay == Day.Day5 && !isSecretCodeCorrectDay5)
+        {
+            if (day5HardcodedTimerCoroutine != null) return;
+        }
+
+        if (day5HardcodedTimerCoroutine != null)
+        {
+            StopCoroutine(day5HardcodedTimerCoroutine);
+            day5HardcodedTimerCoroutine = null;
+        }
+
         codeSystemActive = false;
         showingCode = false;
         HideGeneratedCode();
