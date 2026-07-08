@@ -42,20 +42,16 @@ public class FunnelBase : CapabilityBase
         UpdateLiquidVisual();
     }
 
-    private void Update()
+    public void SetWaveSpeed(float speed)
     {
-        if (leverSource == null || liquidMat == null || !liquidMat.HasProperty(waveSpeedPropertyName))
-            return;
-
-        // Si está absorbiendo o expulsando, clavamos un 6 de velocidad. 
-        // Si está en neutro, vuelve instantáneamente a 1.3f sin micro-acelerones.
-        if (leverSource.IsAbsorbing || leverSource.IsExpelling)
+        if (liquidMat == null && liquidRenderer != null)
         {
-            liquidMat.SetFloat(waveSpeedPropertyName, 6.0f);
+            liquidMat = liquidRenderer.material;
         }
-        else if (leverSource.IsActualNeutral)
+
+        if (liquidMat != null && liquidMat.HasProperty(waveSpeedPropertyName))
         {
-            liquidMat.SetFloat(waveSpeedPropertyName, 1.3f);
+            liquidMat.SetFloat(waveSpeedPropertyName, speed);
         }
     }
 

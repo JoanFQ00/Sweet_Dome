@@ -81,6 +81,7 @@ public class LiquidPump : CapabilityBase, IResetable
         CapacityUpdated();
         OnStartDayFinished();
 
+        ResetActiveFunnelSpeed();
         StopAllEffects();
         currentActionState = ActionState.Idle;
         framesWithoutAction = 0;
@@ -114,22 +115,19 @@ public class LiquidPump : CapabilityBase, IResetable
 
     void LateUpdate()
     {
-        // Si no se llama a la acción en este frame, aumentamos el contador de frames vacíos.
         if (!wasActionCalledThisFrame)
         {
             framesWithoutAction++;
 
-            // Solo si pasan 2 frames seguidos sin recibir input de la palanca, apagamos los efectos.
-            // Esto absorbe el "ruido" o los saltos de 1 frame de la palanca al moverla sutilmente.
             if (framesWithoutAction >= FRAMES_TO_STOP && currentActionState != ActionState.Idle)
             {
+                ResetActiveFunnelSpeed();
                 StopAllEffects();
                 currentActionState = ActionState.Idle;
             }
         }
         else
         {
-            // Si la acción sigue activa, el contador se mantiene a cero.
             framesWithoutAction = 0;
         }
 
@@ -141,29 +139,23 @@ public class LiquidPump : CapabilityBase, IResetable
 
     private void MoveTowardsIndexIncreasing()
     {
+        ResetActiveFunnelSpeed();
+
         if (funnelIndex + 1 < funnelArray.Length && funnelIndex + 1 < pumpPositions.Length)
         {
             funnelIndex++;
             targetGlobalPosition = pumpPositions[funnelIndex].position;
-
-            //if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.rotateWheelSFX != null)
-            //{
-            //    SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.rotateWheelSFX, false);
-            //}
         }
     }
 
     private void MoveTowardsIndexDecreasing()
     {
+        ResetActiveFunnelSpeed();
+
         if (funnelIndex - 1 >= 0)
         {
             funnelIndex--;
             targetGlobalPosition = pumpPositions[funnelIndex].position;
-
-            //if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.rotateWheelSFX != null)
-            //{
-            //    SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.rotateWheelSFX, false);
-            //}
         }
     }
 
@@ -173,6 +165,7 @@ public class LiquidPump : CapabilityBase, IResetable
 
         if (currentCapacity >= maxCapacity)
         {
+            ResetActiveFunnelSpeed();
             return;
         }
 
@@ -194,6 +187,8 @@ public class LiquidPump : CapabilityBase, IResetable
                 );
                 if (activeAbsorbSource != null) activeAbsorbSource.Play();
             }
+
+            funnelArray[funnelIndex].SetWaveSpeed(6.0f);
         }
 
         float amount = transferSpeed * Time.deltaTime;
@@ -210,6 +205,7 @@ public class LiquidPump : CapabilityBase, IResetable
 
         if (currentCapacity <= 0f)
         {
+            ResetActiveFunnelSpeed();
             return;
         }
 
@@ -231,6 +227,8 @@ public class LiquidPump : CapabilityBase, IResetable
                 );
                 if (activeExpelSource != null) activeExpelSource.Play();
             }
+
+            funnelArray[funnelIndex].SetWaveSpeed(6.0f);
         }
 
         float amount = transferSpeed * Time.deltaTime;
@@ -238,6 +236,14 @@ public class LiquidPump : CapabilityBase, IResetable
         float inserted = funnelArray[funnelIndex].AddLiquid(amount);
 
         UpdateCapacity(-inserted);
+    }
+
+    private void ResetActiveFunnelSpeed()
+    {
+        if (funnelArray != null && funnelIndex < funnelArray.Length && funnelArray[funnelIndex] != null)
+        {
+            funnelArray[funnelIndex].SetWaveSpeed(1.3f);
+        }
     }
 
     private void StopAllEffects()
