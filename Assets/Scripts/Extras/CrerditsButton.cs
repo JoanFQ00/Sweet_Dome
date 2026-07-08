@@ -23,6 +23,7 @@ public class CrerditsButton : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        GameManager.Instance.levelManager.LoadMenu();
+        //GameManager.Instance.levelManager.LoadMenu();
+        GameManager.Instance.levelManager.ExitGame();
     }
 }
