@@ -912,7 +912,7 @@ public class MachineManager : MonoBehaviour
                         break;
 
                     case MachineStoryNode.NODE_02_D5:
-                        if (dayManager.D81 /*&& dayManager.hasReadDorothyBook4.IsMet(GameManager.Instance.decManager) && dayManager.hasReadDorothyBook3.IsMet(GameManager.Instance.decManager) && dayManager.dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && dayManager.dorothyBook2Readed.IsMet(GameManager.Instance.decManager) */)
+                        if (dayManager.D81 && dayManager.hasReadDorothyBook4.IsMet(GameManager.Instance.decManager) && dayManager.hasReadDorothyBook3.IsMet(GameManager.Instance.decManager) && dayManager.dorothyBook1Readed.IsMet(GameManager.Instance.decManager) && dayManager.dorothyBook2Readed.IsMet(GameManager.Instance.decManager))
                         {
                             GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D1ay5); //116
                             ResetCountdowns();
@@ -925,7 +925,7 @@ public class MachineManager : MonoBehaviour
                             ResetCountdowns();
                             onCountdown = false;
                         }
-                        else if (currentCountdown >= 15f)
+                        else if (currentCountdown >= 30f)
                         {
                             GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D2ay5); //117
                             ResetCountdowns();
@@ -934,9 +934,9 @@ public class MachineManager : MonoBehaviour
                         break;
 
                     case MachineStoryNode.NODE_03_D5:
-                        if (currentCountdown >= 40f)
+                        if (currentCountdown >= 30f)
                         {
-                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D5ay5); //120
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D2ay5); //117
                             ResetCountdowns();
                             onCountdown = false;
                         }
@@ -944,6 +944,12 @@ public class MachineManager : MonoBehaviour
                         {
                             codeSystem.ForceDisable();
                             GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D4ay5); //119
+                            ResetCountdowns();
+                            onCountdown = false;
+                        }
+                        else if (priorityManager.hasBeenPressedDay5)
+                        {
+                            GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.D3ay5); //118
                             ResetCountdowns();
                             onCountdown = false;
                         }

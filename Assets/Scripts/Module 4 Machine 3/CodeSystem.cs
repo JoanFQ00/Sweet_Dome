@@ -251,7 +251,7 @@ public class CodeSystem : MonoBehaviour
 
     private IEnumerator Day5HardcodedTimerSequence()
     {
-        yield return new WaitForSeconds(40f);
+        yield return new WaitForSeconds(30f);
 
         day5HardcodedTimerCoroutine = null;
 
