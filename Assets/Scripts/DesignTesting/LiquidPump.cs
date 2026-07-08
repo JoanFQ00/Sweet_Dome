@@ -146,10 +146,10 @@ public class LiquidPump : CapabilityBase, IResetable
             funnelIndex++;
             targetGlobalPosition = pumpPositions[funnelIndex].position;
 
-            if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.rotateWheelSFX != null)
-            {
-                SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.rotateWheelSFX, false);
-            }
+            //if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.rotateWheelSFX != null)
+            //{
+            //    SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.rotateWheelSFX, false);
+            //}
         }
     }
 
@@ -160,10 +160,10 @@ public class LiquidPump : CapabilityBase, IResetable
             funnelIndex--;
             targetGlobalPosition = pumpPositions[funnelIndex].position;
 
-            if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.rotateWheelSFX != null)
-            {
-                SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.rotateWheelSFX, false);
-            }
+            //if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.rotateWheelSFX != null)
+            //{
+            //    SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.rotateWheelSFX, false);
+            //}
         }
     }
 
