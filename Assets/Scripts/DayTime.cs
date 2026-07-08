@@ -56,8 +56,8 @@ public class DayTime : MonoBehaviour
 
     void Start()
     {
-        ResetDayTime();
-        LoadMinigames();
+        //ResetDayTime();
+        //LoadMinigames();
     }
 
     private void Update()
@@ -82,13 +82,37 @@ public class DayTime : MonoBehaviour
 
     public void LoadMinigames()
     {
+        if (minigames == null || minigames.Count == 0) return;
         if (GameManager.Instance == null) return;
 
         int gameDayIndex = (int)GameManager.Instance.currentDay;
 
         for (int i = 0; i < minigames.Count; i++)
         {
-            minigames[i].SetActive(i <= gameDayIndex);
+            if (minigames[i] != null)
+            {
+                minigames[i].SetActive(i <= gameDayIndex);
+            }
+        }
+    }
+
+    public void InitMinigamesInGameplay()
+    {
+        GameObject container = GameObject.FindWithTag("MinigamesContainer");
+
+        if (container != null)
+        {
+            minigames = new List<GameObject>();
+            foreach (Transform child in container.transform)
+            {
+                minigames.Add(child.gameObject);
+            }
+
+            LoadMinigames();
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró el contenedor de minijuegos. Ignorado si estás en el Menú.");
         }
     }
 

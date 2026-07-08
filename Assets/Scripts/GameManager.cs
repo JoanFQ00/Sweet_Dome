@@ -67,11 +67,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.M)) 
-        //{
-        //    ExecuteFinishAnimation(1, 1);
-        //}
-
         if (Input.GetKeyDown(KeyCode.L))
         {
             dayTime.SetCurrentTime(21, 0);
@@ -91,6 +86,12 @@ public class GameManager : MonoBehaviour
         currentState = GameState.Gameplay;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if (dayTime != null)
+        {
+            dayTime.InitMinigamesInGameplay();
+            dayTime.ResetDayTime();
+        }
 
         playerController = FindFirstObjectByType<PlayerController>();
         presiSpeaker = FindFirstObjectByType<PresiSpeaker>();
