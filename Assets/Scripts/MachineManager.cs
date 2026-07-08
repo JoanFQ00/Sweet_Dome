@@ -102,6 +102,9 @@ public class MachineManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.V))
             waveMinigame.StartWaveEvent(20f);
+        
+        if (Input.GetKeyDown(KeyCode.F))
+            GameManager.Instance.ExecuteFinishAnimation(13, 3);
 
         if (DayTime.Instance.currentHour >= 21)
             return;
