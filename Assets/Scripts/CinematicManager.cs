@@ -97,6 +97,8 @@ public class CinematicManager : MonoBehaviour
 
     void StartCinematicSequence(string cinematicName)
     {
+        if (cinematicStarted) return;
+
         if (GameManager.Instance != null && GameManager.Instance.playerController != null)
         {
             GameManager.Instance.playerController.LockPlayer(true);
