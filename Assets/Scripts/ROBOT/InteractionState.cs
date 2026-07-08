@@ -66,6 +66,13 @@ public class InteractionState : IState
     {
         LookAtPlayer();
 
+        AnimatorStateInfo stateInfo = robot.animator.GetCurrentAnimatorStateInfo(0);
+
+        if (stateInfo.IsName("Talk") && stateInfo.normalizedTime >= 1f)
+        {
+            robot.animator.SetBool("IsTalking", false);
+        }
+
         Vector3 dirToPlayer = (robot.player.transform.position - robot.speakPoint.position).normalized;
         Vector3 playerForward = robot.player.transform.forward;
 
@@ -75,7 +82,7 @@ public class InteractionState : IState
         {
             GameManager.Instance.playerController.LookAtDorothy();
         }
-        else 
+        else
         {
             GameManager.Instance.playerController.LockCamera(false);
         }
@@ -89,6 +96,33 @@ public class InteractionState : IState
             canAdvanceDialogue = true;
             canExit = true;
         }
+
+
+        //LookAtPlayer();
+
+        //Vector3 dirToPlayer = (robot.player.transform.position - robot.speakPoint.position).normalized;
+        //Vector3 playerForward = robot.player.transform.forward;
+
+        //float angleToPlayer = Vector3.Dot(playerForward, dirToPlayer);
+
+        //if (angleToPlayer > robot.angleToSpeak)
+        //{
+        //    GameManager.Instance.playerController.LookAtDorothy();
+        //}
+        //else 
+        //{
+        //    GameManager.Instance.playerController.LockCamera(false);
+        //}
+
+        //if (enterTimer > 0)
+        //{
+        //    enterTimer -= Time.deltaTime;
+        //}
+        //else
+        //{
+        //    canAdvanceDialogue = true;
+        //    canExit = true;
+        //}
 
         //if (canAdvanceDialogue && Input.GetKeyDown(KeyCode.E))
         //{
