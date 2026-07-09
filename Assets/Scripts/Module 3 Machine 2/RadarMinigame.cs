@@ -364,7 +364,7 @@ public class RadarMinigame : MonoBehaviour, IResetable
             else if (finalResult && currentEventType == RadarEventType.SpaceShip)
             {
                 AttackButton attackButton = UnityEngine.Object.FindAnyObjectByType<AttackButton>();
-                if (attackButton != null && attackButton.RawFunnel != null) attackButton.RawFunnel.AddLiquid(20f);
+                if (attackButton != null && attackButton.RawFunnel != null) attackButton.RawFunnel.AddLiquidFromMinigame(20f);
             }
 
             inEvent = false;

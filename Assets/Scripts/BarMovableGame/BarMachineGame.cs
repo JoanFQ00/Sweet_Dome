@@ -1,4 +1,6 @@
 using UnityEngine;
+using TMPro;
+using System.Collections;
 
 public class BarMachineGame : MonoBehaviour, IResetable
 {
@@ -73,14 +75,14 @@ public class BarMachineGame : MonoBehaviour, IResetable
         if (!isPlayerSeated && !completed)
         {
             moving = false;
-            phase = 0; 
+            phase = 0;
             DeactivateAllZones();
 
             if (Vector3.Distance(bar.localPosition, initialLocalPosition) > 0.001f)
             {
                 bar.localPosition = Vector3.Lerp(bar.localPosition, initialLocalPosition, 8f * Time.deltaTime);
             }
-            return; 
+            return;
         }
 
         int visibleLiquid = (sourceFunnel != null) ? Mathf.RoundToInt(sourceFunnel.CurrentCapacity) : 0;
@@ -258,7 +260,7 @@ public class BarMachineGame : MonoBehaviour, IResetable
 
         if (amountToTransferRounded > 0)
         {
-            targetFunnel.AddLiquid(amountToTransferRounded);
+            targetFunnel.AddLiquidFromMinigame(amountToTransferRounded);
 
             if (sourceRounded == amountToTransferRounded)
             {

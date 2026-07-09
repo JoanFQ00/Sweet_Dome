@@ -27,8 +27,8 @@ public class FunnelBase : CapabilityBase
 
     private Material liquidMat;
     private Coroutine visualLerpCoroutine;
+    private AudioSource activeReceiveLiquidSource;
 
-    // Propiedad pública que lee CapabilityUI en su Update
     public float CurrentVisualCapacity { get; private set; }
 
     protected override void Start()
@@ -79,6 +79,7 @@ public class FunnelBase : CapabilityBase
         UpdateLiquidVisual(currentCapacity);
     }
 
+    // Método normal (Usado por la palanca, no reproduce sonido de minijuego)
     public virtual float AddLiquid(float amount)
     {
         float startCapacity = currentCapacity;
@@ -87,8 +88,6 @@ public class FunnelBase : CapabilityBase
 
         UpdateCapacity(added);
 
-        // Si la palanca está activa (IsAbsorbing o IsExpelling), el flujo es frame a frame.
-        // Sincronizamos el valor visual directamente con el real para evitar retrasos y desincronizaciones.
         if (leverSource != null && (leverSource.IsAbsorbing || leverSource.IsExpelling))
         {
             if (visualLerpCoroutine != null)
@@ -101,14 +100,39 @@ public class FunnelBase : CapabilityBase
         }
         else
         {
-            // Si el cambio viene de un script externo de golpe (como el puzzle de la barra), 
-            // calculamos la duración exacta simulando la velocidad de la bomba (10f) e iniciamos la animación.
             float duration = added / 10f;
             if (visualLerpCoroutine != null) StopCoroutine(visualLerpCoroutine);
             visualLerpCoroutine = StartCoroutine(AnimateLiquidVolume(startCapacity, currentCapacity, duration));
         }
 
         return added;
+    }
+
+    public void AddLiquidFromMinigame(float amount)
+    {
+        // Ejecutamos la adición matemática y visual normal
+        float added = AddLiquid(amount);
+
+        // Si realmente entró líquido, lanzamos el sonido tridimensional en este objeto
+        if (added > 0f && SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.recieveLiquidSFX != null)
+        {
+            if (activeReceiveLiquidSource != null)
+            {
+                Destroy(activeReceiveLiquidSource.gameObject);
+            }
+
+            activeReceiveLiquidSource = SoundManagerOwn.Instance.Create3DAudioSource(
+                SoundManagerOwn.Instance.recieveLiquidSFX,
+                transform.position,
+                false
+            );
+
+            if (activeReceiveLiquidSource != null)
+            {
+                activeReceiveLiquidSource.Play();
+                Destroy(activeReceiveLiquidSource.gameObject, SoundManagerOwn.Instance.recieveLiquidSFX.length);
+            }
+        }
     }
 
     public virtual float RemoveLiquid(float amount)
@@ -118,7 +142,6 @@ public class FunnelBase : CapabilityBase
 
         UpdateCapacity(-removable);
 
-        // Si la palanca está activa, seguimos el flujo en tiempo real de forma instantánea y síncrona.
         if (leverSource != null && (leverSource.IsAbsorbing || leverSource.IsExpelling))
         {
             if (visualLerpCoroutine != null)
@@ -131,7 +154,6 @@ public class FunnelBase : CapabilityBase
         }
         else
         {
-            // Si viene del minijuego de la barra, forzamos el vaciado a velocidad de simulación de bomba.
             float duration = removable / 10f;
             if (visualLerpCoroutine != null) StopCoroutine(visualLerpCoroutine);
             visualLerpCoroutine = StartCoroutine(AnimateLiquidVolume(startCapacity, currentCapacity, duration));

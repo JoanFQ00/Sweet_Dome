@@ -149,7 +149,7 @@ public class CodeSystem : MonoBehaviour
             inputDisplay.color = correctColor;
             inputLocked = true;
 
-            if (rawFunnel != null) rawFunnel.AddLiquid(20f);
+            if (rawFunnel != null) rawFunnel.AddLiquidFromMinigame(20f);
             Invoke(nameof(EndEventSuccess), 1.5f);
         }
         else
