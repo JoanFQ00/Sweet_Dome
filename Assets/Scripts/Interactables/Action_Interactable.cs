@@ -104,7 +104,6 @@ public class Action_Interactable : BaseAction
     {
         if (state != State.Idle) return;
 
-        // Forzamos la actualización de la referencia pase lo que pase
         ForceInternalInit();
 
         if (GameManager.Instance != null)
@@ -124,7 +123,7 @@ public class Action_Interactable : BaseAction
         currentMoveTime = 0f;
         state = State.MovingToInspect;
 
-        ApplyTotalCameraLock(true);
+        ApplyTotalCameraLock(false);
     }
 
     protected override void OnUpdateAction()
@@ -135,12 +134,12 @@ public class Action_Interactable : BaseAction
 
                 Vector3 targetPos = farPosition ? farTransform.position : inspectTransform.position;
 
-                // Mantenemos la cámara congelada mientras se traslada
-                ApplyTotalCameraLock(true);
-
                 Move(targetPos, closeRot, () =>
                 {
                     gameObject.layer = LayerMask.NameToLayer("Default");
+
+                    ApplyTotalCameraLock(true);
+
                     state = State.Inspecting;
                 });
 
@@ -150,6 +149,7 @@ public class Action_Interactable : BaseAction
                 if (GameManager.Instance.currentState != GameManager.GameState.Interacting)
                     return;
 
+                // Reaseguramos el bloqueo frame a frame durante la inspección
                 ApplyTotalCameraLock(true);
 
                 if (hasBeenRotated && !Input.GetMouseButton(0) && !restartingRotation)
@@ -200,6 +200,7 @@ public class Action_Interactable : BaseAction
 
                     state = State.Idle;
 
+                    // Liberamos la cámara al regresar a su sitio original
                     ApplyTotalCameraLock(false);
 
                     if (isAction)
@@ -220,7 +221,6 @@ public class Action_Interactable : BaseAction
             player.LockCamera(lockState);
             player.cameraLocked = lockState;
 
-            // Desactivamos el mapa de acciones de "Look" del PlayerInput para que no lea el ratón de fondo
             PlayerInput pInput = player.GetComponent<PlayerInput>();
             if (pInput != null && pInput.actions != null)
             {
