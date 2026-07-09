@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Shake : MonoBehaviour
 {
@@ -24,6 +23,20 @@ public class Shake : MonoBehaviour
         originalLocalPosition = transform.localPosition;
     }
 
+    private void Update()
+
+    {
+
+        if (Input.GetKeyDown(KeyCode.G))
+
+        {
+
+            TriggerShake(3f);
+
+        }
+
+    }
+
     public void TriggerShake(float customDuration)
     {
         if (currentShakeCoroutine != null)
@@ -37,6 +50,12 @@ public class Shake : MonoBehaviour
 
     private IEnumerator Shaking(float duration)
     {
+        // 2D AUDIO GLOBAL: Llamamos al SoundManager para reproducir el crack de fondo sin posición 3D
+        if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.crackSFX != null)
+        {
+            SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.crackSFX, false);
+        }
+
         float elapsedTime = 0f;
 
         while (elapsedTime < duration)

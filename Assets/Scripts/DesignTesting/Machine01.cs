@@ -47,15 +47,18 @@ public class Machine01 : MonoBehaviour, IResetable
     {
         if (isPurifiedMode)
         {
+            PlayMovementSound(purifiedPump.transform.position);
+
             purifiedPump.ShiftRight();
             purifiedAnimator.SetTrigger(triggerRight);
         }
         else
         {
+            PlayMovementSound(rawPump.transform.position);
+
             rawPump.ShiftRight();
             rawAnimator.SetTrigger(triggerRight);
         }
-
 
         OnPumpSwapped?.Invoke(GetActivePump());
     }
@@ -64,11 +67,15 @@ public class Machine01 : MonoBehaviour, IResetable
     {
         if (isPurifiedMode)
         {
+            PlayMovementSound(purifiedPump.transform.position);
+
             purifiedPump.ShiftLeft();
             purifiedAnimator.SetTrigger(triggerLeft);
         }
         else
         {
+            PlayMovementSound(rawPump.transform.position);
+
             rawPump.ShiftLeft();
             rawAnimator.SetTrigger(triggerLeft);
         }
@@ -86,6 +93,26 @@ public class Machine01 : MonoBehaviour, IResetable
         if (purifiedPump != null && rawPump != null)
         {
             OnPumpSwapped?.Invoke(GetActivePump());
+        }
+    }
+
+    // Método auxiliar para instanciar el audio temporal en 3D y destruirlo al terminar
+    private void PlayMovementSound(Vector3 spawnPosition)
+    {
+        if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.movingMachineSFX != null)
+        {
+            AudioSource moveAudio = SoundManagerOwn.Instance.Create3DAudioSource(
+                SoundManagerOwn.Instance.movingMachineSFX,
+                spawnPosition,
+                false
+            );
+
+            if (moveAudio != null)
+            {
+                moveAudio.Play();
+                // Destruye el GameObject de audio cuando el sonido termina de sonar
+                Destroy(moveAudio.gameObject, SoundManagerOwn.Instance.movingMachineSFX.length);
+            }
         }
     }
 }

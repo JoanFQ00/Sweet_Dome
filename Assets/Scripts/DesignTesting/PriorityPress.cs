@@ -31,8 +31,25 @@ public class PriorityPress : MainButt
     {
         base.Press();
 
+        // Si la pulsación no es válida, salimos sin hacer nada (y sin sonido)
         if (!wasLastPressValid)
             return;
+
+        if (SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.priorizedZoneSFX != null)
+        {
+            AudioSource buttonAudio = SoundManagerOwn.Instance.Create3DAudioSource(
+                SoundManagerOwn.Instance.priorizedZoneSFX,
+                transform.position,
+                false
+            );
+
+            if (buttonAudio != null)
+            {
+                buttonAudio.Play();
+                // Destruye el GameObject de audio temporal al finalizar el sonido
+                Destroy(buttonAudio.gameObject, SoundManagerOwn.Instance.priorizedZoneSFX.length);
+            }
+        }
 
         if (emissionController != null)
         {

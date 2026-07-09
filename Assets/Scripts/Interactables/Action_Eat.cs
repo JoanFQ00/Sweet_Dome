@@ -17,6 +17,9 @@ public class Action_Eat : BaseAction
 
     private bool goingToMouth, waitingInput, returning, isActive;
 
+    public enum EatTyepe { Eat, Drink }
+    public EatTyepe eatType;
+
     private void Start()
     {
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Gaming"))
@@ -63,7 +66,10 @@ public class Action_Eat : BaseAction
 
         if (SoundManagerOwn.Instance != null)
         {
-            SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.drinkCoffeeSFX);
+            if (eatType == EatTyepe.Drink)
+                SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.drinkCoffeeSFX);
+            else
+                SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.eatDorothyCapkakeSFX);
         }
     }
 
