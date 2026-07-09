@@ -102,8 +102,12 @@ public class Action_Interactable : BaseAction
         Quaternion lookAtRotation = Quaternion.LookRotation(Camera.main.transform.position - transform.position);
         closeRot = lookAtRotation * Quaternion.Inverse(inspectorAnchor.localRotation);
 
-        player.LockPlayer(true);
-        player.LockCamera(true);
+        // Bloqueamos movimiento y cámara al iniciar la transición
+        if (player != null)
+        {
+            player.LockPlayer(true);
+            player.LockCamera(true);
+        }
 
         currentMoveTime = 0f;
         state = State.MovingToInspect;
@@ -121,6 +125,12 @@ public class Action_Interactable : BaseAction
                 {
                     gameObject.layer = LayerMask.NameToLayer("Default");
 
+                    // Refuerzo de seguridad: Aseguramos que al empezar a inspeccionar la cámara sigue completamente congelada
+                    if (player != null)
+                    {
+                        player.LockCamera(true);
+                    }
+
                     state = State.Inspecting;
                 });
 
@@ -129,6 +139,12 @@ public class Action_Interactable : BaseAction
             case State.Inspecting:
                 if (GameManager.Instance.currentState != GameManager.GameState.Interacting)
                     return;
+
+                // Forzado de seguridad frame a frame mientras se rota el objeto
+                if (player != null && !player.cameraLocked)
+                {
+                    player.LockCamera(true);
+                }
 
                 if (hasBeenRotated && !Input.GetMouseButton(0) && !restartingRotation)
                 {
@@ -169,14 +185,18 @@ public class Action_Interactable : BaseAction
 
                 Move(originalPos, originalRot, () =>
                 {
-                    player.LockPlayer(false);
-                    player.LockCamera(false);
-
                     gameObject.layer = LayerMask.NameToLayer("Interactable");
 
                     GameManager.Instance.currentState = GameManager.GameState.Gameplay;
 
                     state = State.Idle;
+
+                    // Desbloqueamos el control y la cámara ÚNICAMENTE cuando el objeto ha vuelto a su sitio original
+                    if (player != null)
+                    {
+                        player.LockPlayer(false);
+                        player.LockCamera(false);
+                    }
 
                     if (isAction)
                         OnActionExecuted();
@@ -206,8 +226,8 @@ public class Action_Interactable : BaseAction
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
-        transform.Rotate(Camera.main.transform.up,-mouseX * rotationSpeed * Time.deltaTime,Space.World);
-        transform.Rotate(Camera.main.transform.right,mouseY * rotationSpeed * Time.deltaTime,Space.World);
+        transform.Rotate(Camera.main.transform.up, -mouseX * rotationSpeed * Time.deltaTime, Space.World);
+        transform.Rotate(Camera.main.transform.right, mouseY * rotationSpeed * Time.deltaTime, Space.World);
     }
 
     void Move(Vector3 targetPos, Quaternion targetRot, System.Action onFinish)
