@@ -80,11 +80,11 @@ public class MachineManager : MonoBehaviour
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.M))
-        //    cityFunnel.SetGlobalEnergyFlowPause(false);
+        if (Input.GetKeyDown(KeyCode.M))
+            cityFunnel.SetGlobalEnergyFlowPause(false);
 
-        //if (Input.GetKeyDown(KeyCode.N))
-        //    cityFunnel.SetGlobalEnergyFlowPause(true);
+        if (Input.GetKeyDown(KeyCode.N))
+            cityFunnel.SetGlobalEnergyFlowPause(true);
 
         //DEBUG DAY 4
         //if (Input.GetKeyDown(KeyCode.Q))
@@ -94,7 +94,9 @@ public class MachineManager : MonoBehaviour
         //if (Input.GetKeyDown(KeyCode.J))
         //    dayManager.D51 = true;
 
-        //DEBUG DAY 5
+        if (Input.GetKeyDown(KeyCode.J))
+            radarMinigame.StartRadarEvent(30f, RadarEventType.SpaceShip, 1);
+
         if (Input.GetKeyDown(KeyCode.Q))
             dayManager.D84 = true;
         if (Input.GetKeyDown(KeyCode.R))

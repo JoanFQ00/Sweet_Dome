@@ -63330,6 +63330,7 @@ MonoBehaviour:
   capabilityBase: {fileID: 343348527635657689}
   capabilityText: {fileID: 6927528254490920571}
   nameText: {fileID: 0}
+  numberLerpSpeed: 5
 --- !u!33 &2052021899865670118
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -64035,6 +64036,7 @@ MonoBehaviour:
   capabilityBase: {fileID: 5469203902124265105}
   capabilityText: {fileID: 1094334888057186880}
   nameText: {fileID: 649328181406280612}
+  numberLerpSpeed: 5
 --- !u!224 &2318440910228526884
 RectTransform:
   m_ObjectHideFlags: 0
@@ -64481,6 +64483,7 @@ MonoBehaviour:
   capabilityBase: {fileID: 5192658041266432542}
   capabilityText: {fileID: 147870499700669621}
   nameText: {fileID: 7961109864637066268}
+  numberLerpSpeed: 5
 --- !u!114 &2523779765977867892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65138,6 +65141,7 @@ MonoBehaviour:
   capabilityBase: {fileID: 6135921144025013686}
   capabilityText: {fileID: 536367739964657252}
   nameText: {fileID: 8544175690987525269}
+  numberLerpSpeed: 5
 --- !u!1 &2892166251239999839
 GameObject:
   m_ObjectHideFlags: 0
@@ -77835,6 +77839,7 @@ MonoBehaviour:
   capabilityBase: {fileID: 3133189139148684443}
   capabilityText: {fileID: 4838418635104704712}
   nameText: {fileID: 0}
+  numberLerpSpeed: 5
 --- !u!23 &4315094284739522351
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -83972,6 +83977,7 @@ MonoBehaviour:
   capabilityBase: {fileID: 5094593324287399473}
   capabilityText: {fileID: 2625955557101979270}
   nameText: {fileID: 0}
+  numberLerpSpeed: 5
 --- !u!222 &6873606457435194365
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -87045,6 +87051,7 @@ MonoBehaviour:
   capabilityBase: {fileID: 5235518028581073590}
   capabilityText: {fileID: 4362996796830297885}
   nameText: {fileID: 0}
+  numberLerpSpeed: 5
 --- !u!4 &7836792573512423546
 Transform:
   m_ObjectHideFlags: 0
@@ -88343,6 +88350,7 @@ MonoBehaviour:
   capabilityBase: {fileID: 402198904995387826}
   capabilityText: {fileID: 5270944235895118731}
   nameText: {fileID: 1920164588236087856}
+  numberLerpSpeed: 5
 --- !u!23 &8278226109436403949
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -89934,6 +89942,7 @@ GameObject:
   - component: {fileID: 4083501150614290316}
   - component: {fileID: 3260616448223387041}
   - component: {fileID: 7762067043034399792}
+  - component: {fileID: 8707273952273917491}
   - component: {fileID: 8707273952273917490}
   m_Layer: 0
   m_Name: ScreenTv
@@ -89978,6 +89987,19 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &8707273952273917491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8707273952273917489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcc5c3098e89afe4b954a3503c0bd264, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClearVideoTexture
+  videoTexture: {fileID: 8400000, guid: 4f58efe7b7d625f4daf9d2695e33e63b, type: 2}
 --- !u!1 &8719421728277792258
 GameObject:
   m_ObjectHideFlags: 0
@@ -91034,6 +91056,7 @@ MonoBehaviour:
   capabilityBase: {fileID: 2523779765977867892}
   capabilityText: {fileID: 8701490934947448237}
   nameText: {fileID: 0}
+  numberLerpSpeed: 5
 --- !u!223 &9067387703484847459
 Canvas:
   m_ObjectHideFlags: 0
@@ -91682,6 +91705,7 @@ MonoBehaviour:
   capabilityBase: {fileID: 1469307825388841629}
   capabilityText: {fileID: 8088040066100193819}
   nameText: {fileID: 0}
+  numberLerpSpeed: 5
 --- !u!320 &9193614943427414900
 PlayableDirector:
   m_ObjectHideFlags: 0

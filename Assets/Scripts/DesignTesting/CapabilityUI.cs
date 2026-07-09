@@ -9,6 +9,12 @@ public class CapabilityUI : MonoBehaviour, IResetable
     [SerializeField] private CapabilityBase capabilityBase;
     [SerializeField] private TextMeshProUGUI capabilityText, nameText;
 
+    [Header("Polish Counter Settings")]
+    [SerializeField] private float numberLerpSpeed = 5f; // Velocidad de la transición del número
+
+    private float targetCapacity;
+    private float currentVisualCapacity;
+
     private void Start()
     {
         if (GameManager.Instance != null)
@@ -17,11 +23,18 @@ public class CapabilityUI : MonoBehaviour, IResetable
         }
     }
 
-    private void OnDestroy()
+    private void Update()
     {
-        if (GameManager.Instance != null)
+        // Si el número visual actual no coincide con el objetivo real, interpolamos
+        if (Mathf.Abs(currentVisualCapacity - targetCapacity) > 0.01f)
         {
-            GameManager.Instance.UnregisterResetable(this);
+            currentVisualCapacity = Mathf.Lerp(currentVisualCapacity, targetCapacity, numberLerpSpeed * Time.deltaTime);
+            SetTextValue(currentVisualCapacity);
+        }
+        else if (currentVisualCapacity != targetCapacity)
+        {
+            currentVisualCapacity = targetCapacity;
+            SetTextValue(currentVisualCapacity);
         }
     }
 
@@ -55,7 +68,9 @@ public class CapabilityUI : MonoBehaviour, IResetable
     {
         if (capabilityBase == null) return;
 
-        UpdateCapabilityUI(capabilityBase.CurrentCapacity);
+        targetCapacity = capabilityBase.CurrentCapacity;
+        currentVisualCapacity = capabilityBase.CurrentCapacity;
+        SetTextValue(currentVisualCapacity);
 
         if (capabilityType == CapabilityType.BIG_CITY)
         {
@@ -68,6 +83,12 @@ public class CapabilityUI : MonoBehaviour, IResetable
     }
 
     private void UpdateCapabilityUI(float value)
+    {
+        // Al recibir el evento, actualizamos el objetivo matemático para que el Update empiece el lerp
+        targetCapacity = value;
+    }
+
+    private void SetTextValue(float value)
     {
         if (capabilityText != null)
             capabilityText.text = Mathf.RoundToInt(value).ToString();
