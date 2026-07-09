@@ -59,11 +59,33 @@ public class RoboSys : DialogueSys
     public static event Action OnDialogueChanged;
     public static event Action OnDialogueTerminated;
 
-    public void SysIni() 
+    public void SysIni()
     {
         dialogueIdx = 0;
         ChargeDialogues(1);
     }
+
+    //public void SysIni()
+    //{
+    //    dialogueIdx = 0;
+
+    //    if (GameManager.Instance != null)
+    //    {
+    //        switch (GameManager.Instance.currentDay)
+    //        {
+    //            case Day.Day1: ChargeDialogues(1000); break;
+    //            case Day.Day2: ChargeDialogues(1001); break;
+    //            case Day.Day3: ChargeDialogues(1002); break;
+    //            case Day.Day4: ChargeDialogues(1003); break;
+    //            case Day.Day5: ChargeDialogues(1004); break;
+    //            default: ChargeDialogues(1000); break;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        ChargeDialogues(1);
+    //    }
+    //}
 
     public override void ChargeDialogues( int _id)
     {
