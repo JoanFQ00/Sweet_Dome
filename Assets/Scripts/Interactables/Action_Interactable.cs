@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using UnityEngine.InputSystem;
 
 public class Action_Interactable : BaseAction
 {
@@ -49,68 +51,80 @@ public class Action_Interactable : BaseAction
 
     void Start()
     {
-        Init();
+        ForceInternalInit();
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
-
         LevelManager.OnLevelLoaded += LevelLoaded;
+        ForceInternalInit();
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-
         LevelManager.OnLevelLoaded -= LevelLoaded;
     }
 
     void LevelLoaded()
     {
-        Init();
+        ForceInternalInit();
     }
 
-    void Init()
+    private void ForceInternalInit()
     {
-        if (GameManager.Instance == null) return;
-
-        player = GameManager.Instance.playerController;
-
-        var interactComp = player.GetComponent<Interact>();
-        if (interactComp != null)
+        if (GameManager.Instance != null && GameManager.Instance.playerController != null)
         {
-            inspectTransform = interactComp.readTransform;
-            farTransform = interactComp.farTransform;
+            player = GameManager.Instance.playerController;
+        }
+        else
+        {
+            player = FindFirstObjectByType<PlayerController>();
         }
 
-        originalPos = transform.position;
-        originalRot = transform.rotation;
-        hasBeenRotated = false;
-        restartingRotation = false;
+        if (player != null)
+        {
+            var interactComp = player.GetComponent<Interact>();
+            if (interactComp != null)
+            {
+                inspectTransform = interactComp.readTransform;
+                farTransform = interactComp.farTransform;
+            }
+        }
+
+        if (originalPos == Vector3.zero)
+        {
+            originalPos = transform.position;
+            originalRot = transform.rotation;
+        }
     }
 
     public override void Interact()
     {
         if (state != State.Idle) return;
 
-        GameManager.Instance.currentState = GameManager.GameState.Interacting;
+        // Forzamos la actualización de la referencia pase lo que pase
+        ForceInternalInit();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.currentState = GameManager.GameState.Interacting;
+        }
 
         startPos = transform.position;
         startRot = transform.rotation;
 
-        Quaternion lookAtRotation = Quaternion.LookRotation(Camera.main.transform.position - transform.position);
-        closeRot = lookAtRotation * Quaternion.Inverse(inspectorAnchor.localRotation);
-
-        // Bloqueamos movimiento y cámara al iniciar la transición
-        if (player != null)
+        if (Camera.main != null && inspectorAnchor != null)
         {
-            player.LockPlayer(true);
-            player.LockCamera(true);
+            Quaternion lookAtRotation = Quaternion.LookRotation(Camera.main.transform.position - transform.position);
+            closeRot = lookAtRotation * Quaternion.Inverse(inspectorAnchor.localRotation);
         }
 
         currentMoveTime = 0f;
         state = State.MovingToInspect;
+
+        ApplyTotalCameraLock(true);
     }
 
     protected override void OnUpdateAction()
@@ -121,16 +135,12 @@ public class Action_Interactable : BaseAction
 
                 Vector3 targetPos = farPosition ? farTransform.position : inspectTransform.position;
 
+                // Mantenemos la cámara congelada mientras se traslada
+                ApplyTotalCameraLock(true);
+
                 Move(targetPos, closeRot, () =>
                 {
                     gameObject.layer = LayerMask.NameToLayer("Default");
-
-                    // Refuerzo de seguridad: Aseguramos que al empezar a inspeccionar la cámara sigue completamente congelada
-                    if (player != null)
-                    {
-                        player.LockCamera(true);
-                    }
-
                     state = State.Inspecting;
                 });
 
@@ -140,11 +150,7 @@ public class Action_Interactable : BaseAction
                 if (GameManager.Instance.currentState != GameManager.GameState.Interacting)
                     return;
 
-                // Forzado de seguridad frame a frame mientras se rota el objeto
-                if (player != null && !player.cameraLocked)
-                {
-                    player.LockCamera(true);
-                }
+                ApplyTotalCameraLock(true);
 
                 if (hasBeenRotated && !Input.GetMouseButton(0) && !restartingRotation)
                 {
@@ -187,22 +193,44 @@ public class Action_Interactable : BaseAction
                 {
                     gameObject.layer = LayerMask.NameToLayer("Interactable");
 
-                    GameManager.Instance.currentState = GameManager.GameState.Gameplay;
+                    if (GameManager.Instance != null)
+                    {
+                        GameManager.Instance.currentState = GameManager.GameState.Gameplay;
+                    }
 
                     state = State.Idle;
 
-                    // Desbloqueamos el control y la cámara ÚNICAMENTE cuando el objeto ha vuelto a su sitio original
-                    if (player != null)
-                    {
-                        player.LockPlayer(false);
-                        player.LockCamera(false);
-                    }
+                    ApplyTotalCameraLock(false);
 
                     if (isAction)
                         OnActionExecuted();
                 });
 
                 break;
+        }
+    }
+
+    private void ApplyTotalCameraLock(bool lockState)
+    {
+        if (player == null) ForceInternalInit();
+
+        if (player != null)
+        {
+            player.LockPlayer(lockState);
+            player.LockCamera(lockState);
+            player.cameraLocked = lockState;
+
+            // Desactivamos el mapa de acciones de "Look" del PlayerInput para que no lea el ratón de fondo
+            PlayerInput pInput = player.GetComponent<PlayerInput>();
+            if (pInput != null && pInput.actions != null)
+            {
+                var lookAction = pInput.actions["Look"];
+                if (lookAction != null)
+                {
+                    if (lockState) lookAction.Disable();
+                    else lookAction.Enable();
+                }
+            }
         }
     }
 
@@ -223,6 +251,8 @@ public class Action_Interactable : BaseAction
 
     void RotateObject()
     {
+        if (Camera.main == null) return;
+
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
@@ -247,7 +277,7 @@ public class Action_Interactable : BaseAction
 
     private void OnDrawGizmos()
     {
-        if (Camera.main != null)
+        if (Camera.main != null && inspectorAnchor != null)
         {
             Vector3 dirForward = inspectorAnchor.forward;
             Gizmos.color = Color.yellow;

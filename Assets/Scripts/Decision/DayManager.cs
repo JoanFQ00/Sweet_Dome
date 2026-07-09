@@ -792,18 +792,31 @@ public class DayManager : MonoBehaviour
        watchWindowCheck = false;
 }
 
-public void LoadInteractObjects(Day currentDay)
+    public void LoadInteractObjects(Day currentDay)
     {
+        // Convertimos el enum del día actual a su valor numérico entero (ej: Day1 = 0, Day2 = 1...)
+        int currentDayIndex = (int)currentDay;
+
         foreach (Action_Interactable obj in dayInt)
         {
+            if (obj == null) continue;
+
             if (!obj.keepBetweenDays)
             {
+                // El objeto se activa si su día asignado es exactamente el día actual
                 bool shouldBeActive = (obj.DayLoad == currentDay);
                 obj.gameObject.SetActive(shouldBeActive);
             }
+            else
+            {
+                // Convertimos el día del objeto a número. Si es menor o igual al día actual,
+                // significa que pertenece a un día pasado o al presente y se queda encendido.
+                int objectDayIndex = (int)obj.DayLoad;
+                obj.gameObject.SetActive(objectDayIndex <= currentDayIndex);
+            }
         }
 
-        if (dorothyLaunch != null) 
+        if (dorothyLaunch != null)
         {
             if (GameManager.Instance.currentDay == Day.Day3 ||
                 GameManager.Instance.currentDay == Day.Day4)
@@ -812,13 +825,6 @@ public void LoadInteractObjects(Day currentDay)
             }
             else
                 dorothyLaunch.SetActive(false);
-        }
-
-        int index = (int)currentDay;
-
-        if (index >= 0 && index < dayInt.Length && dayInt[index] != null)
-        {
-            dayInt[index].gameObject.SetActive(true);
         }
     }
 
