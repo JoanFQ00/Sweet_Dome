@@ -29,6 +29,12 @@ public class GoToPlayerState : IState
         robot.animator.SetBool("IsTalking", false);
         robot.animator.SetBool("IsMoving", true);
         updatePathTimer = 0f;
+
+        if (GameManager.Instance != null && GameManager.Instance.playerController != null)
+        {
+            GameManager.Instance.playerController.LockPlayer(true);
+            // GameManager.Instance.playerController.LockCamera(true);
+        }
     }
 
     public void OnState()
@@ -42,6 +48,8 @@ public class GoToPlayerState : IState
                 waitingForGameplay = false;
                 robot.agent.isStopped = false;
                 robot.animator.SetBool("IsMoving", true);
+
+                GameManager.Instance.playerController.LockPlayer(true);
             }
             else
             {
