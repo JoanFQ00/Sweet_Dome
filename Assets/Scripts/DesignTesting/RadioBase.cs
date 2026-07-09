@@ -20,7 +20,12 @@ public class RadioBase : MonoBehaviour, IInteractable, IResetable
 
     void Start()
     {
-        ResetValues();
+        // Dejamos que GameManager llene el mapa y llame a ResetValues() 
+        // cuando el estado del día esté completamente asentado en memoria.
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterResetable(this);
+        }
     }
 
     public void Interact()
@@ -43,7 +48,7 @@ public class RadioBase : MonoBehaviour, IInteractable, IResetable
         {
             foreach (Animator vinylAnimator in vinylAnimatorList)
             {
-                vinylAnimator.SetTrigger("On");
+                if (vinylAnimator != null) vinylAnimator.SetTrigger("On");
             }
         }
 
@@ -56,7 +61,7 @@ public class RadioBase : MonoBehaviour, IInteractable, IResetable
         {
             foreach (Animator vinylAnimator in vinylAnimatorList)
             {
-                vinylAnimator.SetTrigger("Off");
+                if (vinylAnimator != null) vinylAnimator.SetTrigger("Off");
             }
         }
 
@@ -65,7 +70,7 @@ public class RadioBase : MonoBehaviour, IInteractable, IResetable
 
     private void PlayMusicByDay()
     {
-        if (GameManager.Instance == null) return;
+        if (GameManager.Instance == null || SoundManagerOwn.Instance == null) return;
 
         Day currentDay = GameManager.Instance.currentDay;
 
@@ -87,11 +92,19 @@ public class RadioBase : MonoBehaviour, IInteractable, IResetable
             switch (currentDay)
             {
                 case Day.Day1:
+                    PlaySound(SoundManagerOwn.Instance.gameplayMusic01, true);
+                    break;
                 case Day.Day2:
+                    PlaySound(SoundManagerOwn.Instance.gameplayMusic02, true);
+                    break;
                 case Day.Day3:
+                    PlaySound(SoundManagerOwn.Instance.gameplayMusic03, true);
+                    break;
                 case Day.Day4:
+                    PlaySound(SoundManagerOwn.Instance.gameplayMusic04, true);
+                    break;
                 case Day.Day5:
-                    PlaySound(SoundManagerOwn.Instance.gameplayMusic, true);
+                    PlaySound(SoundManagerOwn.Instance.gameplayMusic05, true);
                     break;
             }
         }
@@ -99,7 +112,8 @@ public class RadioBase : MonoBehaviour, IInteractable, IResetable
 
     void PlaySound(AudioClip audio, bool inLoop)
     {
-        // detenemos su reproducción y destruimos su GameObject antes de crear el nuevo.
+        if (audio == null) return;
+
         if (myAudioSource != null)
         {
             myAudioSource.Stop();
@@ -109,23 +123,20 @@ public class RadioBase : MonoBehaviour, IInteractable, IResetable
 
         if (musicType == MusicType.TURNTABLE)
         {
-            foreach (Animator vinylAnimator in vinylAnimatorList)
-            {
-                vinylAnimator.SetTrigger("On");
-            }
             myAudioSource = SoundManagerOwn.Instance.Create3DAudioSource(audio, transform.position, inLoop);
         }
         else
         {
-            myAudioSource = SoundManagerOwn.Instance.Create3DAudioSource(audio, pivotSound.transform.position, inLoop);
+            if (pivotSound != null)
+            {
+                myAudioSource = SoundManagerOwn.Instance.Create3DAudioSource(audio, pivotSound.transform.position, inLoop);
+            }
         }
 
         if (myAudioSource != null)
         {
             myAudioSource.Play();
 
-            // Si por un casual al iniciar el día la radio debiera estar apagada por defecto,
-            // pausamos el audio inmediatamente para respetar el booleano 'isTurnedOn'
             if (!isTurnedOn)
             {
                 myAudioSource.Pause();
@@ -135,13 +146,28 @@ public class RadioBase : MonoBehaviour, IInteractable, IResetable
 
     public void ResetValues()
     {
+        // Al iniciar o resetear el día, definimos el estado por defecto
         isTurnedOn = true;
+
+        // Sincronizamos los animadores si arranca encendido por defecto
+        if (musicType == MusicType.TURNTABLE)
+        {
+            foreach (Animator vinylAnimator in vinylAnimatorList)
+            {
+                if (vinylAnimator != null) vinylAnimator.SetTrigger("On");
+            }
+        }
+
         PlayMusicByDay();
     }
 
     private void OnDestroy()
     {
-        // Limpieza preventiva al salir de la escena
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.UnregisterResetable(this);
+        }
+
         if (myAudioSource != null)
         {
             Destroy(myAudioSource.gameObject);

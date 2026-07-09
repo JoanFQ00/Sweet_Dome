@@ -1357,9 +1357,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundManagerOwn
   musicSource: {fileID: 1113067708}
   SFXSource: {fileID: 1506811561}
-  mainMenuMusic: {fileID: 8300000, guid: 6aa3379445983e942b709e07ea0cd96b, type: 3}
-  gameplayMusic: {fileID: 8300000, guid: 57a1459f4263648418e35d6c8340e6f5, type: 3}
-  creditsMusic: {fileID: 8300000, guid: 5add04a4fe747fa41836a0dc75208453, type: 3}
+  mainMenuMusic: {fileID: 8300000, guid: b02817f78713630449aab231d4a69b16, type: 3}
+  gameplayMusic01: {fileID: 8300000, guid: f6e075bd987bd4046882e7af00944d77, type: 3}
+  gameplayMusic02: {fileID: 8300000, guid: 8c111ed347a925c4394b7bacd7438d69, type: 3}
+  gameplayMusic03: {fileID: 8300000, guid: ec59f154ece96134a8b07f0944d35041, type: 3}
+  gameplayMusic04: {fileID: 8300000, guid: 2445673ac364b5c4cbfbb39fbe5af9da, type: 3}
+  gameplayMusic05: {fileID: 8300000, guid: 0fab7ce42329d3d48ae84f417fb71e0a, type: 3}
+  creditsMusic: {fileID: 8300000, guid: 95722af7d52fcfd4c9345eb8de5309ab, type: 3}
   talkAngrySFX: {fileID: 8300000, guid: 2f048f5c9dca5374bb70c97999a7d086, type: 3}
   talkHesitantSFX: {fileID: 8300000, guid: a253297f3a6938748a731c20e93d6169, type: 3}
   talkLoveSFX: {fileID: 8300000, guid: c11fdef1858b8444babfe013bc70b677, type: 3}
@@ -1378,7 +1382,7 @@ MonoBehaviour:
   losedLiquidSFX: {fileID: 8300000, guid: 3045224414f4fd34dbc7df4a4ea0a3c4, type: 3}
   crackSFX: {fileID: 8300000, guid: fda2bf3b81f5e7e40ab1b1dad728d7cf, type: 3}
   movingMachineSFX: {fileID: 8300000, guid: 2e4ec15f07e344f4586cd512cf1c5673, type: 3}
-  musicVolume: 0.5
+  musicVolume: 0.45
 --- !u!4 &71303944
 Transform:
   m_ObjectHideFlags: 0
@@ -32610,7 +32614,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.45
   m_Pitch: 1
   Loop: 0
   Mute: 0

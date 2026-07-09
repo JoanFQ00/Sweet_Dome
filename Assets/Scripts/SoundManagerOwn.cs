@@ -10,7 +10,11 @@ public class SoundManagerOwn : MonoBehaviour
 
     [Header("Music Tracks")]
     public AudioClip mainMenuMusic;
-    public AudioClip gameplayMusic;
+    public AudioClip gameplayMusic01;
+    public AudioClip gameplayMusic02;
+    public AudioClip gameplayMusic03;
+    public AudioClip gameplayMusic04;
+    public AudioClip gameplayMusic05;
     public AudioClip creditsMusic;
 
     [Header("Character Dialogue SFX")]
@@ -74,7 +78,7 @@ public class SoundManagerOwn : MonoBehaviour
 
     public void PlayGameplayMusic()
     {
-        PlayMusic(gameplayMusic, true);
+        PlayMusic(gameplayMusic01, true);
     }
 
     public void SetMusicVolume(float volume)
