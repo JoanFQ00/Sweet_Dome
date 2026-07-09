@@ -3,6 +3,10 @@ using System;
 
 public enum PresiDialogue 
 {
+    GoodMorningDay001 = 1000,
+    GoodMorningDay002 = 1001,
+    GoodMorningDay003 = 1002,
+
     GoodMorningDay1 = 1, 
     GoToWorkDay1 = 2,
     GoToWorkDay2 = 25,

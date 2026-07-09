@@ -840,12 +840,24 @@ public class DayManager : MonoBehaviour
 
         switch (GameManager.Instance.currentDay) 
         {
+            //case Day.Day2:
+            //    PresidentSpeaks(PresiDialogue.GoodMorningDay1);
+            //break;
+
+            //case Day.Day3:
+            //    PresidentSpeaks(PresiDialogue.GoodMorningDay1);
+            //break;
+            
+            case Day.Day1:
+                PresidentSpeaks(PresiDialogue.GoodMorningDay001);
+            break;
+            
             case Day.Day2:
-                PresidentSpeaks(PresiDialogue.GoodMorningDay1);
+                PresidentSpeaks(PresiDialogue.GoodMorningDay002);
             break;
 
             case Day.Day3:
-                PresidentSpeaks(PresiDialogue.GoodMorningDay1);
+                PresidentSpeaks(PresiDialogue.GoodMorningDay003);
             break;
 
             case Day.Day4:
