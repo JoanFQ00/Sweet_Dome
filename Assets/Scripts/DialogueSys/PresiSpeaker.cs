@@ -56,7 +56,6 @@ public class PresiSpeaker : MonoBehaviour
         UpdateUI();
     }
 
-
     public void PresiSpeaks(int dialogueID)
     {
         if (dialogueSys == null)
@@ -74,6 +73,7 @@ public class PresiSpeaker : MonoBehaviour
 
         UpdateUI();
     }
+
     void UpdateUI()
     {
         if (dialogueSys.loadedDialogues == null || dialogueSys.loadedDialogues.Length == 0)
