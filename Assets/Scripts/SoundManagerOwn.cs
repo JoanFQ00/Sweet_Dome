@@ -32,6 +32,14 @@ public class SoundManagerOwn : MonoBehaviour
     [Header("Pumps")]
     public AudioClip absorbSFX;
     public AudioClip expelSFX;
+    
+    [Header("Other")]
+    public AudioClip eatDorothyCapkakeSFX;
+    public AudioClip recieveLiquidSFX;
+    public AudioClip priorizedZoneSFX;
+    public AudioClip losedLiquidSFX;
+    public AudioClip crackSFX;
+    public AudioClip movingMachineSFX;
 
     [Range(0f, 1f)] public float musicVolume = 0.07f;
     private float sfxVolume = 0.5f;
