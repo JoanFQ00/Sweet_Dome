@@ -135,6 +135,35 @@ public class FunnelBase : CapabilityBase
         }
     }
 
+    // Método exclusivo para cuando se vacía el líquido al fallar un minijuego
+    public void RemoveLiquidFromMinigameFail(float amount)
+    {
+        // Ejecutamos el vaciado matemático y visual normal
+        float removed = RemoveLiquid(amount);
+
+        // Si realmente se eliminó líquido, lanzamos el sonido tridimensional de pérdida en este objeto
+        if (removed > 0f && SoundManagerOwn.Instance != null && SoundManagerOwn.Instance.losedLiquidSFX != null)
+        {
+            // Reutilizamos la variable de audio controlando que no se solape
+            if (activeReceiveLiquidSource != null)
+            {
+                Destroy(activeReceiveLiquidSource.gameObject);
+            }
+
+            activeReceiveLiquidSource = SoundManagerOwn.Instance.Create3DAudioSource(
+                SoundManagerOwn.Instance.losedLiquidSFX,
+                transform.position,
+                false
+            );
+
+            if (activeReceiveLiquidSource != null)
+            {
+                activeReceiveLiquidSource.Play();
+                Destroy(activeReceiveLiquidSource.gameObject, SoundManagerOwn.Instance.losedLiquidSFX.length);
+            }
+        }
+    }
+
     public virtual float RemoveLiquid(float amount)
     {
         float startCapacity = currentCapacity;

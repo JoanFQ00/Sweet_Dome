@@ -234,7 +234,7 @@ public class BarMachineGame : MonoBehaviour, IResetable
     {
         if (sourceFunnel != null)
         {
-            sourceFunnel.RemoveLiquid(sourceFunnel.CurrentCapacity);
+            sourceFunnel.RemoveLiquidFromMinigameFail(sourceFunnel.CurrentCapacity);
         }
 
         phase = 0;
