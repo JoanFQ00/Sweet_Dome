@@ -80,11 +80,11 @@ public class MachineManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
-            cityFunnel.SetGlobalEnergyFlowPause(false);
+        //if (Input.GetKeyDown(KeyCode.M))
+        //    cityFunnel.SetGlobalEnergyFlowPause(false);
 
-        if (Input.GetKeyDown(KeyCode.N))
-            cityFunnel.SetGlobalEnergyFlowPause(true);
+        //if (Input.GetKeyDown(KeyCode.N))
+        //    cityFunnel.SetGlobalEnergyFlowPause(true);
 
         //DEBUG DAY 4
         //if (Input.GetKeyDown(KeyCode.Q))
@@ -94,19 +94,19 @@ public class MachineManager : MonoBehaviour
         //if (Input.GetKeyDown(KeyCode.J))
         //    dayManager.D51 = true;
 
-        if (Input.GetKeyDown(KeyCode.J))
-            radarMinigame.StartRadarEvent(30f, RadarEventType.SpaceShip, 1);
+        //if (Input.GetKeyDown(KeyCode.J))
+        //    radarMinigame.StartRadarEvent(30f, RadarEventType.SpaceShip, 1);
 
-        if (Input.GetKeyDown(KeyCode.Q))
-            dayManager.D84 = true;
-        if (Input.GetKeyDown(KeyCode.R))
-            dayManager.D81 = true;
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //    dayManager.D84 = true;
+        //if (Input.GetKeyDown(KeyCode.R))
+        //    dayManager.D81 = true;
 
-        if (Input.GetKeyDown(KeyCode.V))
-            waveMinigame.StartWaveEvent(20f);
+        //if (Input.GetKeyDown(KeyCode.V))
+        //    waveMinigame.StartWaveEvent(20f);
         
-        if (Input.GetKeyDown(KeyCode.F))
-            GameManager.Instance.ExecuteFinishAnimation(13, 3);
+        //if (Input.GetKeyDown(KeyCode.F))
+        //    GameManager.Instance.ExecuteFinishAnimation(13, 3);
 
         if (DayTime.Instance.currentHour >= 21)
             return;

@@ -6,9 +6,6 @@ public class CinematicManager : MonoBehaviour
 {
     public static CinematicManager Instance { get; private set; }
 
-    [Header("Keybindings")]
-    [SerializeField] private KeyCode skipKey = KeyCode.Space;
-
     [Header("Timelines")]
     public PlayableDirector wakeUpTimeline;
     public PlayableDirector day3TurnOffTvTimeline;
@@ -59,12 +56,6 @@ public class CinematicManager : MonoBehaviour
     {
         if (cinematicStarted && !cinematicEndedTriggered && activeTimeline != null)
         {
-            if (Input.GetKeyDown(skipKey))
-            {
-                SkipCurrentCinematic();
-                return;
-            }
-
             if (activeTimeline.state != PlayState.Playing || activeTimeline.time >= activeTimeline.duration)
             {
                 cinematicEndedTriggered = true;
@@ -73,24 +64,7 @@ public class CinematicManager : MonoBehaviour
         }
     }
 
-    private void SkipCurrentCinematic()
-    {
-        if (activeTimeline == null) return;
-
-        string timelineName = activeTimeline.name;
-
-        activeTimeline.extrapolationMode = DirectorWrapMode.Hold;
-
-        activeTimeline.time = activeTimeline.duration;
-
-        activeTimeline.Evaluate();
-
-        cinematicEndedTriggered = true;
-
-        EndCinematicAndReturnToGameplay(timelineName);
-    }
-
-    void StartDayCinematic() 
+    void StartDayCinematic()
     {
         StartCinematicSequence("WakeUpCinematic");
     }
@@ -156,7 +130,7 @@ public class CinematicManager : MonoBehaviour
         }
     }
 
-    void EndCinematicAndReturnToGameplay(string finishedTimelineName = "")
+    void EndCinematicAndReturnToGameplay()
     {
         if (GameManager.Instance != null && GameManager.Instance.playerController != null)
         {
@@ -164,28 +138,21 @@ public class CinematicManager : MonoBehaviour
             GameManager.Instance.playerController.LockCamera(false);
         }
 
-        if (string.IsNullOrEmpty(finishedTimelineName) && activeTimeline != null)
+        if (activeTimeline.name == "Cin (4)")
         {
-            finishedTimelineName = activeTimeline.name;
+            StartCinematicSequence("Day3TurnOffTv");
+            return;
         }
+        else if (activeTimeline.name == "Cin (6)")
+        {
+            StartCinematicSequence("Day5WatchWindow");
+        }
+        else
+            activeTimeline = null;
 
         cinematicStarted = false;
         cinematicEndedTriggered = false;
         activeTimeline = null;
-
-        if (!string.IsNullOrEmpty(finishedTimelineName))
-        {
-            if (finishedTimelineName == "Cin (4)")
-            {
-                StartCinematicSequence("Day3TurnOffTv");
-                return;
-            }
-            else if (finishedTimelineName == "Cin (6)")
-            {
-                StartCinematicSequence("Day5WatchWindow");
-                return;
-            }
-        }
 
         OnCinematicEnded?.Invoke();
     }

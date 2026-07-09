@@ -23,19 +23,19 @@ public class Shake : MonoBehaviour
         originalLocalPosition = transform.localPosition;
     }
 
-    private void Update()
+    //private void Update()
 
-    {
+    //{
 
-        if (Input.GetKeyDown(KeyCode.G))
+    //    if (Input.GetKeyDown(KeyCode.G))
 
-        {
+    //    {
 
-            TriggerShake(3f);
+    //        TriggerShake(3f);
 
-        }
+    //    }
 
-    }
+    //}
 
     public void TriggerShake(float customDuration)
     {

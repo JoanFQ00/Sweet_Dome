@@ -67,15 +67,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            dayTime.SetCurrentTime(21, 0);
-        }
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    dayTime.SetCurrentTime(21, 0);
+        //}
         
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            dayTime.SetCurrentTime(15, 0);
-        }
+        //if (Input.GetKeyDown(KeyCode.K))
+        //{
+        //    dayTime.SetCurrentTime(15, 0);
+        //}
     }
 
     private void LevelLoaded()
