@@ -45,8 +45,6 @@ public class GoToPlayerState : IState
             {
                 waitingForGameplay = false;
                 robot.agent.isStopped = false;
-                waitingForGameplay = false;
-                robot.agent.isStopped = false;
                 robot.animator.SetBool("IsMoving", true);
 
                 GameManager.Instance.playerController.LockPlayer(true);
@@ -68,9 +66,16 @@ public class GoToPlayerState : IState
             return;
         }
 
+        // Esto ejecuta el Slerp de tu PlayerController frame a frame permitiendo un sutil margen de resistencia
+        if (GameManager.Instance != null && GameManager.Instance.playerController != null)
+        {
+            GameManager.Instance.playerController.LookAtDorothy();
+        }
+
         robot.animator.SetFloat("Speed", robot.agent.velocity.magnitude);
         updatePathTimer -= Time.deltaTime;
 
+        // ... El resto del método OnState() se queda exactamente igual ...
         if (updatePathTimer <= 0f)
         {
             updatePathTimer = 0.15f;
