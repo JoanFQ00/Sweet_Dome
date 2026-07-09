@@ -9,7 +9,6 @@ public class TEST : MonoBehaviour
     public float fadeSpeed = 5f;
 
     private bool isFadingOut = false;
-    private bool isFadingIn = false;
 
     float counter = 0;
 
