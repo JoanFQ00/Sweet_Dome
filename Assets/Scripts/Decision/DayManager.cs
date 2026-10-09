@@ -264,7 +264,6 @@ public class DayManager : MonoBehaviour
 
             if (currentBeBopTimer >= timerToBeBop)
             {
-                PresidentSpeaks(PresiDialogue.DorothySights);
                 OnRequestCinematic?.Invoke("Day5WatchWindow");
                 ChangeDorothyDialogue((int)DialoguesRobo.DorothyMissesBeBop, false);
                 activatedBBTimer = false;
