@@ -28,7 +28,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec6a1b310f5c914bac6933a0353ad4c, type: 3}
   m_Name: Cin_SubtitleClip
   m_EditorClassIdentifier: Assembly-CSharp::Cin_SubtitleClip
-  subtitleText: 'Te quiero Matthew. '
+  subtitleText: 'T''estimo Matthew. '
 --- !u!114 &-7904009846875333328
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -540,7 +540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec6a1b310f5c914bac6933a0353ad4c, type: 3}
   m_Name: Cin_SubtitleClip(Clone)
   m_EditorClassIdentifier: Assembly-CSharp::Cin_SubtitleClip
-  subtitleText: 'Dorothy:'
+  subtitleText: Dorothy
 --- !u!114 &-2761720602367072745
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1166,13 +1166,49 @@ MonoBehaviour:
     m_BlendOutDuration: 2.416666666666668
     m_MixInCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     m_MixOutCurve:
       serializedVersion: 2
-      m_Curve: []
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -1320,7 +1356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec6a1b310f5c914bac6933a0353ad4c, type: 3}
   m_Name: Cin_SubtitleClip(Clone)
   m_EditorClassIdentifier: Assembly-CSharp::Cin_SubtitleClip
-  subtitleText: 'Te quiero Matthew. '
+  subtitleText: 'T''estimo Matthew. '
 --- !u!114 &4851098434399279362
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1570,7 +1606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec6a1b310f5c914bac6933a0353ad4c, type: 3}
   m_Name: Cin_SubtitleClip
   m_EditorClassIdentifier: Assembly-CSharp::Cin_SubtitleClip
-  subtitleText: 'Dorothy:'
+  subtitleText: Dorothy
 --- !u!114 &7886969830387990368
 MonoBehaviour:
   m_ObjectHideFlags: 1
