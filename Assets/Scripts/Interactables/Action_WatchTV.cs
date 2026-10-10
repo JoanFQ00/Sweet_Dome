@@ -141,7 +141,7 @@ public class Action_WatchTV : BaseAction
                 if (hasWatchedTV && !actionExecuted)
                 {
                     OnActionExecuted(); 
-                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completa la máquina");
+                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completar la màquina");
                     actionExecuted = true;
                 }
                 break;

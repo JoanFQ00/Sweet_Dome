@@ -71,23 +71,23 @@ public class FadeDay : MonoBehaviour
         switch (GameManager.Instance.currentDay)
         {
             case Day.Day1:
-                dayTMP.text = "Day 1";
+                dayTMP.text = "Dia 1";
                 break;
 
             case Day.Day2:
-                dayTMP.text = "Day 5";
+                dayTMP.text = "Dia 5";
                 break;
 
             case Day.Day3:
-                dayTMP.text = "Day 13";
+                dayTMP.text = "Dia 13";
                 break;
 
             case Day.Day4:
-                dayTMP.text = "Day 25";
+                dayTMP.text = "Dia 25";
                 break;
 
             case Day.Day5:
-                dayTMP.text = "Day 67";
+                dayTMP.text = "Dia 67";
                 break;
 
             default:

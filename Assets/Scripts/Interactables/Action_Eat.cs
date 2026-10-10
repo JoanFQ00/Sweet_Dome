@@ -8,6 +8,11 @@ public class Action_Eat : BaseAction
     public float moveSpeed = 8f;
     public float rotateSpeed = 10f;
 
+    [Header("Cooldown / Anti-Spam")]
+    [Tooltip("Tiempo mínimo en segundos entre interacciones")]
+    public float cooldownDuration = 1.0f;
+    private float nextInteractTime = 0f;
+
     public enum FoodType { Dorothy, President }
     public FoodType foodType;
 
@@ -17,8 +22,8 @@ public class Action_Eat : BaseAction
 
     private bool goingToMouth, waitingInput, returning, isActive;
 
-    public enum EatTyepe { Eat, Drink }
-    public EatTyepe eatType;
+    public enum EatType { Eat, Drink }
+    public EatType eatType;
 
     private void Start()
     {
@@ -33,14 +38,14 @@ public class Action_Eat : BaseAction
         GameManager.NewDay += CheckDay;
     }
 
-    protected override void OnDisable() 
+    protected override void OnDisable()
     {
         base.OnDisable();
 
         GameManager.NewDay -= CheckDay;
     }
 
-    void CheckDay() 
+    void CheckDay()
     {
         if (GameManager.Instance.currentDay == Day.Day4 && foodType == FoodType.President)
         {
@@ -50,7 +55,8 @@ public class Action_Eat : BaseAction
 
     public override void Interact()
     {
-        if (isActive) return;
+        // Previene la interacción si ya está activa O si aún no ha pasado el tiempo de cooldown
+        if (isActive || Time.time < nextInteractTime) return;
 
         obj = transform;
         originalPos = obj.position;
@@ -66,7 +72,7 @@ public class Action_Eat : BaseAction
 
         if (SoundManagerOwn.Instance != null)
         {
-            if (eatType == EatTyepe.Drink)
+            if (eatType == EatType.Drink)
                 SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.drinkCoffeeSFX);
             else
                 SoundManagerOwn.Instance.PlaySFX(SoundManagerOwn.Instance.eatDorothyCapkakeSFX);
@@ -110,6 +116,10 @@ public class Action_Eat : BaseAction
     void FinishAction()
     {
         isActive = false;
+
+        // Establece el tiempo exacto en el que se podrá volver a interactuar
+        nextInteractTime = Time.time + cooldownDuration;
+
         GameManager.Instance.playerController.LockPlayer(false);
         GameManager.Instance.playerController.LockCamera(false);
         GameManager.Instance.currentState = GameManager.GameState.Gameplay;

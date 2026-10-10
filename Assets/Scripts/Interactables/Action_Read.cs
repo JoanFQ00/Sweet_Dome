@@ -134,7 +134,7 @@ public class Action_Reader : BaseAction
                     state = State.Idle;
 
                     GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.PresiSaysYouCanWatchTv);
-                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mira la tele");
+                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mirar la TV");
                     if (isAction) 
                     {
                         OnActionExecuted();

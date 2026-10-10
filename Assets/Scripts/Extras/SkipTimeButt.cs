@@ -68,17 +68,17 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
             if (hour < 10)
             {
                 GameManager.Instance.dayTime.LerpToTime(10, 0, 3);
-                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Llegueix");
+                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Llegir");
             }
             else if (hour < 11)
             {
                 GameManager.Instance.dayTime.LerpToTime(11, 30);
-                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mira la tele");
+                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mirar la TV");
             }
             else
             {
                 GameManager.Instance.dayTime.LerpToTime(15, 0);
-                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completa la màquina");
+                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completar la màquina");
             }
 
             OnFirstDayButt?.Invoke(true);
@@ -88,7 +88,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
             if (hour < 10)
             {
                 GameManager.Instance.dayTime.LerpToTime(10, 0);
-                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Llegueix");
+                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Llegir");
                 GameManager.Instance.dayManager.D22 = true;
             }
             else if (hour < 11)
@@ -99,7 +99,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 if (isAngry)
                 {
                     GameManager.Instance.dayTime.LerpToTime(11, 30);
-                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mira la tele");
+                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mirar la TV");
 
                     GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.EncourageRead, true);
                     hasTriedSkipReadDay3 = true;
@@ -110,7 +110,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 if (GameManager.Instance.dayManager.hasTriedToSkipTVDay3)
                 {
                     GameManager.Instance.dayTime.LerpToTime(15, 0);
-                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completa la màquina");
+                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completar la màquina");
                 }
                 else
                 {
@@ -136,7 +136,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                     else
                     {
                         GameManager.Instance.dayTime.LerpToTime(10, 00);
-                        GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Llegueix");
+                        GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Llegir");
                         GameManager.Instance.dayManager.notLaunchDay4 = true;
                     }
                 }
@@ -153,7 +153,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 if (GameManager.Instance.dayManager.D31)
                 {
                     GameManager.Instance.dayTime.LerpToTime(11, 30);
-                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mira la tele");
+                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mirar la TV");
 
                     if (GameManager.Instance.dayManager.
                         dorothyLaunch2.IsMet(GameManager.Instance.decManager))
@@ -170,13 +170,13 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 else if (GameManager.Instance.dayManager.D32)
                 {
                     GameManager.Instance.dayTime.LerpToTime(11, 30);
-                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mira la tele");
+                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mirar la TV");
                 }
             }
             else if (hour < 12)
             {
                 GameManager.Instance.dayTime.LerpToTime(15, 0);
-                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completa la màquina");
+                GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completar la màquina");
                 GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.GoToWorkDay2);
             }
             else if (hour <= 15)
@@ -201,7 +201,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                 if (GameManager.Instance.dayManager.D72)
                 {
                     GameManager.Instance.dayTime.LerpToTime(10, 00);
-                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Llegueix");
+                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Llegir");
 
                     if (!GameManager.Instance.dayManager.D53)
                     {
@@ -213,7 +213,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                     if (GameManager.Instance.dayManager.D61 && !GameManager.Instance.dayManager.D53)
                     {
                         GameManager.Instance.dayTime.LerpToTime(10, 00);
-                        GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Llegueix");
+                        GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Llegir");
                         GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.LastBookRec, true);
                         GameManager.Instance.dayManager.hasEated_SC = true;
                         GameManager.Instance.dayManager.dorothyBook.SetActive(true);
@@ -222,7 +222,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                     else if (GameManager.Instance.dayManager.D62 && !GameManager.Instance.dayManager.D53)
                     {
                         GameManager.Instance.dayTime.LerpToTime(10, 00);
-                        GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Llegueix");
+                        GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Llegir");
                         GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.LastBookRec, true);
                         GameManager.Instance.dayManager.hasEated_SC = true;
                     }
@@ -235,7 +235,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                     if (GameManager.Instance.dayManager.D53)
                     {
                         GameManager.Instance.dayTime.LerpToTime(11, 30);
-                        GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mira la tele");
+                        GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mirar la TV");
                     }
                 }
                 if (GameManager.Instance.dayManager.D71)
@@ -247,7 +247,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                     else if (GameManager.Instance.dayManager.D62 && !GameManager.Instance.dayManager.D53)
                     {
                         GameManager.Instance.dayTime.LerpToTime(11, 30);
-                        GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mira la tele");
+                        GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Mirar la TV");
 
                         GameManager.Instance.dayManager.D61 = true;
                         GameManager.Instance.dayManager.D62 = false;
@@ -261,7 +261,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                     if (GameManager.Instance.dayManager.D53)
                     {
                         GameManager.Instance.dayTime.LerpToTime(15, 0);
-                        GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completa la màquina");
+                        GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completar la màquina");
                         GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.GoToWorkDay2);
                         GameManager.Instance.dayManager.D84 = true;
                     }
@@ -278,7 +278,7 @@ public class SkipTimeButt : MonoBehaviour, IInteractable
                     GameManager.Instance.dayManager.D82 = true;
                     GameManager.Instance.dayManager.ChangeDorothyDialogue((int)DialoguesRobo.DortohySad, true);
                     GameManager.Instance.dayTime.LerpToTime(15, 0);
-                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completa la màquina");
+                    GameManager.Instance.UI.GetComponent<UIManager>().ForceChangeObjectives("Completar la màquina");
                     GameManager.Instance.presiSpeaker.PresiSpeaks((int)PresiDialogue.GoToWorkDay2);
                 }
             }
